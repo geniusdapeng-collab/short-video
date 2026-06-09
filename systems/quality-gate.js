@@ -484,7 +484,8 @@ class QualityGate {
   evaluateHookStrength(result, shots, issues) {
     if (!shots.length) return { score: 0, detail: '无镜头' };
     const firstShot = shots[0];
-    const text = firstShot.prompt || firstShot.renderPrompt || '';
+    // 📱 v1.0.1: 检查所有可能的prompt字段
+    const text = firstShot.render_prompt || firstShot.renderPrompt || firstShot.prompt || firstShot.visualPrompt || '';
     let score = 0;
     const hookKeywords = ['特写', '极端', '爆炸', '撕裂', '睁开', '燃烧', '裂开', '升起'];
     const hasHook = hookKeywords.some(k => text.includes(k));
@@ -499,7 +500,8 @@ class QualityGate {
     let score = 0;
     // 🩲 v0.2.0-optimize: 使用单词边界匹配，避免"定格"被误判为"静态"
     const staticShots = shots.filter(s => {
-      const prompt = s.prompt || s.renderPrompt || '';
+      // 📱 v1.0.1: 检查所有可能的prompt字段
+      const prompt = s.render_prompt || s.renderPrompt || s.prompt || s.visualPrompt || '';
       // 匹配独立的"静态"、"静止"、"固定"词，不部分匹配
       return /\b(静态|静止|固定|不动)\b/.test(prompt);
     });
@@ -507,7 +509,8 @@ class QualityGate {
     const movementKeywords = ['推进', '拉远', '环绕', '旋转', '俯冲', '跟随', '轨道', '螺旋', '仰冲', '悬浮', '急拉'];
     let movementCount = 0;
     for (const shot of shots) {
-      const text = shot.prompt || '';
+      // 📱 v1.0.1: 检查所有可能的prompt字段
+      const text = shot.render_prompt || shot.renderPrompt || shot.prompt || shot.visualPrompt || '';
       movementCount += movementKeywords.filter(k => text.includes(k)).length;
     }
     if (movementCount >= 3) score += 30;
@@ -518,14 +521,19 @@ class QualityGate {
   }
 
   // 🩲 v0.2.0-optimize: 信息密度评估（15秒每帧是否满载信息）
+  // 📱 v1.0.1-social-fix: 支持社媒Prompt标记变体（【音效设计】→【声音设计】等）
   evaluateDensityScore(result, shots, issues) {
     if (!shots.length) return { score: 0, detail: '无镜头' };
     let totalDensity = 0;
     for (const shot of shots) {
-      const text = shot.prompt || '';
+      // 📱 v1.0.1: 检查所有可能的prompt字段
+      const text = shot.render_prompt || shot.renderPrompt || shot.prompt || shot.visualPrompt || '';
       let density = 0;
-      // 视觉元素密度：标记数量（增加更多标记）
-      const visualMarkers = ['【视觉暴力】', '【光影雕刻】', '【运镜组合】', '【情绪核】', '【质感】', '【镜头时间轴】', '【3秒法则】'];
+      // 视觉元素密度：标记数量（支持社媒变体标记）
+      const visualMarkers = [
+        '【视觉暴力', '【光影雕刻', '【运镜组合', '【情绪核', '【质感', '【镜头时间轴', '【3秒法则',
+        '【人物表情', '【音效设计', '【声音设计'
+      ];
       const markerCount = visualMarkers.filter(m => text.includes(m)).length;
       density += markerCount * 15; // 每个标记15分
       
@@ -558,11 +566,13 @@ class QualityGate {
   }
 
   // 🩲 v0.3.0: 爆款潜力评估（15秒 viral 可能性）
+  // 📱 v1.0.1-social-fix: 支持社媒Prompt标记变体
   evaluateViralScore(result, shots, issues) {
     if (!shots.length) return { score: 0, detail: '无镜头' };
     let totalViral = 0;
     for (const shot of shots) {
-      const text = shot.prompt || '';
+      // 📱 v1.0.1: 检查所有可能的prompt字段
+      const text = shot.render_prompt || shot.renderPrompt || shot.prompt || shot.visualPrompt || '';
       let viral = 0;
       
       // 1. 开场冲击（0-3秒是否有炸裂元素）
@@ -570,26 +580,26 @@ class QualityGate {
       const hookCount = hookKeywords.filter(k => text.includes(k)).length;
       viral += Math.min(25, hookCount * 5);
       
-      // 2. 声音设计（是否有音效描述）
-      if (text.includes('【声音设计】')) viral += 15;
+      // 2. 声音设计（是否有音效描述）- 支持社媒变体【音效设计】
+      if (text.includes('【声音设计】') || text.includes('【音效设计】')) viral += 15;
       const soundKeywords = ['心跳', '轰鸣', '尖啸', '咆哮', '寂静', '回音', '声浪'];
       const soundCount = soundKeywords.filter(k => text.includes(k)).length;
       viral += Math.min(10, soundCount * 2);
       
-      // 3. 悬念钩子（是否有未解之谜）
-      if (text.includes('【悬念钩子】')) viral += 15;
+      // 3. 悬念钩子（是否有未解之谜）- 支持社媒变体【情绪曲线】
+      if (text.includes('【悬念钩子】') || text.includes('【情绪曲线】') || text.includes('【悬念')) viral += 15;
       const suspenseKeywords = ['但是', '然而', '只见', '下一秒', '突然', '停顿', '逼近', '未知'];
       const suspenseCount = suspenseKeywords.filter(k => text.includes(k)).length;
       viral += Math.min(10, suspenseCount * 2);
       
-      // 4. 记忆锚点（是否有截图价值）
-      if (text.includes('【记忆锚点】')) viral += 15;
+      // 4. 记忆锚点（是否有截图价值）- 支持社媒变体【记忆定格】【截图帧】
+      if (text.includes('【记忆锚点】') || text.includes('【记忆定格】') || text.includes('【截图帧') || text.includes('【定格冻结')) viral += 15;
       const memoryKeywords = ['截图', '朋友圈', '定格', '永恒', '难忘', '永生'];
       const memoryCount = memoryKeywords.filter(k => text.includes(k)).length;
       viral += Math.min(10, memoryCount * 2);
       
-      // 5. 分享触发（是否让人想转发）
-      if (text.includes('【分享触发】')) viral += 15;
+      // 5. 分享触发（是否让人想转发）- 支持社媒变体【壁纸级】【朋友圈】
+      if (text.includes('【分享触发】') || text.includes('【壁纸级】') || text.includes('【朋友圈】')) viral += 15;
       const shareKeywords = ['分享', '转发', '给朋友', '必须', '太震撼', '太炸裂'];
       const shareCount = shareKeywords.filter(k => text.includes(k)).length;
       viral += Math.min(10, shareCount * 2);
@@ -608,15 +618,17 @@ class QualityGate {
   }
 
   // 📱 v1.0.0-social: 视觉爆发力评估（咔咔咔冲击力、景别切换、张力）
+  // 📱 v1.0.1-social-fix: 支持社媒Prompt标记变体，检查所有prompt字段
   evaluateVisualImpact(result, shots, issues) {
     if (!shots.length) return { score: 0, detail: '无镜头' };
     let totalImpact = 0;
     for (const shot of shots) {
-      const text = shot.prompt || '';
+      // 📱 v1.0.1: 检查所有可能的prompt字段
+      const text = shot.render_prompt || shot.renderPrompt || shot.prompt || shot.visualPrompt || '';
       let impact = 0;
       
-      // 1. 时间轴细分（是否有逐秒时间轴）
-      if (text.includes('【镜头时间轴·咔咔咔节奏】')) impact += 20;
+      // 1. 时间轴细分（是否有逐秒时间轴）- 支持社媒变体【镜头时间轴·咔咔咔节奏】
+      if (text.includes('【镜头时间轴')) impact += 20;
       const timelinePattern = /\d+\.\d+-\d+\.\d+秒/;
       if (timelinePattern.test(text)) impact += 15;
       
@@ -625,7 +637,8 @@ class QualityGate {
       const sizeCount = shotSizes.filter(k => text.includes(k)).length;
       impact += Math.min(20, sizeCount * 5);
       
-      // 3. 人物表情变化（是否有逐秒表情描述）
+      // 3. 人物表情变化（是否有逐秒表情描述）- 支持社媒变体【人物表情·逐秒炸裂】
+      if (text.includes('【人物表情')) impact += 10;
       const expressionKeywords = ['表情', '眉毛', '瞳孔', '嘴角', '眼角', '笑容', '大哭', '震惊', '愤怒'];
       const exprCount = expressionKeywords.filter(k => text.includes(k)).length;
       impact += Math.min(15, exprCount * 3);
@@ -635,7 +648,8 @@ class QualityGate {
       const impactCount = impactKeywords.filter(k => text.includes(k)).length;
       impact += Math.min(20, impactCount * 3);
       
-      // 5. 运镜密度（至少3段运镜变化）
+      // 5. 运镜密度（至少3段运镜变化）- 支持社媒变体【运镜组合·巨浪海啸】
+      if (text.includes('【运镜组合')) impact += 10;
       const cameraSegments = ['推进', '拉远', '环绕', '俯冲', '仰冲', '悬浮', '定格', '旋转'];
       const segCount = cameraSegments.filter(k => text.includes(k)).length;
       impact += Math.min(15, segCount * 3);
