@@ -420,10 +420,15 @@ class QualityGate {
 
   applyHardBlockRules(result, shots, blockers, context) {
     // 🩲 v0.2.0: 超短裙模式使用专用硬阻断规则
+    // 📱 v1.0.0-social: 社媒营销模式也使用专用硬阻断规则
     const isShort = context && context.isShortVideoMode;
-    const rules = isShort
-      ? require('../config/quality-dimensions-short').hardBlockRules
-      : qualityConfig.hardBlockRules;
+    const isSocial = context && context.isSocialMediaMode;
+    
+    const rules = isSocial
+      ? require('../config/quality-dimensions-social').hardBlockRules
+      : isShort
+        ? require('../config/quality-dimensions-short').hardBlockRules
+        : qualityConfig.hardBlockRules;
 
     if (rules.requireShots && (!Array.isArray(shots) || shots.length === 0)) {
       blockers.push({
