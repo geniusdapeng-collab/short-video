@@ -1,6 +1,0 @@
-file '/root/.openclaw/workspace/taotie-ep01-production/S00.mp4'
-file '/root/.openclaw/workspace/taotie-ep01-production/S01.mp4'
-file '/root/.openclaw/workspace/taotie-ep01-production/S02.mp4'
-file '/root/.openclaw/workspace/taotie-ep01-production/S03.mp4'
-file '/root/.openclaw/workspace/taotie-ep01-production/S04.mp4'
-file '/root/.openclaw/workspace/taotie-ep01-production/S05.mp4'
