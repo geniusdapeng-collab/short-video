@@ -1,7 +1,7 @@
 {
-  "executionId": "exec-1781007646509-dead4eb9",
-  "startTime": 1781007646510,
-  "endTime": 1781007693333,
+  "executionId": "exec-1781017875928-fc0928c7",
+  "startTime": 1781017875928,
+  "endTime": 1781017946903,
   "cleanup": {
     "performed": true,
     "filesRemoved": [],
@@ -9,209 +9,209 @@
   },
   "stages": {
     "STAGE-0": {
-      "startTime": 1781007646513,
-      "endTime": 1781007646625,
+      "startTime": 1781017875931,
+      "endTime": 1781017875975,
       "inputHash": "fb428cd9b8013699",
       "outputHash": "11c11db30f4b3f6c",
       "completed": true,
-      "duration": 112
+      "duration": 44
     },
     "STAGE-1": {
-      "startTime": 1781007646628,
-      "endTime": 1781007646628,
+      "startTime": 1781017875977,
+      "endTime": 1781017875978,
       "inputHash": "303e028fac35bcdd",
-      "outputHash": "9a57b6163e33091e",
-      "completed": true,
-      "duration": 0
-    },
-    "STAGE-2": {
-      "startTime": 1781007646628,
-      "endTime": 1781007646629,
-      "inputHash": "4cd4adbdb3fcffbe",
-      "outputHash": "52cb5ee8b5e24584",
+      "outputHash": "677ac4d60b4ab1b9",
       "completed": true,
       "duration": 1
     },
+    "STAGE-2": {
+      "startTime": 1781017875978,
+      "endTime": 1781017875978,
+      "inputHash": "4cd4adbdb3fcffbe",
+      "outputHash": "52cb5ee8b5e24584",
+      "completed": true,
+      "duration": 0
+    },
     "STAGE-3": {
-      "startTime": 1781007646629,
-      "endTime": 1781007646639,
+      "startTime": 1781017875978,
+      "endTime": 1781017875988,
       "inputHash": "ba59282336f4266c",
       "outputHash": "d23ce2e0b8a12bc7",
       "completed": true,
       "duration": 10
     },
     "STAGE-4": {
-      "startTime": 1781007646639,
-      "endTime": 1781007646643,
+      "startTime": 1781017875988,
+      "endTime": 1781017875992,
       "inputHash": "7f62957237bd81f3",
-      "outputHash": "50500f7b529bf394",
+      "outputHash": "4f3c4ea3e073671a",
       "completed": true,
       "duration": 4
     },
     "STAGE-5": {
-      "startTime": 1781007646643,
-      "endTime": 1781007693278,
+      "startTime": 1781017875992,
+      "endTime": 1781017946844,
       "inputHash": "89336d69f8462408",
-      "outputHash": "fc5baf65e0418472",
+      "outputHash": "ece6c1c348c09fc2",
       "completed": true,
-      "duration": 46635
+      "duration": 70852
     },
     "STAGE-5.5": {
-      "startTime": 1781007693278,
-      "endTime": 1781007693281,
+      "startTime": 1781017946845,
+      "endTime": 1781017946848,
       "inputHash": "457d4424c3b07995",
-      "outputHash": "2b951a45a0d154a9",
+      "outputHash": "3e9772357ee10b8c",
       "completed": true,
       "duration": 3
     },
     "STAGE-6": {
-      "startTime": 1781007693281,
-      "endTime": 1781007693283,
+      "startTime": 1781017946848,
+      "endTime": 1781017946850,
       "inputHash": "3cd6c33b14a032d9",
-      "outputHash": "b4dd1dc4241bde16",
+      "outputHash": "97b526581070be11",
       "completed": true,
       "duration": 2
     },
     "STAGE-7": {
-      "startTime": 1781007693283,
-      "endTime": 1781007693284,
+      "startTime": 1781017946850,
+      "endTime": 1781017946852,
       "inputHash": "dd327012fdfcb24d",
-      "outputHash": "82180b62b3a3fb88",
+      "outputHash": "e519596fa702d723",
       "completed": true,
-      "duration": 1
+      "duration": 2
     },
     "STAGE-7.2": {
-      "startTime": 1781007693284,
-      "endTime": 1781007693285,
+      "startTime": 1781017946852,
+      "endTime": 1781017946852,
       "inputHash": "ffff376c8f93931b",
       "outputHash": "689792e7a8c877c8",
       "completed": true,
-      "duration": 1
+      "duration": 0
     },
     "STAGE-7.4": {
-      "startTime": 1781007693285,
-      "endTime": 1781007693286,
+      "startTime": 1781017946852,
+      "endTime": 1781017946853,
       "inputHash": "83b62cc83214ef69",
-      "outputHash": "3bc0aebcd7bbc3f0",
+      "outputHash": "ac339b0760e6f6a0",
       "completed": true,
       "duration": 1
     },
     "STAGE-7.3": {
-      "startTime": 1781007693286,
-      "endTime": 1781007693288,
+      "startTime": 1781017946853,
+      "endTime": 1781017946855,
       "inputHash": "cf5d307bce324879",
-      "outputHash": "a02021f7f5a11484",
+      "outputHash": "e6179924ad842236",
       "completed": true,
       "duration": 2
     },
     "STAGE-7.5": {
-      "startTime": 1781007693288,
-      "endTime": 1781007693288,
+      "startTime": 1781017946855,
+      "endTime": 1781017946856,
       "inputHash": "ff04895f737593d1",
       "outputHash": "74234e98afe7498f",
       "completed": true,
-      "duration": 0
+      "duration": 1
     },
     "STAGE-8": {
-      "startTime": 1781007693288,
-      "endTime": 1781007693291,
+      "startTime": 1781017946856,
+      "endTime": 1781017946859,
       "inputHash": "5cdd1c88861b3ade",
-      "outputHash": "2741b7ef79bb8be0",
+      "outputHash": "5dfe4fb501fd7b47",
       "completed": true,
       "duration": 3
     },
     "STAGE-8.5": {
-      "startTime": 1781007693291,
-      "endTime": 1781007693291,
+      "startTime": 1781017946859,
+      "endTime": 1781017946859,
       "inputHash": "0d9cf211492d7260",
       "outputHash": "b2a90b30a2fcff84",
       "completed": true,
       "duration": 0
     },
     "STAGE-9": {
-      "startTime": 1781007693291,
-      "endTime": 1781007693295,
+      "startTime": 1781017946859,
+      "endTime": 1781017946862,
       "inputHash": "87f63f28f91cdd29",
-      "outputHash": "f9a2767ff4a0bfe1",
+      "outputHash": "62c1f42b49c0a28e",
       "completed": true,
-      "duration": 4
+      "duration": 3
     },
     "STAGE-10": {
-      "startTime": 1781007693295,
-      "endTime": 1781007693295,
+      "startTime": 1781017946862,
+      "endTime": 1781017946862,
       "inputHash": "7777b532020fa901",
       "outputHash": "c6661c46b01c606d",
       "completed": true,
       "duration": 0
     },
     "STAGE-10.5": {
-      "startTime": 1781007693295,
-      "endTime": 1781007693296,
+      "startTime": 1781017946863,
+      "endTime": 1781017946863,
       "inputHash": "17ee7a100a7f382d",
       "outputHash": "a5ec85fcc6c6b26f",
       "completed": true,
-      "duration": 1
-    },
-    "STAGE-11": {
-      "startTime": 1781007693296,
-      "endTime": 1781007693317,
-      "inputHash": "11c3267446f14484",
-      "outputHash": "1a0fc6d9754d7ca0",
-      "completed": true,
-      "duration": 21
-    },
-    "STAGE-11.5": {
-      "startTime": 1781007693318,
-      "endTime": 1781007693318,
-      "inputHash": "3024ed2b604bbcbc",
-      "outputHash": "4971a7575a0825d8",
-      "completed": true,
       "duration": 0
     },
+    "STAGE-11": {
+      "startTime": 1781017946863,
+      "endTime": 1781017946883,
+      "inputHash": "11c3267446f14484",
+      "outputHash": "43dd9aaf49cafc4a",
+      "completed": true,
+      "duration": 20
+    },
+    "STAGE-11.5": {
+      "startTime": 1781017946883,
+      "endTime": 1781017946884,
+      "inputHash": "3024ed2b604bbcbc",
+      "outputHash": "36b0455fcd2a245f",
+      "completed": true,
+      "duration": 1
+    },
     "STAGE-12": {
-      "startTime": 1781007693318,
-      "endTime": 1781007693321,
+      "startTime": 1781017946884,
+      "endTime": 1781017946887,
       "inputHash": "1faf98063b9409bf",
-      "outputHash": "68c6e60c86398ccc",
+      "outputHash": "5fc3aa623e31a41b",
       "completed": true,
       "duration": 3
     },
     "STAGE-13": {
-      "startTime": 1781007693323,
-      "endTime": 1781007693324,
+      "startTime": 1781017946889,
+      "endTime": 1781017946890,
       "inputHash": "17485d2c47c401ef",
       "outputHash": "75bc901421364255",
       "completed": true,
       "duration": 1
     },
     "STAGE-14": {
-      "startTime": 1781007693324,
-      "endTime": 1781007693324,
+      "startTime": 1781017946890,
+      "endTime": 1781017946890,
       "inputHash": "a5a024475d8567f9",
-      "outputHash": "767bf44016200742",
+      "outputHash": "d0013a24c2d99abf",
       "completed": true,
       "duration": 0
     },
     "STAGE-15": {
-      "startTime": 1781007693324,
-      "endTime": 1781007693324,
+      "startTime": 1781017946890,
+      "endTime": 1781017946890,
       "inputHash": "b206ef2d64be444f",
       "outputHash": "7ef0cc3139012061",
       "completed": true,
       "duration": 0
     },
     "STAGE-16": {
-      "startTime": 1781007693324,
-      "endTime": 1781007693329,
+      "startTime": 1781017946891,
+      "endTime": 1781017946898,
       "inputHash": "9144131b8ad0d431",
-      "outputHash": "1921326461b3f5c5",
+      "outputHash": "a88564f37372a4a7",
       "completed": true,
-      "duration": 5
+      "duration": 7
     }
   },
   "dataFreshness": {},
   "integritySignature": {
-    "totalDuration": 46823,
+    "totalDuration": 70975,
     "stageCount": 25,
     "expectedStageCount": 17,
     "allStagesExecuted": true,

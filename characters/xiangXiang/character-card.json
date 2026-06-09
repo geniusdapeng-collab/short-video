@@ -4,14 +4,14 @@
   "baseIdentity": {
     "name": "香香",
     "age": "7个月",
-    "gender": "girl",
+    "gender": "boy",
     "species": "human",
-    "role": "protagonist",
+    "role": "audience",
     "origin": "Earth"
   },
   "visualIdentity": {
     "age": "7个月",
-    "gender": "girl",
+    "gender": "boy",
     "build": "average",
     "height": "medium",
     "skinTone": "warm",
@@ -48,8 +48,8 @@
     "emotion": "neutral",
     "language": "zh-CN"
   },
-  "createdAt": "2026-06-09T12:20:46.640Z",
-  "updatedAt": "2026-06-09T12:20:46.640Z",
+  "createdAt": "2026-06-09T15:11:15.989Z",
+  "updatedAt": "2026-06-09T15:11:15.989Z",
   "version": "2.0",
   "generatedAssets": {
     "portraits": [],
