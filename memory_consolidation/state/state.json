@@ -1,0 +1,30 @@
+{
+  "stm": {
+    "count": 14,
+    "last_ts": "2026-06-02T15:54:18.877033",
+    "last_sessions": 63,
+    "last_messages": 1157,
+    "last_chars": 18022
+  },
+  "diary": {
+    "count": 44,
+    "last_ts": "2026-06-09T03:56:55.030309",
+    "last_day": 16,
+    "last_sessions": 19,
+    "last_messages": 3824,
+    "last_filename": "day16-2026-06-09-shanhaijing_ghost_in_the_system.md",
+    "last_latency_s": 10.1,
+    "last_skip": "conversation_hash_unchanged"
+  },
+  "compact": {
+    "count": 44,
+    "last_ts": "2026-06-09T03:57:35.742071",
+    "last_invoke": 24,
+    "last_sessions": 106,
+    "last_messages": 1572,
+    "last_latency_s": 30.5,
+    "last_model": "k2p6",
+    "last_skip": "stm_hash_unchanged",
+    "last_error": "The read operation timed out"
+  }
+}
