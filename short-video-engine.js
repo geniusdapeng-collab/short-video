@@ -1,16 +1,17 @@
 /**
  * 超短裙系统主链路引擎 (Short Video Engine)
- * 版本: v0.7.0-xtreme-integrated
+ * 版本: SHORT-VIDEO-0.7.2-product-hero
  * 
  * 核心能力：
  * 1. 极限运动镜头库 (Xtreme Shot Library) - 肾上腺素飙升镜头
- * 2. 社媒营销短片生成 (Social Media Short Video)
- * 3. 商品植入引擎 (Product Placement)
- * 4. 角色一致性管理 (Character Consistency)
+ * 2. 商品主角引擎 (Product Hero Engine) - 产品占据视觉焦点30-50%
+ * 3. Prompt 扩充引擎 - 85字符→1500字符，16倍信息密度提升
+ * 4. 社媒营销短片生成 (Social Media Short Video)
+ * 5. 角色一致性管理 (Character Consistency)
  * 
  * 使用方式：
  * const engine = require('./short-video-engine');
- * engine.generateXtremeShort({ sport: 'alpine', duration: 15 });
+ * engine.generateSocialMediaShort({ product: 'Red Bull', scene: 'xtreme', heroMode: true });
  */
 
 'use strict';
@@ -22,19 +23,22 @@ const { XtremeShotLibrary, XTREME_SHOTS, ANGLE_TYPES, COMBO_SEQUENCES } = requir
 const VERSION = {
   major: 0,
   minor: 7,
-  patch: 1,  // 升级patch：扩充引擎上线
-  codename: 'xtreme-expanded',
-  full: 'SHORT-VIDEO-0.7.1-xtreme-expanded',
+  patch: 2,  // 升级patch：商品主角引擎上线
+  codename: 'product-hero',
+  full: 'SHORT-VIDEO-0.7.2-product-hero',
   releaseDate: '2026-06-10',
   features: [
-    '极限运动镜头库集成 (Xtreme Shot Library v1.0.0)',
+    '极限运动镜头库 (Xtreme Shot Library v1.0.0)',
     '8种极限运动 × 5种视角 = 40+ 镜头',
     '5种组合序列：经典三段式 / 肾上腺素爆发 / 慢动作 / 沉浸式 / 电影感',
     'Prompt 扩充引擎：85字符 → 1500字符（16倍信息密度提升）',
     '7维扩充：视觉场景 / 运镜指令 / 技术参数 / 质感风格 / 环境音效 / 时间感知 / 氛围情绪',
-    '质量门：字符数检查 + 自动补全',
-    '社媒营销短片生成',
-    '商品植入引擎',
+    '商品主角引擎 (Product Hero Engine) - 产品占据视觉焦点30-50%',
+    '商品卖点自动分析：预设10+品牌 + 自动关键词提取 + 别名映射',
+    '商品→极限运动智能映射：防水→冲浪/跳伞/高山，抓地→跑酷/攀岩/滑板',
+    '商品主角镜头类型：特写/运动中消费/冲击测试/POV拍摄/环绕等13种',
+    '社媒营销短片：强制产品参数 + 商品主角模式开关',
+    '质量门：字符数检查 + 自动截断 + 自动补全',
     '角色一致性管理'
   ]
 };
@@ -187,12 +191,339 @@ module.exports.checkPromptLength = checkPromptLength;
 module.exports.PROMPT_MAX_CHARS = PROMPT_MAX_CHARS;
 module.exports.PROMPT_MIN_CHARS = PROMPT_MIN_CHARS;
 
+// ==================== 商品主角引擎 (Product Hero Engine) ====================
+// 核心理念：产品才是主角，极限运动是展示产品的舞台
+
+/**
+ * 商品卖点分析库 - 从商品名称/描述提取卖点并映射到极限运动场景
+ */
+const PRODUCT_SELLING_POINTS = {
+  // 运动饮料
+  'redbull': { category: '运动饮料', features: ['能量爆发', '极限挑战', '专注提升', '耐力持久'], sports: ['alpine', 'skydiving', 'motocross', 'parkour'], heroShots: ['product_closeup', 'consume_mid_action', 'post_action_refresh'] },
+  'monster': { category: '运动饮料', features: ['极限能量', '野性释放', '突破边界'], sports: ['motocross', 'skateboarding', 'bmx'], heroShots: ['product_closeup', 'consume_mid_action', 'slowmo_splash'] },
+  'gopro': { category: '运动相机', features: ['第一视角', '防水耐用', '极限拍摄', '身临其境'], sports: ['surfing', 'skydiving', 'alpine', 'bmx'], heroShots: ['product_closeup', 'pov_capture', 'impact_test'] },
+  'dji': { category: '无人机', features: ['航拍视角', '稳定跟拍', '智能追踪', '极限探索'], sports: ['alpine', 'skydiving', 'surfing', 'parkour'], heroShots: ['aerial_orbit', 'follow_drone', 'dive_with_subject'] },
+  
+  // 运动鞋
+  'nike': { category: '运动鞋', features: ['轻便回弹', '抓地稳定', '空气动力学', '突破极限'], sports: ['parkour', 'skateboarding', 'bmx', 'alpine'], heroShots: ['foot_closeup', 'landing_impact', 'mid_air_detail'] },
+  'adidas': { category: '运动鞋', features: ['boost回弹', '精准控制', '专业竞技', '轻盈舒适'], sports: ['parkour', 'skateboarding', 'climbing', 'alpine'], heroShots: ['foot_closeup', 'edge_grip', 'flex_detail'] },
+  
+  // 户外装备
+  'thenorthface': { category: '户外服装', features: ['防风防水', '保暖透气', '极限环境', '专业防护'], sports: ['alpine', 'skydiving', 'climbing', 'surfing'], heroShots: ['product_detail', 'environment_test', 'closeup_texture'] },
+  'patagonia': { category: '户外服装', features: ['环保耐用', '极限环境', '可持续发展', '专业性能'], sports: ['climbing', 'surfing', 'alpine', 'skydiving'], heroShots: ['product_detail', 'nature_fusion', 'texture_macro'] },
+  
+  // 能量食品
+  'powerbar': { category: '能量食品', features: ['快速能量', '便携补给', '极限续航', '营养科学'], sports: ['climbing', 'alpine', 'motocross', 'bmx'], heroShots: ['consume_mid_action', 'energy_glow', 'pre_action_prep'] },
+  
+  // 防晒霜/护肤
+  'loreal': { category: '防晒护肤', features: ['防水持久', '极限防晒', '清爽不黏', '专业防护'], sports: ['surfing', 'skydiving', 'alpine', 'motocross'], heroShots: ['face_closeup', 'water_resist', 'sweat_proof'] },
+  
+  // 智能穿戴
+  'applewatch': { category: '智能手表', features: ['极限耐用', '数据追踪', '心率监测', '防水性能'], sports: ['alpine', 'surfing', 'climbing', 'parkour'], heroShots: ['wrist_closeup', 'data_display', 'impact_resist'] },
+  'garmin': { category: '专业运动表', features: ['GPS精准', '极限耐用', '专业数据', '超长续航'], sports: ['alpine', 'skydiving', 'climbing', 'motocross'], heroShots: ['wrist_closeup', 'gps_map', 'altitude_display'] },
+  
+  // 汽车/摩托车
+  'bmw': { category: '汽车', features: ['操控精准', '速度激情', '极限驾驶', '豪华性能'], sports: ['motocross', 'alpine'], heroShots: ['product_hero', 'speed_line', 'drift_smoke'] },
+  'redbull': { category: '品牌赞助', features: ['极限运动', '能量文化', '挑战不可能', '专业赛事'], sports: ['all'], heroShots: ['logo_hero', 'event_sponsor', 'athlete_endorse'] }
+};
+
+/**
+ * 商品特征映射到极限运动场景
+ * 每个特征 → 最适合展示的极限运动 + 镜头类型
+ */
+const FEATURE_TO_SPORT_MAP = {
+  '能量爆发': { sports: ['alpine', 'motocross', 'parkour'], reason: '高速运动中补充能量，体现即时效果' },
+  '防水耐用': { sports: ['surfing', 'skydiving', 'alpine'], reason: '水花、风雪、高空中产品依然完好' },
+  '第一视角': { sports: ['skydiving', 'alpine', 'surfing'], reason: 'POV镜头本身就是产品特性展示' },
+  '抓地稳定': { sports: ['parkour', 'climbing', 'skateboarding'], reason: '在极限地形中展现抓地力' },
+  '轻便回弹': { sports: ['parkour', 'bmx', 'skateboarding'], reason: '腾空动作中展现轻盈' },
+  '极限防晒': { sports: ['surfing', 'skydiving', 'alpine'], reason: '强光、高海拔、水面反射的极端环境' },
+  'GPS精准': { sports: ['alpine', 'skydiving', 'climbing'], reason: '无信号环境下依然精准定位' },
+  '能量续航': { sports: ['climbing', 'alpine', 'motocross'], reason: '长时间极限运动需要持续供能' }
+};
+
+/**
+ * 商品主角镜头类型定义
+ * 每个镜头以产品为视觉焦点，极限运动为背景舞台
+ */
+const PRODUCT_HERO_SHOTS = {
+  'product_closeup': { name: '商品特写英雄镜头', duration: 2, focus: 'product', description: '产品在画面中心，占据30-50%画面，背景虚化展现极限运动环境' },
+  'consume_mid_action': { name: '运动中消费镜头', duration: 2, focus: 'action+product', description: '运动员在极限动作中自然使用产品，产品清晰可见' },
+  'post_action_refresh': { name: '动作后恢复镜头', duration: 2, focus: 'emotion+product', description: '极限动作完成后，产品带来的恢复/满足感' },
+  'pov_capture': { name: 'POV产品拍摄镜头', duration: 3, focus: 'product+experience', description: '通过产品（运动相机）拍摄POV画面，产品是拍摄主体也是画面主体' },
+  'impact_test': { name: '冲击测试镜头', duration: 2, focus: 'product+durability', description: '极限冲击中产品完好无损，展现耐用性' },
+  'aerial_orbit': { name: '环绕产品镜头', duration: 3, focus: 'product+epic', description: '无人机环绕产品+运动员，产品始终清晰可见' },
+  'foot_closeup': { name: '足部装备特写', duration: 2, focus: 'product+detail', description: '运动鞋在极限地形中的特写，抓地/减震/材料细节' },
+  'landing_impact': { name: '着陆冲击镜头', duration: 2, focus: 'product+function', description: '运动鞋/BMX着陆瞬间，缓冲系统工作特写' },
+  'mid_air_detail': { name: '空中细节镜头', duration: 2, focus: 'product+aesthetic', description: '腾空时产品细节（鞋面/鞋底/logo）在慢动作中清晰展现' },
+  'face_closeup': { name: '面部防护特写', duration: 2, focus: 'product+protection', description: '极限环境中面部/皮肤依然完好，产品防护效果' },
+  'wrist_closeup': { name: '腕部装备特写', duration: 2, focus: 'product+data', description: '手表在手腕上，数据清晰显示，极限环境正常工作' },
+  'speed_line': { name: '速度线产品镜头', duration: 2, focus: 'product+speed', description: '产品伴随速度线/光轨，体现速度感' },
+  'logo_hero': { name: 'logo英雄镜头', duration: 2, focus: 'brand', description: '品牌logo在极限场景中的史诗级展示' }
+};
+
+/**
+ * 商品主角模式 Prompt 生成器
+ * 将产品信息融入极限运动镜头，产品始终是视觉焦点
+ */
+function generateProductHeroPrompt(basePrompt, productInfo, shotType, sport) {
+  const { name, features, brand, slogan } = productInfo;
+  
+  // 1. 产品英雄开场（产品作为主角登场）
+  const heroOpening = `【商品主角】${name}作为视觉焦点占据画面30-50%，${features.join('、')}等核心卖点在极限运动场景中被放大展示。`;
+  
+  // 2. 产品特性与极限运动的融合
+  const featureFusion = features.map(f => {
+    const mapping = FEATURE_TO_SPORT_MAP[f];
+    if (mapping && (mapping.sports.includes(sport) || mapping.sports[0] === 'all')) {
+      return `${f}特性通过${mapping.reason}得到完美验证`;
+    }
+    return `${f}在极限运动中被充分展现`;
+  }).join('，');
+  
+  // 3. 商品特写提示词
+  const productCloseup = `【产品特写】${name}的${features[0]}细节清晰可见，品牌标识${brand || '醒目展示'}，产品材质质感、光泽、色彩在极限运动场景中被高光呈现，产品不是背景道具而是画面核心主角。`;
+  
+  // 4. 消费场景暗示
+  const consumptionCue = shotType === 'consume' 
+    ? `【消费场景】运动员在极限动作中自然使用${name}，产品使用过程流畅自然，产品功效即时可见。` 
+    : `【产品存在】${name}与运动员形影不离，是极限运动不可或缺的装备。`;
+  
+  // 5. 品牌Slogan融入
+  const sloganCue = slogan ? `【品牌主张】${slogan}通过极限运动画面得到视觉化诠释。` : '';
+  
+  // 6. 产品相关音效暗示
+  const productAudio = `【产品音效】${name}相关的声音细节：${features[0] === '防水' ? '水花溅在产品上的清脆声' : features[0] === '能量' ? '产品开启的清脆声/液体流动声' : '产品材质在极限运动中的独特声响'}。`;
+  
+  // 7. 光线聚焦产品
+  const lightingFocus = `【产品打光】主光源从45度角打在${name}上，产品表面高光和阴影层次分明，边缘光(rim light)勾勒产品轮廓，产品比运动员更亮。`;
+  
+  // 组合所有商品元素
+  const productHeroBlock = [
+    heroOpening,
+    featureFusion,
+    productCloseup,
+    consumptionCue,
+    sloganCue,
+    productAudio,
+    lightingFocus
+  ].filter(Boolean).join(' | ');
+  
+  // 将商品信息融入基础 prompt
+  // 策略：将商品信息放在前半段（确保在截断时保留），基础镜头放在后半段
+  return productHeroBlock + ' | ' + basePrompt;
+}
+
+/**
+ * 商品卖点自动分析器
+ * 从产品名称/描述提取关键卖点
+ */
+function analyzeProductFeatures(productName, productDesc = '') {
+  const name = productName.toLowerCase();
+  const desc = productDesc.toLowerCase();
+  const combined = name + ' ' + desc;
+  
+  // 检查预设产品（更宽松的匹配：去除空格、统一小写）
+  const normalizedCombined = combined.replace(/\s+/g, '').replace(/[\/\.\-]/g, '');
+  for (const [key, info] of Object.entries(PRODUCT_SELLING_POINTS)) {
+    const normalizedKey = key.replace(/\s+/g, '').replace(/[\/\.\-]/g, '').toLowerCase();
+    if (normalizedCombined.includes(normalizedKey) || normalizedKey.includes(normalizedCombined.substring(0, 10))) {
+      return { matched: true, source: 'preset', ...info };
+    }
+  }
+  
+  // 别名映射（常见品牌变体）
+  const ALIASES = {
+    'redbull': ['red bull', '红牛', 'redbull'],
+    'gopro': ['go pro', 'hero', '运动相机'],
+    'nike': ['耐克', 'air', 'zoom', 'dunk'],
+    'adidas': ['阿迪达斯', 'boost', '三叶草'],
+    'dji': ['大疆', '无人机', 'mavic', 'mini'],
+    'applewatch': ['apple watch', 'iwatch', '苹果手表', '智能手表'],
+    'loreal': ['欧莱雅', '防晒', '小金瓶', 'anessa', '安耐晒'],
+    'bmw': ['宝马', 'bimmer'],
+    'thenorthface': ['北面', '北脸', 'tnf', 'north face']
+  };
+  
+  for (const [key, aliases] of Object.entries(ALIASES)) {
+    for (const alias of aliases) {
+      if (normalizedCombined.includes(alias.replace(/\s+/g, ''))) {
+        return { matched: true, source: 'alias', ...PRODUCT_SELLING_POINTS[key] };
+      }
+    }
+  }
+  
+  // 自动特征提取（基于关键词匹配）
+  const features = [];
+  const keywords = {
+    '能量': ['能量', '能量饮料', '功能饮料', '提神', '耐力', '持久'],
+    '防水': ['防水', '防泼', '水下', '游泳', '潜水', '冲浪'],
+    '耐用': ['耐用', '坚固', '抗摔', '防护', '三防', '军工'],
+    '轻便': ['轻便', '轻量', '轻量化', '超薄', '便携'],
+    '速度': ['速度', '极速', '快速', '加速', '竞速', '赛车'],
+    '专业': ['专业', '竞技', '赛事', '冠军', '运动员'],
+    '时尚': ['时尚', '潮流', '设计', '颜值', '个性', '穿搭'],
+    '智能': ['智能', '科技', '数码', 'AI', '芯片', '传感器'],
+    '天然': ['天然', '有机', '绿色', '环保', '可持续', '健康'],
+    '高端': ['高端', '奢华', '顶级', '限量', '定制', '尊贵']
+  };
+  
+  for (const [feature, words] of Object.entries(keywords)) {
+    if (words.some(w => combined.includes(w))) {
+      features.push(feature);
+    }
+  }
+  
+  // 默认特征
+  if (features.length === 0) {
+    features.push('极限挑战', '突破自我');
+  }
+  
+  return {
+    matched: false,
+    source: 'auto',
+    category: '通用产品',
+    features: features.slice(0, 3),
+    sports: ['alpine', 'surfing', 'skateboarding'], // 通用推荐
+    heroShots: ['product_closeup', 'consume_mid_action']
+  };
+}
+
+// 导出商品主角引擎
+module.exports.PRODUCT_SELLING_POINTS = PRODUCT_SELLING_POINTS;
+module.exports.FEATURE_TO_SPORT_MAP = FEATURE_TO_SPORT_MAP;
+module.exports.PRODUCT_HERO_SHOTS = PRODUCT_HERO_SHOTS;
+module.exports.generateProductHeroPrompt = generateProductHeroPrompt;
+module.exports.analyzeProductFeatures = analyzeProductFeatures;
+
+// ==================== 商品主角模式注入扩充引擎 ====================
+
+// 保存原始 expandPrompt 的引用
+const _originalExpandPrompt = expandPrompt;
+
+/**
+ * 商品主角模式扩充：在标准扩充基础上叠加商品信息
+ */
+function expandPromptWithProduct(basePrompt, sport, angle, intensity, productInfo = null) {
+  // 1. 先进行标准扩充
+  let expanded = _originalExpandPrompt(basePrompt, sport, angle, intensity);
+  
+  // 2. 如果提供了商品信息，叠加商品主角模式
+  if (productInfo) {
+    const productHeroBlock = generateProductHeroPrompt(expanded, productInfo, 'consume', sport);
+    // 3. 重新截断确保不超过1500
+    expanded = truncateToLength(productHeroBlock, PROMPT_MAX_CHARS);
+  }
+  
+  return expanded;
+}
+
+// 导出带商品功能的扩充
+module.exports.expandPromptWithProduct = expandPromptWithProduct;
+
+// ==================== 商品植入引擎类 ====================
+
+class ProductPlacementEngine {
+  constructor() {
+    this.products = PRODUCT_SELLING_POINTS;
+    this.featureMap = FEATURE_TO_SPORT_MAP;
+    this.heroShots = PRODUCT_HERO_SHOTS;
+  }
+  
+  /**
+   * 分析商品并推荐最佳极限运动场景
+   */
+  analyze(productName, productDesc = '') {
+    return analyzeProductFeatures(productName, productDesc);
+  }
+  
+  /**
+   * 为商品生成最佳短片配置
+   */
+  generateProductShort(productName, productDesc = '', options = {}) {
+    const analysis = this.analyze(productName, productDesc);
+    const duration = options.duration || 15;
+    
+    // 选择最佳运动类型（取前3个推荐运动）
+    const recommendedSports = analysis.sports.slice(0, 3);
+    
+    // 为每个推荐运动生成短片配置
+    const shorts = recommendedSports.map(sport => {
+      const short = engine.generateXtremeShort({ 
+        sport, 
+        sequence: 'adrenaline', 
+        duration: Math.ceil(duration / recommendedSports.length),
+        expand: true
+      });
+      
+      // 叠加商品主角信息
+      const heroShots = short.shots.map(shot => {
+        const productPrompt = generateProductHeroPrompt(
+          shot.prompt, 
+          { name: productName, features: analysis.features, brand: productName },
+          'consume',
+          sport
+        );
+        const truncated = truncateToLength(productPrompt, PROMPT_MAX_CHARS);
+        const check = checkPromptLength(truncated);
+        
+        return {
+          ...shot,
+          prompt: truncated,
+          productMode: true,
+          productFeatures: analysis.features,
+          promptLength: check.length,
+          promptStatus: check.status
+        };
+      });
+      
+      return {
+        sport: short.sport,
+        shots: heroShots,
+        productFeatures: analysis.features,
+        productReason: this.featureMap[analysis.features[0]]?.reason || '极限运动场景展示产品特性'
+      };
+    });
+    
+    return {
+      product: productName,
+      analysis,
+      recommendedSports: recommendedSports.map(s => XTREME_SHOTS[s]?.name || s),
+      shorts,
+      totalDuration: shorts.reduce((sum, s) => sum + s.shots.length * 3, 0),
+      strategy: '商品主角模式：产品占据视觉焦点30-50%，极限运动为展示舞台'
+    };
+  }
+  
+  /**
+   * 获取商品推荐镜头类型
+   */
+  getRecommendedShots(productName, productDesc = '') {
+    const analysis = this.analyze(productName, productDesc);
+    return analysis.heroShots.map(id => ({
+      id,
+      ...this.heroShots[id]
+    }));
+  }
+  
+  /**
+   * 生成商品卖点融合提示词
+   */
+  generateProductPrompt(productName, features, basePrompt, sport) {
+    return generateProductHeroPrompt(basePrompt, { name: productName, features }, 'consume', sport);
+  }
+}
+
+// 导出商品植入引擎
+module.exports.ProductPlacementEngine = ProductPlacementEngine;
+
 // ==================== 主链路引擎 (原有代码继续) ====================
 
 class ShortVideoEngine {
   constructor() {
     this.version = VERSION;
     this.xtremeLibrary = new XtremeShotLibrary();
+    this.productEngine = new ProductPlacementEngine();  // 商品主角引擎
     this.config = {
       defaultDuration: 15,
       defaultSport: 'alpine',
@@ -530,40 +861,114 @@ class ShortVideoEngine {
     return completed.substring(0, targetLength);
   }
 
-  // ==================== 社媒营销短片生成 ====================
+  // ==================== 社媒营销短片生成（商品主角模式） ====================
 
   /**
-   * 生成社媒营销短片
+   * 生成社媒营销短片 - 商品主角模式
+   * 核心理念：产品才是主角，极限运动是展示产品的舞台
    * @param {Object} options - 配置
-   * @param {string} options.product - 产品名称
-   * @param {string} options.scene - 场景 (极限运动/日常生活/旅行等)
+   * @param {string} options.product - 产品名称（必填）
+   * @param {string} options.productDesc - 产品描述/卖点
+   * @param {string} options.scene - 场景 (xtreme/极限运动/旅行/城市)
    * @param {number} options.duration - 时长
+   * @param {boolean} options.heroMode - 是否启用商品主角模式（默认true）
    */
   generateSocialMediaShort(options = {}) {
-    const { product, scene = 'xtreme', duration = 15 } = options;
+    const { 
+      product, 
+      productDesc = '', 
+      scene = 'xtreme', 
+      duration = 15,
+      heroMode = true  // 默认商品主角模式
+    } = options;
 
-    // 如果是极限运动场景，使用镜头库
+    if (!product) {
+      return { error: '❌ 必须指定产品名称！社媒短片的核心是卖产品。请提供 product 参数。' };
+    }
+
+    console.log(`🎯 商品主角模式生成: ${product} | 场景: ${scene} | 时长: ${duration}秒 | 商品主角: ${heroMode ? 'ON' : 'OFF'}`);
+
+    // 分析产品卖点
+    const analysis = this.productEngine.analyze(product, productDesc);
+    console.log(`📊 产品分析: ${analysis.features.join('、')} | 类别: ${analysis.category}`);
+
+    // 如果是极限运动场景且启用商品主角模式
+    if ((scene === 'xtreme' || scene === '极限运动') && heroMode) {
+      // 使用商品主角引擎生成
+      const productShort = this.productEngine.generateProductShort(product, productDesc, { duration });
+      
+      // 为每个镜头叠加商品主角提示词
+      const heroShots = productShort.shorts.flatMap(s => s.shots);
+      
+      return {
+        type: 'social-media-product-hero',
+        version: this.version.full,
+        product: product,
+        productDesc: productDesc,
+        scene: '极限运动',
+        heroMode: true,
+        analysis: {
+          category: analysis.category,
+          features: analysis.features,
+          matched: analysis.matched,
+          source: analysis.source
+        },
+        recommendedSports: productShort.recommendedSports,
+        strategy: productShort.strategy,
+        totalDuration: productShort.totalDuration,
+        shots: heroShots,
+        totalShots: heroShots.length,
+        avgIntensity: heroShots.reduce((sum, s) => sum + (s.intensity || 8), 0) / heroShots.length,
+        avgPromptLength: Math.round(heroShots.reduce((sum, s) => sum + s.prompt.length, 0) / heroShots.length),
+        allPromptsPassed: heroShots.every(s => s.promptStatus === 'ok'),
+        prompts: heroShots.map(s => s.prompt),
+        promptLengths: heroShots.map(s => s.promptLength),
+        promptStatuses: heroShots.map(s => s.promptStatus),
+        marketingNote: `🏆 ${product} 是主角！极限运动是展示 ${analysis.features.join('、')} 的舞台。`,
+        productHeroPrinciples: [
+          '产品占据画面视觉焦点30-50%',
+          '产品特性通过极限运动场景得到验证',
+          '品牌标识清晰可见',
+          '产品不是背景道具而是画面核心主角',
+          '光线聚焦产品，产品比运动员更亮',
+          '音效突出产品相关声音细节'
+        ]
+      };
+    }
+
+    // 普通极限运动场景（不启用商品主角）
     if (scene === 'xtreme' || scene === '极限运动') {
-      const xtremeConfig = this.generateXtremeShort({ duration });
+      const xtremeConfig = this.generateXtremeShort({ duration, expand: true });
       
       return {
         type: 'social-media-xtreme',
         version: this.version.full,
-        product: product || '未指定产品',
+        product: product,
+        productDesc: productDesc,
         scene: '极限运动',
+        heroMode: false,
+        analysis: {
+          category: analysis.category,
+          features: analysis.features
+        },
         ...xtremeConfig,
-        marketingNote: product ? `🏂 将 ${product} 融入极限运动场景` : '请指定产品名称'
+        marketingNote: `🏂 ${product} 融入极限运动场景 | 卖点: ${analysis.features.join('、')}`
       };
     }
 
-    // 其他场景暂用默认
+    // 其他场景
     return {
       type: 'social-media',
       version: this.version.full,
-      product: product || '未指定产品',
+      product: product,
+      productDesc: productDesc,
       scene,
       duration,
-      note: '社媒短片生成 - 其他场景开发中'
+      analysis: {
+        category: analysis.category,
+        features: analysis.features
+      },
+      marketingNote: `📱 ${product} 社媒短片 | 卖点: ${analysis.features.join('、')} | 场景: ${scene}`
     };
   }
 
