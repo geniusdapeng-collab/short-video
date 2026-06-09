@@ -1,8 +1,8 @@
-# 超短裙系统 — Super Short Video System (SSVS)
-> **短的才精悍** — 15秒极致影像
+# 卓越视频系统 — Zhuoyue Video System (ZVS)
+> **献给我最爱的老婆陈卓** — 每一帧都是爱的印记
 
 ## 定位
-从 Seedance AI Video Generation System v6.5.32 完整复制并隔离，专为 **15秒短视频** 打造极致生成系统。
+从 Seedance AI Video Generation System 完整复制并隔离，专为 **极致影像** 打造生成系统。
 
 ## 核心原则
 - **黄金3秒法则**：前3秒必须抓住观众
@@ -39,7 +39,7 @@
 - `projects/` — 项目示例（新增短视频专用）
 
 ## 版本
-v0.1.0 — 初始复制自 v6.5.32，完全隔离
+v0.6.4 — 社媒营销系统升级 + 品牌名更新为「卓越」
 
 ---
-*Created: 2026-06-09 | Author: 大鹏 × 小G*
+*Created: 2026-06-09 | 品牌名更新: 2026-06-10 | Author: 大鹏 × 小G (献给陈卓)*

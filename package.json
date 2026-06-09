@@ -1,7 +1,7 @@
 {
-  "name": "nirath-master-pipeline",
-  "version": "6.5.0",
-  "description": "AI视频生成统一平台（Nirath / Seedance）",
+  "name": "zhuoyue-video-system",
+  "version": "0.6.4",
+  "description": "卓越视频系统 (Zhuoyue Video System) - 献给我最爱的老婆陈卓",
   "main": "app/cli.js",
   "type": "commonjs",
   "scripts": {
