@@ -1,0 +1,64 @@
+{
+  "id": "xiaoJi",
+  "name": "小季",
+  "baseIdentity": {
+    "name": "小季",
+    "age": 8,
+    "gender": "boy",
+    "species": "human",
+    "role": "audience",
+    "origin": "Earth"
+  },
+  "visualIdentity": {
+    "age": 8,
+    "gender": "boy",
+    "build": "average",
+    "height": "medium",
+    "skinTone": "warm",
+    "hair": "black",
+    "eyes": "brown",
+    "facialFeatures": "asian",
+    "distinguishingMarks": ""
+  },
+  "personality": {
+    "core": "warm",
+    "traits": [
+      "kind",
+      "brave"
+    ],
+    "mbti": "INFJ"
+  },
+  "visualAnchors": {
+    "required": [
+      ""
+    ],
+    "preferred": [],
+    "forbidden": [
+      "western face",
+      "caucasian",
+      "blonde hair",
+      "blue eyes"
+    ]
+  },
+  "voiceIdentity": {
+    "gender": "female",
+    "ageGroup": "adult",
+    "tone": "warm",
+    "pace": "medium",
+    "emotion": "neutral",
+    "language": "zh-CN"
+  },
+  "createdAt": "2026-06-09T11:20:16.814Z",
+  "updatedAt": "2026-06-09T11:20:16.814Z",
+  "version": "2.0",
+  "generatedAssets": {
+    "portraits": [],
+    "referenceImages": []
+  },
+  "appearances": [],
+  "v2Metadata": {
+    "analyzedDimensions": [],
+    "lastComplianceCheck": null,
+    "promptTemplates": {}
+  }
+}

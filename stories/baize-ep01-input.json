@@ -1,0 +1,45 @@
+{
+  "projectName": "山海经：白泽·万物之声 EP01",
+  "videoType": "nirath",
+  "worldview": "Nirath星球，地球前身。『记忆即存在』——所有生命体的记忆碎片构成星球意识。山海经异兽是Nirath原住民，拥有操控记忆能量的能力。白泽通万物之情，能说人话，是Nirath最古老的知识守护者。",
+  "scenes": [
+    {
+      "id": "S01",
+      "name": "知识古树",
+      "description": "Nirath星球最古老的记忆之树，白泽栖息于此，树冠上挂满了记忆果实，每一个果实都包含着万物的知识。"
+    },
+    {
+      "id": "S02",
+      "name": "万物之声殿",
+      "description": "白泽的居所，能听到所有生命体的声音，记忆能量在这里汇聚成流动的知识之河。"
+    },
+    {
+      "id": "S03",
+      "name": "智慧之源",
+      "description": "Nirath星球知识能量的核心，白泽在这里守护着万物之理，等待有德者的到来。"
+    }
+  ],
+  "characters": [
+    {
+      "id": "xiaoG",
+      "name": "小G",
+      "role": "protagonist",
+      "description": "Nirath星球的记忆守护者，拥有操控记忆碎片的能力，前来寻求白泽的智慧指引。"
+    },
+    {
+      "id": "baiZe",
+      "name": "白泽",
+      "role": "guide",
+      "description": "山海经异兽，通万物之情，能说人话，Nirath最古老的知识守护者，王者有德则出。"
+    }
+  ],
+  "narrationStyle": "史诗叙事，旁白深沉有力，营造Nirath星球的神秘与智慧氛围。",
+  "duration": 15,
+  "targetDuration": 15,
+  "style": "nirath",
+  "commercial": {
+    "productId": "千问ai智能眼镜",
+    "productName": "千问AI智能眼镜S1",
+    "strategy": "integrated"
+  }
+}

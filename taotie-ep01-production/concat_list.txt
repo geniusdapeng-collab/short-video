@@ -1,0 +1,6 @@
+file '/root/.openclaw/workspace/taotie-ep01-production/S00-opening.mp4'
+file '/root/.openclaw/workspace/taotie-ep01-production/S01-intro.mp4'
+file '/root/.openclaw/workspace/taotie-ep01-production/S02-progress.mp4'
+file '/root/.openclaw/workspace/taotie-ep01-production/S03-appearance.mp4'
+file '/root/.openclaw/workspace/taotie-ep01-production/S04-climax.mp4'
+file '/root/.openclaw/workspace/taotie-ep01-production/S05-ending.mp4'

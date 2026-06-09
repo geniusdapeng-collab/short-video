@@ -1,0 +1,64 @@
+{
+  "id": "xiangXiang",
+  "name": "香香",
+  "baseIdentity": {
+    "name": "香香",
+    "age": "7个月",
+    "gender": "girl",
+    "species": "human",
+    "role": "protagonist",
+    "origin": "Earth"
+  },
+  "visualIdentity": {
+    "age": "7个月",
+    "gender": "girl",
+    "build": "average",
+    "height": "medium",
+    "skinTone": "warm",
+    "hair": "black",
+    "eyes": "brown",
+    "facialFeatures": "asian",
+    "distinguishingMarks": ""
+  },
+  "personality": {
+    "core": "warm",
+    "traits": [
+      "kind",
+      "brave"
+    ],
+    "mbti": "INFJ"
+  },
+  "visualAnchors": {
+    "required": [
+      ""
+    ],
+    "preferred": [],
+    "forbidden": [
+      "western face",
+      "caucasian",
+      "blonde hair",
+      "blue eyes"
+    ]
+  },
+  "voiceIdentity": {
+    "gender": "female",
+    "ageGroup": "adult",
+    "tone": "warm",
+    "pace": "medium",
+    "emotion": "neutral",
+    "language": "zh-CN"
+  },
+  "createdAt": "2026-06-09T12:20:46.640Z",
+  "updatedAt": "2026-06-09T12:20:46.640Z",
+  "version": "2.0",
+  "generatedAssets": {
+    "portraits": [],
+    "referenceImages": []
+  },
+  "appearances": [],
+  "v2Metadata": {
+    "analyzedDimensions": [],
+    "lastComplianceCheck": null,
+    "promptTemplates": {}
+  }
+}

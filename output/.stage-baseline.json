@@ -1,0 +1,131 @@
+{
+  "lastUpdate": "2026-06-09T12:21:33.337Z",
+  "baselines": {
+    "STAGE-0": {
+      "avg": 113,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-1": {
+      "avg": 0,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-2": {
+      "avg": 1,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-3": {
+      "avg": 10,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-4": {
+      "avg": 4,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-5": {
+      "avg": 46635,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-5.5": {
+      "avg": 3,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-6": {
+      "avg": 2,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-7": {
+      "avg": 1,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-7.2": {
+      "avg": 1,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-7.4": {
+      "avg": 1,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-7.3": {
+      "avg": 2,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-7.5": {
+      "avg": 0,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-8": {
+      "avg": 3,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-8.5": {
+      "avg": 0,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-9": {
+      "avg": 4,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-10": {
+      "avg": 0,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-10.5": {
+      "avg": 1,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-11": {
+      "avg": 21,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-11.5": {
+      "avg": 0,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-12": {
+      "avg": 3,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-13": {
+      "avg": 0,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-14": {
+      "avg": 0,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-15": {
+      "avg": 0,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    },
+    "STAGE-16": {
+      "avg": 5,
+      "count": 1,
+      "firstSeen": "2026-06-09T12:21:33.337Z"
+    }
+  },
+  "version": "v1.0"
+}
