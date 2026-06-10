@@ -17,7 +17,7 @@
 
 class PromptTierArchitecture {
   constructor(options = {}) {
-    this.maxLength = options.maxLength || 980;
+    this.maxLength = options.maxLength || 1500;
     this.tier1Ratio = options.tier1Ratio || 0.30;  // 30%
     this.tier2Ratio = options.tier2Ratio || 0.40;  // 40%
     this.tier3Ratio = options.tier3Ratio || 0.30;  // 30%
@@ -459,7 +459,7 @@ class PromptTierArchitecture {
       tier2Retention: Math.round((tier2.length / this.tier2Budget) * 100),
       tier3Retention: Math.round((tier3.length / this.tier3Budget) * 100),
       utilization: Math.round((total / this.maxLength) * 100),
-      status: total >= 950 ? '🔥理想' : total >= 850 ? '✅良好' : '⚠️不足'
+      status: total >= 1470 ? '🔥理想' : total >= 850 ? '✅良好' : '⚠️不足'
     };
   }
 }

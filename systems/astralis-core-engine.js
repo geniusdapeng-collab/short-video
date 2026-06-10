@@ -111,7 +111,7 @@ function generateNirathOpening(config) {
   // ═══════════════════════════════════════
   // Validation & Return
   // ═══════════════════════════════════════
-  const lengthCheck = checkPromptLength(prompt, 950, 980);
+  const lengthCheck = checkPromptLength(prompt, 1470, 1500);
   const consistencyCheck = validatePhysicalConsistency(config);
 
   return {
@@ -216,7 +216,7 @@ function generateNirathFingerprint(config) {
 /**
  * Prompt length check
  */
-function checkPromptLength(prompt, target = 950, max = 980) {
+function checkPromptLength(prompt, target = 1470, max = 1500) {
   const current = prompt.length;
   return {
     current,

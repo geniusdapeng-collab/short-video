@@ -131,10 +131,10 @@ class TechSpecsAndEmotionMapper {
    */
   _injectValidSpecs(prompt) {
     // 仅当Prompt有空间时才注入
-    if (prompt.length >= 950) return { injected: [], reason: '空间不足' };
+    if (prompt.length >= 1470) return { injected: [], reason: '空间不足' };
     
     const toInject = [];
-    const remaining = 980 - prompt.length;
+    const remaining = 1500 - prompt.length;
     
     // 优先注入通用有效声明
     for (const term of this.techSpecs.valid.slice(0, 3)) {

@@ -144,9 +144,9 @@ function generateMaterialSection(materials) {
  * @param {number} targetLength - 目标字数（默认950）
  * @returns {Object} 检查结果
  */
-function checkPromptLength(prompt, targetLength = 950) {
+function checkPromptLength(prompt, targetLength = 1470) {
   const currentLength = prompt.length;
-  const maxLength = 980;
+  const maxLength = 1500;
 
   return {
     current: currentLength,

@@ -394,7 +394,7 @@ class PipelineIntegrityValidator {
           check.details.push(`${result.shotId || idx}: prompt仅${result.prompt.length}字符，严重不足`);
           this.errors.push(`STAGE-11: ${result.shotId || '镜头' + idx}Prompt仅${result.prompt.length}字符，远低于800字符最低要求`);
         }
-        if (result.prompt && result.prompt.length > 980) {
+        if (result.prompt && result.prompt.length > 1500) {
           check.passed = false;
           check.details.push(`${result.shotId || idx}: prompt${result.prompt.length}字符超标`);
           this.errors.push(`STAGE-11: ${result.shotId || '镜头' + idx}Prompt${result.prompt.length}字符超过980上限`);

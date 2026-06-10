@@ -2,7 +2,7 @@
  * Seedance 2.0 Prompt 标准模块 v2.0
  * 
  * 适用范围：Seedance 2.0 文生视频
- * 总字符控制：970 字符（最佳区间 950-990）
+ * 总字符控制：970 字符（最佳区间 1470-990）
  * 核心理念：P0 保角色，P1 保叙事与视听，P2 保质量与声音，P3 保风格
  * 每一字符必须服务于画面生成
  * 
@@ -13,7 +13,7 @@
 
 // 模块元数据
 const VERSION = '2.0';
-const MAX_PROMPT_LENGTH = 980;
+const MAX_PROMPT_LENGTH = 1500;
 const AUDIT_AVAILABLE = false; // 是否启用完整性检查（向后兼容）
 
 // ============================================================
@@ -129,7 +129,7 @@ const PRIORITY_ORDER = ['P3', 'P2', 'P1', 'P0']; // 裁剪优先级（P3先被�
 const SEPARATOR = ' | ';
 const FIELD_PREFIX = ': ';
 const MAX_TOTAL_CHARS = 970;
-const TARGET_MIN_CHARS = 950;
+const TARGET_MIN_CHARS = 1470;
 const TARGET_MAX_CHARS = 990;
 const FORMAT_OVERHEAD = 110; // 字段标记+分隔符
 
@@ -178,11 +178,11 @@ const SHOT_TYPE_WEIGHTS = {
     weights: { CHARACTER: 0.10, ACTION: 0.12, SCENE: 0.38, CAMERA: 0.22, LIGHTING: 0.18 }
   },
   'action': {
-    total: 980,
+    total: 1500,
     weights: { CHARACTER: 0.15, ACTION: 0.35, SCENE: 0.20, CAMERA: 0.18, LIGHTING: 0.12 }
   },
   'reaction': {
-    total: 950,
+    total: 1470,
     weights: { CHARACTER: 0.30, ACTION: 0.20, SCENE: 0.15, CAMERA: 0.15, LIGHTING: 0.20 }
   }
 };
@@ -1039,7 +1039,7 @@ function analyzeLegacy(prompt, options = {}) {
     fieldCount: 0,
     fields: {},
     priority: { P0: 0, P1: 0, P2: 0, P3: 0 },
-    utilization: Math.round(prompt.length / 980 * 100),
+    utilization: Math.round(prompt.length / 1500 * 100),
     standardReadiness: 0,
     recommendations: [],
     mappedSegments: []

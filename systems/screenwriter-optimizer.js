@@ -13,7 +13,7 @@
  * 
  * 约束：
  * - 仅优化现有镜头 Prompt，不重新生成世界观/档案
- * - 优化后 Prompt 仍需控制在 980 字符以内
+ * - 优化后 Prompt 仍需控制在 1500 字符以内
  * - 不回流前序链路
  * 
  * @version v1.0 (v6.2-patch68)
@@ -28,7 +28,7 @@ class ScreenwriterOptimizer {
     this.mode = options.mode || 'nirath';
     this.maxIterations = options.maxIterations || 3;
     this.minPassScore = options.minPassScore || 75;
-    this.promptMaxLength = options.promptMaxLength || 980;
+    this.promptMaxLength = options.promptMaxLength || 1500;
     this.useLLM = options.useLLM !== false; // v6.2-patch70: 默认启用 LLM
     
     // 连贯性引擎复用（用于景别/运镜合法性检查）
@@ -1009,7 +1009,7 @@ ${standardRules}
         if (shot.prompt.length > this.promptMaxLength) {
           shot.prompt = shot.prompt.substring(0, this.promptMaxLength);
         } else if (shot.prompt.length < 900) {
-          shot.prompt = this._fillPromptToTarget(shot.prompt, originalShots[idx]?.prompt || '', 950);
+          shot.prompt = this._fillPromptToTarget(shot.prompt, originalShots[idx]?.prompt || '', 1470);
         }
       }
       
@@ -1039,7 +1039,7 @@ ${standardRules}
     if (!currentPrompt) currentPrompt = '';
     const action = change.action;
     const content = change.content || '';
-    const targetLength = change.targetLength || 950;
+    const targetLength = change.targetLength || 1470;
     
     let newPrompt = currentPrompt;
     
@@ -1162,7 +1162,7 @@ ${standardRules}
         
         // 字数校验：确保在950-980区间
         if (shot.prompt && shot.prompt.length < 900) {
-          shot.prompt = this._fillPromptToTarget(shot.prompt, shots[idx]?.prompt || '', 950);
+          shot.prompt = this._fillPromptToTarget(shot.prompt, shots[idx]?.prompt || '', 1470);
         } else if (shot.prompt && shot.prompt.length > this.promptMaxLength) {
           shot.prompt = shot.prompt.substring(0, this.promptMaxLength);
         }
@@ -1191,8 +1191,8 @@ ${standardRules}
       // 2. 检查prompt字数
       const promptLen = (shot.prompt || '').length;
       if (promptLen < 900) {
-        console.log(`[ScreenwriterOptimizer] ⚠️ ${shot.shotId || shot.id} Prompt字数不足(${promptLen}/950)，自动填充...`);
-        shot.prompt = this._fillPromptToTarget(shot.prompt, orig.prompt, 950);
+        console.log(`[ScreenwriterOptimizer] ⚠️ ${shot.shotId || shot.id} Prompt字数不足(${promptLen}/1470)，自动填充...`);
+        shot.prompt = this._fillPromptToTarget(shot.prompt, orig.prompt, 1470);
       } else if (promptLen > this.promptMaxLength) {
         console.log(`[ScreenwriterOptimizer] ⚠️ ${shot.shotId || shot.id} Prompt超长(${promptLen}/${this.promptMaxLength})，自动截断...`);
         shot.prompt = shot.prompt.substring(0, this.promptMaxLength);
@@ -1283,7 +1283,7 @@ ${standardRules}
       const orig = shot; // underFilled传入的是原始shot引用
       filled[idx] = {
         ...filled[idx],
-        prompt: this._fillPromptToTarget(filled[idx].prompt || '', orig.prompt || '', 950)
+        prompt: this._fillPromptToTarget(filled[idx].prompt || '', orig.prompt || '', 1470)
       };
     }
     return filled;
@@ -1380,7 +1380,7 @@ ${standardRules}
   // ==================== 各字段修改应用方法 ====================
 
   /**
-   * 应用prompt修改（核心：保持字数在950-980）
+   * 应用prompt修改（核心：保持字数在950-1500）
    */
   _applyPromptModification(currentPrompt, action, instruction, targetLength) {
     if (!currentPrompt) currentPrompt = '';
@@ -1424,7 +1424,7 @@ ${standardRules}
     }
     
     // 字数控制：确保在950-980区间
-    const target = targetLength || 950;
+    const target = targetLength || 1470;
     if (newPrompt.length < 900) {
       // 字数不足，补充通用内容
       newPrompt = this._fillPromptToTarget(newPrompt, currentPrompt, target);

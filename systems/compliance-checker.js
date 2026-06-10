@@ -16,7 +16,7 @@
 class ComplianceChecker {
   constructor(options = {}) {
     this.mode = options.mode || 'nirath';
-    this.maxPromptLength = options.maxPromptLength || 980;
+    this.maxPromptLength = options.maxPromptLength || 1500;
     this.minPromptLength = options.minPromptLength || 300;
     
     // 禁用关键词（按严重程度分级）

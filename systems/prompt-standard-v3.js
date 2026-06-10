@@ -13,10 +13,10 @@
  * 3. 实用审核：8项实战检查，检测真实问题而非形式合规
  * 4. 自动修复：检测到空视觉/超长 narration/未消费运镜时自动修复
  * 5. 强制集成：在 STAGE-11 渲染核心和 STAGE-12 合规检查中强制生效
- * 6. 字符硬控制：950-980 字符区间强制执行，超限自动按优先级裁剪
+ * 6. 字符硬控制：1470-1500 字符区间强制执行，超限自动按优先级裁剪
  * 
  * 适用范围：Seedance 2.0 文生视频，山海经系列，Nirath 世界观
- * 总字符控制：950-980 字符（绝对上限 980，低于 950 提示浪费）
+ * 总字符控制：1470-1500 字符（绝对上限 1500，低于 1470 提示浪费）
  * 核心理念：每一字符必须服务于画面生成，无空视觉，无模板化，无未消费字段
  * 
  * @module prompt-standard-v3
@@ -27,8 +27,8 @@
 'use strict';
 
 const VERSION = '3.0';
-const MAX_PROMPT_LENGTH = 980;
-const MIN_PROMPT_LENGTH = 950;
+const MAX_PROMPT_LENGTH = 1500;
+const MIN_PROMPT_LENGTH = 1470;
 const TARGET_PROMPT_LENGTH = 965;
 
 // ============================================================
@@ -390,7 +390,7 @@ function checkNirathAnchor(prompt, fields, context) {
 
 /**
  * 检查7：提示词长度检测
- * 检测是否在 950-980 字符区间内
+ * 检测是否在 1470-1500 字符区间内
  */
 function checkPromptLength(prompt, fields, context) {
   // 统一使用 Unicode 字符数（String.prototype.length），非字节数
@@ -1055,6 +1055,6 @@ module.exports = {
 //   - 双格式兼容（标准格式 + 【】区块格式）
 //   - 8项实战检查（替代15项形式检查）
 //   - 自动修复引擎（空视觉/模板化/未消费运镜）
-//   - 强制字符控制（950-980硬区间）
+//   - 强制字符控制（1470-980硬区间）
 //   - 集成点：STAGE-11 渲染核心 + STAGE-12 合规检查
 // v2.0 (2026-05-31): 初始版本，10字段标准，全链路模块化
