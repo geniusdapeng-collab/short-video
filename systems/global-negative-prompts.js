@@ -324,31 +324,100 @@ class GlobalNegativePromptInjector {
   }
 
 
+  /**
+   * v6.5.33-methodology: 生成紧凑负面提示词（6层方法论体系）
+   * 基于《AI视频生成提示词工程方法论》8.1负面提示词分层体系
+   * @param {Object} options
+   * @param {string} options.sceneType - 场景类型(nature_epic/character_narrative/product/urban/scifi/documentary/abstract)
+   * @param {boolean} options.hasCharacter - 是否包含人物
+   * @param {boolean} options.isRealistic - 是否写实风格
+   * @param {number} options.maxLength - 最大长度（默认180字符）
+   * @returns {string} 紧凑负面提示词
+   */
   generateCompact(options = {}) {
-    const { maxLength = 180 } = options;
+    const { 
+      sceneType = 'nature_epic', 
+      hasCharacter = true, 
+      isRealistic = true,
+      maxLength = 180 
+    } = options;
 
-    const compact = [
-      'no text',
-      'no watermark',
-      'no anime',
-      'no cartoon',
-      'no 3D render look',
-      'no deformed hands',
-      'no extra fingers',
-      'no duplicate characters',
-      'no glowing eyes',
-      'no red eyes',
-      'no blue eyes',
-      'no crystal',
-      'no metallic sheen',
-      'no dark night scene'
-    ].join(', ');
+    // 6层负面提示词体系（方法论8.1）
+    const layers = {
+      // L1: 基础质量层（通用必加）
+      baseQuality: [
+        'no blurry', 'no low resolution', 'no pixelated', 'no compression artifacts',
+        'no noise', 'no flickering', 'no jitter', 'no stutter', 'no choppy motion'
+      ],
+      // L2: 风格排除层（写实类必加）
+      styleExclusion: isRealistic ? [
+        'no cartoon', 'no anime', 'no illustration', 'no 3D render look', 'no CGI appearance',
+        'no plastic look', 'no artificial', 'no synthetic', 'no digital art', 'no painting'
+      ] : [],
+      // L3: 结构排除层
+      structureExclusion: [
+        'no distorted perspective', 'no impossible geometry', 'no floating objects',
+        'no inconsistent scale', 'no duplicate elements', 'no watermark', 'no text', 'no logo'
+      ],
+      // L4: 光影排除层
+      lightingExclusion: [
+        'no flat lighting', 'no overexposed', 'no crushed blacks', 'no double shadows',
+        'no wrong light direction', 'no neon colors'
+      ],
+      // L5: 人物专项（含人物时必加）
+      characterExclusion: hasCharacter ? [
+        'no distorted face', 'no deformed face', 'no asymmetrical eyes', 'no extra fingers',
+        'no missing fingers', 'no fused fingers', 'no deformed hands', 'no plastic skin',
+        'no waxy skin', 'no unnatural pose', 'no impossible anatomy'
+      ] : [],
+      // L6: 物理排除层（写实自然场景）
+      physicsExclusion: (sceneType === 'nature_epic' || sceneType === 'documentary') ? [
+        'no fake water', 'no static water', 'no cardboard rocks', 'no plastic foliage',
+        'no fake clouds', 'no painted background', 'no missing shadows'
+      ] : []
+    };
 
-    if (compact.length <= maxLength) {
-      return `【负面约束】${compact}`;
+    // 根据场景类型调整权重
+    const sceneWeights = {
+      nature_epic: { baseQuality: 1, styleExclusion: 1, structureExclusion: 1, lightingExclusion: 1, characterExclusion: 0.5, physicsExclusion: 1 },
+      character_narrative: { baseQuality: 1, styleExclusion: 1, structureExclusion: 0.8, lightingExclusion: 1, characterExclusion: 1, physicsExclusion: 0.3 },
+      product: { baseQuality: 1, styleExclusion: 1, structureExclusion: 0.8, lightingExclusion: 0.8, characterExclusion: 0, physicsExclusion: 0.3 },
+      urban: { baseQuality: 1, styleExclusion: 1, structureExclusion: 1, lightingExclusion: 0.8, characterExclusion: 0.5, physicsExclusion: 0.5 },
+      scifi: { baseQuality: 1, styleExclusion: 0.8, structureExclusion: 1, lightingExclusion: 0.8, characterExclusion: 0.5, physicsExclusion: 0.5 },
+      documentary: { baseQuality: 1, styleExclusion: 1, structureExclusion: 0.8, lightingExclusion: 0.8, characterExclusion: 1, physicsExclusion: 1 },
+      abstract: { baseQuality: 1, styleExclusion: 0.5, structureExclusion: 0.5, lightingExclusion: 0.5, characterExclusion: 0, physicsExclusion: 0.3 }
+    };
+
+    const weights = sceneWeights[sceneType] || sceneWeights.nature_epic;
+
+    // 按权重组装
+    let compact = [];
+    Object.keys(layers).forEach(layer => {
+      if (weights[layer] > 0 && layers[layer].length > 0) {
+        // 根据权重决定取多少条
+        const count = Math.max(2, Math.ceil(layers[layer].length * weights[layer]));
+        compact.push(...layers[layer].slice(0, count));
+      }
+    });
+
+    // 去重
+    compact = [...new Set(compact)];
+
+    let result = compact.join(', ');
+
+    // 长度控制：如果超出，从后往前裁剪低优先级层
+    if (result.length > maxLength) {
+      // 保留核心层（L1+L3）
+      const core = [...layers.baseQuality, ...layers.structureExclusion];
+      result = core.join(', ');
     }
 
-    return `【负面约束】${compact.substring(0, maxLength - 6)}`;
+    if (result.length > maxLength) {
+      // 极端情况：只保留最核心的
+      result = 'no blurry, no cartoon, no deformed hands, no extra fingers, no watermark, no text';
+    }
+
+    return `【负面约束】${result}`;
   }
 
   /**

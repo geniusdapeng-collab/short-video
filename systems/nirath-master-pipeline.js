@@ -4315,7 +4315,12 @@ ${isNirath
 
         // v6.0-patch38: 注入全局负面提示词
         // v6.2-patch44: 增加P2光照氛围约束(禁止暗黑/夜晚/乌漆嘛黑),maxLength放宽至250
-        const globalNegative = globalNegativePromptInjector.generateCompact({ maxLength: 180 });
+        const globalNegative = globalNegativePromptInjector.generateCompact({ 
+          maxLength: 180,
+          sceneType: this.mode === 'nirath' ? 'nature_epic' : 'documentary',
+          hasCharacter: true,
+          isRealistic: true
+        });
         prompt += ` ${globalNegative}`;
 
         // v6.5.29-fix: generic模式使用真实光照约束，不注入Nirath双恒星
@@ -5977,6 +5982,10 @@ ${isNirath
       safe(shot._timeline?.summary) ||
       '';
 
+    // v6.5.33-methodology: CAMERA字段增强 — 注入方法论镜头语言规范
+    // 基于《AI视频生成提示词工程方法论》2.5 CAMERA维度 + 6.1景别体系
+    const enhancedCamera = this.enhanceCameraWithMethodology(cameraText, shot);
+
     const lightingText =
       safe(shot.lighting?.keyLight) ||
       safe(shot.lighting?.progression) ||
@@ -5998,11 +6007,17 @@ ${isNirath
     const negativeText =
       (prompt.match(/【负面约束】([^【]*)/) || [])[1] ||
       (prompt.match(/【全局负面约束】([^【]*)/) || [])[1] ||
+      this.modules.globalNegativePromptInjector?.generateCompact({
+        sceneType: shot.sceneType || 'nature_epic',
+        hasCharacter: !!(shot.characters && shot.characters.length > 0),
+        isRealistic: true,
+        maxLength: 180
+      }) ||
       '';
 
     const renderText =
       (prompt.match(/【技术规格】([^【]*)/) || [])[1] ||
-      '超写实，电影级光影，高清质感';
+      'hyperrealistic cinematic quality, 35mm film grain, HDR, photorealistic with filmic treatment, 16:9 cinematic';
 
     const directorText =
       (prompt.match(/Director style:\s*([^【\n]+)/i) || [])[1] ||
@@ -6036,7 +6051,7 @@ ${isNirath
       `ACTION: ${actionText}`,
       `SCENE: ${scene || '场景环境明确，空间关系清晰'}`,
       `MOOD: ${moodText}`,
-      `CAMERA: ${cameraText || '中景，平稳运镜'}`,
+      `CAMERA: ${enhancedCamera || cameraText || '35mm lens, eye level medium shot, steady tracking shot'}`,
       `LIGHTING: ${lightingText || '自然光，明暗层次清晰'}`,
       `NEGATIVE: ${negativeText || 'no text, no anime, no cartoon, no deformed hands, no extra fingers, no watermark'}`,
       `AUDIO: ${audioText || '环境音自然，声画同步'}`,
@@ -6617,16 +6632,189 @@ ${isNirath
   }
 
   /**
-   * v6.2-patch104: 生成照明方案注入文本
+   * v6.5.33-methodology: 生成照明方案注入文本（融合方法论光影系统规范）
+   * 基于《AI视频生成提示词工程方法论》4.1光影描述标准格式
+   * 结构: [主光源]+[位置/方向]+[色温]+[光质]+[强度] + [辅助光源]+[位置]+[功能] + [环境光] + [特殊现象]
    */
   generateLightingInjection(scheme, shot) {
     const duration = shot.duration || 10;
+    
+    // 方法论映射：将现有scheme转换为方法论标准格式
+    // 色温映射
+    const colorTempMap = {
+      '暖金': '3200K warm golden',
+      '暖黄': '3000K warm tungsten',
+      '金白': '4500K neutral warm',
+      '冷蓝': '8000K+ cool blue',
+      '蓝紫': '9000K blue-purple',
+      '冷白': '6500K cool daylight',
+      '白': '5600K daylight balanced',
+      '双色': '3200K/5600K mixed'
+    };
+    
+    // 光质映射（硬光/软光/散射/直射）
+    const lightQuality = scheme.keyLight?.intensity?.includes('硬') ? 'hard light' : 
+                         scheme.keyLight?.intensity?.includes('柔') ? 'soft light' : 'diffused';
+    
+    // 位置映射（top/front/side/back/under/ambient）
+    const positionMap = {
+      '上方': 'top light from above',
+      '上方30°': 'top light 30-degree from above',
+      '低角度': 'low angle back light',
+      '双侧': 'side light from both sides',
+      '下方': 'under light from below',
+      '裂隙下方': 'under light through crevice',
+      '直射': 'direct front light'
+    };
+    
+    const keyPosition = positionMap[scheme.keyLight?.position] || scheme.keyLight?.position || 'key light from 45-degree left';
+    const keyColor = colorTempMap[scheme.keyLight?.color] || scheme.keyLight?.color || '5600K daylight';
+    const keyIntensity = scheme.keyLight?.intensity?.replace(/[，,]/g, '') || 'medium';
+    
+    const fillPosition = positionMap[scheme.fillLight?.position] || scheme.fillLight?.position || 'soft fill from right';
+    const fillColor = colorTempMap[scheme.fillLight?.color] || scheme.fillLight?.color || 'ambient fill';
+    const fillIntensity = scheme.fillLight?.intensity?.replace(/[，,]/g, '') || 'soft';
+    
+    const rimPosition = positionMap[scheme.rimLight?.position] || scheme.rimLight?.position || 'rim light from behind';
+    const rimColor = colorTempMap[scheme.rimLight?.color] || scheme.rimLight?.color || 'warm rim';
+    const rimIntensity = scheme.rimLight?.intensity?.replace(/[，,]/g, '') || 'strong';
+    
+    // 特殊光学现象（根据情绪阶段推断）
+    const phenomenaMap = {
+      'establishing': 'volumetric light shafts through atmospheric haze',
+      'rising': 'rim light edge glow separating subject from background',
+      'climax': 'intense volumetric light, visible light beams',
+      'resolve': 'soft diffused light, gentle atmospheric scattering',
+      'neutral': 'natural ambient light, subtle atmospheric haze'
+    };
+    const phenomenon = phenomenaMap[scheme.emotion] || phenomenaMap['neutral'];
+    
     return `
 【照明方案】${scheme.name} | ${scheme.ratio}光比
-主光: ${scheme.keyLight.position} ${scheme.keyLight.color} ${scheme.keyLight.intensity}
-补光: ${scheme.fillLight.position} ${scheme.fillLight.color} ${scheme.fillLight.intensity}
-背光: ${scheme.rimLight.position} ${scheme.rimLight.color} ${scheme.rimLight.intensity}
+主光: warm key light ${keyPosition}, ${keyColor}, ${lightQuality}, ${keyIntensity} intensity
+补光: ${fillPosition}, ${fillColor}, ${fillIntensity} fill
+背光: strong rim light ${rimPosition}, ${rimColor}, ${rimIntensity} rim
+特殊现象: ${phenomenon}
 情绪: ${scheme.emotion}`;
+  }
+
+  /**
+   * v6.5.33-methodology: 使用方法论镜头语言规范增强CAMERA字段
+   * 基于《AI视频生成提示词工程方法论》2.5 CAMERA维度 + 6.1景别体系
+   * 注入：shot size(景别) + lens(焦距/光圈) + movement(运镜英文术语) + speed(速度等级)
+   */
+  enhanceCameraWithMethodology(cameraText, shot) {
+    if (!cameraText || cameraText.length < 3) return cameraText;
+    
+    // 如果已经包含英文术语，跳过增强
+    if (/\b(35mm|50mm|85mm|f\/\d|dolly|tracking|orbit|pan|tilt|wide shot|close-up|medium shot)\b/i.test(cameraText)) {
+      return cameraText;
+    }
+    
+    // 景别映射（方法论6.1）
+    const shotSizeMap = {
+      'extreme_wide': 'extreme wide shot establishing',
+      'wide': 'wide shot',
+      'medium_long': 'medium long shot',
+      'medium': 'medium shot',
+      'medium_close': 'medium close-up',
+      'close': 'close-up',
+      'extreme_close': 'extreme close-up',
+      'insert': 'insert shot'
+    };
+    
+    // 运镜英文映射（方法论2.5.2）
+    const movementMap = {
+      '推': 'dolly in',
+      '拉': 'dolly out',
+      '横摇': 'pan',
+      '纵摇': 'tilt',
+      '横移': 'truck',
+      '升降': 'pedestal',
+      '跟随': 'tracking shot',
+      '环绕': 'orbit',
+      '手持': 'handheld',
+      '斯坦尼康': 'steadicam',
+      '固定': 'static',
+      '缩放': 'zoom',
+      '甩': 'whip pan',
+      '极速穿梭': 'whip pan rapid movement'
+    };
+    
+    // 速度映射（方法论2.5.4）
+    const speedMap = {
+      '极慢': 'extremely slow, gradual',
+      '慢': 'slow, gentle, smooth',
+      '中速': 'steady, moderate pace',
+      '快': 'fast, rapid',
+      '极快': 'extremely fast, lightning',
+      '变速': 'ramping speed'
+    };
+    
+    // 镜头参数推荐（根据景别）
+    const lensMap = {
+      'extreme_wide': '16mm wide angle lens, f/8 deep depth of field',
+      'wide': '24mm lens, f/5.6 moderate depth',
+      'medium_long': '35mm lens, f/4 moderate depth',
+      'medium': '50mm lens, f/2.8 shallow depth of field',
+      'medium_close': '85mm portrait lens, f/2.0 shallow depth',
+      'close': '85mm lens, f/1.8 shallow depth of field',
+      'extreme_close': '100mm macro lens, f/2.8'
+    };
+    
+    // 从shot中提取信息
+    const shotSize = shot.shotSize || shot.cameraMovement?.shotSize || 'medium';
+    const movement = shot.cameraMovement?.movementType || shot.cameraMovement?.movement || '';
+    const speed = shot.cameraMovement?.speed || shot.speed || '中速';
+    
+    // 组装方法论格式 CAMERA 字段
+    const parts = [];
+    
+    // 1. 镜头参数 (lens + aperture + shot size)
+    const lensParams = lensMap[shotSize] || lensMap['medium'];
+    const shotSizeDesc = shotSizeMap[shotSize] || shotSizeMap['medium'];
+    parts.push(`${lensParams}, ${shotSizeDesc}`);
+    
+    // 2. 运镜 (movement + speed)
+    let movementDesc = '';
+    // 尝试从中文映射
+    for (const [cn, en] of Object.entries(movementMap)) {
+      if (movement.includes(cn) || cameraText.includes(cn)) {
+        movementDesc = en;
+        break;
+      }
+    }
+    // 如果未匹配，尝试从cameraText提取关键动词
+    if (!movementDesc) {
+      if (/跟随|跟拍|追踪/.test(cameraText)) movementDesc = 'tracking shot';
+      else if (/环绕|旋转|围绕/.test(cameraText)) movementDesc = 'orbit';
+      else if (/推进|靠近|拉近/.test(cameraText)) movementDesc = 'dolly in';
+      else if (/拉远|退后|远离/.test(cameraText)) movementDesc = 'dolly out';
+      else if (/摇|扫/.test(cameraText)) movementDesc = 'pan';
+      else if (/升|降|抬|俯/.test(cameraText)) movementDesc = 'pedestal';
+      else movementDesc = 'steady tracking shot'; // 默认
+    }
+    
+    const speedDesc = speedMap[speed] || speedMap['中速'];
+    parts.push(`${movementDesc}, ${speedDesc}`);
+    
+    // 3. 机位高度（如果可推断）
+    if (/俯|鸟瞰|航拍|高空/.test(cameraText)) {
+      parts.push('bird\'s eye view, aerial perspective');
+    } else if (/仰|低角度|向上/.test(cameraText)) {
+      parts.push('low angle, worm\'s eye view');
+    } else if (/肩|背后|过肩/.test(cameraText)) {
+      parts.push('over-the-shoulder OTS');
+    }
+    
+    // 4. 特殊效果（如果可推断）
+    if (/浅景深|虚化|背景虚/.test(cameraText)) {
+      parts.push('shallow depth of field, creamy bokeh');
+    } else if (/深景深|全景清晰|全部清晰/.test(cameraText)) {
+      parts.push('deep depth of field, everything in focus');
+    }
+    
+    return parts.join(', ');
   }
 
   /**
