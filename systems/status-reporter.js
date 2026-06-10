@@ -166,6 +166,27 @@ class StatusReporter {
         }
       }
       const merged = { ...existing, ...patch, sessionId: this.sessionId };
+
+      // 成功后清理 killed/failed 残留字段
+      if (merged.status === 'success') {
+        delete merged.killedAt;
+        delete merged.signal;
+        delete merged.failedAt;
+        delete merged.error;
+        delete merged.stack;
+      }
+
+      // killed 后不要保留 success 完成态字段
+      if (merged.status === 'killed') {
+        delete merged.completedAt;
+        delete merged.summary;
+      }
+
+      // failed 后不要保留 success 完成态字段
+      if (merged.status === 'failed') {
+        delete merged.completedAt;
+        delete merged.summary;
+      }
       fs.writeFileSync(STATUS_FILE, JSON.stringify(merged, null, 2));
     } catch (e) {
       console.error('[StatusReporter] 写入状态文件失败:', e.message);

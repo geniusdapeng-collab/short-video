@@ -26,15 +26,18 @@ async function runPreproduction(input, options = {}) {
   });
   reporter.init();
 
-  process.on('SIGTERM', () => {
+  const onSigTerm = () => {
     reporter.killed('SIGTERM', reporter.currentStage);
     process.exit(143);
-  });
+  };
 
-  process.on('SIGINT', () => {
+  const onSigInt = () => {
     reporter.killed('SIGINT', reporter.currentStage);
     process.exit(130);
-  });
+  };
+
+  process.once('SIGTERM', onSigTerm);
+  process.once('SIGINT', onSigInt);
 
   const removed = cleanOutputFiles(outputDir, { keyword: outputKeyword });
   reporter.message(`🧹 清理旧输出 ${removed.length} 个文件`, true);
@@ -90,6 +93,9 @@ async function runPreproduction(input, options = {}) {
       stage: reporter.currentStage,
       details: err
     });
+  } finally {
+    process.removeListener('SIGTERM', onSigTerm);
+    process.removeListener('SIGINT', onSigInt);
   }
 }
 

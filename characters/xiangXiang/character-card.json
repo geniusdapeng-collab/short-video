@@ -41,10 +41,10 @@
     ]
   },
   "voiceIdentity": {
-    "gender": "female",
-    "ageGroup": "adult",
-    "tone": "warm",
-    "pace": "medium",
+    "gender": "male",
+    "ageGroup": "infant",
+    "tone": "soft",
+    "pace": "slow",
     "emotion": "neutral",
     "language": "zh-CN"
   },
