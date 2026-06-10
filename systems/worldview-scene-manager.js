@@ -245,8 +245,8 @@ class WorldviewAndSceneManager {
     const mode = options.mode || this.mode || 'generic';
     const data = this.getSceneData(sceneId);
     
-    // generic 模式：返回真实场景描述
-    if (mode === 'generic') {
+    // generic/social 模式：返回真实场景描述
+    if (mode === 'generic' || mode === 'social') {
       if (!data) return `${sceneId}, realistic scene`;
       
       // 过滤掉 Nirath 科幻关键词
@@ -261,7 +261,7 @@ class WorldviewAndSceneManager {
       const hasNirath = nirathKeywords.some(kw => allText.includes(kw));
       
       if (hasNirath) {
-        console.warn(`[WorldviewSceneManager] generic 模式检测到 Nirath 关键词，使用 fallback: "${allText}"`);
+        console.warn(`[WorldviewSceneManager] ${mode} 模式检测到 Nirath 关键词，使用 fallback: "${allText}"`);
         return `${sceneId}, realistic scene`;
       }
       

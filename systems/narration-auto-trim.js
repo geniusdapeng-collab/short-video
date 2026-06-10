@@ -161,7 +161,7 @@ class NarrationAutoTrim {
           continue;
         }
 
-        const finalCount = this.countAllChars(trimmedText);
+        // 回退检查已通过，直接使用finalCount
         const trimmedChars = charCount - finalCount;
         totalTrimmed += trimmedChars;
 

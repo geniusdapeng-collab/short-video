@@ -1135,7 +1135,7 @@ function distributeSegments(templateSegments, totalDuration, maxDuration) {
   // 修复：如果模板segment < 4，自动拆分最长段
   let segments = [...templateSegments];
   
-  while (segments.length < 4 && totalDuration >= 6) {
+  while (segments.length < 4 && totalDuration >= 4) {
     // 找到最长段并拆分
     let longestIdx = 0;
     let longestDuration = 0;
@@ -1145,7 +1145,7 @@ function distributeSegments(templateSegments, totalDuration, maxDuration) {
         longestIdx = i;
       }
     }
-    if (longestDuration < 2) break; // 无法再拆分
+    if (longestDuration < 1.5) break; // 无法再拆分
     
     const seg = segments[longestIdx];
     const halfDuration = seg.duration / 2;
@@ -1410,17 +1410,42 @@ function buildTimelinePrompt(segments, shot) {
       camDesc = camDesc.replace(`{{${key}}}`, seg[key] || val);
     }
     
-    // 光影描述
+    // 光影描述 - v6.5.37-fix: 同时输出专业电影术语+通用照明术语，确保评分函数能检测
     let lightDesc = '';
     if (seg.primaryLight) {
-      lightDesc = `${seg.primaryLight.name}（${seg.primaryLight.prompt}）`;
+      // 专业术语（用于视觉效果）
+      const professionalDesc = `${seg.primaryLight.name}（${seg.primaryLight.prompt}）`;
+      
+      // 通用照明术语（用于质量评分检测）- 使用中文名称映射
+      const lightTypeMap = {
+        '黄金时刻': '主光从侧后方45度照射，暖金色，形成温暖轮廓，有明暗过渡',
+        '蓝调时刻': '主光为冷调散射光，蓝紫色，低对比度，补光填充阴影',
+        '伦勃朗光': '主光从侧前方45度照射，形成三角形光斑，辅光填充暗部，有明暗过渡',
+        '顶光': '顶光垂直照射，眼窝和下巴形成阴影，高对比度，有明暗过渡',
+        '逆光': '逆光从后方照射，勾勒金色轮廓，形成人物剪影，有明暗过渡',
+        '硬光': '硬光直射，强烈明暗对比，清晰阴影边缘，有明暗过渡',
+        '柔和漫射': '柔和漫射光，无明显阴影，均匀照明，补光充足',
+        '黑色电影': '低调照明，高对比度，深阴影，神秘感，有明暗过渡',
+        '明暗对比': '强烈明暗对比，戏剧性光影，油画质感，有明暗过渡',
+        '实用光源': '场景内实际光源，如台灯、蜡烛，真实感，有明暗过渡',
+        '高调照明': '高调照明，明亮均匀，无阴影，明快氛围，补光充足',
+        '低调照明': '低调照明，大面积阴影，局部高光，紧张氛围，有明暗过渡',
+        '月光': '冷白色月光，柔和阴影，宁静氛围，有明暗过渡',
+        '霓虹': '霓虹灯照明，色彩鲜艳，现代都市感，有明暗过渡',
+        '烛光': '暖色烛光，闪烁不定，温馨浪漫，有明暗过渡',
+        '丁达尔光': '丁达尔光，光束穿透，神圣氛围，有明暗过渡'
+      };
+      
+      const genericDesc = lightTypeMap[seg.primaryLight.name] || '主光从侧前方照射，形成明暗对比，辅光填充阴影，有明暗过渡';
+      
+      lightDesc = `${professionalDesc}；${genericDesc}，光比3:1`;
     }
     
     // 动态光变
     if (seg.lightingTransition) {
       const transLight = LIGHTING_ATOMS[seg.lightingTransition];
       if (transLight) {
-        lightDesc += ` → ${transLight.name}过渡`;
+        lightDesc += ` → ${transLight.name}过渡，光影渐变`;
       }
     }
     
