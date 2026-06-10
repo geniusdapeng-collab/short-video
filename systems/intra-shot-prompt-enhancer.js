@@ -625,6 +625,151 @@ const CAMERA_COMBOS = {
 };
 
 // ═══════════════════════════════════════════════════════════
+// v6.5.36: 批次1 - 动作具象化 + 情绪留白化
+// ═══════════════════════════════════════════════════════════
+
+/**
+ * 情绪→动作具象化映射表
+ * 将抽象情绪翻译为可执行的具体动作指令
+ */
+const EMOTION_ACTION_MAP = {
+  'joy': {
+    facial: ['嘴角自然上扬', '眼角挤出细纹', '苹果肌微微隆起'],
+    eye: ['眼睛微微眯起', '眼神明亮温暖', '瞳孔自然放大'],
+    head: ['头部微微后仰', '下巴轻抬'],
+    body: ['肩膀放松下沉', '身体微微前倾', '手臂自然张开'],
+    sequence: '先嘴角上扬，然后眼睛眯起带笑意，最后头部微微后仰'
+  },
+  'happy': {
+    facial: ['嘴角大大上扬', '脸颊泛红', '眼角有明显笑纹'],
+    eye: ['眼睛发亮', '眼神温暖', '瞳孔自然放大'],
+    head: ['头部轻点', '歪头'],
+    body: ['身体微微前倾', '肩膀放松', '手指轻快地动作'],
+    sequence: '先眼睛发亮，然后嘴角上扬，最后身体前倾'
+  },
+  'sad': {
+    facial: ['嘴角向下撇', '嘴唇微微颤抖', '鼻翼微张'],
+    eye: ['眼眶通红', '眼神空洞', '泪光闪烁', '眼睑微微下垂'],
+    head: ['头部缓缓低垂', '下巴收紧'],
+    body: ['肩膀下沉', '背部微微弯曲', '手指无意识地绞着'],
+    sequence: '先眼眶通红，然后头部低垂，最后肩膀下沉'
+  },
+  'anger': {
+    facial: ['额头青筋微显', '下颌线紧绷', '嘴角僵硬'],
+    eye: ['眼神锐利', '瞳孔收缩', '怒目而视'],
+    head: ['头部猛然抬起', '下巴前伸'],
+    body: ['肩膀紧绷', '拳头握紧', '身体前倾有攻击性'],
+    sequence: '先眼神锐利，然后下颌紧绷，最后身体前倾'
+  },
+  'fear': {
+    facial: ['嘴巴微张', '嘴唇发白', '面部肌肉僵硬'],
+    eye: ['瞳孔剧烈收缩', '眼神游移', '眼白露出增多'],
+    head: ['头部后仰', '颈部僵硬'],
+    body: ['身体后退', '肩膀耸起', '手指颤抖', '呼吸急促'],
+    sequence: '先瞳孔收缩，然后身体后退，最后手指颤抖'
+  },
+  'surprise': {
+    facial: ['嘴巴微张成O型', '眉毛上扬', '额头微皱'],
+    eye: ['瞳孔瞬间放大', '眼睛睁大', '眼神聚焦'],
+    head: ['头部猛然抬起', '下巴微下垂'],
+    body: ['身体瞬间僵直', '手不自觉抬起', '肩膀耸起'],
+    sequence: '先瞳孔放大，然后嘴巴微张，最后手抬起'
+  },
+  'shy': {
+    facial: ['脸颊泛红', '耳朵尖红', '嘴角微微抿起'],
+    eye: ['眼神闪躲', '眼睑低垂', '不敢直视'],
+    head: ['头部微低', '偏向一侧'],
+    body: ['肩膀微缩', '手指绞着衣角', '身体微微侧转'],
+    sequence: '先眼神闪躲，然后脸颊泛红，最后手指绞衣角'
+  },
+  'tired': {
+    facial: ['眼皮微微下垂', '嘴角无力', '面部松弛'],
+    eye: ['眼神涣散', '眼下青黑色', '眼睑沉重'],
+    head: ['头部微低', '偶尔轻点'],
+    body: ['肩膀下沉', '身体后仰', '深呼吸'],
+    sequence: '先眼皮下垂，然后肩膀下沉，最后深呼吸'
+  },
+  'calm': {
+    facial: ['面部肌肉放松', '嘴角中性', '眉心舒展'],
+    eye: ['眼神柔和', '瞳孔自然', '眨眼频率正常'],
+    head: ['头部平稳', '偶尔轻点'],
+    body: ['肩膀自然', '呼吸平稳', '姿态放松'],
+    sequence: '先眼神柔和，然后面部放松，最后呼吸平稳'
+  },
+  'neutral': {
+    facial: ['表情自然', '面部肌肉放松'],
+    eye: ['眼神平静', '瞳孔自然'],
+    head: ['头部自然'],
+    body: ['姿态放松'],
+    sequence: '表情自然，眼神平静'
+  },
+  'loving': {
+    facial: ['嘴角带着宠溺的笑', '眉心舒展', '脸颊柔和'],
+    eye: ['眼神温柔如水', '瞳孔微微放大', '眼神专注'],
+    head: ['头部微侧', '下巴轻收'],
+    body: ['身体前倾', '肩膀放松', '手指轻抚'],
+    sequence: '先眼神温柔，然后嘴角微笑，最后身体前倾'
+  },
+  'curious': {
+    facial: ['眉毛轻挑', '嘴角微张', '额头微抬'],
+    eye: ['眼睛微微睁大', '瞳孔聚焦', '眼神明亮'],
+    head: ['头部歪向一侧', '下巴微抬'],
+    body: ['身体前倾', '肩膀微耸', '手指指向'],
+    sequence: '先眉毛轻挑，然后头歪向一侧，最后身体前倾'
+  },
+  'excited': {
+    facial: ['嘴角大大上扬', '脸颊泛红', '眼睛发亮'],
+    eye: ['眼神发光', '瞳孔放大', '眼神快速移动'],
+    head: ['头部快速转动', '下巴轻抬'],
+    body: ['身体前倾', '肩膀耸起', '手指动作快速', '呼吸急促'],
+    sequence: '先眼睛发亮，然后嘴角上扬，最后身体前倾'
+  }
+};
+
+/**
+ * 情绪强度分级系统
+ * L1=极简, L2=含蓄, L3=自然, L4=强烈, L5=爆发
+ */
+const EMOTION_INTENSITY_LEVELS = {
+  'L1': { name: '极简', description: '仅保留最核心的1个动作信号' },
+  'L2': { name: '含蓄', description: '2个动作信号，内敛表达' },
+  'L3': { name: '自然', description: '2-3个动作信号，自然流畅' },
+  'L4': { name: '强烈', description: '3个动作信号，明显外放' },
+  'L5': { name: '爆发', description: '4个动作信号，极致表达' }
+};
+
+/**
+ * 情绪留白化：过程延展法
+ * 将情绪爆发转化为过程描述
+ */
+function generateEmotionProcess(emotion, intensity) {
+  const processes = {
+    'sad': {
+      'L2': '眼神是隐忍后的空洞与麻木，沉重地闭了一下眼睛，嘴唇微微颤抖，最终没有哭出声，只是缓缓低下头',
+      'L3': '眼眶微红，眼神空洞，嘴唇颤抖，一滴泪无声地从眼角滑落',
+      'L4': '通红的眼眶，泪水夺眶而出，肩膀颤抖，身体微微弯曲'
+    },
+    'joy': {
+      'L2': '嘴角微微上扬，眼睛眯起带笑意，头部轻点',
+      'L3': '眼睛发亮，嘴角自然上扬，脸颊泛红，身体微微前倾',
+      'L4': '开心大笑，眼角挤出细纹，身体前倾，手指轻快地动作'
+    },
+    'anger': {
+      'L2': '眉头微蹙，下颌紧绷，深吸一口气',
+      'L3': '额头青筋微显，眼神锐利，下颌线绷成一条直线',
+      'L4': '怒目而视，面部涨红，拳头握紧，身体前倾'
+    },
+    'fear': {
+      'L2': '瞳孔轻微放大，眼神游移，手指微微颤抖',
+      'L3': '瞳孔收缩，额头冒出冷汗，身体后退，肩膀耸起',
+      'L4': '瞳孔剧烈收缩，面部僵硬，身体剧烈后退，双手颤抖'
+    }
+  };
+  
+  return (processes[emotion] && processes[emotion][intensity]) || '';
+}
+
+// ═══════════════════════════════════════════════════════════
 // v6.5.35: 人物鲜活度注入系统（基于外部专家方案）
 // ═══════════════════════════════════════════════════════════
 
@@ -665,8 +810,80 @@ const SKIN_TEXTURE_TEMPLATES = {
 };
 
 /**
- * 质感真实化注入器
- * 根据角色和情绪注入皮肤纹理、生理反应、外观瑕疵
+ * 四大顶级指令集构建器（v6.5.36批次3）
+ * 基于文档：AI视频生成系统提示词工程方案 v1.0
+ */
+function buildFourCommands(shot) {
+  const commands = [];
+  
+  // 指令一：皮肤细节
+  commands.push('皮肤保留毛孔、细纹等真实质感，透出自然红润气色，拒绝塑料陶瓷肌的过度磨皮效果，可见皮肤纹理');
+  
+  // 指令二：动作细节
+  commands.push('动作带重量感，走路姿态有力度，衣角随动作自然飘动，拒绝漂浮僵硬的机械感，身体运动符合物理规律');
+  
+  // 指令三：表情细节
+  commands.push('眼神有灵魂，带符合情绪的微表情，搭配自然眨眼动作，拒绝空洞呆滞的无神状态，面部表情层次丰富');
+  
+  // 指令四：场景细节
+  commands.push('场景加入光影颗粒、灰尘噪点细节，拒绝干净无层次的单调画面，画面有真实的环境纹理');
+  
+  return commands.join('。');
+}
+
+/**
+ * 肤色贴合指令集（按场景/角色类型）
+ * v6.5.36批次4：完整质感系统
+ */
+const SKIN_TONE_TEMPLATES = {
+  'outdoor': ['脸蛋上两团可爱的高原红腮红', '皮肤被阳光晒成健康的小麦色', '透着健康的光泽'],
+  'indoor': ['皮肤透出自然的室内光泽', '肤色均匀自然'],
+  'sick': ['脸色苍白', '嘴唇失去血色', '皮肤透出病态的蜡黄'],
+  'tired': ['眼下有明显的青黑色', '皮肤略显暗沉', '透着疲惫感'],
+  'sporty': ['小麦色皮肤', '透着健康的光泽', '运动后的自然红晕'],
+  'baby': ['婴儿皮肤细腻', '透出自然红润气色', '可见微小毛孔']
+};
+
+/**
+ * 外观瑕疵指令集（按角色类型）
+ * v6.5.36批次4：完整质感系统
+ */
+const APPEARANCE_FLAW_TEMPLATES = {
+  'white_collar': ['白衬衫有真实的自然褶皱', '盘好的发丝微乱', '有明显黑眼圈'],
+  'laborer': ['双手布满老茧', '手臂上有旧伤疤', '皮肤粗糙黝黑'],
+  'vagrant': ['胡子拉碴', '头发油腻打结', '衣服有污渍'],
+  'bride': ['眼角有幸福的皱纹', '温柔地微微一笑', '妆容自然不浓艳'],
+  'detective': ['下巴上有胡茬', '衬衫领口微微敞开', '衣领有汗渍痕迹'],
+  'general': ['衣服有真实的自然褶皱', '发型微乱几缕碎发垂在耳边']
+};
+
+/**
+ * 构建完整质感指令（v6.5.36批次4）
+ */
+function buildCompleteTexture(shot, options = {}) {
+  const { setting = 'indoor', roleType = 'general', emotion = 'neutral' } = options;
+  
+  const parts = [];
+  
+  // 1. 肤色贴合
+  const toneTemplate = SKIN_TONE_TEMPLATES[setting] || SKIN_TONE_TEMPLATES['indoor'];
+  parts.push(...toneTemplate);
+  
+  // 2. 外观瑕疵
+  const flawTemplate = APPEARANCE_FLAW_TEMPLATES[roleType] || APPEARANCE_FLAW_TEMPLATES['general'];
+  parts.push(...flawTemplate);
+  
+  // 3. 生理反应（根据情绪）
+  const normalizedEmotion = (emotion || 'neutral').toLowerCase().trim();
+  const physiology = EMOTION_PHYSIOLOGY_MAP[normalizedEmotion] || EMOTION_PHYSIOLOGY_MAP['neutral'];
+  parts.push(...physiology.slice(0, 2));
+  
+  return parts.join('，');
+}
+
+/**
+ * 质感真实化注入器（v6.5.36升级：批次1 - 动作具象化+情绪留白化）
+ * 根据角色和情绪注入皮肤纹理、生理反应、动作细节、情绪过程
  */
 function injectVividness(shot, options = {}) {
   const {
@@ -692,9 +909,31 @@ function injectVividness(shot, options = {}) {
   const count = intensityMap[intensity] || 2;
   vividnessParts.push(...physiology.slice(0, count));
   
-  // 3. 动作细节（通用）
+  // 3. 动作具象化（v6.5.36新增：批次1）
+  const actionMap = EMOTION_ACTION_MAP[normalizedEmotion] || EMOTION_ACTION_MAP['neutral'];
+  if (actionMap) {
+    // 根据强度选择动作细节数量
+    const actionCount = intensityMap[intensity] || 2;
+    const actions = [];
+    if (actionMap.eye && actionCount >= 1) actions.push(actionMap.eye[0]);
+    if (actionMap.facial && actionCount >= 2) actions.push(actionMap.facial[0]);
+    if (actionMap.head && actionCount >= 3) actions.push(actionMap.head[0]);
+    if (actionMap.body && actionCount >= 2) actions.push(actionMap.body[0]);
+    if (actions.length > 0) {
+      vividnessParts.push('面部动作链：' + actions.join(' → '));
+    }
+  }
+  
+  // 4. 情绪留白化 - 过程延展（v6.5.36新增：批次1）
+  const emotionProcess = generateEmotionProcess(normalizedEmotion, intensity);
+  if (emotionProcess) {
+    vividnessParts.push('情绪过程：' + emotionProcess);
+  }
+  
+  // 5. 动作细节（通用）
   vividnessParts.push('动作带重量感，身体运动符合物理规律');
   vividnessParts.push('眼神有灵魂，带符合情绪的微表情');
+  vividnessParts.push('衣角随动作自然飘动，拒绝僵硬机械感');
   
   return vividnessParts.join('，');
 }
@@ -759,8 +998,9 @@ function enhanceShotPrompt(shot, options = {}) {
     intensity: emotionIntensity || shot.emotionIntensity || 'L2'
   });
   
-  // 5. 合并原始Prompt + 时间轴 + 鲜活度
-  const enhancedPrompt = mergePrompts(originalPrompt, timelinePrompt + ' | 【人物鲜活度】' + vividnessText);
+  // 5. 合并原始Prompt + 时间轴 + 鲜活度 + 四大指令集（v6.5.36批次3）
+  const fourCommands = buildFourCommands(shot);
+  const enhancedPrompt = mergePrompts(originalPrompt, timelinePrompt + ' | 【人物鲜活度】' + vividnessText + ' | 【顶级指令】' + fourCommands);
   
   // 6. 记录增强信息
   return {
@@ -1125,10 +1365,24 @@ function buildTimelinePrompt(segments, shot) {
   }
   
   lines.push('');
+  lines.push('【运镜叙事化约束】');
+  lines.push('镜头运动必须服务于情绪表达，而非炫技');
+  lines.push('推进(Push In)：用于紧张感、揭示关键细节、情绪聚焦');
+  lines.push('拉远(Pull Out)：用于揭示环境、表现孤独感、情绪冷却');
+  lines.push('希区柯克变焦：用于强烈心理冲击、恐惧/震惊的极致表达');
+  lines.push('手持抖动：用于纪实感、紧迫感、现场感');
+  lines.push('');
   lines.push('【运镜与光影一致性约束】');
   lines.push('⚠️ 以上时间轴内的运镜变化、光影递进必须在镜头内自然连续呈现');
   lines.push('⚠️ 相邻阶段之间禁止突兀跳切，必须通过运镜运动自然过渡');
   lines.push('⚠️ 光影色温变化必须渐变，禁止突然跳变');
+  lines.push('');
+  lines.push('【运镜与情绪对照】');
+  lines.push('紧张/压迫 → 快速推进+极特写，节奏加快，焦点收紧');
+  lines.push('震惊/恐惧 → 希区柯克变焦，视觉失重感');
+  lines.push('孤独/失落 → 缓慢拉远+远景，人物在画面中变小');
+  lines.push('甜蜜/温馨 → 缓慢推进+柔光，焦点柔和过渡');
+  lines.push('悬疑/神秘 → 侧面横移+局部特写，逐步揭示信息');
   lines.push('');
   
   return lines.join('\n');

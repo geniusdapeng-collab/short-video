@@ -3983,7 +3983,7 @@ ${isNirath
         // 如果增强后超限,智能裁剪
         if (openingPrompt.length > 1500) {
           openingPrompt = this.smartTrim(openingPrompt, 1500, {
-            preserve: ['ASTRALIS', '钩子', '展开', '定格', '标题', '运镜', '明亮约束', '风格锁', '角色约束', '镜头时间轴', '旁白/台词', '台词', '嘴部动作', '环境质感', '环境音效', '照明方案', '人物鲜活度'],
+            preserve: ['ASTRALIS', '钩子', '展开', '定格', '标题', '运镜', '明亮约束', '风格锁', '角色约束', '镜头时间轴', '旁白/台词', '台词', '嘴部动作', '环境质感', '环境音效', '照明方案', '人物鲜活度', '顶级指令', '动作细节', '表情细节'],
             trim: ['辅助运镜', '光影细节补充']
           });
           this.log('STAGE-11', `  ⚠️ 片头Prompt超限,智能裁剪至${openingPrompt.length}字符`);
@@ -4398,7 +4398,7 @@ ${isNirath
         this.log('STAGE-11', `  🔍 DEBUG pre-smartTrim: ${shot.id} | 含运镜=${beforeTrim} | len=${enhanced.prompt.length}`);
 
         prompt = this.smartTrim(enhanced.prompt, 1500, {
-          preserve: ['叙事', '视觉', '独白', '明亮约束', '风格锁', '技术规格', '环境布景', '角色约束', '镜头时间轴', '旁白/台词', '台词', '嘴部动作', '环境质感', '环境音效', '照明方案', '人物鲜活度'],
+          preserve: ['叙事', '视觉', '独白', '明亮约束', '风格锁', '技术规格', '环境布景', '角色约束', '镜头时间轴', '旁白/台词', '台词', '嘴部动作', '环境质感', '环境音效', '照明方案', '人物鲜活度', '顶级指令', '动作细节', '表情细节'],
           trim: ['辅助运镜', '光影细节补充']
         });
         this.log('STAGE-11', `  ⚠️ 增强后超限(${enhanced.prompt.length}字符),智能裁剪至${prompt.length}字符`);
@@ -4489,7 +4489,7 @@ ${isNirath
                 // 校验上限
                 if (prompt.length > 1500) {
                   prompt = this.smartTrim(prompt, 1500, {
-                    preserve: ['叙事', '视觉', '独白', '明亮约束', '风格锁', '技术规格', '环境布景', '角色约束', '镜头时间轴', '旁白/台词', '环境质感', '环境音效', '照明方案', '人物鲜活度'],
+                    preserve: ['叙事', '视觉', '独白', '明亮约束', '风格锁', '技术规格', '环境布景', '角色约束', '镜头时间轴', '旁白/台词', '环境质感', '环境音效', '照明方案', '人物鲜活度', '顶级指令', '动作细节', '表情细节'],
                     trim: ['辅助运镜', '光影细节补充']
                   });
                   this.log('STAGE-11', `  🎨 布景增强后超限,智能裁剪至${prompt.length}字符`);
@@ -4687,7 +4687,7 @@ ${isNirath
           // 3. 增强后字数校验
           if (motionEnhanced.length > 1500) {
             motionEnhanced = this.smartTrim(motionEnhanced, 1500, {
-              preserve: ['叙事', '视觉', '独白', '明亮约束', '风格锁', '技术规格', '环境布景', '角色约束', '镜头时间轴', '旁白/台词', '台词', '嘴部动作', '环境质感', '环境音效', '照明方案', '人物鲜活度'],
+              preserve: ['叙事', '视觉', '独白', '明亮约束', '风格锁', '技术规格', '环境布景', '角色约束', '镜头时间轴', '旁白/台词', '台词', '嘴部动作', '环境质感', '环境音效', '照明方案', '人物鲜活度', '顶级指令', '动作细节', '表情细节'],
               trim: ['辅助运镜', '光影细节补充', '微动作增强']
             });
             motionLog.push(`超限裁剪→${motionEnhanced.length}字符`);
@@ -5143,6 +5143,42 @@ ${isNirath
       // 检查4: Nirath风格锚点存在性
       if (!result.prompt.includes('Nirath') && !result.prompt.includes('alien world')) {
         errors.push(`Prompt缺少Nirath风格锚点`);
+      }
+
+      // 检查6: v6.5.36批次5 - 人物鲜活度自检清单
+      const vividnessChecks = {
+        skinTexture: result.prompt.includes('皮肤') && result.prompt.includes('毛孔'),
+        expression: result.prompt.includes('眼神') || result.prompt.includes('微表情'),
+        movement: result.prompt.includes('动作') || result.prompt.includes('重量感'),
+        physiology: result.prompt.includes('脸颊') || result.prompt.includes('眼眶'),
+        emotionIntensity: result.prompt.includes('情绪') || result.prompt.includes('留白')
+      };
+      const vividnessScore = Object.values(vividnessChecks).filter(Boolean).length;
+      if (vividnessScore >= 4) {
+        this.log('STAGE-11.5', `  🔥 ${result.shotId} 人物鲜活度检查: ${vividnessScore}/5项通过(优秀)`);
+      } else if (vividnessScore >= 2) {
+        this.log('STAGE-11.5', `  ✅ ${result.shotId} 人物鲜活度检查: ${vividnessScore}/5项通过(良好)`);
+      } else {
+        warnings.push(`人物鲜活度不足(${vividnessScore}/5项),建议补充皮肤纹理/眼神/动作细节`);
+        this.log('STAGE-11.5', `  ⚠️ ${result.shotId} 人物鲜活度检查: ${vividnessScore}/5项通过(需优化)`);
+      }
+
+      // 检查7: v6.5.36批次5 - 光影质量自检清单
+      const lightingChecks = {
+        lightDirection: result.prompt.includes('光') && (result.prompt.includes('侧') || result.prompt.includes('顶') || result.prompt.includes('逆')),
+        shadow: result.prompt.includes('阴影') || result.prompt.includes('明暗'),
+        contrast: result.prompt.includes('对比') || result.prompt.includes('光影对比'),
+        atmosphere: result.prompt.includes('颗粒') || result.prompt.includes('灰尘') || result.prompt.includes('噪点'),
+        tone: result.prompt.includes('色调') || result.prompt.includes('色温')
+      };
+      const lightingScore = Object.values(lightingChecks).filter(Boolean).length;
+      if (lightingScore >= 4) {
+        this.log('STAGE-11.5', `  🔥 ${result.shotId} 光影质量检查: ${lightingScore}/5项通过(优秀)`);
+      } else if (lightingScore >= 2) {
+        this.log('STAGE-11.5', `  ✅ ${result.shotId} 光影质量检查: ${lightingScore}/5项通过(良好)`);
+      } else {
+        warnings.push(`光影质量不足(${lightingScore}/5项),建议补充光源方向/阴影/明暗对比`);
+        this.log('STAGE-11.5', `  ⚠️ ${result.shotId} 光影质量检查: ${lightingScore}/5项通过(需优化)`);
       }
 
       const passed = errors.length === 0;
