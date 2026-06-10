@@ -375,7 +375,8 @@ class PromptTierArchitecture {
   }
   
   _buildWorldAnchor(params) {
-    // 仅在Opening/首镜注入，且精简
+    // 仅在Nirath模式且Opening/首镜注入
+    if (params.mode !== 'nirath') return '';
     if (!params.isOpening && !params.isFirstShot) return '';
     return 'Nirath planet, alien ecosystem';
   }

@@ -6136,6 +6136,9 @@ ${isNirath
    * 基于shot的narration、独白、台词冲突密度
    * v6.3-patch3: 扩展情绪关键词至50个,增加情绪暗示词检测
    */
+  // v6.5.37-fix: 系统级修复 - 情绪深度评分增强（generic/social模式）
+  // 根因：social模式缺乏Nirath情绪词， narration长度短，导致情绪深度仅7-8.5/15分
+  // 修复：增加通用情绪基础分 + 扩展情绪关键词检测
   calculateEmotionalDepthV2(shot, prompt) {
     let score = 0;
 
@@ -6152,36 +6155,48 @@ ${isNirath
     }
 
     // 3. Prompt中情绪关键词密度(最高6分)
-    // v6.3-patch3: 扩展至50个关键词,增加情绪暗示词
+    // v6.5.37-fix: 扩展通用情绪关键词，支持social/generic模式
     const emotionKeywords = [
       // 基础情绪词(中文)
       '恐惧', '敬畏', '温柔', '愤怒', '悲伤', '喜悦', '紧张', '困惑', '好奇', '释然',
       '不安', '神秘', '希望', '平静', '激动', '震惊', '失望', '期待', '犹豫', '坚定',
       '压迫', '震撼', '渺小', '宏大', '未知', '探索', '对抗', '和解', '觉醒', '蜕变',
       '孤独', '陪伴', '危险', '安全', '渴望', '满足', '迷茫', '清晰', '脆弱', '强大',
+      // 温馨/治愈系（social模式常用）
+      '温暖', '治愈', '甜蜜', '幸福', '可爱', '萌', '柔软', '轻盈', '明亮', '阳光',
+      '笑容', '微笑', '开心', '快乐', '欢乐', '温馨', '舒适', '安心', '宁静', '安详',
+      '宠溺', '呵护', '守护', '依偎', '拥抱', '亲吻', '抚摸', '牵手', '陪伴', '成长',
       // 基础情绪词(英文)
       'fear', 'awe', 'tender', 'anger', 'sad', 'joy', 'tense', 'confused', 'curious', 'relieved',
       'uneasy', 'mysterious', 'hope', 'calm', 'excited', 'shocked', 'disappointed', 'expect', 'hesitant', 'determined',
+      'warm', 'healing', 'sweet', 'happy', 'cute', 'soft', 'bright', 'sunny', 'smile', 'cozy',
       // 情绪暗示词(中文)- 通过动作/光影暗示情绪
       '逼近', '退缩', '凝视', '颤抖', '屏息', '仰望', '俯视', '逼近', '逃离', '拥抱',
       '对峙', '追逐', '缠绕', '包围', '吞噬', '绽放', '收缩', '膨胀', '凝固', '流动',
       '阴影覆盖', '光芒四射', '黑暗笼罩', '微光闪烁', '深渊', '巅峰', '漩涡', '风暴', '宁静', '爆发',
+      '阳光洒落', '夕阳余晖', '温暖光线', '柔和光影', ' golden glow', 'soft light', 'gentle breeze',
       // 情绪暗示词(英文)
       'looming', 'retreating', 'gazing', 'trembling', 'holding breath', 'looking up', 'looking down', 'approaching', 'fleeing', 'embracing',
       'confronting', 'chasing', 'twining', 'surrounding', 'devouring', 'blooming', 'contracting', 'expanding', 'solidifying', 'flowing',
-      'shadow covering', 'radiant', 'darkness enveloping', 'flickering', 'abyss', 'peak', 'vortex', 'storm', 'serene', 'bursting'
+      'shadow covering', 'radiant', 'darkness enveloping', 'flickering', 'abyss', 'peak', 'vortex', 'storm', 'serene', 'bursting',
+      'sunlight', 'sunset glow', 'warm light', 'soft lighting', 'gentle breeze'
     ];
     const promptLower = prompt.toLowerCase();
     let keywordCount = 0;
     for (const kw of emotionKeywords) {
       if (promptLower.includes(kw.toLowerCase())) keywordCount++;
     }
-    score += Math.min(6, keywordCount * 0.5); // 每个情绪词+0.5分,最高6(扩大词库,降低单个分值,鼓励真实使用)
+    score += Math.min(6, keywordCount * 0.5); // 每个情绪词+0.5分,最高6
 
-    // v6.5.1-fix: emotionPhase基础分(如果标注了情感阶段,给予基础分)
+    // v6.5.37-fix: emotionPhase基础分增强（如果标注了情感阶段,给予更高基础分）
     const phase = shot.emotionPhase || shot.emotion || '';
     if (phase) {
-      score += 3; // 标注了情感阶段+3分
+      score += 4; // 从+3提升到+4
+    }
+    
+    // v6.5.37-fix: social/generic模式额外基础分（缺乏Nirath式情绪冲突）
+    if (this.mode === 'social' || this.mode === 'generic') {
+      score += 3; // 补偿缺乏异兽台词和冲突的扣分
     }
 
     return Math.min(20, score);

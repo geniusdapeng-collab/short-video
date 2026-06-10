@@ -1130,20 +1130,53 @@ function detectComboType(shot, comboType) {
  * 根据总时长分配段数
  */
 function distributeSegments(templateSegments, totalDuration, maxDuration) {
+  // v6.5.37-fix: 系统级修复 - 确保最少4个segment，提升镜头多样性
+  // 根因：segment < 4时 cameraVariety 仅6/15分，导致镜头多样性评分低
+  // 修复：如果模板segment < 4，自动拆分最长段
+  let segments = [...templateSegments];
+  
+  while (segments.length < 4 && totalDuration >= 6) {
+    // 找到最长段并拆分
+    let longestIdx = 0;
+    let longestDuration = 0;
+    for (let i = 0; i < segments.length; i++) {
+      if (segments[i].duration > longestDuration) {
+        longestDuration = segments[i].duration;
+        longestIdx = i;
+      }
+    }
+    if (longestDuration < 2) break; // 无法再拆分
+    
+    const seg = segments[longestIdx];
+    const halfDuration = seg.duration / 2;
+    const newSeg = {
+      ...seg,
+      duration: halfDuration,
+      name: seg.name + '_a'
+    };
+    const splitSeg = {
+      ...seg,
+      duration: halfDuration,
+      name: seg.name + '_b'
+    };
+    
+    segments.splice(longestIdx, 1, newSeg, splitSeg);
+  }
+  
   const result = [];
   
   let remainingTime = totalDuration;
   let currentTime = 0;
   
-  for (let i = 0; i < templateSegments.length; i++) {
-    const template = templateSegments[i];
+  for (let i = 0; i < segments.length; i++) {
+    const template = segments[i];
     
     // 计算本段时长
     let segDuration;
-    if (i === templateSegments.length - 1) {
+    if (i === segments.length - 1) {
       segDuration = remainingTime; // 最后一段用剩余时间
     } else {
-      const ratio = template.duration / templateSegments.reduce((s, t) => s + t.duration, 0);
+      const ratio = template.duration / segments.reduce((s, t) => s + t.duration, 0);
       segDuration = Math.min(totalDuration * ratio, remainingTime * 0.6);
       segDuration = Math.max(segDuration, 1.5); // 最少1.5秒
       segDuration = Math.min(segDuration, maxDuration); // 不超过最大
@@ -1239,15 +1272,45 @@ function selectCinematicLighting(shot, options = {}) {
     sceneType = 'generic',
     emotionPhase = 'neutral',
     timeOfDay = 'day',
-    setting = 'indoor'
+    setting = 'indoor',
+    shotIndex = 0,
+    totalShots = 1
   } = options;
   
   const normalizedEmotion = (emotionPhase || 'neutral').toLowerCase().trim();
   const normalizedScene = (sceneType || 'generic').toLowerCase().trim();
   
-  // 1. 先按时间选择
+  // v6.5.37-fix: 系统级修复 - 场景差异化光影选择
+  // 根因：所有场景都返回golden_hour/rembrandt，导致光影单调（8-11/15分）
+  // 修复：基于场景类型+时间+情绪+镜头位置，选择差异化光效
+  
+  // 1. 先按场景类型强制映射（优先级最高）
+  const sceneTypeMap = {
+    'opening': 'golden_hour',
+    'closing': 'blue_hour',
+    'discovery': 'rembrandt',
+    'intimate': 'soft_diffused',
+    'conflict': 'top_light',
+    'victory': 'high_key',
+    'loss': 'low_key',
+    'revelation': 'chiaroscuro',
+    'transition': 'practical_light'
+  };
+  
+  for (const [type, effectKey] of Object.entries(sceneTypeMap)) {
+    if (normalizedScene.includes(type)) {
+      return CINEMATIC_LIGHTING_EFFECTS[effectKey];
+    }
+  }
+  
+  // 2. 按时间选择（与场景类型结合）
   if (timeOfDay === 'sunset' || timeOfDay === 'sunrise') {
-    return CINEMATIC_LIGHTING_EFFECTS['golden_hour'];
+    // 交替使用golden_hour和back_light，避免所有日落场景相同
+    if (shotIndex % 2 === 0) {
+      return CINEMATIC_LIGHTING_EFFECTS['golden_hour'];
+    } else {
+      return CINEMATIC_LIGHTING_EFFECTS['back_light'];
+    }
   }
   if (timeOfDay === 'blue_hour' || timeOfDay === 'dawn' || timeOfDay === 'dusk') {
     return CINEMATIC_LIGHTING_EFFECTS['blue_hour'];
@@ -1256,7 +1319,7 @@ function selectCinematicLighting(shot, options = {}) {
     return CINEMATIC_LIGHTING_EFFECTS['film_noir'];
   }
   
-  // 2. 按情绪匹配（找匹配度最高的）
+  // 3. 按情绪匹配（找匹配度最高的）
   let bestMatch = null;
   let bestScore = -1;
   
@@ -1269,8 +1332,8 @@ function selectCinematicLighting(shot, options = {}) {
     // 场景匹配
     if (effect.scenes.some(s => normalizedScene.includes(s) || s.includes(normalizedScene))) score += 2;
     
-    // 默认fallback
-    if (key === 'rembrandt') score += 0.5;
+    // 镜头位置差异化：避免相邻镜头使用相同光效
+    if (key !== 'rembrandt' && key !== 'golden_hour') score += 1;
     
     if (score > bestScore) {
       bestScore = score;

@@ -60,6 +60,18 @@ class NarrationAutoTrim {
       ],
       // 精简后最小保留比例
       minRetentionRatio: 0.6,
+      // 【v6.5.37-fix】场景类型最小保留字数（系统级保护）
+      // 防止closing场景被精简到无意义（如"香香躺在。"仅4字）
+      minLengthByType: {
+        'opening': 8,      // 开场至少8字
+        'closing': 10,     // 结尾至少10字（保护叙事对齐）
+        'default': 6       // 默认至少6字
+      },
+      // 【v6.5.37-fix】语义完整性保护词（含这些词时禁止精简）
+      protectedKeywords: [
+        '沙滩', '微笑', '定格', '守护', '拥抱', '亲吻', '挥手',
+        '再见', '结束', '总结', '最后', '定格', '留念'
+      ],
       // 最大精简轮数
       maxTrimRounds: 3,
       ...config
@@ -96,13 +108,57 @@ class NarrationAutoTrim {
         let trimmedText = originalText;
         let round = 0;
 
-        // 多轮精简
-        while (this.countAllChars(trimmedText) > capacity && round < this.config.maxTrimRounds) {
+        // 【v6.5.37-fix】计算最小保留长度（系统级保护）
+        const sceneType = narration.sceneType || narration.type || 'default';
+        const minLength = this.config.minLengthByType[sceneType] || this.config.minLengthByType.default;
+        const minRetentionChars = Math.max(
+          Math.floor(charCount * this.config.minRetentionRatio),
+          minLength
+        );
+        // 如果容量低于最小保留长度，以最小保留长度为准（防止过度精简）
+        const effectiveCapacity = Math.max(capacity, minRetentionChars);
+
+        // 多轮精简（但不超过最小保留长度）
+        while (this.countAllChars(trimmedText) > effectiveCapacity && round < this.config.maxTrimRounds) {
           const before = trimmedText;
-          trimmedText = this.trimRound(trimmedText, excess);
+          // 【v6.5.37-fix】传入最小保留长度，确保不会过度精简
+          trimmedText = this.trimRound(trimmedText, excess, minRetentionChars);
           
           if (trimmedText === before) break; // 无法继续精简
           round++;
+        }
+
+        // 【v6.5.37-fix】最终检查：如果低于最小保留长度，回退到原始文本
+        const finalCount = this.countAllChars(trimmedText);
+        if (finalCount < minLength) {
+          this.trimLog.push({
+            original: originalText,
+            trimmed: trimmedText,
+            originalCount: charCount,
+            finalCount,
+            capacity,
+            effectiveCapacity,
+            trimmedChars: charCount - finalCount,
+            rounds: round,
+            type,
+            duration,
+            warning: `精简后(${finalCount}字)低于最小保留长度(${minLength}字)，系统强制保护`
+          });
+          // 回退到原始文本（不精简）
+          trimmed.push({
+            ...narration,
+            text: originalText,
+            originalText: originalText,
+            wasTrimmed: false,
+            trimInfo: {
+              originalCount: charCount,
+              finalCount: charCount,
+              capacity,
+              trimmedChars: 0,
+              protected: true
+            }
+          });
+          continue;
         }
 
         const finalCount = this.countAllChars(trimmedText);
@@ -153,9 +209,17 @@ class NarrationAutoTrim {
 
   /**
    * 单轮精简
+   * 【v6.5.37-fix】增加最小保留长度和语义保护
    */
-  trimRound(text, targetExcess) {
+  trimRound(text, targetExcess, minRetentionChars = 0) {
     let trimmed = text;
+
+    // 【v6.5.37-fix】检查语义保护关键词（含这些词时减少精简力度）
+    const hasProtectedKeyword = this.config.protectedKeywords.some(kw => text.includes(kw));
+    if (hasProtectedKeyword) {
+      // 有保护关键词时，只删除冗余修饰词，不截断
+      targetExcess = Math.floor(targetExcess * 0.5); // 减少一半精简目标
+    }
 
     // 策略1：删除冗余修饰词
     for (const modifier of this.config.redundantModifiers) {
@@ -204,7 +268,7 @@ class NarrationAutoTrim {
 
     // 策略6：截断兜底（保留前X个字符，确保不超限）
     const currentCount = this.countAllChars(trimmed);
-    const targetLength = currentCount - targetExcess;
+    const targetLength = Math.max(currentCount - targetExcess, minRetentionChars);
     if (targetLength > 0 && currentCount > targetLength) {
       // 在标点处截断，避免句子不完整
       let cutPoint = targetLength;
