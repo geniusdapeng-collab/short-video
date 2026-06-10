@@ -391,27 +391,27 @@ class PromptTierArchitecture {
       audioTemplate = { env: '自然环境音', action: '动作反馈声', emotion: '真实氛围' };
     }
     
-    // L1: 环境音（建立空间定位）
-    parts.push(`【环境音】${audioTemplate.env}`);
+    // L1: 环境音（建立空间定位）- 自然语言格式，Seedance更易理解
+    parts.push(`伴随${audioTemplate.env}`);
     
-    // L2: 动作音（物理真实感）
+    // L2: 动作音（物理真实感）- 自然语言格式
     if (params.actionSound || audioTemplate.action) {
-      parts.push(`【动作音】${params.actionSound || audioTemplate.action}`);
+      parts.push(`动作产生${params.actionSound || audioTemplate.action}`);
     }
     
-    // L3: 情绪音（心理氛围）
+    // L3: 情绪音（心理氛围）- 自然语言格式
     if (params.emotionSound || audioTemplate.emotion) {
-      parts.push(`【情绪音】${params.emotionSound || audioTemplate.emotion}`);
+      parts.push(`氛围弥漫${params.emotionSound || audioTemplate.emotion}`);
     }
     
-    // L4: 音乐线索（可选，如果指定）
+    // L4: 音乐线索（可选，如果指定）- 自然语言格式
     if (params.musicCue) {
-      parts.push(`【音乐线索】${params.musicCue}`);
+      parts.push(`音乐线索${params.musicCue}`);
     }
     
-    // 声画同步标记
+    // 声画同步标记 - 自然语言格式
     if (params.lipSync || params.mouthAction) {
-      parts.push('sound-image synchronized');
+      parts.push('声画精准同步，嘴型与发音对齐');
     }
     
     return parts.join(', ');

@@ -1649,10 +1649,10 @@ function buildAudioDescription(shot, segments) {
     }
   }
   
-  // L1: 环境音
-  parts.push(`【环境音】${template.env}`);
+  // L1: 环境音（建立空间定位）- 自然语言格式，Seedance更易理解
+  parts.push(`伴随${template.env}`);
   
-  // L2: 动作音（基于segment推断）
+  // L2: 动作音（物理真实感）- 自然语言格式
   if (segments && segments.length > 0) {
     const actionSounds = segments.map((seg, i) => {
       const cam = seg.camera || '';
@@ -1665,15 +1665,15 @@ function buildAudioDescription(shot, segments) {
     }).filter((v, i, a) => a.indexOf(v) === i); // 去重
     
     if (actionSounds.length > 0) {
-      parts.push(`【动作音】${actionSounds.join('，')}`);
+      parts.push(`动作产生${actionSounds.join('，')}`);
     } else {
-      parts.push(`【动作音】${template.action}`);
+      parts.push(`动作产生${template.action}`);
     }
   } else {
-    parts.push(`【动作音】${template.action}`);
+    parts.push(`动作产生${template.action}`);
   }
   
-  // L3: 情绪音（按情绪匹配）
+  // L3: 情绪音（心理氛围）- 自然语言格式
   const emotionAudioMap = {
     'warm': '温暖治愈的轻音乐渐入',
     'joy': '欢快的节奏音',
@@ -1686,16 +1686,16 @@ function buildAudioDescription(shot, segments) {
     'resolve': '音乐渐弱，余音缭绕'
   };
   const emotionSound = emotionAudioMap[emotion] || template.emotion;
-  parts.push(`【情绪音】${emotionSound}`);
+  parts.push(`氛围弥漫${emotionSound}`);
   
-  // L4: 音乐线索（如果有指定）
+  // L4: 音乐线索（可选）- 自然语言格式
   if (shot.musicCue) {
-    parts.push(`【音乐线索】${shot.musicCue}`);
+    parts.push(`音乐线索${shot.musicCue}`);
   }
   
-  // 声画同步标记
+  // 声画同步标记 - 自然语言格式
   if (shot.mouthAction || shot.hasDialogue) {
-    parts.push('【声画同步】台词与嘴型精准对齐，环境音自动避让');
+    parts.push('声画精准同步，嘴型与发音对齐，环境音自动避让');
   }
   
   return parts.join('，');

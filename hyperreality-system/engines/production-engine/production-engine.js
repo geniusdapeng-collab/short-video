@@ -22,8 +22,8 @@ function loadModule(name) {
 class ProductionEngine {
   constructor(options = {}) {
     this.config = {
-      maxPromptLength: 980,
-      targetPromptLength: 960,
+      maxPromptLength: 1500,  // v2.0-B+: 从980提升至1500，支持七层架构+音频层
+      targetPromptLength: 1470,  // v2.0-B+: 对应提升
       referenceImageCount: 2,
       outputDir: options.outputDir || '/tmp/hyperreality-output',
       ...options
@@ -471,99 +471,266 @@ class ProductionEngine {
   }
 
   /**
-   * 构建单个镜头的完整 Prompt
+   * 🔊 v2.0-B+: 音频场景映射（极致视听融合）
+   */
+  _getAudioSceneMap() {
+    return {
+      'beach': { env: '海浪轻拍沙滩的白噪音，海鸟远处鸣叫', action: '白沙从指缝流下沙沙声', emotion: '温暖治愈的氛围音' },
+      'ocean': { env: '海浪拍打礁石，海风呼啸', action: '水花溅起声', emotion: '自由辽阔的海洋气息' },
+      'forest': { env: '风吹树叶沙沙声，远处溪流潺潺', action: '脚步声踩落叶', emotion: '宁静安详的自然氛围' },
+      'city': { env: '车流白噪音，远处鸣笛', action: '快门声、键盘敲击', emotion: '都市节奏感' },
+      'home': { env: '室内温暖环境音', action: '婴儿咯咯笑声', emotion: '温馨家庭氛围' },
+      'mountain': { env: '山风呼啸，远处鸟鸣', action: '雪粉飞扬声', emotion: '壮丽寂静的高山氛围' },
+      'studio': { env: '摄影棚安静环境', action: '快门咔嚓声', emotion: '专业专注的工作氛围' }
+    };
+  }
+
+  /**
+   * 🔊 v2.0-B+: 构建音频描述（自然语言格式，Seedance可理解）
+   */
+  _buildAudioDescription(shot) {
+    const parts = [];
+    const sceneName = (shot.sceneName || shot.scene || shot.setting || '').toLowerCase();
+    const emotion = (shot.emotionPhase || shot.emotion || 'neutral').toLowerCase();
+    const timeOfDay = (shot.timeOfDay || shot.lighting?.timeOfDay || 'golden hour').toLowerCase();
+    
+    const audioMap = this._getAudioSceneMap();
+    let template = null;
+    
+    // 匹配场景类型
+    for (const [key, t] of Object.entries(audioMap)) {
+      if (sceneName.includes(key)) {
+        template = t;
+        break;
+      }
+    }
+    
+    // 回退：基于时间
+    if (!template) {
+      if (timeOfDay.includes('night') || timeOfDay.includes('dusk')) {
+        template = { env: '夜晚虫鸣，远处低语', action: '轻柔脚步声', emotion: '神秘宁静的夜晚氛围' };
+      } else {
+        template = { env: '白天环境音', action: '自然动作声', emotion: '明亮日常氛围' };
+      }
+    }
+    
+    // L1: 环境音 - 自然语言格式
+    parts.push(`伴随${template.env}`);
+    
+    // L2: 动作音 - 自然语言格式
+    parts.push(`动作产生${template.action}`);
+    
+    // L3: 情绪音 - 自然语言格式
+    const emotionAudioMap = {
+      'warm': '温暖治愈的轻音乐渐入',
+      'joy': '欢快的节奏音',
+      'tense': '紧张的心跳声渐强',
+      'sad': '低沉的弦乐余韵',
+      'epic': '宏大的交响乐铺垫',
+      'peaceful': '宁静的钢琴轻弹',
+      'establishing': '环境音渐显，氛围建立',
+      'climax': '全频段饱满，情绪峰值',
+      'resolve': '音乐渐弱，余音缭绕'
+    };
+    const emotionSound = emotionAudioMap[emotion] || template.emotion;
+    parts.push(`氛围弥漫${emotionSound}`);
+    
+    // L4: 声画同步（如果含对话）
+    if (shot.dialogueText || shot.hasDialogue) {
+      parts.push('声画精准同步，嘴型与发音对齐');
+    }
+    
+    return parts.join('，');
+  }
+
+  /**
+   * 构建单个镜头的完整 Prompt（v2.0-B+: 七层架构 + 极致视听融合）
+   * 
+   * 七层结构：
+   * L1: 约束层（P0必加）- 画幅/帧率/无字幕
+   * L2: 基础层（P0必加）- 写实度/HDR/胶片质感
+   * L3: 空间层（P1防平庸）- 场景/天气/纵深
+   * L4: 主体层（P2防漂移）- 角色/动作/关系
+   * L5: 动态层（P1防平庸）- 运镜/时间轴
+   * L6: 风格层（P2防漂移）- 色彩/光影/情绪
+   * L7: 音频层（🔊 新增）- 环境音/动作音/情绪音
+   * L8: 质控层（P0必加）- 负面约束/角色一致性
    */
   _buildShotPrompt(shot, blueprint) {
     const parts = [];
     
-    // 1. 风格声明（固定前缀）
-    parts.push('电影级镜头，超写实');
+    // === L1: 约束层（P0必加）===
+    const ratio = blueprint.aspectRatio || shot.ratio || '16:9';
+    parts.push(`${ratio} cinematic, no text, no subtitle, no caption, no watermark, 24fps cinematic`);
     
-    // 2. 世界设定（Nirath）
+    // === L2: 基础层（P0必加）===
+    parts.push('hyperrealistic, ultra-detailed, high dynamic range, detail in highlights and shadows, film grain, 35mm texture, cinematic film');
+    
+    // === L3: 空间层（P1防平庸）===
+    // 世界设定（Nirath）
     if (shot.worldId === 'nirath') {
       parts.push('Nirath星球');
     }
-    
-    // 3. 场景设定
+    // 场景设定
     if (shot.setting) {
       parts.push(shot.setting);
     }
+    // 时间/天气
+    if (shot.timeOfDay || shot.lighting?.timeOfDay) {
+      parts.push(`${shot.timeOfDay || shot.lighting?.timeOfDay} lighting`);
+    }
+    // 空间纵深
+    if (shot.depthLayers || shot.depth) {
+      parts.push(shot.depthLayers || shot.depth || 'atmospheric haze, depth layers');
+    }
     
-    // 4. 角色描述
+    // === L4: 主体层（P2防漂移）===
+    // 角色描述
     if (shot.characterDescs) {
       parts.push(shot.characterDescs);
     }
+    // 主体动作
+    if (shot.action || shot.characterAction) {
+      parts.push(shot.action || shot.characterAction);
+    }
+    // 主体关系
+    if (shot.characterRelation) {
+      parts.push(shot.characterRelation);
+    }
     
-    // 5. 运镜描述
+    // === L5: 动态层（P1防平庸）===
+    // 运镜描述
     if (shot.camera?.movement) {
       parts.push(`${shot.camera.movement}，${shot.camera.shotType}`);
     }
-    
-    // 6. 时间轴（4段式）
+    // 时间轴（4段式）
     if (shot.camera?.timeline) {
       const timelineText = shot.camera.timeline.map(t => 
         `${t.timeRange} ${t.cameraMovement}`
       ).join(' → ');
-      parts.push(`【镜头时间轴】${timelineText}`);
+      parts.push(`镜头时间轴：${timelineText}`);
+    }
+    // 环境动作
+    if (shot.environmentAction) {
+      parts.push(shot.environmentAction);
     }
     
-    // 7. 视觉笔记
+    // === L6: 风格层（P2防漂移）===
+    // 视觉笔记
     if (shot.visualNotes) {
       parts.push(shot.visualNotes);
     }
+    // 色彩方案
+    if (shot.colorScheme || shot.colorTemp) {
+      const cs = shot.colorScheme || 'natural warm tones';
+      parts.push(`color palette: ${cs}`);
+    }
+    // 情绪调性
+    if (shot.emotionPhase || shot.emotion) {
+      const emotionMap = {
+        'establishing': 'serene, awe-inspiring',
+        'rising': 'growing tension, anticipation',
+        'building': 'intensifying drama',
+        'climax': 'peak emotional intensity',
+        'resolve': 'peaceful resolution',
+        'opening': 'epic grandeur',
+        'warm': 'warm, healing, tender',
+        'joy': 'joyful, bright, energetic'
+      };
+      const ep = shot.emotionPhase || shot.emotion || 'neutral';
+      parts.push(emotionMap[ep] || 'cinematic atmosphere');
+    }
+    // 光影（如果指定）
+    if (shot.lighting?.keyLight || shot.lighting?.description) {
+      parts.push(shot.lighting?.description || shot.lighting?.keyLight);
+    }
     
-    // 8. 对话（必须嵌入）
+    // === L7: 音频层（🔊 新增 - 极致视听融合）===
+    const audioDesc = this._buildAudioDescription(shot);
+    if (audioDesc) {
+      parts.push(audioDesc);
+    }
+    
+    // 对话（必须嵌入）
     if (shot.dialogueText) {
       parts.push(`台词：${shot.dialogueText}`);
     }
     
-    // 9. 负面约束
-    parts.push('暗黑风，金属光泽，非自然眼色');
+    // === L8: 质控层（P0必加）===
+    // 负面约束
+    const negativeConstraints = [
+      'blurry, low resolution, pixelated, compression artifacts',
+      'cartoon, anime, illustration, 3D render look, CGI appearance, plastic look',
+      'distorted perspective, impossible geometry, floating objects',
+      'flat lighting, overexposed, crushed blacks, double shadows',
+      'unnatural physics, fake water, static water, cardboard texture, plastic foliage'
+    ];
+    // 人物专项（如果含角色）
+    if (shot.characters?.length > 0 || shot.characterDescs) {
+      negativeConstraints.push('distorted face, deformed face, extra fingers, plastic skin, waxy skin, unnatural pose');
+    }
+    // Nirath专属
+    if (shot.worldId === 'nirath') {
+      negativeConstraints.push('no metallic shine, no traditional Chinese symbols, natural eye colors only');
+    }
+    parts.push(...negativeConstraints);
     
-    // 10. 角色一致性约束
+    // 角色一致性约束
     if (shot.characters?.length > 0) {
-      parts.push(`【角色一致性】保持${shot.characters.join('、')}形象一致`);
+      parts.push(`角色一致性：保持${shot.characters.join('、')}形象一致，杜绝分身重影`);
     }
     
     const fullPrompt = parts.join('，');
     
-    // 截断保护
-    const truncated = this._truncatePrompt(fullPrompt, this.config.maxPromptLength);
+    // 截断保护（v2.0-B+: 1500字符，保留音频层和一致性约束）
+    const truncated = this._truncatePromptWithAudioProtection(fullPrompt, this.config.maxPromptLength);
     
     return {
       fullPrompt: truncated,
       rawPrompt: fullPrompt,
       parts,
-      wasTruncated: fullPrompt.length !== truncated.length
+      wasTruncated: fullPrompt.length !== truncated.length,
+      audioIncluded: !!audioDesc  // 🔊 标记音频是否包含
     };
   }
 
   /**
-   * 字符计数
+   * 🔊 v2.0-B+: 截断保护（保留音频层和角色一致性）
    */
-  _countChars(text) {
-    if (this.modules.charCounter) {
-      return this.modules.charCounter.count(text);
-    }
-    // 回退：简单计数
-    return text.length;
-  }
-
-  /**
-   * 截断 Prompt（保护末尾标签）
-   */
-  _truncatePrompt(prompt, maxLength) {
+  _truncatePromptWithAudioProtection(prompt, maxLength) {
     if (prompt.length <= maxLength) return prompt;
     
-    // 保留最后一段（通常是角色一致性约束）
-    const lastPart = '【角色一致性】保持形象一致，杜绝分身重影';
-    const availableLength = maxLength - lastPart.length - 2;
+    // 保护末尾：角色一致性 + 音频层（如果存在）
+    const lastPart = '角色一致性：保持形象一致，杜绝分身重影';
+    
+    // 检查是否包含音频描述
+    const hasAudio = prompt.includes('伴随') && prompt.includes('氛围弥漫');
+    let audioPart = '';
+    if (hasAudio) {
+      const audioMatch = prompt.match(/伴随[^，]*，[^，]*氛围弥漫[^，]*(?:，[^，]*声画精准同步[^，]*)?/);
+      if (audioMatch) {
+        audioPart = audioMatch[0];
+      }
+    }
+    
+    const protectParts = [lastPart];
+    if (audioPart) protectParts.unshift(audioPart);
+    
+    const protectText = protectParts.join('，');
+    const availableLength = maxLength - protectText.length - 2;
     
     if (availableLength > 50) {
-      return prompt.substring(0, availableLength) + '，' + lastPart;
+      return prompt.substring(0, availableLength) + '，' + protectText;
     }
     
     return prompt.substring(0, maxLength);
+  }
+
+  /**
+   * 截断 Prompt（旧方法，保留向后兼容）
+   */
+  _truncatePrompt(prompt, maxLength) {
+    return this._truncatePromptWithAudioProtection(prompt, maxLength);
   }
 
   /**
