@@ -1002,10 +1002,7 @@ function enhanceShotPrompt(shot, options = {}) {
   const fourCommands = buildFourCommands(shot);
   const enhancedPrompt = mergePrompts(originalPrompt, timelinePrompt + ' | 【人物鲜活度】' + vividnessText + ' | 【顶级指令】' + fourCommands);
   
-  // 6. 注入音频描述（v2.0-B+: 极致视听融合）
-  const audioDescription = buildAudioDescription(shot, segments);
-
-  // 7. 记录增强信息
+  // 6. 记录增强信息
   return {
     ...shot,
     prompt: enhancedPrompt,
@@ -1014,11 +1011,7 @@ function enhanceShotPrompt(shot, options = {}) {
     segments: segments,  // 标准字段
     _segments: segments,  // 兼容旧字段
     _comboType: detectedCombo,
-    _originalPrompt: originalPrompt,
-    // v2.0-B+: 音频层
-    audioDescription: audioDescription,
-    sceneType: detectedCombo,
-    timeOfDay: shot.timeOfDay || shot.lighting?.timeOfDay || 'golden hour'
+    _originalPrompt: originalPrompt
   };
 }
 
@@ -1610,97 +1603,6 @@ function checkLightingProgression(shot) {
   return { pass: true };
 }
 
-/**
- * 🔊 v2.0-B+: 构建音频描述（极致视听融合）
- * 四层声音模型：L1环境音 + L2动作音 + L3情绪音 + L4音乐线索
- */
-function buildAudioDescription(shot, segments) {
-  const parts = [];
-  const sceneName = (shot.scene || '').toLowerCase();
-  const emotion = (shot.emotionPhase || shot.emotion || 'neutral').toLowerCase();
-  const timeOfDay = (shot.timeOfDay || shot.lighting?.timeOfDay || 'golden hour').toLowerCase();
-  
-  // 场景类型音频映射
-  const audioMap = {
-    'beach': { env: '海浪轻拍沙滩的白噪音，海鸟远处鸣叫', action: '白沙从指缝流下沙沙声', emotion: '温暖治愈的氛围音' },
-    'ocean': { env: '海浪拍打礁石，海风呼啸', action: '水花溅起声', emotion: '自由辽阔的海洋气息' },
-    'forest': { env: '风吹树叶沙沙声，远处溪流潺潺', action: '脚步声踩落叶', emotion: '宁静安详的自然氛围' },
-    'city': { env: '车流白噪音，远处鸣笛', action: '快门声、键盘敲击', emotion: '都市节奏感' },
-    'home': { env: '室内温暖环境音', action: '婴儿咯咯笑声', emotion: '温馨家庭氛围' },
-    'mountain': { env: '山风呼啸，远处鸟鸣', action: '雪粉飞扬声', emotion: '壮丽寂静的高山氛围' },
-    'studio': { env: '摄影棚安静环境', action: '快门咔嚓声', emotion: '专业专注的工作氛围' }
-  };
-  
-  // 匹配场景
-  let template = null;
-  for (const [key, t] of Object.entries(audioMap)) {
-    if (sceneName.includes(key)) {
-      template = t;
-      break;
-    }
-  }
-  
-  // 回退：基于时间
-  if (!template) {
-    if (timeOfDay.includes('night') || timeOfDay.includes('dusk')) {
-      template = { env: '夜晚虫鸣，远处低语', action: '轻柔脚步声', emotion: '神秘宁静的夜晚氛围' };
-    } else {
-      template = { env: '白天环境音', action: '自然动作声', emotion: '明亮日常氛围' };
-    }
-  }
-  
-  // L1: 环境音
-  parts.push(`【环境音】${template.env}`);
-  
-  // L2: 动作音（基于segment推断）
-  if (segments && segments.length > 0) {
-    const actionSounds = segments.map((seg, i) => {
-      const cam = seg.camera || '';
-      if (cam.includes('push')) return '推进时的空气流动声';
-      if (cam.includes('pull')) return '拉远时的环境展开声';
-      if (cam.includes('pan')) return '横摇时的空间切换声';
-      if (cam.includes('orbit')) return '环绕时的环绕感';
-      if (cam.includes('handheld')) return '手持时的轻微晃动声';
-      return `${seg.name || '动作'}反馈声`;
-    }).filter((v, i, a) => a.indexOf(v) === i); // 去重
-    
-    if (actionSounds.length > 0) {
-      parts.push(`【动作音】${actionSounds.join('，')}`);
-    } else {
-      parts.push(`【动作音】${template.action}`);
-    }
-  } else {
-    parts.push(`【动作音】${template.action}`);
-  }
-  
-  // L3: 情绪音（按情绪匹配）
-  const emotionAudioMap = {
-    'warm': '温暖治愈的轻音乐渐入',
-    'joy': '欢快的节奏音',
-    'tense': '紧张的心跳声渐强',
-    'sad': '低沉的弦乐余韵',
-    'epic': '宏大的交响乐铺垫',
-    'peaceful': '宁静的钢琴轻弹',
-    'establishing': '环境音渐显，氛围建立',
-    'climax': '全频段饱满，情绪峰值',
-    'resolve': '音乐渐弱，余音缭绕'
-  };
-  const emotionSound = emotionAudioMap[emotion] || template.emotion;
-  parts.push(`【情绪音】${emotionSound}`);
-  
-  // L4: 音乐线索（如果有指定）
-  if (shot.musicCue) {
-    parts.push(`【音乐线索】${shot.musicCue}`);
-  }
-  
-  // 声画同步标记
-  if (shot.mouthAction || shot.hasDialogue) {
-    parts.push('【声画同步】台词与嘴型精准对齐，环境音自动避让');
-  }
-  
-  return parts.join('，');
-}
-
 // ═══════════════════════════════════════════════════════════
 // 导出
 // ═══════════════════════════════════════════════════════════
@@ -1722,9 +1624,6 @@ module.exports = {
   // 检查API（预生产用）
   checkSingleCameraWarning,
   checkLightingProgression,
-  
-  // 🔊 v2.0-B+: 音频描述
-  buildAudioDescription,
   
   // 数据
   CAMERA_ATOMS,

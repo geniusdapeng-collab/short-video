@@ -5833,9 +5833,10 @@ ${isNirath
     // Step 4: 动态表情映射
     const expression = emotionMapper.generateExpression(shot.emotionPhase || 'establishing');
 
-    // Step 5: Tier分层构建Prompt
+    // Step 5: Tier分层构建Prompt (v2.0-B+: 七层架构 + 音频层)
     const tierResult = tierBuilder.build({
       sceneName: shot.scene,
+      sceneType: directorStyle.sceneType || shot.scene,
       sceneCore: sceneManager.getSceneVisualCore(shot.scene, { mode: this.mode }),
       shotType: shot.cameraMovement?.type || shot.shotType || '电影级镜头',
       subject: shot.characters?.map(cid => {
@@ -5850,10 +5851,14 @@ ${isNirath
       action: shot.action || channelResult.visualPrompt.text || '',
       cameraMovement: shot.cameraMovement,
       emotionPhase: shot.emotionPhase || 'establishing',
-      environmentFeatures: sceneData?.environmentTags || [],
+      environmentFeatures: sceneData?.environmentFeatures || sceneData?.environmentTags || [],
       mode: this.mode,
       isOpening: shot.isOpening || false,
       isFirstShot: shot.shotIndex === 0,
+      // v2.0-B+: 音频层参数
+      timeOfDay: shot.lighting?.timeOfDay || sceneData?.timeOfDay || 'golden hour',
+      hasCharacters: !!(shot.characters && shot.characters.length > 0),
+      lipSync: !!(shot.mouthAction || shot.hasDialogue),
       // v6.2-patch80: 导演风格注入
       directorStyle: directorStyle
     });
