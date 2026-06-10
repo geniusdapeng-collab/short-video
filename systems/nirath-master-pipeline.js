@@ -4373,10 +4373,22 @@ ${isNirath
 
       // ========== v6.0-patch23: 自动注入镜头内细分增强 ==========
       const { enhanceShotPrompt } = require('./intra-shot-prompt-enhancer.js');
+      
+      // v6.5.35: 从角色信息中提取年龄和情绪
+      const charId = shot.characters?.[0] || 'adult';
+      const charData = this.characters?.[charId] || {};
+      const characterAge = charData?.profile?.baseIdentity?.ageGroup || 'adult';
+      const emotionPhase = shot.emotionPhase || shot.emotion || 'neutral';
+      const emotionIntensity = shot.emotionIntensity || 'L2';
+      
       const enhanced = enhanceShotPrompt(shot, {
         forceMultiSegment: shot.duration >= 6,
         mergeStrategy: 'append_constraints',
-        maxLength: 1500
+        maxLength: 1500,
+        // v6.5.35: 传入人物鲜活度参数
+        characterAge,
+        emotionPhase,
+        emotionIntensity
       });
 
       // 如果增强后超限,智能裁剪

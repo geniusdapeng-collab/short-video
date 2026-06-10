@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-08T23:17:31.800Z",
+  "updatedAt": "2026-06-09T23:58:52.835Z",
   "entries": {
     "memory:memory/2026-05-15.md:31:42": {
       "key": "memory:memory/2026-05-15.md:31:42",
@@ -405,13 +405,13 @@
       "endLine": 48,
       "source": "memory",
       "snippet": "--- ## 小G定妆照v8-production版本确认（2026-05-20 12:45-12:47） ### 队长确认 \"小G的最新版的定妆照可以的\" ### Production版本更新 **角色档案更新：** - `version`: \"v8-no-text\" → \"v8-production\" - `generatedAssets.portraits` 全部更新为v8-production路径 - `referenceImages` 更新为v8-production路径 **文件重命名：** - `xiaoG-v8-no-text-front.png` → `xiaoG-v8-production-front.png` ✅ - `xiaoG-v8-no-text-threeQuarter.png` → `xiaoG-v8-production-threeQuarter.png` ✅ - `xiaoG-v8-no-text-closeup.png` → `xiaoG-v8-production-closeup.png` ✅ **旧版本归档：** - v7-realistic版本3张 → `portraits/.archive/` ✅ - v6-fixed版本5张 → 保留在根目录（早期版本） **当前生产文件：** ``` portraits/ ├── xiaoG-v8-production-front.png ← 当前production ├── xiaoG-v8-production-threeQuarter.png ← 当前prod",
-      "recallCount": 8,
+      "recallCount": 10,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 3.2434679478406907,
+      "totalScore": 4.015285596251488,
       "maxScore": 0.46544241607189174,
       "firstRecalledAt": "2026-05-22T03:18:11.228Z",
-      "lastRecalledAt": "2026-06-04T15:55:14.781Z",
+      "lastRecalledAt": "2026-06-09T23:58:52.835Z",
       "queryHashes": [
         "5e3b0642771d",
         "8b670dcb4a09",
@@ -420,14 +420,17 @@
         "5b18b1b10061",
         "6e623484ea24",
         "331736fb1a98",
-        "a217c6878eb3"
+        "a217c6878eb3",
+        "30b803947fbb",
+        "a4d18c88c855"
       ],
       "recallDays": [
         "2026-05-22",
         "2026-05-23",
         "2026-05-24",
         "2026-06-03",
-        "2026-06-04"
+        "2026-06-04",
+        "2026-06-10"
       ],
       "conceptTags": [
         "小g定妆照v8-production版本确认",
@@ -4068,6 +4071,68 @@
         "30-23",
         "systems/product",
         "融合"
+      ]
+    },
+    "memory:memory/2026-05-24.md:43:66": {
+      "key": "memory:memory/2026-05-24.md:43:66",
+      "path": "memory/2026-05-24.md",
+      "startLine": 43,
+      "endLine": 66,
+      "source": "memory",
+      "snippet": "- 精卫鸟: 深蓝渐变赤红 → 深褐色如暗流涌动 - 女娲: 琥珀金渐变深海蓝 → 琥珀色如深秋暖阳 → 黑色瞳孔 - 小G: 棕色眼睛 → 黑色瞳孔 ### ASTRALIS Camera Engine v1.0 — Nirath运镜系统 **系统级设计（非单case定制）** **基础运镜库（8种）**: 推/拉/摇/移/升降/环绕/甩/跟 **Nirath专属运镜（5种）**: | 运镜 | 物理绑定 | Seedance关键词 | |------|----------|----------------| | 磁场线跟随 | 30Hz磁场共振+1.2T磁通密度 | camera gliding along magnetic field lines | | 重力漂移升降 | 0.82G低重力+磁场推力 | low gravity camera drift | | 双恒星扫光 | 5800K→6500K色温渐变 | dual star light sweep | | 磁流体轨迹 | 1.2T饱和磁化磁流体 | camera following ferrofluid trail | | 以太孢子流 | 1200/cm³孢子+0.82G | camera floating with glowing spore particles | **Nirath转场（3种）**: 磁流体溶解/孢子消散/磁场线重组 **灯光系统（3种）**: 双恒星色温渐变/磁场光晕脉动/磁流体自发光渐变 **音效设计（4种）**: 30Hz磁场共鸣/磁流体成形/等离子体爆发/孢子低语 **核心能力*",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.362413939833641,
+      "maxScore": 0.362413939833641,
+      "firstRecalledAt": "2026-06-09T23:58:45.008Z",
+      "lastRecalledAt": "2026-06-09T23:58:45.008Z",
+      "queryHashes": [
+        "30b803947fbb"
+      ],
+      "recallDays": [
+        "2026-06-10"
+      ],
+      "conceptTags": [
+        "v1.0",
+        "推/拉/摇/移/升降/环绕/甩/跟",
+        "1.2t磁通密度",
+        "0.82g低重力",
+        "1.2t饱和磁化磁流体",
+        "1200/cm3孢子",
+        "0.82g",
+        "磁流体溶解/孢子消散/磁场线重组"
+      ]
+    },
+    "memory:memory/2026-06-07.md:651:684": {
+      "key": "memory:memory/2026-06-07.md:651:684",
+      "path": "memory/2026-06-07.md",
+      "startLine": 651,
+      "endLine": 684,
+      "source": "memory",
+      "snippet": "- `isCloseup` 重复声明 → 删除下方声明 - `isWide` 重复声明 → 删除下方声明 **验证结果**：S01-S04 每镜头 `@image` 引用数量 = 2（从 8 个下降） **Git commit**: `v6.5.8: 定妆照规范 v1.0 - 核心锚点3个 + 单镜头≤2张 + 角色一致性约束` --- ## v6.5.9: 统一 @Image 格式（大写 I）+ 片头定妆照绑定 **问题**：片头 S00 无定妆照绑定，且 @image 小写不符合官方规范 **修复**： 1. `nirath-master-pipeline.js`：所有 `@image` → `@Image`（大写 I） 2. `opening-system-v3.js`： - 在 `combineActs` 中注入定妆照（小G front + 饕餮 front） - 3 个核心锚点 + 官方格式 `@Image1` / `@Image2` - 返回 `referenceImages` 和 `content` 数组供 pipeline 验证 - 在 prompt 末尾注入角色一致性约束 **队长反馈**：要求全部按官方规范来，去掉方括号字母 `[A]` `[B]` --- ## v6.5.10: 修复片头 MAX_LENGTH 初始化顺序 + 纯官方格式 **问题**：片头系统 `MAX_LENGTH` 在定妆照注入代码之后定义，导致 `Cannot access 'MAX_LENGTH' before initialization",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.35183711647987365,
+      "maxScore": 0.35183711647987365,
+      "firstRecalledAt": "2026-06-09T23:58:45.008Z",
+      "lastRecalledAt": "2026-06-09T23:58:45.008Z",
+      "queryHashes": [
+        "30b803947fbb"
+      ],
+      "recallDays": [
+        "2026-06-10"
+      ],
+      "conceptTags": [
+        "s01-s04",
+        "v6.5.8",
+        "v1.0",
+        "v6.5.9",
+        "nirath-master-pipeline.js",
+        "opening-system-v3.js",
+        "v6.5.10",
+        "max-length"
       ]
     }
   }

@@ -625,7 +625,82 @@ const CAMERA_COMBOS = {
 };
 
 // ═══════════════════════════════════════════════════════════
-// 核心API：增强Prompt
+// v6.5.35: 人物鲜活度注入系统（基于外部专家方案）
+// ═══════════════════════════════════════════════════════════
+
+/**
+ * 情绪→生理反应映射表
+ * 基于文档：AI视频生成系统提示词工程方案 v1.0
+ */
+const EMOTION_PHYSIOLOGY_MAP = {
+  'joy': ['脸颊泛起自然红晕', '眼睛微微眯起带笑意', '嘴角上扬时眼角挤出细纹'],
+  'happy': ['脸颊泛起自然红晕', '眼睛微微眯起带笑意', '嘴角上扬时眼角挤出细纹'],
+  'sad': ['通红的眼眶', '鼻尖微红', '一滴泪在眼角蓄势', '嘴唇微微颤抖'],
+  'grief': ['眼神空洞麻木', '眼下有淡淡青黑色', '嘴唇失去血色', '肩膀微微下沉'],
+  'anger': ['额头青筋微显', '下颌线紧绷', '瞳孔收缩', '鼻翼微微扩张'],
+  'fear': ['瞳孔剧烈收缩', '额头冒出一层冷汗', '手指微微颤抖', '呼吸急促胸口起伏'],
+  'surprise': ['瞳孔瞬间放大', '眉毛上扬', '嘴巴微张', '手不自觉地抬起'],
+  'shy': ['脸颊泛起红晕', '耳朵尖也红了', '眼神闪躲', '手指无意识地绞着衣角'],
+  'tired': ['眼下有明显青黑色', '忍不住打哈欠', '眼皮微微下垂', '肩膀下沉'],
+  'anxious': ['额头渗出细密汗珠', '手指无意识地敲击', '眼神游移', '嘴角微微下压'],
+  'calm': ['呼吸平稳', '眼神柔和', '肩膀自然放松', '嘴角中性'],
+  'neutral': ['表情自然', '眼神平静', '面部肌肉放松'],
+  'proud': ['下巴微微上扬', '眼神坚定', '嘴角自信上扬', '胸膛微微挺起'],
+  'loving': ['眼神温柔如水', '嘴角带着宠溺的笑', '眉心舒展', '脸颊柔和'],
+  'curious': ['眼睛微微睁大', '头微微歪向一侧', '眉毛轻挑', '嘴唇微张'],
+  'confused': ['眉头轻蹙', '眼睛微微眯起', '头微微歪', '嘴角轻微下撇'],
+  'excited': ['眼睛发亮', '嘴角大大上扬', '脸颊泛红', '身体微微前倾']
+};
+
+/**
+ * 皮肤纹理指令集（按角色类型）
+ */
+const SKIN_TEXTURE_TEMPLATES = {
+  infant: ['婴儿皮肤细腻', '可见微小毛孔', '透出自然红润气色', '脸颊有婴儿肥'],
+  child: ['皮肤透出自然红润气色', '可见皮肤毛孔', '拒绝塑料陶瓷肌', '脸颊有自然光泽'],
+  teen: ['皮肤保留毛孔和细纹', '透出自然红润气色', '拒绝过度磨皮效果', '可见皮肤纹理'],
+  adult: ['皮肤保留毛孔、细纹等真实质感', '透出自然红润气色', '拒绝塑料陶瓷肌的过度磨皮效果', '可见皮肤纹理'],
+  middle_age: ['眼角有自然细纹', '皮肤保留真实纹理', '拒绝过度磨皮', '透出健康气色'],
+  elderly: ['皱纹自然', '皮肤纹理真实', '老年斑隐约可见', '拒绝磨皮']
+};
+
+/**
+ * 质感真实化注入器
+ * 根据角色和情绪注入皮肤纹理、生理反应、外观瑕疵
+ */
+function injectVividness(shot, options = {}) {
+  const {
+    characterAge = 'adult',
+    emotionPhase = 'neutral',
+    intensity = 'L2' // L1=极简, L2=含蓄, L3=自然, L4=强烈, L5=爆发
+  } = options;
+
+  const vividnessParts = [];
+  
+  // 1. 皮肤纹理（根据角色年龄）
+  const ageGroup = ['infant', 'child', 'teen', 'adult', 'middle_age', 'elderly'].includes(characterAge) 
+    ? characterAge : 'adult';
+  const skinTemplate = SKIN_TEXTURE_TEMPLATES[ageGroup] || SKIN_TEXTURE_TEMPLATES['adult'];
+  vividnessParts.push(...skinTemplate);
+  
+  // 2. 生理反应（根据情绪）
+  const normalizedEmotion = (emotionPhase || 'neutral').toLowerCase().trim();
+  const physiology = EMOTION_PHYSIOLOGY_MAP[normalizedEmotion] || EMOTION_PHYSIOLOGY_MAP['neutral'];
+  
+  // 根据强度选择反应数量
+  const intensityMap = { 'L1': 1, 'L2': 2, 'L3': 2, 'L4': 3, 'L5': 4 };
+  const count = intensityMap[intensity] || 2;
+  vividnessParts.push(...physiology.slice(0, count));
+  
+  // 3. 动作细节（通用）
+  vividnessParts.push('动作带重量感，身体运动符合物理规律');
+  vividnessParts.push('眼神有灵魂，带符合情绪的微表情');
+  
+  return vividnessParts.join('，');
+}
+
+// ═══════════════════════════════════════════════════════════
+// 核心API：增强Prompt（v6.5.35升级）
 // ═══════════════════════════════════════════════════════════
 
 /**
@@ -640,7 +715,11 @@ function enhanceShotPrompt(shot, options = {}) {
     emotionCurve = null,       // 情绪曲线 [0-1, 0-1, ...]
     forceMultiSegment = true,   // 强制多段（禁止单一运镜超过4秒）
     maxSegmentDuration = 4,    // 最大单段时长
-    lightingFollowEmotion = true // 光影跟随情绪
+    lightingFollowEmotion = true, // 光影跟随情绪
+    // v6.5.35: 新增人物鲜活度参数
+    characterAge = 'adult',
+    emotionPhase = 'neutral',
+    emotionIntensity = 'L2'
   } = options;
 
   const originalPrompt = shot.prompt || shot.description || '';
@@ -673,8 +752,15 @@ function enhanceShotPrompt(shot, options = {}) {
   // 4. 构建时间轴Prompt
   const timelinePrompt = buildTimelinePrompt(segments, shot);
   
-  // 5. 合并原始Prompt + 时间轴
-  const enhancedPrompt = mergePrompts(originalPrompt, timelinePrompt);
+  // v6.5.35: 注入人物鲜活度（皮肤纹理 + 生理反应 + 动作细节）
+  const vividnessText = injectVividness(shot, {
+    characterAge: shot.characterAge || 'adult',
+    emotionPhase: shot.emotionPhase || shot.emotion || 'neutral',
+    intensity: shot.emotionIntensity || 'L2'
+  });
+  
+  // 5. 合并原始Prompt + 时间轴 + 鲜活度
+  const enhancedPrompt = mergePrompts(originalPrompt, timelinePrompt + ' | 【人物鲜活度】' + vividnessText);
   
   // 6. 记录增强信息
   return {
@@ -848,6 +934,113 @@ function distributeSegments(templateSegments, totalDuration, maxDuration) {
 /**
  * 为段分配光影（跟随情绪）
  */
+// ═══════════════════════════════════════════════════════════
+// v6.5.35: 光影智能决策系统（基于外部专家方案）
+// 8种专业光效与情绪映射
+// ═══════════════════════════════════════════════════════════
+
+const CINEMATIC_LIGHTING_EFFECTS = {
+  'golden_hour': {
+    name: '黄金时刻',
+    prompt: '此时正好是落日的黄金时刻，夕阳光线柔和温暖，逆光勾勒出人物身影轮廓，画面呈现温暖氛围，dusty atmosphere',
+    emotions: ['joy', 'happy', 'warm', 'loving', 'proud', 'calm'],
+    scenes: ['outdoor', 'sunset', 'beach', 'grassland', 'proposal']
+  },
+  'blue_hour': {
+    name: '蓝调时刻',
+    prompt: '此时正好是日出前/日落后的蓝调时刻，整个画面色调偏冷，呈现低调蓝色紫色，光线昏暗，低调照明，营造冷静忧郁氛围',
+    emotions: ['sad', 'grief', 'lonely', 'calm', 'anxious'],
+    scenes: ['night', 'city', 'sea', 'platform', 'afterglow']
+  },
+  'rembrandt': {
+    name: '伦勃朗光',
+    prompt: '对人物脸部使用伦勃朗光照明，光源从侧面45度角打来，受光侧脸颊明亮，暗部在眼睛下方形成小的三角形亮斑，暗部眼睛依然能看到眼神光，电影级画面',
+    emotions: ['calm', 'proud', 'neutral', 'loving', 'contemplative'],
+    scenes: ['portrait', 'interview', 'closeup', 'studio']
+  },
+  'top_light': {
+    name: '顶光',
+    prompt: '对人物使用顶光照明，光源垂直在头顶，在人物眼窝处形成明显阴影，下巴和鼻翼下方有深色阴影，制造压迫神秘感觉，画面光影对比强烈',
+    emotions: ['anger', 'fear', 'tense', 'mysterious', 'serious'],
+    scenes: ['interrogation', 'prison', 'office', 'dark_room']
+  },
+  'back_light': {
+    name: '逆光',
+    prompt: '夕阳逆光照射在人物身上，勾勒出人物边缘金色轮廓，形成人物剪影，光线从后方照入，画面呈现温暖氛围，电影级画面',
+    emotions: ['joy', 'happy', 'sad', 'loving', 'hopeful', 'nostalgic'],
+    scenes: ['sunset', 'silhouette', 'farewell', 'romantic']
+  },
+  'hard_light': {
+    name: '硬光',
+    prompt: '对人物使用硬光照明，光线质感硬朗，阴影边缘锋利，明暗对比极大，画面偏冷色调，凸显危险压迫氛围，电影级画面',
+    emotions: ['anger', 'fear', 'danger', 'tense', 'serious'],
+    scenes: ['ruins', 'action', 'military', 'night', 'chase']
+  },
+  'tyndall': {
+    name: '丁达尔光',
+    prompt: '光线从窗户/屋顶/缝隙照入，穿过烟雾/灰尘/水汽出现丁达尔效应，显现出光线的体积和路径，光柱清晰可见，画面明暗对比强烈，电影级画面',
+    emotions: ['mysterious', 'sacred', 'dreamy', 'healing', 'curious'],
+    scenes: ['church', 'forest', 'room', 'ruins', 'morning']
+  },
+  'film_noir': {
+    name: '黑色电影',
+    prompt: '光照使用黑色电影风格，对人物使用侧顶光照明，单一光源，投射出浓厚人物阴影，画面昏暗，光影对比强烈，营造悬疑阴谋感觉',
+    emotions: ['mysterious', 'suspicious', 'danger', 'tense', 'serious'],
+    scenes: ['night', 'street', 'detective', 'retro', 'conspiracy']
+  }
+};
+
+/**
+ * 光影智能决策器
+ * 根据场景类型、情绪、时间段选择最佳光效
+ */
+function selectCinematicLighting(shot, options = {}) {
+  const {
+    sceneType = 'generic',
+    emotionPhase = 'neutral',
+    timeOfDay = 'day',
+    setting = 'indoor'
+  } = options;
+  
+  const normalizedEmotion = (emotionPhase || 'neutral').toLowerCase().trim();
+  const normalizedScene = (sceneType || 'generic').toLowerCase().trim();
+  
+  // 1. 先按时间选择
+  if (timeOfDay === 'sunset' || timeOfDay === 'sunrise') {
+    return CINEMATIC_LIGHTING_EFFECTS['golden_hour'];
+  }
+  if (timeOfDay === 'blue_hour' || timeOfDay === 'dawn' || timeOfDay === 'dusk') {
+    return CINEMATIC_LIGHTING_EFFECTS['blue_hour'];
+  }
+  if (timeOfDay === 'night' || setting === 'dark') {
+    return CINEMATIC_LIGHTING_EFFECTS['film_noir'];
+  }
+  
+  // 2. 按情绪匹配（找匹配度最高的）
+  let bestMatch = null;
+  let bestScore = -1;
+  
+  for (const [key, effect] of Object.entries(CINEMATIC_LIGHTING_EFFECTS)) {
+    let score = 0;
+    
+    // 情绪匹配
+    if (effect.emotions.includes(normalizedEmotion)) score += 3;
+    
+    // 场景匹配
+    if (effect.scenes.some(s => normalizedScene.includes(s) || s.includes(normalizedScene))) score += 2;
+    
+    // 默认fallback
+    if (key === 'rembrandt') score += 0.5;
+    
+    if (score > bestScore) {
+      bestScore = score;
+      bestMatch = effect;
+    }
+  }
+  
+  return bestMatch || CINEMATIC_LIGHTING_EFFECTS['rembrandt'];
+}
+
 function assignLightingToSegments(segments, emotionTags) {
   if (!emotionTags || emotionTags.length === 0) {
     emotionTags = ['宁静'];
@@ -857,8 +1050,22 @@ function assignLightingToSegments(segments, emotionTags) {
     const segment = segments[i];
     const emotion = emotionTags[Math.min(i, emotionTags.length - 1)];
     
-    // 查找匹配的光源
-    const matchedLights = EMOTION_LIGHTING_MAP[emotion] || EMOTION_LIGHTING_MAP['宁静'];
+    // v6.5.35: 使用光影智能决策器
+    const cinematicLight = selectCinematicLighting(segment, {
+      sceneType: segment.sceneType || 'generic',
+      emotionPhase: emotion,
+      timeOfDay: segment.timeOfDay || 'day',
+      setting: segment.setting || 'indoor'
+    });
+    
+    if (cinematicLight) {
+      segment.primaryLight = {
+        id: 'cinematic_' + cinematicLight.name,
+        name: cinematicLight.name,
+        colorTemp: 5000, // 默认值
+        prompt: cinematicLight.prompt
+      };
+    }
     
     // 如果有动态光变需求（段内光变）
     if (i < segments.length - 1 && segment.emotion !== segments[i + 1]?.emotion) {
@@ -869,18 +1076,6 @@ function assignLightingToSegments(segments, emotionTags) {
       } else if (segment.emotion === '温暖' && nextEmotion === '忧伤') {
         segment.lightingTransition = 'LIT-V03'; // 色温漂移
       }
-    }
-    
-    // 分配主光源
-    const lightId = matchedLights[i % matchedLights.length];
-    const light = LIGHTING_ATOMS[lightId];
-    if (light) {
-      segment.primaryLight = {
-        id: lightId,
-        name: light.name,
-        colorTemp: light.colorTemp,
-        prompt: light.prompt
-      };
     }
   }
 }
@@ -1080,6 +1275,10 @@ module.exports = {
   getLightingForEmotion,
   isEnhanced,
   
+  // v6.5.35: 新增人物鲜活度与光影智能API
+  injectVividness,
+  selectCinematicLighting,
+  
   // 检查API（预生产用）
   checkSingleCameraWarning,
   checkLightingProgression,
@@ -1089,5 +1288,9 @@ module.exports = {
   LIGHTING_ATOMS,
   EMOTION_LIGHTING_MAP,
   CAMERA_COMBOS,
+  // v6.5.35: 新增数据导出
+  EMOTION_PHYSIOLOGY_MAP,
+  SKIN_TEXTURE_TEMPLATES,
+  CINEMATIC_LIGHTING_EFFECTS,
   INTRA_SHOT_VERSION
 };
