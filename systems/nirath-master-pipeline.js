@@ -6044,7 +6044,18 @@ ${isNirath
       `DIRECTOR: ${directorText}`
     ];
 
-    return fields.join(' | ');
+    let result = fields.join(' | ');
+
+    // 保留原始自然语言Prompt的丰富视觉描述，避免信息丢失
+    const originalPrompt = (prompt || '').trim();
+    if (originalPrompt.length > 0) {
+      const remaining = 1500 - result.length - 3; // 预留 " | " 分隔符
+      if (remaining > 50) {
+        result += ' | ' + originalPrompt.substring(0, remaining);
+      }
+    }
+
+    return result;
   }
 
   ensureFinalPromptStructure(shot, prompt) {
