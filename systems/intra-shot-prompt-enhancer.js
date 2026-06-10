@@ -1614,94 +1614,268 @@ function checkLightingProgression(shot) {
 }
 
 /**
- * 🔊 v2.0-B+: 构建音频描述（极致视听融合）
- * 四层声音模型：L1环境音 + L2动作音 + L3情绪音 + L4音乐线索
+ * 🔊 v2.0-Audio: 极致视听融合 - 四层音效纵深体系
+ * L1环境音 + L2动作音 + L3情绪音 + L4音乐线索
+ * 基于《极致视听融合方案》v2.0 Audio专用版
+ */
+
+// 场景音频映射字典：场景类型→四层音频参数（含声学规格）
+const SCENE_AUDIO_MAP = {
+  // ───────────── 自然场景 ─────────────
+  'beach': {
+    tier: {
+      ambient: '海浪轻拍循环声场，海鸥远鸣间隔3-8s，海风低频底噪，-22LUFS',
+      action: 'SANDFALL沙粒从指缝流下沙沙声，高频3-10kHz，脚踩沙压缩声',
+      emotion: '温暖治愈感，微弱心跳68BPM，80Hz低频正弦波铺底',
+      musical: '钢琴轻弹C大调，60BPM延音踏板，音符间呼吸感'
+    },
+    acoustic: { reverb: 'long(2.5s)', stereoWidth: 1.0, frequencyProfile: 'low_emphasis' }
+  },
+  'ocean': {
+    tier: {
+      ambient: '海浪拍打礁石，海风呼啸，-20LUFS，宽立体声',
+      action: '水花溅起声，泡沫嘶嘶声，WATER_SPLASH全频瞬态',
+      emotion: '自由辽阔的海洋气息，低频嗡鸣铺底',
+      musical: '弦乐长音铺底，自然音阶，缓慢自由节奏'
+    },
+    acoustic: { reverb: 'very_long(4s)', stereoWidth: 1.0, frequencyProfile: 'full_range' }
+  },
+  'forest': {
+    tier: {
+      ambient: '风吹树叶沙沙声，远处溪流潺潺，虫鸣鸟叫层叠，-20LUFS',
+      action: '脚步声踩落叶脆响声，树枝折断声，手掌摩擦树皮声',
+      emotion: '宁静神秘感，呼吸声放慢，心率下降暗示',
+      musical: '木管乐器轻柔旋律，自然音阶，缓慢自由节奏'
+    },
+    acoustic: { reverb: 'medium(1.2s)', stereoWidth: 0.8, frequencyProfile: 'mid_high_emphasis' }
+  },
+  'mountain': {
+    tier: {
+      ambient: '狂风呼啸声，远处回音，极高海拔寂静感，-24LUFS',
+      action: '碎石滚落声，登山杖触地声，厚重衣物摩擦声',
+      emotion: '壮阔孤独感，心跳加速80BPM，肾上腺素暗示',
+      musical: '弦乐长音铺底，铜管辉煌动机，史诗感'
+    },
+    acoustic: { reverb: 'very_long(4s)', stereoWidth: 1.0, frequencyProfile: 'full_range' }
+  },
+  // ───────────── 城市场景 ─────────────
+  'city': {
+    tier: {
+      ambient: '车流白噪音，远处鸣笛，人群嘈杂，建筑反射声，-18LUFS',
+      action: '快速脚步水泥地声，车门关闭声，手机铃声',
+      emotion: '繁忙焦虑感，心跳加速90BPM，时间紧迫感',
+      musical: '电子合成器快节奏，低鼓驱动，都市感'
+    },
+    acoustic: { reverb: 'short(0.6s)', stereoWidth: 0.6, frequencyProfile: 'full_range_bright' }
+  },
+  'cyberpunk': {
+    tier: {
+      ambient: '霓虹灯电流嗡嗡声，雨声密集层叠，电子脉冲底噪，-20LUFS',
+      action: '机械义肢关节咔嗒声，水花溅起声，金属碰撞高频瞬态',
+      emotion: '紧张压迫感，低频不规律心跳，高科技疏离感',
+      musical: '合成器Bass重低音，工业节奏，失真效果'
+    },
+    acoustic: { reverb: 'long_wet(3s)', stereoWidth: 1.0, frequencyProfile: 'bass_heavy' }
+  },
+  // ───────────── 室内场景 ─────────────
+  'home': {
+    tier: {
+      ambient: '空调低频嗡鸣，钟表滴答，远处厨房器皿声，-26LUFS',
+      action: '沙发坐下轻微弹簧声，茶杯放下瓷器碰撞声，翻书声',
+      emotion: '温馨安心感，缓慢心跳60BPM，家的安全感',
+      musical: '钢琴或吉他轻柔独奏，爵士和弦，温暖音色'
+    },
+    acoustic: { reverb: 'short_dry(0.4s)', stereoWidth: 0.5, frequencyProfile: 'warm_mid' }
+  },
+  'studio': {
+    tier: {
+      ambient: '摄影棚安静环境，设备低频嗡鸣，-24LUFS',
+      action: '快门咔嚓声，调节设备金属声，脚步木地板声',
+      emotion: '专业专注的工作氛围，心率平稳',
+      musical: '极简背景音，无显著音乐线索'
+    },
+    acoustic: { reverb: 'short_dry(0.3s)', stereoWidth: 0.5, frequencyProfile: 'neutral' }
+  },
+  // ───────────── 特殊场景 ─────────────
+  'space': {
+    tier: {
+      ambient: '真空寂静为主，宇航服呼吸声，飞船引擎极远低频嗡鸣(<60Hz)，-28LUFS',
+      action: '金属舱门气压密封声，按钮按下电子声，磁力靴吸附声',
+      emotion: '浩瀚孤独感，微弱心跳，人类渺小感',
+      musical: '极简电子氛围长音Pad，无限混响'
+    },
+    acoustic: { reverb: 'infinite', stereoWidth: 1.0, frequencyProfile: 'minimal_low' }
+  }
+};
+
+// 动作-音效映射表（用于L2动作音推断）
+const ACTION_SOUND_MAP = {
+  'hand_grab_sand': { type: 'SANDFALL', frequency: '3-10kHz', duration: 800, desc: '沙粒从指缝流下沙沙声' },
+  'footstep_sand': { type: 'SAND_STEP', frequency: '200Hz-2kHz', duration: 300, desc: '脚踩沙子压缩声' },
+  'footstep_water': { type: 'WATER_STEP', frequency: 'full_range', duration: 400, desc: '水花溅起声' },
+  'baby_laugh': { type: 'BABY_LAUGH', frequency: '500Hz-4kHz', duration: 1500, desc: '婴儿咯咯笑声' },
+  'water_splash': { type: 'WATER_SPLASH', frequency: 'full_range', duration: 600, desc: '水花溅起声' },
+  'door_open': { type: 'DOOR_OPEN', frequency: 'low_transient', duration: 500, desc: '门轴声+空气压力变化' },
+  'page_turn': { type: 'PAGE_TURN', frequency: '2-8kHz', duration: 400, desc: '纸张摩擦声' },
+  'glass_clink': { type: 'GLASS_CLINK', frequency: 'high_transient', duration: 200, desc: '玻璃碰撞高频瞬态' },
+  'rain_heavy': { type: 'RAIN_HEAVY', frequency: 'mid_high', duration: 5000, desc: '密集雨滴声' },
+  'wind_gust': { type: 'WIND_GUST', frequency: 'low_mid', duration: 2000, desc: '狂风呼啸声' }
+};
+
+// 情绪-音效映射表（用于L3情绪音推断）
+const EMOTION_AUDIO_MAP = {
+  'warm': { texture: '温暖治愈感', bpm: '68BPM', frequency: '80Hz低频铺底', physiological: '副交感激活' },
+  'joy': { texture: '欢快喜悦感', bpm: '120BPM', frequency: '高频闪烁>5kHz', physiological: '多巴胺释放' },
+  'tense': { texture: '紧张压迫感', bpm: '100BPM', frequency: '极低频+高频刺耳', physiological: '肾上腺素' },
+  'sad': { texture: '悲伤怀旧感', bpm: '50BPM', frequency: '弦乐泛音+远距离回声', physiological: '心率降低' },
+  'epic': { texture: '壮阔史诗感', bpm: '80BPM', frequency: '全频饱满', physiological: '肾上腺素' },
+  'peaceful': { texture: '宁静禅意感', bpm: '60BPM', frequency: '全频柔和无尖锐', physiological: '副交感激活' },
+  'mysterious': { texture: '神秘未知感', bpm: '不规则', frequency: '极简频谱突然变化', physiological: '好奇心警觉' },
+  'establishing': { texture: '环境音渐显氛围建立', bpm: '60BPM', frequency: '自然 ambient', physiological: '平静' },
+  'climax': { texture: '全频段饱满情绪峰值', bpm: '120BPM', frequency: '全频动态', physiological: '肾上腺素峰值' },
+  'resolve': { texture: '音乐渐弱余音缭绕', bpm: '50BPM', frequency: '低频衰减', physiological: '平静恢复' },
+  'neutral': { texture: '自然平衡氛围', bpm: '72BPM', frequency: '自然 ambient', physiological: '平静' }
+};
+
+/**
+ * 注入音频描述到Prompt（场景化音频模板引擎）
+ * @param {string} prompt — 原始视频生成Prompt
+ * @param {string} sceneType — 场景类型（如 'beach', 'city'）
+ * @returns {string} — 增强后的Prompt（含音频层描述）
+ */
+function injectAudioDescription(prompt, sceneType) {
+  const audioConfig = SCENE_AUDIO_MAP[sceneType];
+  if (!audioConfig) {
+    console.warn(`[AudioInjection] 场景类型 "${sceneType}" 暂无音频模板，使用通用默认`);
+    return appendGenericAudioLayer(prompt);
+  }
+
+  const { tier, acoustic } = audioConfig;
+
+  const audioLayerDescription = `
+[声音层 — 四层音效体系]
+L1 环境音: ${tier.ambient} [声学: ${acoustic.reverb}混响, 立体声宽${acoustic.stereoWidth}]
+L2 动作音: ${tier.action}
+L3 情绪音: ${tier.emotion}
+L4 音乐线索: ${tier.musical}
+频率避让: L4避开1-4kHz对话频段 | L2侧重2-8kHz高频瞬态 | L3侧重<500Hz低频潜意识
+`.trim();
+
+  return `${prompt}\n\n${audioLayerDescription}`;
+}
+
+/**
+ * 通用默认音频层（当场景类型未匹配时使用）
+ */
+function appendGenericAudioLayer(prompt) {
+  return `${prompt}\n\n[声音层] 环境音（建立场景空间感）+ 动作音（主体动作反馈）+ 情绪音（心理氛围渲染）+ 音乐线索（情绪基调）。声画同步，情绪一致。`;
+}
+
+/**
+ * 🔊 v2.0-Audio: 构建音频描述（极致视听融合）
+ * 四层音效纵深体系：L1环境音 + L2动作音 + L3情绪音 + L4音乐线索
+ * 基于《极致视听融合方案》v2.0 Audio专用版
  */
 function buildAudioDescription(shot, segments) {
-  const parts = [];
   const sceneName = (shot.scene || '').toLowerCase();
   const emotion = (shot.emotionPhase || shot.emotion || 'neutral').toLowerCase();
   const timeOfDay = (shot.timeOfDay || shot.lighting?.timeOfDay || 'golden hour').toLowerCase();
-  
-  // 场景类型音频映射
-  const audioMap = {
-    'beach': { env: '海浪轻拍沙滩的白噪音，海鸟远处鸣叫', action: '白沙从指缝流下沙沙声', emotion: '温暖治愈的氛围音' },
-    'ocean': { env: '海浪拍打礁石，海风呼啸', action: '水花溅起声', emotion: '自由辽阔的海洋气息' },
-    'forest': { env: '风吹树叶沙沙声，远处溪流潺潺', action: '脚步声踩落叶', emotion: '宁静安详的自然氛围' },
-    'city': { env: '车流白噪音，远处鸣笛', action: '快门声、键盘敲击', emotion: '都市节奏感' },
-    'home': { env: '室内温暖环境音', action: '婴儿咯咯笑声', emotion: '温馨家庭氛围' },
-    'mountain': { env: '山风呼啸，远处鸟鸣', action: '雪粉飞扬声', emotion: '壮丽寂静的高山氛围' },
-    'studio': { env: '摄影棚安静环境', action: '快门咔嚓声', emotion: '专业专注的工作氛围' }
-  };
-  
-  // 匹配场景
-  let template = null;
-  for (const [key, t] of Object.entries(audioMap)) {
+
+  // 匹配场景音频模板
+  let sceneKey = null;
+  const sceneKeys = Object.keys(SCENE_AUDIO_MAP);
+  for (const key of sceneKeys) {
     if (sceneName.includes(key)) {
-      template = t;
+      sceneKey = key;
       break;
     }
   }
-  
-  // 回退：基于时间
+
+  // 回退：基于时间或通用默认
+  let template = sceneKey ? SCENE_AUDIO_MAP[sceneKey].tier : null;
   if (!template) {
     if (timeOfDay.includes('night') || timeOfDay.includes('dusk')) {
-      template = { env: '夜晚虫鸣，远处低语', action: '轻柔脚步声', emotion: '神秘宁静的夜晚氛围' };
+      template = {
+        ambient: '夜晚虫鸣，远处低语，-24LUFS',
+        action: '轻柔脚步声',
+        emotion: '神秘宁静的夜晚氛围，心跳60BPM',
+        musical: '极简背景音，无显著音乐线索'
+      };
     } else {
-      template = { env: '白天环境音', action: '自然动作声', emotion: '明亮日常氛围' };
+      template = {
+        ambient: '白天环境音，自然 ambient，-22LUFS',
+        action: '自然动作声',
+        emotion: '明亮日常氛围，心率平稳72BPM',
+        musical: '极简背景音'
+      };
     }
   }
-  
-  // L1: 环境音（建立空间定位）- 自然语言格式，Seedance更易理解
-  parts.push(`伴随${template.env}`);
-  
-  // L2: 动作音（物理真实感）- 自然语言格式
+
+  // 获取情绪音频映射
+  const emotionAudio = EMOTION_AUDIO_MAP[emotion] || EMOTION_AUDIO_MAP['neutral'];
+
+  // 构建四层音频描述（紧凑格式，适合Seedance Prompt）
+  const parts = [];
+
+  // L1 环境音（Ambient Layer）- 建立声学指纹
+  parts.push(`L1:${template.ambient}`);
+
+  // L2 动作音（Action/Foley Layer）- 主体动作反馈
+  let actionDesc = template.action;
   if (segments && segments.length > 0) {
-    const actionSounds = segments.map((seg, i) => {
+    const actionSounds = segments.map((seg) => {
       const cam = seg.camera || '';
-      if (cam.includes('push')) return '推进时的空气流动声';
-      if (cam.includes('pull')) return '拉远时的环境展开声';
-      if (cam.includes('pan')) return '横摇时的空间切换声';
-      if (cam.includes('orbit')) return '环绕时的环绕感';
-      if (cam.includes('handheld')) return '手持时的轻微晃动声';
+      if (cam.includes('push')) return '推进空气流动声';
+      if (cam.includes('pull')) return '拉远环境展开声';
+      if (cam.includes('pan')) return '横摇空间切换声';
+      if (cam.includes('orbit')) return '环绕环绕感';
+      if (cam.includes('handheld')) return '手持轻微晃动声';
       return `${seg.name || '动作'}反馈声`;
-    }).filter((v, i, a) => a.indexOf(v) === i); // 去重
-    
+    }).filter((v, i, a) => a.indexOf(v) === i);
+
     if (actionSounds.length > 0) {
-      parts.push(`动作产生${actionSounds.join('，')}`);
-    } else {
-      parts.push(`动作产生${template.action}`);
+      actionDesc = actionSounds.join('，');
     }
-  } else {
-    parts.push(`动作产生${template.action}`);
   }
-  
-  // L3: 情绪音（心理氛围）- 自然语言格式
-  const emotionAudioMap = {
-    'warm': '温暖治愈的轻音乐渐入',
-    'joy': '欢快的节奏音',
-    'tense': '紧张的心跳声渐强',
-    'sad': '低沉的弦乐余韵',
-    'epic': '宏大的交响乐铺垫',
-    'peaceful': '宁静的钢琴轻弹',
-    'establishing': '环境音渐显，氛围建立',
-    'climax': '全频段饱满，情绪峰值',
-    'resolve': '音乐渐弱，余音缭绕'
-  };
-  const emotionSound = emotionAudioMap[emotion] || template.emotion;
-  parts.push(`氛围弥漫${emotionSound}`);
-  
-  // L4: 音乐线索（可选）- 自然语言格式
+  parts.push(`L2:${actionDesc}`);
+
+  // L3 情绪音（Emotional Layer）- 心理氛围渲染
+  parts.push(`L3:${emotionAudio.texture}，${emotionAudio.bpm}，${emotionAudio.frequency}`);
+
+  // L4 音乐线索（Musical Cue Layer）- 情绪基调与叙事
   if (shot.musicCue) {
-    parts.push(`音乐线索${shot.musicCue}`);
+    parts.push(`L4:${shot.musicCue}`);
+  } else if (template.musical && template.musical !== '极简背景音，无显著音乐线索') {
+    parts.push(`L4:${template.musical}`);
   }
-  
-  // 声画同步标记 - 自然语言格式
+
+  // 频率避让规则（压缩格式）
+  parts.push('避让:L4避1-4kHz|L2侧重2-8kHz|L3侧重<500Hz');
+
+  // 声画同步标记
   if (shot.mouthAction || shot.hasDialogue) {
-    parts.push('声画精准同步，嘴型与发音对齐，环境音自动避让');
+    parts.push('同步:嘴型与发音对齐，环境音自动避让');
   }
-  
-  return parts.join('，');
+
+  return parts.join(' | ');
+}
+
+/**
+ * 从动作推断音效（用于声画同步引擎）
+ * @param {string} action — 动作标识符
+ * @returns {Object|null} — 音效参数
+ */
+function matchActionToSound(action) {
+  return ACTION_SOUND_MAP[action] || null;
+}
+
+/**
+ * 获取场景音频配置（外部查询用）
+ * @param {string} sceneType — 场景类型
+ * @returns {Object|null} — 完整音频配置
+ */
+function getSceneAudioConfig(sceneType) {
+  return SCENE_AUDIO_MAP[sceneType] || null;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1726,8 +1900,11 @@ module.exports = {
   checkSingleCameraWarning,
   checkLightingProgression,
   
-  // 🔊 v2.0-B+: 音频描述
+  // 🔊 v2.0-Audio: 极致视听融合 - 四层音效纵深体系
   buildAudioDescription,
+  injectAudioDescription,
+  matchActionToSound,
+  getSceneAudioConfig,
   
   // 数据
   CAMERA_ATOMS,
@@ -1738,5 +1915,9 @@ module.exports = {
   EMOTION_PHYSIOLOGY_MAP,
   SKIN_TEXTURE_TEMPLATES,
   CINEMATIC_LIGHTING_EFFECTS,
+  // v2.0-Audio: 音频数据导出
+  SCENE_AUDIO_MAP,
+  ACTION_SOUND_MAP,
+  EMOTION_AUDIO_MAP,
   INTRA_SHOT_VERSION
 };

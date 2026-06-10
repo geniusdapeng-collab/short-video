@@ -34,7 +34,7 @@ const { globalNegativePromptInjector } = require('./global-negative-prompts.js')
 const StandardV3 = require('./prompt-standard-v3');  // v3.0: 智能检测+自动修复(旁路)
 
 // ========== 新增:镜头内Prompt增强器(v6.0-patch23融入) ==========
-const { IntraShotPromptEnhancer } = require('./intra-shot-prompt-enhancer.js');
+const { buildAudioDescription, injectAudioDescription } = require('./intra-shot-prompt-enhancer.js');
 const { CalibrationEngine, PRD_TEMPLATE } = require('../shanhaijing-render-engine/story-prd-template-v21.js');
 const { RequirementContract, AlignmentGate } = require('../seedance-director/scripts/requirement-alignment-gate.js');
 const { SchemaRuntimeValidator } = require('../seedance-director/scripts/schema-validator.js');
@@ -5999,7 +5999,11 @@ ${isNirath
         /动作产生[^，。,；;]*/g,
         /氛围弥漫[^，。,；;]*/g,
         /音乐线索[^，。,；;]*/g,
-        /声画精准同步[^，。,；;]*/g
+        /声画精准同步[^，。,；;]*/g,
+        /L1:[^|]+/g,
+        /L2:[^|]+/g,
+        /L3:[^|]+/g,
+        /L4:[^|]+/g
       ]
         .flatMap((re) => prompt.match(re) || [])
         .join('，'),
@@ -7048,55 +7052,121 @@ ${isNirath
    * 注入：环境动作物理描述替代抽象声音描述
    * 示例：不用"轻柔风声"，而用"wind blowing through tall grass, blades bending and rustling, leaves scattering"
    */
+  /**
+   * v6.5.33-audio: 极致视听融合 - 四层音效纵深体系
+   * 基于《极致视听融合方案》v2.0 Audio专用版
+   * L1环境音 + L2动作音 + L3情绪音 + L4音乐线索
+   * 
+   * 策略：
+   * 1. 如果shot有scene信息，优先使用buildAudioDescription生成4层格式
+   * 2. 如果已有音频文本，在其基础上增强为4层格式
+   * 3. 保留英文物理描述作为L2动作音
+   */
   enhanceAudioWithMethodology(audioText, shot) {
-    if (!audioText || audioText.length < 3) return audioText;
-    
-    // 如果已经是英文物理描述为主，跳过增强
-    if (/\b(wind blowing|water splashing|leaves rustling|waves crashing|fire crackling|rain hitting|thunder rumbling)\b/i.test(audioText)) {
+    if (!audioText || audioText.length < 3) audioText = '';
+
+    // 如果shot有场景信息，使用buildAudioDescription生成完整的4层音频描述
+    if (shot && shot.scene && buildAudioDescription) {
+      try {
+        const fourLayerAudio = buildAudioDescription(shot, shot._segments || []);
+        if (fourLayerAudio && fourLayerAudio.length > 10) {
+          return fourLayerAudio;
+        }
+      } catch (e) {
+        // 如果buildAudioDescription失败，回退到原有逻辑
+        console.warn('[AudioEnhancement] buildAudioDescription failed, falling back:', e.message);
+      }
+    }
+
+    // 如果已经是4层格式（包含L1: L2: L3: L4:），直接返回
+    if (/L1:.*L2:.*L3:/.test(audioText)) {
       return audioText;
     }
-    
-    // 场景类型 → 环境动作物理声音映射
-    const sceneLower = (shot.scene || '').toLowerCase();
-    const environmentSounds = [];
-    
-    if (sceneLower.includes('ocean') || sceneLower.includes('海') || sceneLower.includes('water') || sceneLower.includes('水')) {
-      environmentSounds.push('waves crashing against rocks, water splashing and spraying, foam hissing');
-    }
-    if (sceneLower.includes('wind') || sceneLower.includes('风') || sceneLower.includes('storm') || sceneLower.includes('storm')) {
-      environmentSounds.push('wind rushing through atmosphere, air turbulence, debris scattering and tumbling');
-    }
-    if (sceneLower.includes('forest') || sceneLower.includes('林') || sceneLower.includes('jungle') || sceneLower.includes('丛')) {
-      environmentSounds.push('leaves rustling and swaying, branches creaking, vegetation moving in breeze');
-    }
-    if (sceneLower.includes('rain') || sceneLower.includes('雨') || sceneLower.includes('wet')) {
-      environmentSounds.push('raindrops hitting surface, water dripping, concentric ripples expanding');
-    }
-    if (sceneLower.includes('fire') || sceneLower.includes('火') || sceneLower.includes('flame') || sceneLower.includes('焰')) {
-      environmentSounds.push('flames flickering and crackling, wood popping, embers scattering and fading');
-    }
-    if (sceneLower.includes('mountain') || sceneLower.includes('山') || sceneLower.includes('cliff') || sceneLower.includes('崖')) {
-      environmentSounds.push('rock particles shifting, stone surface texture resonance, atmospheric pressure changes');
-    }
-    
-    // 情绪阶段 → 声音动态映射
-    const phase = shot.emotionPhase || 'neutral';
-    const soundDynamics = {
-      'establishing': 'gentle ambient soundscape, subtle environmental textures, quiet background hum',
-      'rising': 'building sound intensity, increasing environmental dynamics, growing tension in audio',
-      'building': 'intensifying audio layers, accumulating sound energy, dynamic range expanding',
-      'climax': 'maximum sound intensity, explosive audio dynamics, peak environmental resonance',
-      'climax_peak': 'extreme audio saturation, full spectrum sound burst, peak acoustic energy',
-      'resolve': 'sound decaying naturally, settling into calm, gentle ambient fade',
-      'resolution': 'sound decaying naturally, settling into calm, gentle ambient fade',
-      'neutral': 'natural ambient soundscape, balanced environmental audio, realistic background texture'
+
+    // 回退：在现有音频文本基础上增强4层格式
+    const parts = [];
+    const sceneLower = (shot?.scene || '').toLowerCase();
+    const emotion = (shot?.emotionPhase || shot?.emotion || 'neutral').toLowerCase();
+
+    // L1: 环境音（建立声学指纹）
+    const l1Map = {
+      'ocean': 'waves crashing against rocks, seagull distant calls, wind coastal breeze, -22LUFS',
+      '海': 'waves crashing, seagull distant calls, wind coastal breeze, -22LUFS',
+      'water': 'water flowing, stream babbling, gentle liquid sounds, -20LUFS',
+      '水': 'water flowing, stream babbling, gentle liquid sounds, -20LUFS',
+      'forest': 'leaves rustling, branches creaking, distant stream, bird calls, -20LUFS',
+      '林': 'leaves rustling, branches creaking, distant stream, bird calls, -20LUFS',
+      'city': 'traffic white noise, distant horns, crowd murmur, building reflections, -18LUFS',
+      '城': 'traffic white noise, distant horns, crowd murmur, building reflections, -18LUFS',
+      'home': 'air conditioning hum, clock ticking, distant kitchen sounds, -26LUFS',
+      '家': 'air conditioning hum, clock ticking, distant kitchen sounds, -26LUFS',
+      'mountain': 'wind howling, distant echo, high altitude silence, -24LUFS',
+      '山': 'wind howling, distant echo, high altitude silence, -24LUFS',
+      'rain': 'raindrops hitting surface, water dripping, concentric ripples, -20LUFS',
+      '雨': 'raindrops hitting surface, water dripping, concentric ripples, -20LUFS',
+      'fire': 'flames flickering, wood popping, embers scattering, crackling, -18LUFS',
+      '火': 'flames flickering, wood popping, embers scattering, crackling, -18LUFS'
     };
-    const dynamics = soundDynamics[phase] || soundDynamics['neutral'];
-    
-    const parts = [audioText];
-    if (environmentSounds.length > 0) parts.push(...environmentSounds);
-    parts.push(dynamics);
-    
+    let l1 = 'natural ambient soundscape, subtle environmental textures, -22LUFS';
+    for (const [key, val] of Object.entries(l1Map)) {
+      if (sceneLower.includes(key)) { l1 = val; break; }
+    }
+    parts.push(`L1:${l1}`);
+
+    // L2: 动作音（物理真实感）
+    let l2 = audioText;
+    if (!l2 || l2.length < 3) {
+      l2 = 'natural action sounds, physical movement feedback';
+    }
+    // 如果包含中文，保留作为L2；如果已经是英文物理描述，直接使用
+    parts.push(`L2:${l2}`);
+
+    // L3: 情绪音（心理氛围）
+    const l3Map = {
+      'warm': 'warm healing texture, heartbeat 68BPM, 80Hz sub-bass pad, -20LUFS',
+      'joy': 'joyful bright texture, high frequency sparkle >5kHz, dopamine release暗示',
+      'tense': 'tense压迫感, heartbeat 100BPM+, irregular low pulse, adrenaline暗示',
+      'sad': 'sad nostalgic texture, string harmonics, distant echo, heart rate decrease暗示',
+      'epic': 'epic grandeur texture, full spectrum, 80BPM, adrenaline暗示',
+      'peaceful': 'peaceful zen texture, 60BPM, full frequency soft, no harsh components',
+      'mysterious': 'mysterious unknown texture, irregular low pulse, minimal spectrum sudden change',
+      'climax': 'climax peak texture, full spectrum saturation, 120BPM, extreme dynamics',
+      'resolve': 'resolve fading texture, 50BPM, low frequency decay, gentle ambient fade',
+      'neutral': 'neutral balanced texture, natural ambient, 72BPM steady'
+    };
+    const l3 = l3Map[emotion] || l3Map['neutral'];
+    parts.push(`L3:${l3}`);
+
+    // L4: 音乐线索（情绪基调）
+    if (shot?.musicCue) {
+      parts.push(`L4:${shot.musicCue}`);
+    } else {
+      const l4Map = {
+        'warm': 'piano C major single notes, 60BPM, sustain pedal, warm narrative melody',
+        'joy': 'bright synth arpeggio, 120BPM, uplifting motif, high frequency sparkle',
+        'tense': 'low synth bass pulse, industrial rhythm, distortion effects, 100BPM',
+        'sad': 'string ensemble long tones, vibrato, distant reverberation, 50BPM',
+        'epic': 'brass fanfare motifs, orchestral percussion, cinematic grandeur',
+        'peaceful': 'minimal piano or wind chimes, natural scale, almost imperceptible',
+        'mysterious': 'minimal electronic pad, sudden tonal shifts, long reverb tail',
+        'climax': 'full orchestra crescendo, percussion drive, peak intensity',
+        'resolve': 'piano fading notes, long reverb tail, gentle resolution',
+        'neutral': 'minimal ambient pad, no prominent musical cue'
+      };
+      const l4 = l4Map[emotion] || l4Map['neutral'];
+      if (l4 !== 'minimal ambient pad, no prominent musical cue') {
+        parts.push(`L4:${l4}`);
+      }
+    }
+
+    // 频率避让规则
+    parts.push('避让:L4避1-4kHz|L2侧重2-8kHz|L3侧重<500Hz');
+
+    // 声画同步标记
+    if (shot?.mouthAction || shot?.hasDialogue) {
+      parts.push('同步:lip-sync precise alignment, ambient auto-ducking');
+    }
+
     return parts.join(' | ');
   }
 
