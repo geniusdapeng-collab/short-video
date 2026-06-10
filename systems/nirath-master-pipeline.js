@@ -4652,35 +4652,53 @@ ${isNirath
 
           // 1. 微动作增强(人类角色)
           if (this.modules.microMotionAdapter && hasHuman) {
-            const mmInput = {
-              shotId: shot.id,
-              character: shot.characters?.find(c => {
-                if (!this.modules.beastMotionAdapter) return true;
-                return this.modules.beastMotionAdapter.extractBeastsFromShot({ characters: [c] }).length === 0;
-              }) || '',
-              emotion: shot.emotionPhase || shot.emotion || '',
-              emotionIntensity: shot.importance === 'critical' ? 5 : shot.importance === 'high' ? 4 : 3,
-              cameraDistance: shot.shotSize || 'medium',
-              duration: shot.duration || 5,
-              originalPrompt: prompt,
-              type: shot.type || ''
-            };
-            const mmResult = this.modules.microMotionAdapter.enhance(mmInput, {
-              sceneType: 'nirath',
-              style: '超写实科幻'
-            });
-            if (mmResult.enhanced && mmResult.enhanced !== prompt) {
-              motionEnhanced = mmResult.enhanced;
-              motionLog.push(`微动作+${(mmResult.enhanced.length - prompt.length)}字符`);
+            try {
+              const mmInput = {
+                shotId: shot.id,
+                character: shot.characters?.find(c => {
+                  if (!this.modules.beastMotionAdapter) return true;
+                  return this.modules.beastMotionAdapter.extractBeastsFromShot({ characters: [c] }).length === 0;
+                }) || '',
+                emotion: shot.emotionPhase || shot.emotion || '',
+                emotionIntensity: shot.importance === 'critical' ? 5 : shot.importance === 'high' ? 4 : 3,
+                cameraDistance: shot.shotSize || 'medium',
+                duration: shot.duration || 5,
+                originalPrompt: prompt,
+                type: shot.type || ''
+              };
+              const mmResult = this.modules.microMotionAdapter.enhance(mmInput, {
+                sceneType: 'nirath',
+                style: '超写实科幻'
+              });
+              // v6.5.5-fix: 增强必须比原始长，否则拒绝替换（防内容丢失）
+              if (mmResult.enhanced && mmResult.enhanced.length > prompt.length * 0.9) {
+                if (mmResult.enhanced !== prompt) {
+                  motionEnhanced = mmResult.enhanced;
+                  motionLog.push(`微动作+${(mmResult.enhanced.length - prompt.length)}字符`);
+                }
+              } else {
+                motionLog.push(`微动作跳过(结果${mmResult.enhanced?.length || 0}字符<原始${prompt.length}字符)`);
+              }
+            } catch (e) {
+              motionLog.push(`微动作异常:${e.message}`);
             }
           }
 
           // 2. 异兽动作增强(异兽角色)
           if (this.modules.beastMotionAdapter && hasBeast) {
-            const beastResult = this.modules.beastMotionAdapter.enhanceShotWithBeastMotion(shot, motionEnhanced);
-            if (beastResult.enhanced && beastResult.enhanced !== motionEnhanced && beastResult.beastsFound > 0) {
-              motionEnhanced = beastResult.enhanced;
-              motionLog.push(`异兽动作(${beastResult.beastsFound}只)+${beastResult.addedLength}字符`);
+            try {
+              const beastResult = this.modules.beastMotionAdapter.enhanceShotWithBeastMotion(shot, motionEnhanced);
+              // v6.5.5-fix: 增强必须比原始长，否则拒绝替换（防内容丢失）
+              if (beastResult.enhanced && beastResult.enhanced.length > motionEnhanced.length * 0.9) {
+                if (beastResult.enhanced !== motionEnhanced && beastResult.beastsFound > 0) {
+                  motionEnhanced = beastResult.enhanced;
+                  motionLog.push(`异兽动作(${beastResult.beastsFound}只)+${beastResult.addedLength}字符`);
+                }
+              } else {
+                motionLog.push(`异兽动作跳过(结果${beastResult.enhanced?.length || 0}字符<原始${motionEnhanced.length}字符)`);
+              }
+            } catch (e) {
+              motionLog.push(`异兽动作异常:${e.message}`);
             }
           }
 
@@ -4736,6 +4754,20 @@ ${isNirath
               motionEnhanced = motionEnhanced.replace(/,\s*,/g, ',').replace(/\s{2,}/g, ' ').trim();
               motionLog.push('残留星号清理');
             }
+          }
+
+          // v6.5.5-fix: 增强后标记完整性检查——如果丢失核心标记，从原始prompt恢复
+          const coreMarkers = ['【角色】', '【场景】', '【动作】', '【叙事】', '【视觉】', '【音频】'];
+          const lostMarkers = coreMarkers.filter(m => !motionEnhanced.includes(m) && prompt.includes(m));
+          if (lostMarkers.length > 0) {
+            this.log('STAGE-11', `  ⚠️ 增强后丢失核心标记: ${lostMarkers.join(', ')} | 从原始prompt恢复`);
+            for (const marker of lostMarkers) {
+              const match = prompt.match(new RegExp(`${marker}[^【]*`));
+              if (match && motionEnhanced.length + match[0].length <= 1500) {
+                motionEnhanced += ` | ${match[0]}`;
+              }
+            }
+            motionLog.push(`标记恢复+${lostMarkers.length}个`);
           }
 
           prompt = motionEnhanced;
@@ -4844,6 +4876,26 @@ ${isNirath
         const before = charCounter.count(prompt);
         prompt = this.finalFillPrompt(prompt, shot.id);
         this.log('STAGE-11', `  📏 最终兜底补齐: ${shot.id} | ${before} → ${charCounter.count(prompt)}字符`);
+      }
+      
+      // v6.5.5-fix: 最终标记完整性检查——确保核心标记存在，否则从 shot.prompt 恢复
+      const finalCoreMarkers = ['【角色】', '【场景】', '【动作】', '【叙事】', '【视觉】'];
+      const finalLostMarkers = finalCoreMarkers.filter(m => !prompt.includes(m) && shot.prompt && shot.prompt.includes(m));
+      if (finalLostMarkers.length > 0) {
+        this.log('STAGE-11', `  ⚠️ 最终标记丢失: ${finalLostMarkers.join(', ')} | 从 shot.prompt 恢复`);
+        for (const marker of finalLostMarkers) {
+          const match = shot.prompt.match(new RegExp(`${marker}[^【]*`));
+          if (match && prompt.length + match[0].length <= 1500) {
+            prompt += ` | ${match[0]}`;
+          }
+        }
+        if (prompt.length > 1500) {
+          prompt = this.smartTrim(prompt, 1500, {
+            preserve: ['叙事', '视觉', '角色', '场景', '动作', '音频', '镜头时间轴', '旁白/台词'],
+            trim: ['辅助运镜', '光影细节补充', '环境质感', '环境音效', '技术规格', '照明方案']
+          });
+        }
+        this.log('STAGE-11', `  ✅ 最终标记恢复: ${shot.id} | 恢复后${prompt.length}字符`);
       }
       
       // v6.5.8-fix: 定妆照规范 v1.0 — 核心锚点3个 + 单镜头≤2张 + 角色一致性约束
