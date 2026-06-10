@@ -1,0 +1,82 @@
+{
+  "projectName": "香香马尔代夫海边之旅 - 15秒超短裙",
+  "videoType": "social",
+  "worldview": "温馨日常记录:小卓妈妈用千问AI眼镜S1在马尔代夫海边拍摄香香的快乐时光。椰树下,阳光柔和,海风轻拂,记录下婴儿最纯真的笑容。",
+  "scenes": [
+    {
+      "id": "S01",
+      "name": "椰树下初见",
+      "description": "马尔代夫海边，高大的椰树下，白色沙滩。香香像小飞毛腿一样，一溜烟爬到沙滩巾上，啪地拍了一巴掌沙子，然后咯咯笑起来。小卓温柔守护，同时戴千问AI眼镜俯身拍摄。",
+      "type": "hook",
+      "duration": 5
+    },
+    {
+      "id": "S02",
+      "name": "快乐探索",
+      "description": "香香像小兔子一样飞速爬向海浪，小手啪地拍湿沙子，水珠飞溅。突然哇地哭了，然后马上张开双臂要抱抱。小卓笑着抱起她，同时通过AI眼镜记录这搞笑瞬间。",
+      "type": "climax",
+      "duration": 5
+    },
+    {
+      "id": "S03",
+      "name": "温馨定格",
+      "description": "香香躺在沙滩巾上，咯咯笑着露出灿烂笑容。小卓温柔地看着女儿，香香突然伸手要抱抱，小卓抱起她转圈圈，同时通过千问AI眼镜捕捉特写，夕阳金色光芒洒满海滩。",
+      "type": "resolution",
+      "duration": 5
+    }
+  ],
+  "characters": {
+    "xiangXiang": {
+      "id": "xiangXiang",
+      "name": "香香",
+      "role": "主角",
+      "age": "7个月",
+      "traits": ["活泼好动", "笑容迷人", "好奇心强"],
+      "capabilities": ["爬行", "快速爬行", "翻身", "抓握", "拍打", "触摸", "牙牙学语", "笑", "哭", "求抱抱"],
+      "limitations": ["不会站立", "不会行走", "不会奔跑", "不会说话"],
+      "clothing": "粉色婴儿连体衣"
+    },
+    "xiaoZhuo": {
+      "id": "xiaoZhuo",
+      "name": "小卓",
+      "role": "香香的妈妈",
+      "age": "35岁",
+      "gender": "female",
+      "traits": ["温柔", "细心", "充满母爱"],
+      "appearance": {
+        "eyes": "大大的眼睛",
+        "forehead": "饱满的额头",
+        "chin": "尖尖的下巴",
+        "nose": "高挺的鼻梁",
+        "overall": "五官长得很匀称,笑起来很好看",
+        "hair": "扎着马尾"
+      },
+      "clothing": "休闲舒适的沙滩装",
+      "capabilities": ["行走", "说话", "微笑", "拥抱", "保护", "照顾"],
+      "limitations": []
+    }
+  },
+  "commercial": {
+    "productId": "千问ai智能眼镜",
+    "productName": "千问AI智能眼镜S1",
+    "strategy": "integrated",
+    "placement": {
+      "S01": { "position": "face", "visibility": "medium", "action": "拍摄中" },
+      "S02": { "position": "face", "visibility": "high", "action": "AR记录" },
+      "S03": { "position": "face", "visibility": "medium", "action": "特写拍摄" }
+    }
+  },
+  "settings": {
+    "location": "马尔代夫海边",
+    "environment": "椰树下白色沙滩",
+    "lighting": "自然阳光,柔和 golden hour",
+    "mood": "温馨、快乐、治愈",
+    "cameraStyle": "手持记录感,温暖滤镜"
+  },
+  "duration": 15,
+  "targetDuration": 15,
+  "style": "社媒营销短片风格,咔咔咔节奏,视觉炸裂,爆发力拉满,信息密度叠满,抖音级冲击力,转化率导向",
+  "maxDuration": 15,
+  "shotCount": 3,
+  "generateAudio": true
+}

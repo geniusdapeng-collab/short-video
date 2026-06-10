@@ -1,0 +1,42 @@
+{
+  "name": "千问AI智能眼镜",
+  "brand": "千问（Qwen）",
+  "category": "wearable",
+  "model": "千问AI眼镜S1",
+  "description": "阿里巴巴旗下千问2026年4月推出的旗舰款AI眼镜，定位为随身超级AI助理。双目Micro LED + 双光机，4000尼特峰值亮度，高通骁龙AR1平台，千问大模型驱动。",
+  "visualFeatures": {
+    "color": "深空黑/哑光黑镜框",
+    "shape": "流线型方框，轻薄设计",
+    "logo": "镜腿内侧Qwen字样，底部有夸克中文标识",
+    "texture": "哑光金属质感，镜腿有触控条纹理，镜片有AR光效",
+    "size": "标准眼镜尺寸，佩戴舒适"
+  },
+  "usageScenarios": [
+    "面部佩戴（第一人称视角）",
+    "AR界面显示（导航/信息浮现）",
+    "手持展示（镜腿/触控细节）",
+    "镜片反光（AR光效特写）"
+  ],
+  "implantStrategy": {
+    "hook": "AR界面亮起 reveal（黑暗中镜片突然显示信息）",
+    "climax": "佩戴者视角，AR界面浮现数据流（与饕餮对视时显示分析数据）",
+    "resolution": "眼镜特写定格，镜片反射倒影（Logo清晰可见）"
+  },
+  "id": "千问ai智能眼镜",
+  "portraits": {
+    "closeup": "portraits/closeup.png",
+    "side": "portraits/side.png"
+  },
+  "createdAt": "2026-06-09T05:47:36.156Z",
+  "updatedAt": "2026-06-09T05:56:01.757Z",
+  "usageCount": 0,
+  "usageHistory": [],
+  "specs": {
+    "display": "双目Micro LED + 双光机，4000尼特峰值亮度",
+    "interaction": "多模态AI + 语音视觉，所见即问",
+    "battery": "双电池热插拔，全天候续航",
+    "chip": "高通骁龙AR1平台",
+    "camera": "1200万像素，3K视频录制",
+    "ai": "千问大模型驱动"
+  }
+}
