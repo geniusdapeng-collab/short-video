@@ -6044,12 +6044,21 @@ ${isNirath
       resolution: '温柔收束',
       neutral: '自然平衡'
     };
-    const moodText = moodMap[shot.emotionPhase] || '自然氛围';
+    const moodText = this.enhanceMoodWithMethodology(moodMap[shot.emotionPhase] || '自然氛围', shot);
+
+    // v6.5.33-methodology: 增强SCENE字段 — 空间五维描述法 + 纵深构建
+    const enhancedScene = this.enhanceSceneWithMethodology(scene, shot);
+
+    // v6.5.33-methodology: 增强ACTION字段 — 动作三层模型 + 物理动词词库
+    const enhancedAction = this.enhanceActionWithMethodology(actionText, shot);
+
+    // v6.5.33-methodology: 增强CHARACTER字段 — 主体四维模型
+    const enhancedCharacter = this.enhanceCharacterWithMethodology(characterText, shot);
 
     const fields = [
-      `CHARACTER: ${characterText || '人物出场，形象明确'}`,
-      `ACTION: ${actionText}`,
-      `SCENE: ${scene || '场景环境明确，空间关系清晰'}`,
+      `CHARACTER: ${enhancedCharacter || characterText || '人物出场，形象明确'}`,
+      `ACTION: ${enhancedAction || actionText}`,
+      `SCENE: ${enhancedScene || scene || '场景环境明确，空间关系清晰'}`,
       `MOOD: ${moodText}`,
       `CAMERA: ${enhancedCamera || cameraText || '35mm lens, eye level medium shot, steady tracking shot'}`,
       `LIGHTING: ${lightingText || '自然光，明暗层次清晰'}`,
@@ -6815,6 +6824,220 @@ ${isNirath
     }
     
     return parts.join(', ');
+  }
+
+  /**
+   * v6.5.33-methodology: 使用方法论色彩科学体系增强MOOD字段
+   * 基于《AI视频生成提示词工程方法论》5.1色彩方案 + 5.3色温控制
+   * 注入：color palette(主色/辅色/强调色) + 色温 + 饱和度/对比度 + 动态范围
+   */
+  enhanceMoodWithMethodology(moodBase, shot) {
+    if (!moodBase || moodBase.length < 2) return moodBase;
+    
+    // 情绪阶段 → 色彩方案映射（方法论5.1）
+    const colorSchemeMap = {
+      'establishing': 'color palette: deep teal shadows + warm amber highlights + subtle gold accents, natural HDR',
+      'rising': 'color palette: cool blue shadows + warm orange highlights, high contrast, building tension',
+      'building': 'color palette: earth tones + olive green + warm amber, moderate saturation, accumulating energy',
+      'climax': 'color palette: intense warm orange + deep crimson + golden highlights, high saturation, dramatic contrast',
+      'climax_peak': 'color palette: intense warm red + deep crimson + bright gold accents, maximum saturation, extreme contrast',
+      'resolve': 'color palette: soft pastel warm + gentle cream + muted gold, low saturation, warm monochrome',
+      'resolution': 'color palette: soft pastel warm + gentle cream + muted gold, low saturation, warm monochrome',
+      'neutral': 'color palette: natural balanced tones + daylight neutral, moderate saturation, standard contrast'
+    };
+    
+    // 情绪阶段 → 色温映射（方法论5.3）
+    const colorTempMap = {
+      'establishing': '4500K neutral warm, soft white',
+      'rising': '5600K daylight balanced, transitioning to 3200K warm',
+      'building': '4000K neutral warm, soft transition',
+      'climax': '3200K tungsten warm, golden intense',
+      'climax_peak': '2500K sunset warm, extreme warm glow',
+      'resolve': '4000K neutral warm, gentle soft white',
+      'resolution': '4000K neutral warm, gentle soft white',
+      'neutral': '5600K daylight balanced, neutral'
+    };
+    
+    // 情绪阶段 → 动态范围映射（方法论2.7.3）
+    const dynamicRangeMap = {
+      'establishing': 'HDR, high dynamic range, detail in highlights and shadows',
+      'rising': 'HDR, high dynamic range, strong tonal contrast',
+      'building': 'HDR, moderate dynamic range, building contrast',
+      'climax': 'high contrast, dramatic lighting, deep shadows and bright highlights',
+      'climax_peak': 'high contrast, crushed blacks, blown highlights, extreme dynamic range',
+      'resolve': 'low contrast, muted tones, soft shadows, gentle dynamic range',
+      'resolution': 'low contrast, muted tones, soft shadows, gentle dynamic range',
+      'neutral': 'standard dynamic range, SDR, balanced contrast'
+    };
+    
+    const phase = shot.emotionPhase || 'neutral';
+    const colorScheme = colorSchemeMap[phase] || colorSchemeMap['neutral'];
+    const colorTemp = colorTempMap[phase] || colorTempMap['neutral'];
+    const dynamicRange = dynamicRangeMap[phase] || dynamicRangeMap['neutral'];
+    
+    return `${moodBase} | ${colorScheme} | ${colorTemp} | ${dynamicRange}`;
+  }
+
+  /**
+   * v6.5.33-methodology: 使用方法论空间五维描述法增强SCENE字段
+   * 基于《AI视频生成提示词工程方法论》2.4.1空间五维描述法 + 2.4.2空间纵深构建技术
+   * 注入：宏观地理 + 中观地貌 + 微观材质 + 天气时间 + 空间关系(前景/中景/背景)
+   */
+  enhanceSceneWithMethodology(scene, shot) {
+    if (!scene || scene.length < 3) return scene;
+    
+    // 如果已经包含英文空间描述，跳过增强
+    if (/\b(foreground|midground|background|atmospheric haze|leading lines|depth)\b/i.test(scene)) {
+      return scene;
+    }
+    
+    // 空间纵深构建关键词（方法论2.4.2）
+    const depthCues = [
+      'foreground detail establishing depth',
+      'midground subject focal point',
+      'background environmental scale reference',
+      'atmospheric haze creating depth separation',
+      'aerial perspective with color shift in distance'
+    ];
+    
+    // 根据镜头类型选择纵深策略
+    let depthCue = depthCues[0];
+    if (shot.shotType === 'extreme_wide' || shot.shotType === 'wide') {
+      depthCue = 'massive scale environment dominating frame, foreground mist, midground subject, background mountains, atmospheric haze';
+    } else if (shot.shotType === 'close' || shot.shotType === 'extreme_close') {
+      depthCue = 'shallow depth of field, creamy bokeh background, foreground detail texture, midground subject isolated';
+    } else if (shot.shotType === 'medium') {
+      depthCue = 'foreground detail, midground subject clear, background softly blurred, atmospheric depth';
+    }
+    
+    // 天气时间增强（如果scene中没有）
+    let weatherTime = '';
+    if (!/\b(golden hour|blue hour|midday|sunset|sunrise|overcast|dawn|dusk|twilight|night)\b/i.test(scene)) {
+      const weatherTimeMap = {
+        'establishing': 'golden hour, warm sunlight, long shadows',
+        'rising': 'late afternoon, side lighting, warm tones',
+        'building': 'transitioning light, dynamic cloud patterns',
+        'climax': 'dramatic sunset, intense golden light, vivid sky colors',
+        'climax_peak': 'peak sunset, intense warm glow, dramatic sky',
+        'resolve': 'soft diffused light, gentle atmosphere, peaceful ambiance',
+        'resolution': 'soft diffused light, gentle atmosphere, peaceful ambiance',
+        'neutral': 'daylight balanced, natural lighting, clear atmosphere'
+      };
+      weatherTime = weatherTimeMap[shot.emotionPhase] || weatherTimeMap['neutral'];
+    }
+    
+    const parts = [scene];
+    if (depthCue) parts.push(depthCue);
+    if (weatherTime) parts.push(weatherTime);
+    
+    return parts.join(', ');
+  }
+
+  /**
+   * v6.5.33-methodology: 使用方法论动作三层模型增强ACTION字段
+   * 基于《AI视频生成提示词工程方法论》2.3.1动作三层模型 + 2.3.2动作动词词库
+   * 注入：主体动作(Subject Action) + 环境动作(Environment Action) + 镜头动作(Camera Action)
+   * 物理动词优先：surge/crash/blow/sway 替代形容词
+   */
+  enhanceActionWithMethodology(actionText, shot) {
+    if (!actionText || actionText.length < 3) return actionText;
+    
+    // 如果已经是英文物理动词为主，跳过增强
+    if (/\b(surge|crash|spray|ripple|churn|cascade|blow|swirl|drift|billow|flicker|roar|sway|rustle|crumble|slide)\b/i.test(actionText)) {
+      return actionText;
+    }
+    
+    // 动作三层模型增强（方法论2.3.1）
+    // 1. 主体动作层：已在actionText中
+    // 2. 环境动作层：根据场景类型推断
+    let environmentAction = '';
+    const sceneLower = (shot.scene || '').toLowerCase();
+    if (sceneLower.includes('ocean') || sceneLower.includes('海') || sceneLower.includes('water') || sceneLower.includes('水')) {
+      environmentAction = 'water waves surging and crashing, spray particles airborne, white foam forming';
+    } else if (sceneLower.includes('wind') || sceneLower.includes('风') || sceneLower.includes('storm') || sceneLower.includes('storm')) {
+      environmentAction = 'wind blowing through atmosphere, particles swirling and drifting, dust and debris scattering';
+    } else if (sceneLower.includes('forest') || sceneLower.includes('林') || sceneLower.includes('tree') || sceneLower.includes('树')) {
+      environmentAction = 'vegetation swaying and rustling, leaves scattering in wind, branches bending';
+    } else if (sceneLower.includes('mountain') || sceneLower.includes('山') || sceneLower.includes('cliff') || sceneLower.includes('崖')) {
+      environmentAction = 'atmospheric particles drifting, dust in sunlight, distant haze moving';
+    } else if (sceneLower.includes('fire') || sceneLower.includes('火') || sceneLower.includes('flame') || sceneLower.includes('焰')) {
+      environmentAction = 'flames flickering and dancing, smoke rising and drifting, embers scattering';
+    }
+    
+    // 3. 镜头动作层：根据情绪阶段推断
+    let cameraAction = '';
+    const cameraActionMap = {
+      'establishing': 'camera slow push-in, gradual approach, steady dolly in',
+      'rising': 'camera tracking shot following subject, moderate pace movement',
+      'building': 'camera orbit around subject, rotating perspective, increasing speed',
+      'climax': 'camera rapid movement, whip pan, extreme fast tracking, dynamic angle change',
+      'climax_peak': 'camera maximum speed movement, lightning fast pan, intense dynamic framing',
+      'resolve': 'camera slow-down, gentle static hold, final framing lock',
+      'resolution': 'camera slow-down, gentle static hold, final framing lock',
+      'neutral': 'steady camera movement, smooth tracking, natural pace'
+    };
+    cameraAction = cameraActionMap[shot.emotionPhase] || cameraActionMap['neutral'];
+    
+    const parts = [actionText];
+    if (environmentAction) parts.push(environmentAction);
+    if (cameraAction) parts.push(cameraAction);
+    
+    return parts.join(' | ');
+  }
+
+  /**
+   * v6.5.33-methodology: 使用方法论主体四维模型增强CHARACTER字段
+   * 基于《AI视频生成提示词工程方法论》2.2.2主体描述四维模型
+   * 注入：形态(Form) + 材质(Material) + 状态(State) + 关系(Relation)
+   */
+  enhanceCharacterWithMethodology(characterText, shot) {
+    if (!characterText || characterText.length < 3) return characterText;
+    
+    // 如果已经包含形态/材质/状态/关系描述，跳过增强
+    if (/\b(form|material|state|relation|shape|texture|posture|position)\b/i.test(characterText)) {
+      return characterText;
+    }
+    
+    // 主体四维模型映射（方法论2.2.2）
+    // 形态：已在characterText中（外形、轮廓、比例、数量）
+    // 材质：根据角色类型推断表面质感
+    let materialDesc = '';
+    if (characterText.includes(' skin') || characterText.includes('皮肤') || characterText.includes('face') || characterText.includes('脸')) {
+      materialDesc = 'natural skin texture, subsurface scattering, realistic surface detail';
+    } else if (characterText.includes('cloth') || characterText.includes('fabric') || characterText.includes('衣') || characterText.includes('服')) {
+      materialDesc = 'fabric material with woven texture, cloth simulation, natural draping and folds';
+    } else if (characterText.includes('fur') || characterText.includes('hair') || characterText.includes('毛') || characterText.includes('发')) {
+      materialDesc = 'hair/fur dynamics, individual strand detail, wind-responsive movement';
+    } else if (characterText.includes('metal') || characterText.includes('armor') || characterText.includes('金') || characterText.includes('甲')) {
+      materialDesc = 'metallic surface with specular highlights, brushed texture, realistic reflection';
+    }
+    
+    // 状态：根据情绪阶段推断动作状态
+    let stateDesc = '';
+    const stateMap = {
+      'establishing': 'standing still, calm posture, relaxed state',
+      'rising': 'beginning movement, alert posture, preparing action',
+      'building': 'intensifying movement, dynamic posture, accumulating energy',
+      'climax': 'maximum action intensity, explosive movement, peak physical state',
+      'climax_peak': 'extreme action, full exertion, peak physical state',
+      'resolve': 'slowing down, relaxed posture, returning to calm',
+      'resolution': 'slowing down, relaxed posture, returning to calm',
+      'neutral': 'natural pose, balanced posture, normal state'
+    };
+    stateDesc = stateMap[shot.emotionPhase] || stateMap['neutral'];
+    
+    // 关系：与环境的关系
+    let relationDesc = '';
+    if (shot.scene) {
+      relationDesc = `positioned within environment, spatial relationship to ${shot.scene.split(/[，,]/)[0] || 'background'}`;
+    }
+    
+    const parts = [characterText];
+    if (materialDesc) parts.push(`material: ${materialDesc}`);
+    if (stateDesc) parts.push(`state: ${stateDesc}`);
+    if (relationDesc) parts.push(`relation: ${relationDesc}`);
+    
+    return parts.join(' | ');
   }
 
   /**
