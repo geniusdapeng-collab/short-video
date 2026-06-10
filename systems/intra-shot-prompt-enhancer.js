@@ -754,9 +754,9 @@ function enhanceShotPrompt(shot, options = {}) {
   
   // v6.5.35: 注入人物鲜活度（皮肤纹理 + 生理反应 + 动作细节）
   const vividnessText = injectVividness(shot, {
-    characterAge: shot.characterAge || 'adult',
-    emotionPhase: shot.emotionPhase || shot.emotion || 'neutral',
-    intensity: shot.emotionIntensity || 'L2'
+    characterAge: characterAge || shot.characterAge || 'adult',
+    emotionPhase: emotionPhase || shot.emotionPhase || shot.emotion || 'neutral',
+    intensity: emotionIntensity || shot.emotionIntensity || 'L2'
   });
   
   // 5. 合并原始Prompt + 时间轴 + 鲜活度
