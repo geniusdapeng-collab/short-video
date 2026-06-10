@@ -1461,8 +1461,9 @@ class NirathMasterPipeline {
       return {
         id: scene.id || `S${String(idx + 1).padStart(2, '0')}`,
         scene: scene.scene || 'default',
+        // v6.5.34-fix: 全局禁用narration，只保留dialogue
         dialogue: scene.dialogue || scene.narration || '',
-        narration: scene.dialogue || scene.narration || '', // 兼容旧代码
+        narration: '', // v6.5.34: narration已禁用，置空
         type: scene.type || 'explanation',
         shotType,
         characters: scene.characters || [],
@@ -1625,8 +1626,9 @@ class NirathMasterPipeline {
           return {
             ...srcScene,
             scene: generated.scene || srcScene.name || '',
-            dialogue: generated.dialogue || this._buildFallbackDialogue(srcScene, input.characters),
-            narration: generated.narration || this._buildFallbackNarration(srcScene),
+            // v6.5.34-fix: 全局禁用narration，只保留dialogue
+            dialogue: generated.dialogue || generated.narration || this._buildFallbackDialogue(srcScene, input.characters),
+            narration: '', // v6.5.34: narration已禁用，置空
             characters: finalChars,
             mouthAction: generated.mouthAction || 'speaking_normal',
             emotionPhase: generated.emotionPhase || this._inferEmotionPhase(srcScene),
@@ -1642,8 +1644,9 @@ class NirathMasterPipeline {
         const fallback = batch.map((scene) => ({
           ...scene,
           scene: scene.name || '',
+          // v6.5.34-fix: 全局禁用narration，只保留dialogue
           dialogue: this._buildFallbackDialogue(scene, input.characters),
-          narration: this._buildFallbackNarration(scene),
+          narration: '', // v6.5.34: narration已禁用，置空
           mouthAction: 'speaking_normal',
           emotionPhase: this._inferEmotionPhase(scene),
           scriptCoreSuccess: false,
@@ -2150,14 +2153,15 @@ ${isNirath
           throw new Error('script.scenes为空数组,无法进行时⻓分配');
         }
         const v2Narrations = safeScenes.map((s, idx) => {
-          const narration = (s.narration || s.text || '').toString();
+          // v6.5.34-fix: 全局禁用narration，使用dialogue替代
+          const text = (s.dialogue || s.narration || '').toString();
           const type = s.type || s.beatName || 'explanation';
-          if (!narration || narration.length === 0) {
-            this.log('STAGE-6', `  ⚠️ 场景${s.id || idx} narration为空,使用默认文本`);
+          if (!text || text.length === 0) {
+            this.log('STAGE-6', `  ⚠️ 场景${s.id || idx} dialogue为空,使用默认文本`);
           }
           return {
             id: s.id || `S${String(idx + 1).padStart(2, '0')}`,
-            text: narration || '[无文本]',
+            text: text || '[无文本]',
             type: type,
             priority: s.importance || 5,
             importance: s.importance || 5,
@@ -2170,7 +2174,7 @@ ${isNirath
           rhythmCurve: script.narrative?.pace || 'classic',
           narrations: v2Narrations
         };
-        this.log('STAGE-6', `📤 ShotDurationAllocatorV2输入: ${v2Narrations.length}句narration | 总预算${finalDuration}s`);
+        this.log('STAGE-6', `📤 ShotDurationAllocatorV2输入: ${v2Narrations.length}句dialogue | 总预算${finalDuration}s`);
         v2Allocations = this.modules.shotDurationAllocator.allocate(v2Input);
         optimizationLevel = v2Allocations?.optimizationLevel || 'L0';
 
@@ -3004,56 +3008,15 @@ ${isNirath
 
   // ========== 【v6.2-patch51】Stage 7.3: Narration自动精简 ==========
   async stageNarrationTrim(storyboard, durations) {
-    this.log('STAGE-7.3', '📝 Narration自动精简(v6.2-patch51)');
-
-    const trimmer = this.modules.narrationTrimmer;
-    const shots = storyboard.shots || [];
-
-    // 构建 narration 列表
-    const narrationsForTrim = shots.map((shot, idx) => {
-      const duration = shot.duration || (durations && durations[idx]?.duration) || 5;
-      const capacity = this.calculateNarrationCapacity(duration);
-      return {
-        text: shot.narration || '',
-        type: shot.type || 'generic',
-        duration: duration,
-        capacity: capacity
-      };
-    }).filter(n => n.text && n.text.length > 0);
-
-    if (narrationsForTrim.length === 0) {
-      this.log('STAGE-7.3', 'i️ 无narration需要精简');
-      return { trimmedCount: 0, totalTrimmedChars: 0 };
-    }
-
-    const trimResult = trimmer.trim(narrationsForTrim);
-
-    if (trimResult.report.trimmedCount > 0) {
-      this.log('STAGE-7.3', `✅ Narration自动精简 | 精简${trimResult.report.trimmedCount}句 | 删除${trimResult.report.totalTrimmedChars}字符`);
-      // 将精简后的narration同步回storyboard
-      let trimIdx = 0;
-      for (let i = 0; i < shots.length; i++) {
-        if (shots[i].narration && shots[i].narration.length > 0) {
-          if (trimResult.narrations[trimIdx]?.wasTrimmed) {
-            const original = shots[i].narration;
-            shots[i].narration = trimResult.narrations[trimIdx].text;
-            shots[i].originalNarration = original;
-            shots[i].wasTrimmed = true;
-            this.log('STAGE-7.3', `  📝 ${shots[i].id}: ${original.length}字→${shots[i].narration.length}字 (-${original.length - shots[i].narration.length})`);
-          }
-          trimIdx++;
-        }
-      }
-    } else {
-      this.log('STAGE-7.3', `✅ Narration字数检查通过 | 无需精简`);
-    }
-
-    return trimResult.report;
+    // v6.5.34-fix: 全局禁用narration，此Stage跳过
+    this.log('STAGE-7.3', '⏭️ 全局禁用narration(仅保留dialogue/台词)，跳过narration精简');
+    return { trimmedCount: 0, totalTrimmedChars: 0, skipped: true, reason: '全局禁用narration' };
   }
 
   // ========== 【v6.2-patch52】Stage 7.4: 时长-字数一致性校准 ==========
   async stageDurationNarrationAlignment(storyboard, durations) {
-    this.log('STAGE-7.4', '📏 时长-字数一致性校准(v6.2-patch52)');
+    // v6.5.34-fix: 全局禁用narration，使用dialogue校准
+    this.log('STAGE-7.4', '📏 时长-字数一致性校准(v6.2-patch52, v6.5.34: dialogue模式)');
 
     const aligner = this.modules.durationAlignment;
     if (!aligner) {
@@ -3063,10 +3026,15 @@ ${isNirath
 
     const shots = storyboard.shots || [];
 
-    // 为shots注入duration(从durations映射)
+    // v6.5.34: 使用dialogue替代narration进行校准
     const shotsWithDuration = shots.map((shot, idx) => {
       const duration = shot.duration || (durations && durations[idx]?.duration) || 5;
-      return { ...shot, duration };
+      return { 
+        ...shot, 
+        duration,
+        // v6.5.34: 使用dialogue作为校准文本（narration已禁用）
+        text: shot.dialogue || shot.narration || ''
+      };
     });
 
     const alignResult = aligner.align(shotsWithDuration);
@@ -3079,7 +3047,7 @@ ${isNirath
         if (toShot) {
           toShot.duration = alignResult.shots.find(s => s.id === adj.to)?.duration || toShot.duration;
         }
-        // v6.2-patch67-fix: 同时更新 donor 镜头时长(之前遗漏,导致总时长膨胀)
+        // v6.2-patch67-fix: 同时更新 donor 镜头时长
         const fromShot = shots.find(s => s.id === adj.from);
         if (fromShot) {
           fromShot.duration = alignResult.shots.find(s => s.id === adj.from)?.duration || fromShot.duration;
@@ -3093,7 +3061,7 @@ ${isNirath
         this.log('STAGE-7.4', `  🔴 ${issue.message}`);
       }
     } else {
-      this.log('STAGE-7.4', `✅ 时长-字数全部匹配,无需调整`);
+      this.log('STAGE-7.4', `✅ 时长-dialogue全部匹配,无需调整`);
     }
 
     return alignResult;
@@ -3117,11 +3085,13 @@ ${isNirath
 
       this.log('STAGE-7.5', `✅ 片头生成完成 | Prompt: ${openingResult.promptLength}/1500字符 | 时长: ${openingResult.duration}秒`);
 
-      // 将片头插入故事板作为S00
+        // 将片头插入故事板作为S00
       const openingShot = {
         id: 'S00',
         scene: '片头',
-        narration: '山海经系列片头',
+        // v6.5.34-fix: 全局禁用narration，片头使用dialogue
+        dialogue: '山海经系列片头',
+        narration: '', // v6.5.34: narration已禁用，置空
         duration: openingResult.duration || 9,
         type: 'opening',
         characters: openingResult.characters ? [openingResult.characters.protagonist?.id, openingResult.characters.beast?.id].filter(Boolean) : [],
@@ -4069,10 +4039,8 @@ ${isNirath
         // if (shot.innerMonologue) scriptParts.push(`内心独白:${shot.innerMonologue}`);
         // ✅ v6.2-patchXX: 旁白/台词作为独立字段【旁白/台词】融入视觉Prompt
         // 影响角色表情、嘴型、情绪基调,与TTS音频通道分离(双通道独立)
-        // narration视觉化通道:通过独立字段标记,便于后续单独优化
-        // 旁白/台词本身不进入scriptParts(避免与视觉描述混为一谈),
-        // 而是作为独立参数传给buildPromptV3,由其生成单独的【旁白/台词】字段
-        const narration = shot.narration || shot.dialogue || '';
+        // v6.5.34-fix: 全局禁用narration，使用dialogue作为台词
+        const narration = shot.dialogue || ''; // 禁用narration，只使用dialogue
 
         const enrichedScript = scriptParts.join('\n\n') || shot.visualPrompt || 'Nirath异世界场景';
 
@@ -4215,6 +4183,79 @@ ${isNirath
           prompt += ' 【明亮约束】自然光或柔和室内照明，画面真实干净，禁止暗黑/灰暗。';
         } else {
           prompt += ' 【明亮约束】Aurelius5800K暖金+Silvana6500K清冷,双恒星明亮光照。禁止暗黑/夜晚/灰暗。必须明亮奇幻、多色彩层次。';
+        }
+
+        // v6.5.34-fix: 去除重复的【环境音效】字段（buildPromptV3可能注入两次）
+        const envSoundMatches = prompt.match(/【环境音效】/g);
+        if (envSoundMatches && envSoundMatches.length > 1) {
+          // 保留第一个【环境音效】，去除后续的
+          let firstEnvSound = true;
+          prompt = prompt.replace(/【环境音效】[^【]*/g, (match) => {
+            if (firstEnvSound) {
+              firstEnvSound = false;
+              return match;
+            }
+            return '';
+          });
+          this.log('STAGE-11', `  🧹 环境音效去重: ${shot.id} | 去除${envSoundMatches.length - 1}个重复字段`);
+        }
+
+        // v6.5.34-fix: 去除重复的【环境质感】字段
+        const envTextureMatches = prompt.match(/【环境质感】/g);
+        if (envTextureMatches && envTextureMatches.length > 1) {
+          let firstEnvTexture = true;
+          prompt = prompt.replace(/【环境质感】[^【]*/g, (match) => {
+            if (firstEnvTexture) {
+              firstEnvTexture = false;
+              return match;
+            }
+            return '';
+          });
+          this.log('STAGE-11', `  🧹 环境质感去重: ${shot.id} | 去除${envTextureMatches.length - 1}个重复字段`);
+        }
+
+        // v6.5.34-fix: 统一时间轴——从_segments生成prompt中的【镜头时间轴】
+        // 根因：外层JSON(_segments)与内层字符串(【镜头时间轴】)独立生成，未同步
+        if (shot._segments && shot._segments.length > 0 && !prompt.includes('【镜头时间轴】')) {
+          const timelineText = shot._segments.map((seg, idx) => 
+            `${idx + 1}. ${seg.time}s: ${seg.camera || seg.action || '固定镜头'}${seg.note ? `(${seg.note})` : ''}`
+          ).join('；');
+          prompt += ` 【镜头时间轴】${timelineText}`;
+          this.log('STAGE-11', `  ⏱️ 时间轴同步: ${shot.id} | 从_segments生成 | ${shot._segments.length}段`);
+        }
+
+        // v6.5.34-fix: Nirath模式内容镜注入缺失的约束（风格锁/负面约束/角色约束）
+        if (this.mode === 'nirath') {
+          // 1. 注入风格锁（仅片头有的，内容镜缺失）
+          if (!prompt.includes('【风格锁】')) {
+            prompt += ' 【风格锁】禁止卡通/动漫/暗黑。必须双恒星明亮光照+磁场可见+低重力飘浮。这是Nirath。';
+            this.log('STAGE-11', `  🔒 风格锁注入: ${shot.id}`);
+          }
+
+          // 2. 注入负面约束（仅片头有的，内容镜缺失）
+          if (!prompt.includes('【负面约束】') && !prompt.includes('【全局负面约束】')) {
+            const negativeConstraint = '【负面约束】禁止眼睛出现红色、蓝色、黄色、绿色、紫色、橙色、荧光色、发光色等非自然颜色；禁止红眼、蓝瞳、金瞳、绿眼、紫眼、荧光眼、发光眼、火光眼、霓虹眼；眼睛必须是人眼自然黑色瞳孔，仅允许对面景物倒影在眼中;禁止水晶;禁止重复角色';
+            prompt += ` ${negativeConstraint}`;
+            this.log('STAGE-11', `  🛡️ 负面约束注入: ${shot.id}`);
+          }
+
+          // 3. 注入角色约束（仅片头有的，内容镜缺失）
+          const chars = shot.characters || [];
+          if (chars.length > 0 && !prompt.includes('【角色约束】')) {
+            const charNames = chars.map(cid => {
+              const char = characters?.[cid];
+              return char?.profile?.baseIdentity?.name || char?.profile?.name || char?.name || cid;
+            }).filter(Boolean);
+            if (charNames.length > 0) {
+              const nameList = charNames.join('、');
+              let constraint = `【角色约束】画面中仅出现${nameList}，禁止重复角色`;
+              if (charNames.length > 1) {
+                constraint += `；${charNames.length}人位置分布自然，避免重叠`;
+              }
+              prompt += ` ${constraint}`;
+              this.log('STAGE-11', `  👥 角色约束注入: ${shot.id} | ${nameList}`);
+            }
+          }
         }
 
         // 🔥 v6.1-fix: 将生成的prompt赋值给shot,供后续enhanceShotPrompt使用

@@ -6,6 +6,7 @@
     "age": 28,
     "gender": "female",
     "species": "human",
+    "role": "",
     "origin": "Nirath"
   },
   "visualIdentity": {
@@ -47,8 +48,8 @@
     "emotion": "neutral",
     "language": "zh-CN"
   },
-  "createdAt": "2026-05-26T09:41:04.099Z",
-  "updatedAt": "2026-05-26T09:41:04.100Z",
+  "createdAt": "2026-06-10T23:17:59.420Z",
+  "updatedAt": "2026-06-10T23:17:59.420Z",
   "version": "2.0",
   "generatedAssets": {
     "portraits": [],

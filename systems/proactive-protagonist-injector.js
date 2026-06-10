@@ -2,6 +2,8 @@
  * 【v6.2-patch51】主角主动性自动注入器
  * ProactiveProtagonistInjector
  * 
+ * v6.5.34-fix: 全局禁用narration，只注入visualPrompt/prompt，不再污染narration
+ * 
  * 产品机制：在故事板生成后、Prompt构建前，自动检测并注入主角主动动作。
  * 解决五要素「小G冒险主动性不足」的系统性问题。
  * 
@@ -12,6 +14,7 @@
  * 2. 检测被动描述关键词（旁观/注视/后退等）
  * 3. 自动替换/追加主动动作描述（主动接近/伸出手/直视等）
  * 4. 确保每镜至少有1个主动动作，关键镜有2个
+ * 5. ⚠️ v6.5.34: 只注入visualPrompt/prompt，绝不注入narration（已全局禁用）
  */
 
 class ProactiveProtagonistInjector {
@@ -44,8 +47,8 @@ class ProactiveProtagonistInjector {
       minInitiativesForKeyShots: 2,
       // 关键镜类型
       keyShotTypes: ['opening', 'climax', 'closing', 'hook', 'twist', 'resolution'],
-      // 注入位置：narration / visualPrompt / action
-      injectTargets: ['narration', 'visualPrompt', 'prompt'],
+      // v6.5.34-fix: 全局禁用narration，只注入visualPrompt或prompt，绝不注入narration
+      injectTargets: ['visualPrompt', 'prompt'],
       // 最大注入次数（避免过度）
       maxInjectionsPerShot: 2,
       ...config
@@ -159,14 +162,12 @@ class ProactiveProtagonistInjector {
   }
 
   /**
-   * 检测当前主动性水平
+   * v6.5.34-fix: 检测当前主动性水平（排除narration，只检查visualPrompt/prompt）
    */
   detectInitiativeLevel(shot) {
     const texts = [
-      shot.narration || '',
       shot.visualPrompt || '',
-      shot.prompt || '',
-      shot.action || ''
+      shot.prompt || ''
     ].join(' ');
     
     let count = 0;
@@ -183,11 +184,10 @@ class ProactiveProtagonistInjector {
   }
 
   /**
-   * 检测被动描述模式
+   * v6.5.34-fix: 检测被动描述模式（排除narration）
    */
   detectPassivePatterns(shot) {
     const texts = [
-      shot.narration || '',
       shot.visualPrompt || '',
       shot.prompt || ''
     ].join(' ');
@@ -229,12 +229,12 @@ class ProactiveProtagonistInjector {
   }
 
   /**
-   * 选择注入目标字段
+   * v6.5.34-fix: 全局禁用narration，只注入visualPrompt或prompt
+   * 选择注入目标字段（优先visualPrompt > prompt）
    */
   selectInjectTarget(shot) {
-    // 优先顺序：narration > visualPrompt > prompt
-    if (shot.narration && shot.narration.length < 200) return 'narration';
-    if (shot.visualPrompt && shot.visualPrompt.length < 400) return 'visualPrompt';
+    // v6.5.34: 排除narration，只选visualPrompt或prompt
+    if (shot.visualPrompt && shot.visualPrompt.length < 800) return 'visualPrompt';
     return 'prompt';
   }
 
