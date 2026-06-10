@@ -617,6 +617,7 @@ class PromptTierArchitecture {
     return {
       totalLength,
       utilizationRate: Math.round((totalLength / this.maxLength) * 100),
+      utilization: Math.round((totalLength / this.maxLength) * 100), // 兼容旧字段
       layerLengths,
       audioIncluded: !!(layers.audio && layers.audio.length > 0), // 🔊
       tier1Retention: 100, // P0始终保留
