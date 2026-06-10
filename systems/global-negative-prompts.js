@@ -323,6 +323,34 @@ class GlobalNegativePromptInjector {
     }
   }
 
+
+  generateCompact(options = {}) {
+    const { maxLength = 180 } = options;
+
+    const compact = [
+      'no text',
+      'no watermark',
+      'no anime',
+      'no cartoon',
+      'no 3D render look',
+      'no deformed hands',
+      'no extra fingers',
+      'no duplicate characters',
+      'no glowing eyes',
+      'no red eyes',
+      'no blue eyes',
+      'no crystal',
+      'no metallic sheen',
+      'no dark night scene'
+    ].join(', ');
+
+    if (compact.length <= maxLength) {
+      return `【负面约束】${compact}`;
+    }
+
+    return `【负面约束】${compact.substring(0, maxLength - 6)}`;
+  }
+
   /**
    * v6.2-patch59: 向后兼容——保留旧版API
    * @param {Object} options - 旧版选项

@@ -1,8 +1,8 @@
 class CharCounter {
   constructor() {
-    this.TARGET_MAX = 988;
-    this.HARD_LIMIT = 988;
-    this.SAFETY_MARGIN = 8;
+    this.TARGET_MAX = 1500;
+    this.HARD_LIMIT = 1500;
+    this.SAFETY_MARGIN = 20;
   }
 
   count(str) {

@@ -4315,7 +4315,7 @@ ${isNirath
 
         // v6.0-patch38: 注入全局负面提示词
         // v6.2-patch44: 增加P2光照氛围约束(禁止暗黑/夜晚/乌漆嘛黑),maxLength放宽至250
-        const globalNegative = globalNegativePromptInjector.generate({ priority: 'P0+P1+P2', maxLength: 250 });
+        const globalNegative = globalNegativePromptInjector.generateCompact({ maxLength: 180 });
         prompt += ` ${globalNegative}`;
 
         // v6.5.29-fix: generic模式使用真实光照约束，不注入Nirath双恒星
@@ -4984,6 +4984,15 @@ ${isNirath
         this.log('STAGE-11', `  📷 @image引用注入: ${shot.id} | ${imageRefLines.length}个引用`);
       }
 
+
+      // 去重，减少冗余
+      prompt = this.dedupePromptFragments(prompt);
+
+      // 先结构化成标准字段格式，提升STAGE-12识别率
+      prompt = this.toStandardPrompt(shot, prompt);
+
+      // 最后兜底，补齐缺失字段
+      prompt = this.ensureFinalPromptStructure(shot, prompt);
 
       prompts.push({
         shotId: shot.id,
@@ -5952,6 +5961,173 @@ ${isNirath
     return { prompt, issues: [], compliant: true };
   }
 
+  toStandardPrompt(shot, prompt) {
+    const safe = (v) => (typeof v === 'string' ? v.trim() : '');
+
+    const narration = safe(shot.narration || shot.dialogue);
+    const scene = safe(
+      typeof shot.scene === 'string'
+        ? shot.scene
+        : shot.scene?.name || shot.scene?.nirathName || ''
+    );
+
+    const cameraText =
+      safe(shot.cameraMovement?.description) ||
+      safe(typeof shot.cameraMovement === 'string' ? shot.cameraMovement : '') ||
+      safe(shot._timeline?.summary) ||
+      '';
+
+    const lightingText =
+      safe(shot.lighting?.keyLight) ||
+      safe(shot.lighting?.progression) ||
+      (prompt.match(/【照明方案】([^【]*)/) || [])[1] ||
+      '';
+
+    const audioText =
+      (prompt.match(/【音频】([^【]*)/) || [])[1] ||
+      [
+        /伴随[^，。,；;]*/g,
+        /动作产生[^，。,；;]*/g,
+        /氛围弥漫[^，。,；;]*/g,
+        /音乐线索[^，。,；;]*/g,
+        /声画精准同步[^，。,；;]*/g
+      ]
+        .flatMap((re) => prompt.match(re) || [])
+        .join('，');
+
+    const negativeText =
+      (prompt.match(/【负面约束】([^【]*)/) || [])[1] ||
+      (prompt.match(/【全局负面约束】([^【]*)/) || [])[1] ||
+      '';
+
+    const renderText =
+      (prompt.match(/【技术规格】([^【]*)/) || [])[1] ||
+      '超写实，电影级光影，高清质感';
+
+    const directorText =
+      (prompt.match(/Director style:\s*([^【\n]+)/i) || [])[1] ||
+      '通用导演风格';
+
+    let characterText = '';
+    if (Array.isArray(shot.characters) && shot.characters.length > 0) {
+      characterText = shot.characters.join('，');
+    }
+
+    const actionText =
+      (prompt.match(/【动作】([^【]*)/) || [])[1] ||
+      (prompt.match(/【视觉】([^【]*)/) || [])[1] ||
+      narration ||
+      '自然动作';
+
+    const moodMap = {
+      establishing: '宁静，建立感',
+      rising: '紧张上升',
+      building: '情绪积累',
+      climax: '高潮爆发',
+      climax_peak: '高潮峰值',
+      resolve: '温柔收束',
+      resolution: '温柔收束',
+      neutral: '自然平衡'
+    };
+    const moodText = moodMap[shot.emotionPhase] || '自然氛围';
+
+    const fields = [
+      `CHARACTER: ${characterText || '人物出场，形象明确'}`,
+      `ACTION: ${actionText}`,
+      `SCENE: ${scene || '场景环境明确，空间关系清晰'}`,
+      `MOOD: ${moodText}`,
+      `CAMERA: ${cameraText || '中景，平稳运镜'}`,
+      `LIGHTING: ${lightingText || '自然光，明暗层次清晰'}`,
+      `NEGATIVE: ${negativeText || 'no text, no anime, no cartoon, no deformed hands, no extra fingers, no watermark'}`,
+      `AUDIO: ${audioText || '环境音自然，声画同步'}`,
+      `RENDER: ${renderText}`,
+      `DIRECTOR: ${directorText}`
+    ];
+
+    return fields.join(' | ');
+  }
+
+  ensureFinalPromptStructure(shot, prompt) {
+    let result = prompt || '';
+
+    const blocks = [];
+
+    if (!/CHARACTER:/i.test(result)) {
+      const chars = Array.isArray(shot.characters) ? shot.characters.join('，') : '人物';
+      blocks.push(`CHARACTER: ${chars}`);
+    }
+
+    if (!/ACTION:/i.test(result)) {
+      blocks.push(`ACTION: ${shot.narration || shot.dialogue || '自然动作'}`);
+    }
+
+    if (!/SCENE:/i.test(result)) {
+      const scene = typeof shot.scene === 'string' ? shot.scene : (shot.scene?.name || '场景环境');
+      blocks.push(`SCENE: ${scene}`);
+    }
+
+    if (!/MOOD:/i.test(result)) {
+      blocks.push(`MOOD: ${shot.emotionPhase || '自然氛围'}`);
+    }
+
+    if (!/CAMERA:/i.test(result)) {
+      blocks.push(`CAMERA: ${shot.cameraMovement?.description || '中景平稳运镜'}`);
+    }
+
+    if (!/LIGHTING:/i.test(result)) {
+      blocks.push(`LIGHTING: ${shot.lighting?.keyLight || '自然光，明暗层次清晰'}`);
+    }
+
+    if (!/AUDIO:/i.test(result) && /(?:伴随|动作产生|氛围弥漫|音乐线索|声画精准同步)/.test(result)) {
+      const audioParts = [];
+      const patterns = [
+        /伴随[^，。|]*/gi,
+        /动作产生[^，。|]*/gi,
+        /氛围弥漫[^，。|]*/gi,
+        /音乐线索[^，。|]*/gi,
+        /声画精准同步[^，。|]*/gi
+      ];
+      for (const re of patterns) {
+        audioParts.push(...(result.match(re) || []));
+      }
+      if (audioParts.length > 0) {
+        blocks.push(`AUDIO: ${audioParts.join('，')}`);
+      }
+    }
+
+    if (blocks.length > 0) {
+      result = `${blocks.join(' | ')} | ${result}`;
+    }
+
+    if (result.length > 1500) {
+      result = result.substring(0, 1500);
+    }
+
+    return result;
+  }
+
+  dedupePromptFragments(prompt) {
+    if (!prompt || typeof prompt !== 'string') return prompt;
+
+    const fragments = prompt
+      .split(/[，,]/)
+      .map(s => s.trim())
+      .filter(Boolean);
+
+    const seen = new Set();
+    const result = [];
+
+    for (const frag of fragments) {
+      const key = frag.toLowerCase();
+      if (!seen.has(key)) {
+        seen.add(key);
+        result.push(frag);
+      }
+    }
+
+    return result.join('，');
+  }
+
   // ========== 获取模块状态 ==========
   getModuleStatus() {
     return {
@@ -6758,65 +6934,87 @@ ${isNirath
 
   // 🔥 v6.2-patch82: Prompt标准符合度检查(适配现有中文标记格式)
   checkStandardCompliance(prompt, shotId) {
-    if (!prompt || prompt.length === 0) return null;
+    if (!prompt || typeof prompt !== 'string') {
+      return {
+        shotId,
+        coverage: 0,
+        found: [],
+        missing: ['CHARACTER', 'ACTION', 'SCENE', 'MOOD', 'CAMERA', 'LIGHTING', 'NEGATIVE', 'AUDIO', 'RENDER', 'DIRECTOR'],
+        fieldCount: 0,
+        totalFields: 10,
+        status: 'low'
+      };
+    }
 
     const checks = {
       CHARACTER: {
-        found: /【视觉】.*(?:boy|girl|man|woman|creature|beast|角色|人物)/i.test(prompt) ||
-               /\d+-year-old/.test(prompt) ||
-               /(?:jacket|shirt|dress|armor|robe|coat|jeans)/i.test(prompt),
+        found:
+          /CHARACTER:\s*.+/i.test(prompt) ||
+          /【视觉】.*(?:人物|角色|男孩|女孩|女性|男性)/.test(prompt) ||
+          /(?:香香|小卓|xiaoG|taotie|饕餮)/i.test(prompt) ||
+          /(?:\d+岁|\d+个月|boy|girl|man|woman)/i.test(prompt),
         weight: 1.0
       },
       ACTION: {
-        found: /(?:tracing|gripping|leaning|reaching|stepping|running|looking|turning|raising)/i.test(prompt) ||
-               /【视觉】.*(?:执行|做|动作)/i.test(prompt) ||
-               /(?:fingers|body|hands?)\s+\w+ing/i.test(prompt),
+        found:
+          /ACTION:\s*.+/i.test(prompt) ||
+          /【动作】.+/.test(prompt) ||
+          /(?:push|pull|tilt|pan|orbit|run|walk|look|reach|grip|hug|smile|cry|crawl|拍|抱|看|走|跑|爬|转身|伸手)/i.test(prompt),
         weight: 1.0
       },
       SCENE: {
-        found: /【环境(?:布景|质感)】/.test(prompt) ||
-               /(?:canyon|forest|mountain|plain|ruin|city|temple|cave|beach|valley|volcano|glacier|plateau|marsh|swamp|tundra|savanna|jungle|reef|prairie|steppe|mesa|fjord|lagoon|atoll|archipelago|cape|bay|gulf|strait|delta|estuary|oasis|waterfall|cascade|geyser|dune)/i.test(prompt) ||
-               /场景[::]/.test(prompt),
+        found:
+          /SCENE:\s*.+/i.test(prompt) ||
+          /【环境布景】.+/.test(prompt) ||
+          /(?:海边|沙滩|椰树|森林|医院|演播室|峡谷|山脉|beach|forest|studio|hospital|room)/i.test(prompt),
         weight: 1.0
       },
       MOOD: {
-        found: /(?:mysterious|epic|awe|ancient|solemn|tension|dread|wonder|joy|sorrow|calm|chaos|peace|tranquil)/i.test(prompt) ||
-               /(?:神秘|史诗|庄严|紧张|敬畏|震撼|平静|混乱|宁静)/.test(prompt),
+        found:
+          /MOOD:\s*.+/i.test(prompt) ||
+          /(?:温暖|治愈|紧张|神秘|喜悦|悲伤|希望|平静|高潮|warm|healing|tense|mysterious|joy|sad|calm)/i.test(prompt),
         weight: 0.8
       },
       CAMERA: {
-        found: /【镜头时间轴】/.test(prompt) ||
-               /(?:extreme close-up|close-up|medium shot|wide shot|macro|aerial|dolly|crane|pan|tilt|tracking|push|pull|orbit|zoom|85mm|50mm|24mm|135mm|2\.39:1)/i.test(prompt) ||
-               /(?:远景|近景|特写|中景|全景|航拍|推|拉|摇|移|跟|升|降|俯|仰)/.test(prompt),
+        found:
+          /CAMERA:\s*.+/i.test(prompt) ||
+          /【镜头时间轴】.+/.test(prompt) ||
+          /【运镜】.+/.test(prompt) ||
+          /(?:中景|近景|特写|全景|推近|拉远|环绕|横移|摇镜|俯拍|仰拍|close-up|wide shot|medium shot|push|pull|orbit|pan|tilt)/i.test(prompt),
         weight: 1.0
       },
       LIGHTING: {
-        found: /\d+K/.test(prompt) ||
-               /(?:rim light|key light|fill light|backlight|ambient|golden hour|blue hour|dawn|dusk|twilight)/i.test(prompt) ||
-               /(?:光照|照明|光影|光效|逆光|侧光|顶光|底光|环境光|自然光|人造光)/.test(prompt),
+        found:
+          /LIGHTING:\s*.+/i.test(prompt) ||
+          /【照明方案】.+/.test(prompt) ||
+          /(?:自然光|逆光|侧光|顶光|暖金|清冷|golden hour|backlight|rim light|key light|fill light|\d+K)/i.test(prompt),
         weight: 0.9
       },
       NEGATIVE: {
-        found: /【负面约束】/.test(prompt) ||
-               /no\s+(?:metal|metallic|anime|cartoon|deformed|extra|modern|watermark)/i.test(prompt),
+        found:
+          /NEGATIVE:\s*.+/i.test(prompt) ||
+          /【负面约束】.+/.test(prompt) ||
+          /(?:no text|no anime|no cartoon|no watermark|deformed|extra fingers)/i.test(prompt),
         weight: 0.9
       },
       AUDIO: {
-        found: /【(?:旁白\/台词|环境音效|音频|声音)】/.test(prompt) ||
-               /(?:voice|sound|audio|music|resonant|bass|whisper|cadence|rumble|Hz)/i.test(prompt) ||
-               /(?:声音|音效|音频|旁白|台词|独白|对白)/.test(prompt) ||
-               /(?:伴随|动作产生|氛围弥漫|音乐线索|声画精准同步)/.test(prompt),
+        found:
+          /AUDIO:\s*.+/i.test(prompt) ||
+          /【音频】.+/.test(prompt) ||
+          /(?:伴随|动作产生|氛围弥漫|音乐线索|声画精准同步|环境音|海浪|风声|audio|sound|voice)/i.test(prompt),
         weight: 0.8
       },
       RENDER: {
-        found: /【技术规格】/.test(prompt) ||
-               /(?:写实|超写实|电影级|4K|8K|超清|胶片颗粒|体积|光线追踪)/i.test(prompt) ||
-               /(?:超写实|影视级|电影质感|4K|8K|高清|胶片颗粒|体积光)/.test(prompt),
+        found:
+          /RENDER:\s*.+/i.test(prompt) ||
+          /【技术规格】.+/.test(prompt) ||
+          /(?:超写实|电影级|高清|胶片颗粒|render|cinematic|photorealistic)/i.test(prompt),
         weight: 0.7
       },
       DIRECTOR: {
-        found: /(?:Cameron|Villeneuve|Spielberg|Jackson|Nolan|Scott|Zemeckis|Kubrick|Fincher|Wes Anderson|Scorsese)/i.test(prompt) ||
-               /(?:卡梅隆|维伦纽瓦|斯皮尔伯格|杰克逊|诺兰|斯科特)/.test(prompt),
+        found:
+          /DIRECTOR:\s*.+/i.test(prompt) ||
+          /(?:导演|Director style|Cameron|Villeneuve|Spielberg|Jackson|通用导演)/i.test(prompt),
         weight: 0.6
       }
     };
@@ -6827,11 +7025,9 @@ ${isNirath
     const missing = [];
 
     for (const [field, check] of Object.entries(checks)) {
-      const score = check.found ? check.weight : 0;
-      totalScore += score;
       maxScore += check.weight;
-
       if (check.found) {
+        totalScore += check.weight;
         found.push(field);
       } else {
         missing.push(field);

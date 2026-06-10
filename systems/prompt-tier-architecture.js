@@ -128,6 +128,7 @@ class PromptTierArchitecture {
     return {
       prompt: assembled.prompt,
       rawPrompt: assembled.raw,
+      raw: assembled.raw, // 兼容旧调用
       tiers: this._mapToLegacyTiers(layers), // 兼容旧结构
       metrics,
       layers, // 新增七层详情
@@ -589,26 +590,41 @@ class PromptTierArchitecture {
 
   _trimAtPunctuation(text, maxLen) {
     if (text.length <= maxLen) return text;
-    const trimmed = text.substring(0, maxLen);
-    
-    // 中文标点
+
+    let trimmed = text.substring(0, maxLen);
+
+    // 1. 保护未闭合的【】标记
+    const lastOpen = trimmed.lastIndexOf('【');
+    const lastClose = trimmed.lastIndexOf('】');
+    if (lastOpen > lastClose) {
+      trimmed = trimmed.substring(0, lastOpen);
+    }
+
+    // 2. 优先在中文标点处截断
     const cnPuncts = ['。', '，', '；', '！', '？'];
     for (const p of cnPuncts) {
       const idx = trimmed.lastIndexOf(p);
-      if (idx > maxLen * 0.8) return trimmed.substring(0, idx + 1);
+      if (idx > trimmed.length * 0.8) {
+        return trimmed.substring(0, idx + 1);
+      }
     }
-    
-    // 英文标点
+
+    // 3. 英文标点
     const enPuncts = ['.', ',', ';', '!', '?'];
     for (const p of enPuncts) {
       const idx = trimmed.lastIndexOf(p);
-      if (idx > maxLen * 0.8) return trimmed.substring(0, idx + 1);
+      if (idx > trimmed.length * 0.8) {
+        return trimmed.substring(0, idx + 1);
+      }
     }
-    
+
+    // 4. 空格
     const lastSpace = trimmed.lastIndexOf(' ');
-    if (lastSpace > maxLen * 0.8) return trimmed.substring(0, lastSpace);
-    
-    return trimmed;
+    if (lastSpace > trimmed.length * 0.8) {
+      return trimmed.substring(0, lastSpace);
+    }
+
+    return trimmed.trim();
   }
 
   _mapToLegacyTiers(layers) {

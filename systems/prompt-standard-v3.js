@@ -675,32 +675,33 @@ function hardTrim(prompt, maxLength) {
  * 支持 | 分隔格式和【】区块格式
  */
 function parsePrompt(prompt) {
-  // 首先尝试标准格式解析
   const fields = {};
+
+  // 1. 标准格式：FIELD: content
   const parts = prompt.split(SEPARATOR);
-  
   for (const part of parts) {
     const colonIndex = part.indexOf(FIELD_PREFIX);
     if (colonIndex === -1) continue;
-    
+
     const fieldName = part.substring(0, colonIndex).trim();
     const content = part.substring(colonIndex + FIELD_PREFIX.length).trim();
-    
+
     if (FIELD_DEFINITIONS[fieldName]) {
       fields[fieldName] = {
-        content: content,
+        content,
         original: part
       };
     }
   }
-  
-  // 如果标准格式解析失败，尝试【】区块格式映射
+
+  // 2. 【】区块格式
   if (Object.keys(fields).length === 0) {
     for (const [fieldName, def] of Object.entries(FIELD_DEFINITIONS)) {
       for (const blockPattern of def.blockMapping) {
-        const blockRegex = new RegExp(`${blockPattern}([^【]*)`, 'i');
+        const escaped = blockPattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const blockRegex = new RegExp(`${escaped}([^【|]*)`, 'i');
         const blockMatch = prompt.match(blockRegex);
-        if (blockMatch) {
+        if (blockMatch && blockMatch[1]?.trim()) {
           fields[fieldName] = {
             content: blockMatch[1].trim(),
             original: blockMatch[0]
@@ -710,34 +711,48 @@ function parsePrompt(prompt) {
       }
     }
   }
-  
-  // 🔊 v2.0-B+: 识别自然语言格式的音频层（伴随/动作产生/氛围弥漫/音乐线索/声画精准同步）
+
+  // 3. 自然语言兜底解析
+  if (!fields.CHARACTER) {
+    const m = prompt.match(/(?:香香|小卓|xiaoG|taotie|饕餮|男孩|女孩|女性|男性|boy|girl|woman|man)[^，。|]*/i);
+    if (m) fields.CHARACTER = { content: m[0].trim(), original: m[0] };
+  }
+
+  if (!fields.SCENE) {
+    const m = prompt.match(/(?:海边|沙滩|椰树|森林|医院|演播室|峡谷|山脉|beach|forest|hospital|studio)[^，。|]*/i);
+    if (m) fields.SCENE = { content: m[0].trim(), original: m[0] };
+  }
+
+  if (!fields.CAMERA) {
+    const m = prompt.match(/(?:推近|拉远|环绕|横移|摇镜|俯拍|仰拍|中景|近景|特写|全景|push|pull|orbit|pan|tilt|close-up|wide shot)[^，。|]*/i);
+    if (m) fields.CAMERA = { content: m[0].trim(), original: m[0] };
+  }
+
+  if (!fields.LIGHTING) {
+    const m = prompt.match(/(?:自然光|逆光|侧光|顶光|golden hour|backlight|rim light|key light|fill light|\d+K)[^，。|]*/i);
+    if (m) fields.LIGHTING = { content: m[0].trim(), original: m[0] };
+  }
+
   if (!fields.AUDIO) {
-    const audioKeywords = ['伴随', '动作产生', '氛围弥漫', '音乐线索', '声画精准同步'];
-    for (const keyword of audioKeywords) {
-      const keywordRegex = new RegExp(`${keyword}([^,，.。;；！!]*[,，.]?)`, 'i');
-      const keywordMatch = prompt.match(keywordRegex);
-      if (keywordMatch) {
-        // 收集所有音频片段
-        const audioParts = [];
-        for (const kw of audioKeywords) {
-          const kwRegex = new RegExp(`${kw}([^,，.。;；！!]*[,，.]?)`, 'gi');
-          let kwMatch;
-          while ((kwMatch = kwRegex.exec(prompt)) !== null) {
-            audioParts.push(kwMatch[0]);
-          }
-        }
-        if (audioParts.length > 0) {
-          fields.AUDIO = {
-            content: audioParts.join('，'),
-            original: audioParts.join('，')
-          };
-        }
-        break;
-      }
+    const audioParts = [];
+    const patterns = [
+      /伴随[^，。|]*/gi,
+      /动作产生[^，。|]*/gi,
+      /氛围弥漫[^，。|]*/gi,
+      /音乐线索[^，。|]*/gi,
+      /声画精准同步[^，。|]*/gi
+    ];
+    for (const re of patterns) {
+      audioParts.push(...(prompt.match(re) || []));
+    }
+    if (audioParts.length > 0) {
+      fields.AUDIO = {
+        content: audioParts.join('，'),
+        original: audioParts.join('，')
+      };
     }
   }
-  
+
   return Object.keys(fields).length > 0 ? fields : null;
 }
 
