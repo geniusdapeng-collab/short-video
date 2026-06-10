@@ -123,9 +123,10 @@ const FIELD_DEFINITIONS = {
     targetLength: 65,
     minLength: 30,
     trimStrategy: 'moderate',
-    blockMapping: ['【环境音效】', '【神兽人声签名】', '【旁白/台词】'],
+    // 🔊 v2.0-B+: 支持自然语言格式（伴随/动作产生/氛围弥漫/音乐线索/声画精准同步）
+    blockMapping: ['【环境音效】', '【神兽人声签名】', '【旁白/台词】', '伴随', '动作产生', '氛围弥漫', '音乐线索', '声画精准同步'],
     baselineChars: '核心台词+声音标识不可删',
-    checkRegex: /【(?:环境音效|神兽人声签名|旁白\/台词|音频)】/
+    checkRegex: /【(?:环境音效|神兽人声签名|旁白\/台词|音频)】|伴随|动作产生|氛围弥漫|音乐线索|声画精准同步/
   },
   RENDER: {
     priority: 'P2',
@@ -706,6 +707,33 @@ function parsePrompt(prompt) {
           };
           break;
         }
+      }
+    }
+  }
+  
+  // 🔊 v2.0-B+: 识别自然语言格式的音频层（伴随/动作产生/氛围弥漫/音乐线索/声画精准同步）
+  if (!fields.AUDIO) {
+    const audioKeywords = ['伴随', '动作产生', '氛围弥漫', '音乐线索', '声画精准同步'];
+    for (const keyword of audioKeywords) {
+      const keywordRegex = new RegExp(`${keyword}([^,，.。;；！!]*[,，.]?)`, 'i');
+      const keywordMatch = prompt.match(keywordRegex);
+      if (keywordMatch) {
+        // 收集所有音频片段
+        const audioParts = [];
+        for (const kw of audioKeywords) {
+          const kwRegex = new RegExp(`${kw}([^,，.。;；！!]*[,，.]?)`, 'gi');
+          let kwMatch;
+          while ((kwMatch = kwRegex.exec(prompt)) !== null) {
+            audioParts.push(kwMatch[0]);
+          }
+        }
+        if (audioParts.length > 0) {
+          fields.AUDIO = {
+            content: audioParts.join('，'),
+            original: audioParts.join('，')
+          };
+        }
+        break;
       }
     }
   }

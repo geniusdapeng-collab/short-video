@@ -45,7 +45,7 @@ class PromptTierArchitecture {
       ]
     };
     
-    // 音频场景映射（新增）
+    // 音频场景映射（新增）- 支持中英文关键词
     this.audioSceneMap = {
       'beach': { env: '海浪轻拍沙滩的白噪音，海鸟远处鸣叫', action: '白沙从指缝流下沙沙声', emotion: '温暖治愈的氛围音' },
       'forest': { env: '风吹树叶沙沙声，远处溪流潺潺', action: '脚步声踩落叶', emotion: '宁静安详的自然氛围' },
@@ -53,7 +53,18 @@ class PromptTierArchitecture {
       'home': { env: '室内温暖环境音', action: '婴儿咯咯笑声', emotion: '温馨家庭氛围' },
       'ocean': { env: '海浪拍打礁石，海风呼啸', action: '水花溅起声', emotion: '自由辽阔的海洋气息' },
       'mountain': { env: '山风呼啸，远处鸟鸣', action: '雪粉飞扬声', emotion: '壮丽寂静的高山氛围' },
-      'studio': { env: '摄影棚安静环境', action: '快门咔嚓声', emotion: '专业专注的工作氛围' }
+      'studio': { env: '摄影棚安静环境', action: '快门咔嚓声', emotion: '专业专注的工作氛围' },
+      // 中文场景映射
+      '椰': { env: '海风吹拂椰树叶沙沙声，海浪轻拍沙滩', action: '椰树叶随风摇曳声', emotion: '热带海岛的轻松氛围' },
+      '海边': { env: '海浪轻拍沙滩的白噪音，海鸟远处鸣叫', action: '白沙从指缝流下沙沙声', emotion: '温暖治愈的氛围音' },
+      '沙滩': { env: '海浪轻拍沙滩的白噪音，海鸟远处鸣叫', action: '白沙从指缝流下沙沙声', emotion: '温暖治愈的氛围音' },
+      '海滩': { env: '海浪轻拍沙滩的白噪音，海鸟远处鸣叫', action: '白沙从指缝流下沙沙声', emotion: '温暖治愈的氛围音' },
+      '椰树': { env: '海风吹拂椰树叶沙沙声，海浪轻拍沙滩', action: '椰树叶随风摇曳声', emotion: '热带海岛的轻松氛围' },
+      '森林': { env: '风吹树叶沙沙声，远处溪流潺潺', action: '脚步声踩落叶', emotion: '宁静安详的自然氛围' },
+      '城市': { env: '车流白噪音，远处鸣笛', action: '快门声、键盘敲击', emotion: '都市节奏感' },
+      '家庭': { env: '室内温暖环境音', action: '婴儿咯咯笑声', emotion: '温馨家庭氛围' },
+      '家': { env: '室内温暖环境音', action: '婴儿咯咯笑声', emotion: '温馨家庭氛围' },
+      '室内': { env: '室内温暖环境音', action: '轻柔脚步声', emotion: '温馨室内氛围' }
     };
     
     // 色彩方案词库
@@ -351,14 +362,28 @@ class PromptTierArchitecture {
     const parts = [];
     
     // 按场景类型匹配音频模板
-    const sceneType = (params.sceneType || params.sceneName || 'generic').toLowerCase();
+    // 🔊 v2.0-B+-fix: 优先使用 sceneName（具体场景）而非 sceneType（generic等抽象类型）
+    const sceneName = (params.sceneName || '').toLowerCase();
+    const sceneType = (params.sceneType || '').toLowerCase();
     let audioTemplate = null;
     
-    // 匹配场景类型
-    for (const [key, template] of Object.entries(this.audioSceneMap)) {
-      if (sceneType.includes(key) || (params.sceneName && params.sceneName.toLowerCase().includes(key))) {
-        audioTemplate = template;
-        break;
+    // 匹配场景名称（优先）
+    if (sceneName) {
+      for (const [key, template] of Object.entries(this.audioSceneMap)) {
+        if (sceneName.includes(key)) {
+          audioTemplate = template;
+          break;
+        }
+      }
+    }
+    
+    // 回退：匹配场景类型
+    if (!audioTemplate && sceneType) {
+      for (const [key, template] of Object.entries(this.audioSceneMap)) {
+        if (sceneType.includes(key)) {
+          audioTemplate = template;
+          break;
+        }
       }
     }
     

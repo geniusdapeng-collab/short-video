@@ -4398,7 +4398,7 @@ ${isNirath
         this.log('STAGE-11', `  🔍 DEBUG pre-smartTrim: ${shot.id} | 含运镜=${beforeTrim} | len=${enhanced.prompt.length}`);
 
         prompt = this.smartTrim(enhanced.prompt, 1500, {
-          preserve: ['叙事', '视觉', '独白', '明亮约束', '风格锁', '技术规格', '环境布景', '角色约束', '镜头时间轴', '旁白/台词', '台词', '嘴部动作', '环境质感', '环境音效', '照明方案', '人物鲜活度', '顶级指令', '动作细节', '表情细节', '伴随', '动作产生', '氛围弥漫', '音乐线索', '声画精准同步'],
+          preserve: ['叙事', '视觉', '独白', '明亮约束', '风格锁', '技术规格', '环境布景', '角色约束', '镜头时间轴', '旁白/台词', '台词', '嘴部动作', '环境质感', '环境音效', '照明方案', '人物鲜活度', '顶级指令', '动作细节', '表情细节', '伴随', '动作产生', '氛围弥漫', '音乐线索', '声画精准同步', '音频'],
           trim: ['辅助运镜', '光影细节补充']
         });
         this.log('STAGE-11', `  ⚠️ 增强后超限(${enhanced.prompt.length}字符),智能裁剪至${prompt.length}字符`);
@@ -5874,7 +5874,7 @@ ${isNirath
 
     // 组装结果
     const result = {
-      prompt: tierResult.prompt,
+      prompt: tierResult.raw || tierResult.prompt,
       tierMetrics: tierResult.metrics,
       quality: qualityResult,
       channels: {
@@ -5935,10 +5935,14 @@ ${isNirath
     // 策略:将Prompt按段落/标记拆分为独立区块,优先保留核心区块
 
     // Step 1: 将Prompt拆分为区块(按【xxx】标记分割)
+    // v2.0-B+-fix: 同时支持自然语言格式（伴随/动作产生/氛围弥漫/音乐线索/声画精准同步）
     const blocks = [];
     const markerPattern = /【([^【】]+)】/g;
     let lastIndex = 0;
     let match;
+
+    // 自然语言音频标记正则
+    const audioPattern = /(伴随|动作产生|氛围弥漫|音乐线索|声画精准同步)[^【】\n,。]+/g;
 
     while ((match = markerPattern.exec(prompt)) !== null) {
       // 标记前的普通文本
@@ -5992,6 +5996,22 @@ ${isNirath
       });
     }
 
+    // 🔊 v2.0-B+-fix: 识别自然语言格式的音频层，标记为核心区块
+    const audioKeywords = ['伴随', '动作产生', '氛围弥漫', '音乐线索', '声画精准同步'];
+    for (const block of blocks) {
+      if (block.type === 'plain' && !block.isCore) {
+        // 检查是否包含音频关键词
+        const hasAudio = audioKeywords.some(kw => block.content.includes(kw));
+        if (hasAudio) {
+          // 检查是否在 preserve 列表中
+          const isPreserve = preserve.some(p => audioKeywords.includes(p));
+          if (isPreserve) {
+            block.isCore = true;
+          }
+        }
+      }
+    }
+
     // Step 2: 先移除trim列表中的区块
     const afterTrim = blocks.filter(b => !b.isTrim);
     let currentLength = afterTrim.reduce((sum, b) => sum + b.content.length, 0);
@@ -6004,13 +6024,22 @@ ${isNirath
     let result = '';
     let resultLength = 0;
 
-    // 第一轮:优先保留核心区块
-    for (const block of afterTrim) {
-      if (block.isCore) {
-        if (resultLength + block.content.length <= maxLength) {
-          result += block.content;
-          resultLength += block.content.length;
-        }
+    // 第一轮:优先保留核心区块（🔊 音频层优先保留）
+    // 先保留音频层，确保声音不被截断
+    const audioBlocks = afterTrim.filter(b => b.marker === '音频' || (b.type === 'plain' && b.isCore && audioKeywords.some(kw => b.content.includes(kw))));
+    const otherCoreBlocks = afterTrim.filter(b => b.isCore && !audioBlocks.includes(b));
+    
+    for (const block of audioBlocks) {
+      if (resultLength + block.content.length <= maxLength) {
+        result += block.content;
+        resultLength += block.content.length;
+      }
+    }
+    
+    for (const block of otherCoreBlocks) {
+      if (resultLength + block.content.length <= maxLength) {
+        result += block.content;
+        resultLength += block.content.length;
       }
     }
 

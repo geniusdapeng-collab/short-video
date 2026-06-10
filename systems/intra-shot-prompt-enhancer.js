@@ -1004,11 +1004,14 @@ function enhanceShotPrompt(shot, options = {}) {
   
   // 6. 注入音频描述（v2.0-B+: 极致视听融合）
   const audioDescription = buildAudioDescription(shot, segments);
+  
+  // 6.1 将音频描述合并到 enhancedPrompt
+  const enhancedPromptWithAudio = enhancedPrompt + ' | 【音频】' + audioDescription;
 
   // 7. 记录增强信息
   return {
     ...shot,
-    prompt: enhancedPrompt,
+    prompt: enhancedPromptWithAudio,
     _intraShotEnhanced: true,
     _enhancementVersion: INTRA_SHOT_VERSION,
     segments: segments,  // 标准字段
