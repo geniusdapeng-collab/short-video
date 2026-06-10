@@ -5992,7 +5992,7 @@ ${isNirath
       (prompt.match(/【照明方案】([^【]*)/) || [])[1] ||
       '';
 
-    const audioText =
+    const audioText = this.enhanceAudioWithMethodology(
       (prompt.match(/【音频】([^【]*)/) || [])[1] ||
       [
         /伴随[^，。,；;]*/g,
@@ -6002,7 +6002,9 @@ ${isNirath
         /声画精准同步[^，。,；;]*/g
       ]
         .flatMap((re) => prompt.match(re) || [])
-        .join('，');
+        .join('，'),
+      shot
+    );
 
     const negativeText =
       (prompt.match(/【负面约束】([^【]*)/) || [])[1] ||
@@ -7038,6 +7040,213 @@ ${isNirath
     if (relationDesc) parts.push(`relation: ${relationDesc}`);
     
     return parts.join(' | ');
+  }
+
+  /**
+   * v6.5.33-methodology: 使用方法论物理真实感描述层增强AUDIO字段
+   * 基于《AI视频生成提示词工程方法论》3.1物理描述原则：物理>形容词
+   * 注入：环境动作物理描述替代抽象声音描述
+   * 示例：不用"轻柔风声"，而用"wind blowing through tall grass, blades bending and rustling, leaves scattering"
+   */
+  enhanceAudioWithMethodology(audioText, shot) {
+    if (!audioText || audioText.length < 3) return audioText;
+    
+    // 如果已经是英文物理描述为主，跳过增强
+    if (/\b(wind blowing|water splashing|leaves rustling|waves crashing|fire crackling|rain hitting|thunder rumbling)\b/i.test(audioText)) {
+      return audioText;
+    }
+    
+    // 场景类型 → 环境动作物理声音映射
+    const sceneLower = (shot.scene || '').toLowerCase();
+    const environmentSounds = [];
+    
+    if (sceneLower.includes('ocean') || sceneLower.includes('海') || sceneLower.includes('water') || sceneLower.includes('水')) {
+      environmentSounds.push('waves crashing against rocks, water splashing and spraying, foam hissing');
+    }
+    if (sceneLower.includes('wind') || sceneLower.includes('风') || sceneLower.includes('storm') || sceneLower.includes('storm')) {
+      environmentSounds.push('wind rushing through atmosphere, air turbulence, debris scattering and tumbling');
+    }
+    if (sceneLower.includes('forest') || sceneLower.includes('林') || sceneLower.includes('jungle') || sceneLower.includes('丛')) {
+      environmentSounds.push('leaves rustling and swaying, branches creaking, vegetation moving in breeze');
+    }
+    if (sceneLower.includes('rain') || sceneLower.includes('雨') || sceneLower.includes('wet')) {
+      environmentSounds.push('raindrops hitting surface, water dripping, concentric ripples expanding');
+    }
+    if (sceneLower.includes('fire') || sceneLower.includes('火') || sceneLower.includes('flame') || sceneLower.includes('焰')) {
+      environmentSounds.push('flames flickering and crackling, wood popping, embers scattering and fading');
+    }
+    if (sceneLower.includes('mountain') || sceneLower.includes('山') || sceneLower.includes('cliff') || sceneLower.includes('崖')) {
+      environmentSounds.push('rock particles shifting, stone surface texture resonance, atmospheric pressure changes');
+    }
+    
+    // 情绪阶段 → 声音动态映射
+    const phase = shot.emotionPhase || 'neutral';
+    const soundDynamics = {
+      'establishing': 'gentle ambient soundscape, subtle environmental textures, quiet background hum',
+      'rising': 'building sound intensity, increasing environmental dynamics, growing tension in audio',
+      'building': 'intensifying audio layers, accumulating sound energy, dynamic range expanding',
+      'climax': 'maximum sound intensity, explosive audio dynamics, peak environmental resonance',
+      'climax_peak': 'extreme audio saturation, full spectrum sound burst, peak acoustic energy',
+      'resolve': 'sound decaying naturally, settling into calm, gentle ambient fade',
+      'resolution': 'sound decaying naturally, settling into calm, gentle ambient fade',
+      'neutral': 'natural ambient soundscape, balanced environmental audio, realistic background texture'
+    };
+    const dynamics = soundDynamics[phase] || soundDynamics['neutral'];
+    
+    const parts = [audioText];
+    if (environmentSounds.length > 0) parts.push(...environmentSounds);
+    parts.push(dynamics);
+    
+    return parts.join(' | ');
+  }
+
+  /**
+   * v6.5.33-methodology: 跨模型兼容性适配器
+   * 基于《AI视频生成提示词工程方法论》10.1模型特性矩阵 + 10.2提示词转换规则
+   * 将通用提示词转换为特定模型最优格式
+   * @param {string} prompt - 通用提示词
+   * @param {string} model - 目标模型 (seadance/runway/kling/veo/sora/luma)
+   * @param {Object} shot - 镜头信息
+   * @returns {string} 适配后的提示词
+   */
+  adaptPromptForModel(prompt, model = 'seadance', shot = {}) {
+    if (!prompt || prompt.length < 10) return prompt;
+    
+    const adaptations = {
+      'seadance': {
+        // SeaDance 2.x: 保持完整六维描述，物理描述可详细，支持长提示词
+        transform: (p) => p, // 通用格式已最优
+        maxLength: 1500,
+        note: '完整六维描述，物理描述详细，多镜头分镜友好'
+      },
+      'runway': {
+        // Runway Gen-4: 镜头指令移至开头，精简至100词内，Motion Brush补充
+        transform: (p) => {
+          // 提取CAMERA字段移到开头
+          const cameraMatch = p.match(/CAMERA:\s*([^|]+)/i);
+          const camera = cameraMatch ? cameraMatch[1].trim() : '';
+          // 移除原始CAMERA字段
+          let rest = p.replace(/CAMERA:\s*[^|]+\|?/i, '');
+          // 精简至核心内容
+          rest = rest.replace(/\|/g, ', ').replace(/\s+/g, ' ').trim();
+          return camera ? `${camera}. ${rest}` : rest;
+        },
+        maxLength: 500, // 100词约500字符
+        note: '镜头指令前置，精简至100词，使用参考图'
+      },
+      'kling': {
+        // Kling 2.x: 物理和光学描述优先，4-6秒分段，避免过长句式
+        transform: (p) => {
+          // 提取SCENE和LIGHTING作为优先内容
+          const sceneMatch = p.match(/SCENE:\s*([^|]+)/i);
+          const lightingMatch = p.match(/LIGHTING:\s*([^|]+)/i);
+          const actionMatch = p.match(/ACTION:\s*([^|]+)/i);
+          const parts = [];
+          if (sceneMatch) parts.push(sceneMatch[1].trim());
+          if (lightingMatch) parts.push(lightingMatch[1].trim());
+          if (actionMatch) parts.push(actionMatch[1].trim());
+          return parts.join(', ');
+        },
+        maxLength: 600, // 60-120词
+        note: '物理光学描述优先，短句结构，4-6秒分段'
+      },
+      'veo': {
+        // Veo 3: 写实度关键词前置，中等长度，可同步音频描述
+        transform: (p) => {
+          // 写实度关键词前置
+          const renderMatch = p.match(/RENDER:\s*([^|]+)/i);
+          const render = renderMatch ? renderMatch[1].trim() : 'hyperrealistic cinematic';
+          let rest = p.replace(/RENDER:\s*[^|]+\|?/i, '');
+          rest = rest.replace(/\|/g, ', ').trim();
+          return `${render}. ${rest}`;
+        },
+        maxLength: 500,
+        note: '写实度关键词前置，可同步音频描述，中等长度'
+      },
+      'sora': {
+        // Sora 2.x: 复杂空间关系可详细描述，支持较长描述，叙事节奏描述收益大
+        transform: (p) => p, // 通用格式已较好
+        maxLength: 1500,
+        note: '复杂空间关系详细，叙事节奏描述，长时段一致性'
+      },
+      'luma': {
+        // Luma Ray2: 极度精简，单镜头为主，核心动作+核心光影即可
+        transform: (p) => {
+          // 只保留核心字段
+          const actionMatch = p.match(/ACTION:\s*([^|]+)/i);
+          const lightingMatch = p.match(/LIGHTING:\s*([^|]+)/i);
+          const sceneMatch = p.match(/SCENE:\s*([^|]+)/i);
+          const parts = [];
+          if (actionMatch) parts.push(actionMatch[1].trim());
+          if (lightingMatch) parts.push(lightingMatch[1].trim());
+          if (sceneMatch) parts.push(sceneMatch[1].trim());
+          return parts.join(', ');
+        },
+        maxLength: 300, // 40-80词
+        note: '极度精简，核心动作+核心光影，单镜头测试'
+      }
+    };
+    
+    const adapter = adaptations[model.toLowerCase()] || adaptations['seadance'];
+    let adapted = adapter.transform(prompt);
+    
+    // 长度裁剪
+    if (adapted.length > adapter.maxLength) {
+      adapted = adapted.substring(0, adapter.maxLength - 3) + '...';
+    }
+    
+    return adapted;
+  }
+
+  /**
+   * v6.5.33-methodology: 迭代优化协议质量评估
+   * 基于《AI视频生成提示词工程方法论》13.2评估维度
+   * 6维评估：写实度(0.25) + 运动质量(0.20) + 光影质量(0.20) + 色彩质量(0.15) + 构图质量(0.10) + 物理真实(0.10)
+   * @param {Object} evaluation - 各维度评分 {realism, motion, lighting, color, composition, physics}
+   * @returns {Object} 总分 + 诊断建议
+   */
+  evaluateQuality(evaluation = {}) {
+    const weights = {
+      realism: 0.25,
+      motion: 0.20,
+      lighting: 0.20,
+      color: 0.15,
+      composition: 0.10,
+      physics: 0.10
+    };
+    
+    let total = 0;
+    const details = {};
+    
+    for (const [dim, weight] of Object.entries(weights)) {
+      const score = evaluation[dim] || 0;
+      total += score * weight;
+      details[dim] = { score, weight, weighted: score * weight };
+    }
+    
+    // 诊断建议（方法论13.3常见问题诊断）
+    const diagnosis = [];
+    if (evaluation.realism < 3) diagnosis.push('缺少物理描述：添加具体物理现象关键词');
+    if (evaluation.motion < 3) diagnosis.push('动作描述冲突：每段只保留一个主导动作');
+    if (evaluation.lighting < 3) diagnosis.push('光源未定义：明确光源位置+性质+效果');
+    if (evaluation.color < 3) diagnosis.push('色彩方案冲突：使用标准色彩方案模板');
+    if (evaluation.composition < 3) diagnosis.push('镜头指令冲突：每段只给一个镜头运动指令');
+    if (evaluation.physics < 3) diagnosis.push('材质塑料感：添加材质+表面状态+光学反应');
+    
+    // 配方锁定标准（方法论13.5）
+    const locked = total >= 4.0 && 
+                   evaluation.realism >= 4 &&
+                   evaluation.motion >= 3.5 &&
+                   evaluation.lighting >= 3.5;
+    
+    return {
+      total: Math.round(total * 100) / 100,
+      max: 5.0,
+      details,
+      diagnosis,
+      locked,
+      recommendation: locked ? '配方锁定，可用于生产' : '需要继续优化：' + diagnosis.join('; ')
+    };
   }
 
   /**
