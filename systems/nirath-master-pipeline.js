@@ -3115,7 +3115,7 @@ ${isNirath
       // 调用片头系统生成Prompt
       const openingResult = OpeningSystem.generateOpeningV3(openingConfig);
 
-      this.log('STAGE-7.5', `✅ 片头生成完成 | Prompt: ${openingResult.promptLength}/980字符 | 时长: ${openingResult.duration}秒`);
+      this.log('STAGE-7.5', `✅ 片头生成完成 | Prompt: ${openingResult.promptLength}/1500字符 | 时长: ${openingResult.duration}秒`);
 
       // 将片头插入故事板作为S00
       const openingShot = {
@@ -5120,7 +5120,7 @@ ${isNirath
         warnings.push(`Prompt可能仅为场景库DNA介绍,故事内容不足`);
       }
 
-      // 检查3: 字数合规(1470-980理想区间)
+      // 检查3: 字数合规(1470-1200理想区间)
       if (result.length < 850) {
         errors.push(`Prompt过短(${result.length}字符),利用率不足`);
       } else if (result.length >= 970 && result.length <= 1500) {
@@ -5233,7 +5233,7 @@ ${isNirath
           length: result.length,
           utilization: utilPercent,
           status: 'waste',
-          message: `空间浪费:${result.length}/980字符(${utilPercent}%),建议增强Action描述填满至${idealThreshold}+字符`
+          message: `空间浪费:${result.length}/1500字符(${utilPercent}%),建议增强Action描述填满至${idealThreshold}+字符`
         });
       } else if (result.length >= idealThreshold && result.length <= 1500) {
         compliance.utilization.push({
@@ -5241,7 +5241,7 @@ ${isNirath
           length: result.length,
           utilization: utilPercent,
           status: 'ideal',
-          message: `利用率理想:${result.length}/980字符(${utilPercent}%)`
+          message: `利用率理想:${result.length}/1500字符(${utilPercent}%)`
         });
       } else if (result.length > 1500) {
         compliance.utilization.push({
@@ -5249,7 +5249,7 @@ ${isNirath
           length: result.length,
           utilization: utilPercent,
           status: 'exceed',
-          message: `超标拦截:${result.length}/980字符(${utilPercent}%),必须精简`
+          message: `超标拦截:${result.length}/1500字符(${utilPercent}%),必须精简`
         });
       }
 
@@ -6067,7 +6067,7 @@ ${isNirath
   // v6.3-patch10-fix: 最终兜底补齐 - 如果提示词仍然太短，强制补齐到目标长度
   finalFillPrompt(prompt, shotId) {
     let out = String(prompt || '').trim();
-    const target = 960;
+    const target = 1470;
     const hardLimit = 1500;
 
     if (charCounter.count(out) >= target) return out;
@@ -6752,7 +6752,8 @@ ${isNirath
       AUDIO: {
         found: /【(?:旁白\/台词|环境音效|音频|声音)】/.test(prompt) ||
                /(?:voice|sound|audio|music|resonant|bass|whisper|cadence|rumble|Hz)/i.test(prompt) ||
-               /(?:声音|音效|音频|旁白|台词|独白|对白)/.test(prompt),
+               /(?:声音|音效|音频|旁白|台词|独白|对白)/.test(prompt) ||
+               /(?:伴随|动作产生|氛围弥漫|音乐线索|声画精准同步)/.test(prompt),
         weight: 0.8
       },
       RENDER: {

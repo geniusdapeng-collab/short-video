@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-09T23:58:52.835Z",
+  "updatedAt": "2026-06-10T07:01:08.832Z",
   "entries": {
     "memory:memory/2026-05-15.md:31:42": {
       "key": "memory:memory/2026-05-15.md:31:42",
@@ -4133,6 +4133,192 @@
         "opening-system-v3.js",
         "v6.5.10",
         "max-length"
+      ]
+    },
+    "memory:memory/2026-06-10.md:472:492": {
+      "key": "memory:memory/2026-06-10.md:472:492",
+      "path": "memory/2026-06-10.md",
+      "startLine": 472,
+      "endLine": 492,
+      "source": "memory",
+      "snippet": "2. 批次2：光影系统规范（光源三要素）→ 升级现有光影描述 3. 批次3：镜头语言完整词库（机位+光学参数）→ 丰富运镜系统 4. 批次4：七层提示词结构 → 重构Prompt组装流水线 5. 批次5：场景类型适配器 + 色彩科学 → 增加场景差异化 **方案B：激进式重构** - 直接按七层结构重构整个Prompt生成系统 - 风险：改动太大，可能引入不稳定 **队长待决策问题：** 1. 这份文档和之前那份，同时融入还是以这份为主？ 2. 渐进式还是激进式？ 3. 优先注入哪个维度（物理真实感/光影/镜头/色彩）？ **小G建议：** 以这份为主（更系统）+ 渐进式（稳）+ 优先物理真实感+光影系统（文档明确说\"物理真实感是区分AI生成与真实世界复刻的决定性因素\"） ### 关键新认知 - 文档强调：\"AI视频提示词的本质是一份视觉执行指令集（Visual Execution Brief），而非自然语言描述\" - 系统应将提示词构建视为结构化数据组装，而非自由文本生成 - 物理真实感是决定性因素，AI模型对物理关键词的响应强度远高于形容词堆砌 - 每个时间片段（2-3秒）只设定一个主导动作，多动作竞争会导致AI分配不均",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4430223435163498,
+      "maxScore": 0.4430223435163498,
+      "firstRecalledAt": "2026-06-10T07:01:08.832Z",
+      "lastRecalledAt": "2026-06-10T07:01:08.832Z",
+      "queryHashes": [
+        "286b2fdebcdf"
+      ],
+      "recallDays": [
+        "2026-06-10"
+      ],
+      "conceptTags": [
+        "物理真实感/光影/镜头/色彩",
+        "2-3秒",
+        "批次",
+        "光影",
+        "系统",
+        "规范",
+        "光源",
+        "要素"
+      ]
+    },
+    "memory:memory/2026-06-10.md:165:181": {
+      "key": "memory:memory/2026-06-10.md:165:181",
+      "path": "memory/2026-06-10.md",
+      "startLine": 165,
+      "endLine": 181,
+      "source": "memory",
+      "snippet": "1. **视觉场景**（按运动类型动态匹配：雪山/万米高空/热带海洋/城市滑板公园/岩壁/泥土赛道/都市建筑） 2. **运镜指令**（按视角动态匹配：POV/跟拍/侧拍/俯拍/仰拍，各视角专属运镜词库） 3. **技术参数**（8K/120fps/Log/HDR/ProRes/8-11mm鱼眼/1000fps高速/FPV穿越机） 4. **质感风格**（电影级/红牛/国家地理/IMAX/胶片质感/运动模糊/光晕） 5. **环境音效**（风声/引擎/水花/雪粉/心跳/观众欢呼/碰撞声） 6. **时间感知**（慢动作/时间凝固/关键帧/1/1000秒/时间膨胀/加速） 7. **氛围情绪**（肾上腺素/突破极限/自由飞翔/征服恐惧/心流状态/生命力量） - 强度>=9 时追加额外肾上腺素描述（15+关键词：生死一线/载入史册/品牌广告级） ### 核心函数 - `expandPrompt(basePrompt, sport, angle, intensity)` — 7维动态扩充，返回目标1450字符 - `truncateToLength(str, maxLength)` — 智能截断，优先保留完整句子（句号/逗号/空格处截断） - `checkPromptLength(prompt)` — 返回 { length, status, ratio }，status: ok/overflow/under - `qualityCheck(prompt)` — 质量门检查，检测溢出、包含关键词、是否中文 - `autoCompletePrompt(pr",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.44142425954341885,
+      "maxScore": 0.44142425954341885,
+      "firstRecalledAt": "2026-06-10T07:01:08.832Z",
+      "lastRecalledAt": "2026-06-10T07:01:08.832Z",
+      "queryHashes": [
+        "286b2fdebcdf"
+      ],
+      "recallDays": [
+        "2026-06-10"
+      ],
+      "conceptTags": [
+        "雪山/万米高空/热带海洋/城市滑板公园/岩壁/泥土赛道/都市建筑",
+        "pov/跟拍/侧拍/俯拍/仰拍",
+        "电影级/红牛/国家地理/imax/胶片质感/运动模糊/光晕",
+        "风声/引擎/水花/雪粉/心跳/观众欢呼/碰撞声",
+        "慢动作/时间凝固/关键帧/1/1000秒/时间膨胀/加速",
+        "肾上腺素/突破极限/自由飞翔/征服恐惧/心流状态/生命力量",
+        "生死一线/载入史册/品牌广告级",
+        "句号/逗号/空格处截断"
+      ]
+    },
+    "memory:memory/2026-06-10.md:367:401": {
+      "key": "memory:memory/2026-06-10.md:367:401",
+      "path": "memory/2026-06-10.md",
+      "startLine": 367,
+      "endLine": 401,
+      "source": "memory",
+      "snippet": "- 新增场景差异化：golden_hour 1-2次/片，silhouette/back_light 1次，moonlight/natural 各1次 ### 版本发布：SHORT-VIDEO-0.7.7-system-fix - 提交：`1a2b3c4`（临时） - 内容：5项系统级修复，81分→目标90+ ### 预生产运行 - 清理旧数据：删除前次输出文件和缓存 - 运行 `run-xiangxiang-maldives.js` - 完成时间：2026-06-10 12:18:18 GMT+8 - 输出文件：`preproduction-2026-06-10T04-18-18-550Z.json` - 待验证：对比81分旧数据，确认评分提升 --- ## 2026-06-10 13:32 - 新文档：《AI视频生成提示词工程方法论——通用系统级规范 v1.0》 ### 队长投喂新文档 - 文件名：`AI视频生成提示词工程方法论——通用系统级规范.md` - 定位：通用系统级规范，不绑定任何特定场景或模型 - 适用平台：SeaDance / Runway / Kling / Veo / Sora / Luma ### 文档核心框架（与之前文档完全不同，更系统） **七层提示词结构（全新）：** ``` [约束层] → [基础层] → [空间层] → [主体层] → [动态层] → [风格层] → [质控层] P0必加 P0必加 P1防平庸 P2防漂移 P1防平庸 P2防漂移 P0必加 ``` **六",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4357827544212341,
+      "maxScore": 0.4357827544212341,
+      "firstRecalledAt": "2026-06-10T07:01:08.832Z",
+      "lastRecalledAt": "2026-06-10T07:01:08.832Z",
+      "queryHashes": [
+        "286b2fdebcdf"
+      ],
+      "recallDays": [
+        "2026-06-10"
+      ],
+      "conceptTags": [
+        "golden-hour",
+        "1-2次/片",
+        "silhouette/back-light",
+        "moonlight/natural",
+        "short-video-0.7.7-system-fix",
+        "run-xiangxiang-maldives.js",
+        "v1.0",
+        "通用系统级规范.md"
+      ]
+    },
+    "memory:memory/2026-06-10.md:396:415": {
+      "key": "memory:memory/2026-06-10.md:396:415",
+      "path": "memory/2026-06-10.md",
+      "startLine": 396,
+      "endLine": 415,
+      "source": "memory",
+      "snippet": "P0必加 P0必加 P1防平庸 P2防漂移 P1防平庸 P2防漂移 P0必加 ``` **六维构建体系：** - SUBJECT（主体定义：形态/材质/状态/关系四维模型） - ACTION（动作编排：主体动作+环境动作+镜头动作三层） - SCENE（场景建构：宏观地理/中观地貌/微观材质/天气时间/空间关系） - CAMERA（镜头语言：机位高度体系+运镜方式+光学参数+运动速度） - LIGHTING（光影系统：光源位置+性质+效果三要素，自然光时段词库，光影现象词库） - STYLE（风格锚定：写实度分级0-5，画面质感词库，动态范围控制） **物理真实感描述（核心方法论）：** > \"用物理过程替代形容词描述\"是区分AI生成与真实世界复刻的决定性因素 > 差：\"很漂亮的水\" → 好：\"清澈海水高速切开形成V型尾迹，气泡被拉成细线\" - 水体物理（9种状态：平静/波纹/涌浪/碎浪/飞溅/激流/瀑布/水下/雨滴） - 大气物理（雾/体积雾/烟/尘埃/蒸汽/云/体积云/雨/雪/风） - 材质物理（基础材质/表面状态/光学反应/动态反应四维） - 布料与柔体物理（衣物/头发/旗帜/窗帘/水面覆盖物） **光影系统规范：**",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4315840810537338,
+      "maxScore": 0.4315840810537338,
+      "firstRecalledAt": "2026-06-10T07:01:08.832Z",
+      "lastRecalledAt": "2026-06-10T07:01:08.832Z",
+      "queryHashes": [
+        "286b2fdebcdf"
+      ],
+      "recallDays": [
+        "2026-06-10"
+      ],
+      "conceptTags": [
+        "形态/材质/状态/关系四维模型",
+        "宏观地理/中观地貌/微观材质/天气时间/空间关系",
+        "写实度分级0-5",
+        "平静/波纹/涌浪/碎浪/飞溅/激流/瀑布/水下/雨滴",
+        "雾/体积雾/烟/尘埃/蒸汽/云/体积云/雨/雪/风",
+        "基础材质/表面状态/光学反应/动态反应四维",
+        "衣物/头发/旗帜/窗帘/水面覆盖物",
+        "平庸"
+      ]
+    },
+    "memory:memory/2026-06-10.md:490:495": {
+      "key": "memory:memory/2026-06-10.md:490:495",
+      "path": "memory/2026-06-10.md",
+      "startLine": 490,
+      "endLine": 495,
+      "source": "memory",
+      "snippet": "- 系统应将提示词构建视为结构化数据组装，而非自由文本生成 - 物理真实感是决定性因素，AI模型对物理关键词的响应强度远高于形容词堆砌 - 每个时间片段（2-3秒）只设定一个主导动作，多动作竞争会导致AI分配不均 - 英文术语优先：模型对英文摄影/电影术语的识别精度普遍高于中文",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4266930103302002,
+      "maxScore": 0.4266930103302002,
+      "firstRecalledAt": "2026-06-10T07:01:08.832Z",
+      "lastRecalledAt": "2026-06-10T07:01:08.832Z",
+      "queryHashes": [
+        "286b2fdebcdf"
+      ],
+      "recallDays": [
+        "2026-06-10"
+      ],
+      "conceptTags": [
+        "2-3秒",
+        "模型对英文摄影/电影术语的识别精度普遍高于中文",
+        "系统",
+        "提示",
+        "视为",
+        "结构",
+        "数据",
+        "自由"
+      ]
+    },
+    "memory:memory/2026-05-26.md:160:175": {
+      "key": "memory:memory/2026-05-26.md:160:175",
+      "path": "memory/2026-05-26.md",
+      "startLine": 160,
+      "endLine": 175,
+      "source": "memory",
+      "snippet": "**1. 第二份材料精华注入**（`AI人物显假问题——让数字人\"活\"起来的实战指南`） - 注入 `xiaog-lively-action-system.js`：生命信号参数化系统（呼吸/眨眼/微表情/无意识动作/常见错误） - 注入 `opening-system-v3.js` Act2：多人场景互动设计（视线链Gaze Chain、动作-反应配对、空间关系叙事） - 注入 `opening-system-v3.js` Act3：定格待机感（idleAction） **2. Prompt字数修复**（关键） - 初始超标：1088字符（超出108） - 修复语音签名重复Bug：`voiceResult.voiceMoment.split('--')` ASCII双横线无法匹配中文破折号`——` - 修复 `【口播动作】undefined`：`minimalMouthAction` 误用 `short` 字段而非 `shortDescription` - 7级渐进智能压缩：技术规格→风格锁→运镜→亮度→角色约束→口播→全局负面 - 最终达标：**971字符** ✅ - 13项关键约束全部通过：神兽人声签名、角色约束、口播动作、全局负面、禁止红眼、禁止水晶、出品人字体、标题Agent、饕餮出场震撼、ASTRALIS、运镜系统、Nirath明亮约束、风格锁 **3. 神兽出场Agent v1.1**（5种硬编码模式） - 每种出场模式注入 `fullScreen`（全屏铺满）+ `audio`（震撼音效） - `generateCameraWork` 增加 `extreme_",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.41906172335147857,
+      "maxScore": 0.41906172335147857,
+      "firstRecalledAt": "2026-06-10T07:01:08.832Z",
+      "lastRecalledAt": "2026-06-10T07:01:08.832Z",
+      "queryHashes": [
+        "286b2fdebcdf"
+      ],
+      "recallDays": [
+        "2026-06-10"
+      ],
+      "conceptTags": [
+        "xiaog-lively-action-system.js",
+        "呼吸/眨眼/微表情/无意识动作/常见错误",
+        "opening-system-v3.js",
+        "动作-反应配对",
+        "voiceresult.voicemoment.split",
+        "v1.1",
+        "第二",
+        "材料"
       ]
     }
   }
