@@ -814,11 +814,11 @@ class NirathMasterPipeline {
               let mergedCount = 0;
               for (const shot of forgeResult.shots) {
                 // v6.5.55-fix: 跳过片头镜头，保留opening-system-v3.js生成的原始Prompt
+                const existingShot = result.stages.render.find(r => r.shotId === shot.id);
                 if (!shot.id || shot.id === 'S00' || shot.id === 'undefined') {
                   this.log('PIPELINE', `  ⏭️ 跳过片头镜头: ${shot.id || 'S00'}，保留原始Prompt(${existingShot?.prompt?.length || 0}字符)`);
                   continue;
                 }
-                const existingShot = result.stages.render.find(r => r.shotId === shot.id);
                 
                 if (existingShot && shot.finalPrompt) {
                   const cleanedPrompt = this._cleanForgePrompt(shot.finalPrompt);
