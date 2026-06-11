@@ -1043,6 +1043,498 @@
         "nirathName": "Campus-planum",
         "generatedAt": "2026-06-11T00:38:16.785Z",
         "terrainType": "plain"
+      },
+      {
+        "earthName": "记忆荒原：饕餮的猎场",
+        "nirathName": "Stepp-expanse",
+        "generatedAt": "2026-06-11T00:43:51.587Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "回响峡谷·记忆幻象",
+        "nirathName": "Apex-peak",
+        "generatedAt": "2026-06-11T01:58:25.768Z",
+        "terrainType": "mountain"
+      },
+      {
+        "earthName": "记忆荒原·初遇",
+        "nirathName": "Campus-planum",
+        "generatedAt": "2026-06-11T02:12:40.879Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "苏醒于Nirath",
+        "nirathName": "Vastum-field",
+        "generatedAt": "2026-06-11T05:29:19.444Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "异星遗迹入口",
+        "nirathName": "Maris-maris",
+        "generatedAt": "2026-06-11T05:29:19.444Z",
+        "terrainType": "coast"
+      },
+      {
+        "earthName": "巨兽现身",
+        "nirathName": "Stepp-expanse",
+        "generatedAt": "2026-06-11T05:29:19.444Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "小G与饕餮的终极对决",
+        "nirathName": "Campus-planum",
+        "generatedAt": "2026-06-11T05:29:19.445Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "Nirath的黎明",
+        "nirathName": "Litus-vastum",
+        "generatedAt": "2026-06-11T05:29:19.445Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "异星初醒",
+        "nirathName": "Litus-vastum",
+        "generatedAt": "2026-06-11T05:39:15.635Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "遗迹入口",
+        "nirathName": "Aestus-aestus",
+        "generatedAt": "2026-06-11T05:39:15.635Z",
+        "terrainType": "coast"
+      },
+      {
+        "earthName": "白泽现身",
+        "nirathName": "Velum-tide",
+        "generatedAt": "2026-06-11T05:39:15.635Z",
+        "terrainType": "lake"
+      },
+      {
+        "earthName": "生态裂隙危机",
+        "nirathName": "Stepp-expanse",
+        "generatedAt": "2026-06-11T05:39:15.635Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "告别与启程",
+        "nirathName": "Vastum-field",
+        "generatedAt": "2026-06-11T05:39:15.636Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "异星登陆",
+        "nirathName": "Stepp-expanse",
+        "generatedAt": "2026-06-11T05:43:39.712Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "遗迹前哨",
+        "nirathName": "Horizon-reach",
+        "generatedAt": "2026-06-11T05:43:39.713Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "白泽现形",
+        "nirathName": "Lumina-velum",
+        "generatedAt": "2026-06-11T05:43:39.713Z",
+        "terrainType": "lake"
+      },
+      {
+        "earthName": "水晶裂谷对决",
+        "nirathName": "Tor-tor",
+        "generatedAt": "2026-06-11T05:43:39.713Z",
+        "terrainType": "mountain"
+      },
+      {
+        "earthName": "归途启程",
+        "nirathName": "Litus-vastum",
+        "generatedAt": "2026-06-11T05:43:39.713Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "登陆Nirath",
+        "nirathName": "Planum-campus",
+        "generatedAt": "2026-06-11T05:58:00.343Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "星云裂谷的生死抉择",
+        "nirathName": "Cirrus-spire",
+        "generatedAt": "2026-06-11T05:58:00.343Z",
+        "terrainType": "mountain"
+      },
+      {
+        "earthName": "告别白泽",
+        "nirathName": "Velum-tide",
+        "generatedAt": "2026-06-11T05:58:00.343Z",
+        "terrainType": "lake"
+      },
+      {
+        "earthName": "异星遗迹探索",
+        "nirathName": "Planum-campus",
+        "generatedAt": "2026-06-11T06:01:21.091Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "共生抉择",
+        "nirathName": "Litus-vastum",
+        "generatedAt": "2026-06-11T06:01:21.091Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "星渊回响",
+        "nirathName": "Spira-mere",
+        "generatedAt": "2026-06-11T06:01:21.091Z",
+        "terrainType": "lake"
+      },
+      {
+        "earthName": "Nirath初醒",
+        "nirathName": "Vastum-field",
+        "generatedAt": "2026-06-11T06:25:59.011Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "Nirath核心危机",
+        "nirathName": "Campus-planum",
+        "generatedAt": "2026-06-11T06:25:59.011Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "星际归途",
+        "nirathName": "Campus-planum",
+        "generatedAt": "2026-06-11T06:25:59.012Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "星际觉醒",
+        "nirathName": "Horizon-reach",
+        "generatedAt": "2026-06-11T06:42:50.445Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "废弃观测站",
+        "nirathName": "Campus-planum",
+        "generatedAt": "2026-06-11T06:42:50.446Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "核心决战",
+        "nirathName": "Stepp-expanse",
+        "generatedAt": "2026-06-11T06:42:50.446Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "归途与新生",
+        "nirathName": "Horizon-reach",
+        "generatedAt": "2026-06-11T06:42:50.446Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "异星觉醒",
+        "nirathName": "Stepp-expanse",
+        "generatedAt": "2026-06-11T06:49:20.814Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "异星遗迹探秘",
+        "nirathName": "Vastum-field",
+        "generatedAt": "2026-06-11T06:49:20.814Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "白泽真容",
+        "nirathName": "Spira-mere",
+        "generatedAt": "2026-06-11T06:49:20.814Z",
+        "terrainType": "lake"
+      },
+      {
+        "earthName": "核心冲突爆发",
+        "nirathName": "Planum-campus",
+        "generatedAt": "2026-06-11T06:49:20.815Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "Nirath异星降临",
+        "nirathName": "Stepp-expanse",
+        "generatedAt": "2026-06-11T07:01:53.083Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "外星遗迹发现",
+        "nirathName": "Stepp-expanse",
+        "generatedAt": "2026-06-11T07:01:53.083Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "白泽真身显现",
+        "nirathName": "Magna-lacus",
+        "generatedAt": "2026-06-11T07:01:53.083Z",
+        "terrainType": "lake"
+      },
+      {
+        "earthName": "共生危机",
+        "nirathName": "Horizon-reach",
+        "generatedAt": "2026-06-11T07:01:53.084Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "Nirath星初醒",
+        "nirathName": "Litus-vastum",
+        "generatedAt": "2026-06-11T07:07:29.181Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "星核共鸣",
+        "nirathName": "Vastum-field",
+        "generatedAt": "2026-06-11T07:07:29.182Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "异星开场",
+        "nirathName": "Vastum-field",
+        "generatedAt": "2026-06-11T07:22:12.504Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "荧光丛林的揭示",
+        "nirathName": "Arbor-nemus",
+        "generatedAt": "2026-06-11T07:22:12.504Z",
+        "terrainType": "forest"
+      },
+      {
+        "earthName": "觉醒共鸣",
+        "nirathName": "Vastum-field",
+        "generatedAt": "2026-06-11T07:22:12.505Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "白泽告别与启程",
+        "nirathName": "Velum-tide",
+        "generatedAt": "2026-06-11T07:22:12.505Z",
+        "terrainType": "lake"
+      },
+      {
+        "earthName": "异星苏醒",
+        "nirathName": "Campus-planum",
+        "generatedAt": "2026-06-11T07:32:49.650Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "远古真相",
+        "nirathName": "Vastum-field",
+        "generatedAt": "2026-06-11T07:32:49.651Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "晶核觉醒",
+        "nirathName": "Planum-campus",
+        "generatedAt": "2026-06-11T07:32:49.651Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "活体建筑",
+        "nirathName": "Vastum-field",
+        "generatedAt": "2026-06-11T08:33:33.137Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "深渊共鸣",
+        "nirathName": "Velum-tide",
+        "generatedAt": "2026-06-11T08:33:33.137Z",
+        "terrainType": "lake"
+      },
+      {
+        "earthName": "星痕归途",
+        "nirathName": "Campus-planum",
+        "generatedAt": "2026-06-11T08:33:33.138Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "防御机制揭示",
+        "nirathName": "Litus-vastum",
+        "generatedAt": "2026-06-11T08:51:31.026Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "晶渊觉醒",
+        "nirathName": "Flux-pool",
+        "generatedAt": "2026-06-11T08:51:31.026Z",
+        "terrainType": "lake"
+      },
+      {
+        "earthName": "异星遗迹",
+        "nirathName": "Planum-campus",
+        "generatedAt": "2026-06-11T08:58:30.117Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "晶核暴走",
+        "nirathName": "Campus-planum",
+        "generatedAt": "2026-06-11T08:58:30.117Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "异星初见",
+        "nirathName": "Vastum-field",
+        "generatedAt": "2026-06-11T09:20:06.090Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "白泽觉醒",
+        "nirathName": "Flux-pool",
+        "generatedAt": "2026-06-11T09:20:06.090Z",
+        "terrainType": "lake"
+      },
+      {
+        "earthName": "星归启程",
+        "nirathName": "Planum-campus",
+        "generatedAt": "2026-06-11T09:20:06.090Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "遗迹入口探查",
+        "nirathName": "Shor-edge",
+        "generatedAt": "2026-06-11T09:38:34.264Z",
+        "terrainType": "coast"
+      },
+      {
+        "earthName": "Nirath核心决战",
+        "nirathName": "Litus-vastum",
+        "generatedAt": "2026-06-11T09:38:34.265Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "任务完结",
+        "nirathName": "Horizon-reach",
+        "generatedAt": "2026-06-11T09:38:34.265Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "Nirath星球初临",
+        "nirathName": "Vastum-field",
+        "generatedAt": "2026-06-11T09:57:52.786Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "神秘现身",
+        "nirathName": "Planum-campus",
+        "generatedAt": "2026-06-11T09:57:52.786Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "外星核心对决",
+        "nirathName": "Stepp-expanse",
+        "generatedAt": "2026-06-11T09:57:52.786Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "星球启示",
+        "nirathName": "Planum-campus",
+        "generatedAt": "2026-06-11T09:57:52.788Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "异星建筑",
+        "nirathName": "Stepp-expanse",
+        "generatedAt": "2026-06-11T10:17:37.088Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "白泽苏醒",
+        "nirathName": "Velum-tide",
+        "generatedAt": "2026-06-11T10:17:37.089Z",
+        "terrainType": "lake"
+      },
+      {
+        "earthName": "生态临界爆发",
+        "nirathName": "Planum-campus",
+        "generatedAt": "2026-06-11T10:31:05.291Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "重返宁静",
+        "nirathName": "Planum-campus",
+        "generatedAt": "2026-06-11T10:31:05.292Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "共生建筑",
+        "nirathName": "Vastum-field",
+        "generatedAt": "2026-06-11T11:15:46.300Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "Nirath核心共鸣",
+        "nirathName": "Horizon-reach",
+        "generatedAt": "2026-06-11T11:15:46.300Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "异星归途",
+        "nirathName": "Planum-campus",
+        "generatedAt": "2026-06-11T11:15:46.301Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "异星初临",
+        "nirathName": "Campus-planum",
+        "generatedAt": "2026-06-11T11:44:47.242Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "共生契约",
+        "nirathName": "Horizon-reach",
+        "generatedAt": "2026-06-11T11:44:47.243Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "生态危机解除",
+        "nirathName": "Campus-planum",
+        "generatedAt": "2026-06-11T11:44:47.243Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "降临Nirath",
+        "nirathName": "Horizon-reach",
+        "generatedAt": "2026-06-11T15:32:39.154Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "白泽真身",
+        "nirathName": "Lumina-velum",
+        "generatedAt": "2026-06-11T15:32:39.155Z",
+        "terrainType": "lake"
+      },
+      {
+        "earthName": "共生觉醒",
+        "nirathName": "Vastum-field",
+        "generatedAt": "2026-06-11T15:32:39.155Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "白泽的告别",
+        "nirathName": "Aqua-aqua",
+        "generatedAt": "2026-06-11T15:32:39.155Z",
+        "terrainType": "lake"
+      },
+      {
+        "earthName": "废弃外星观测站",
+        "nirathName": "Planum-campus",
+        "generatedAt": "2026-06-11T15:46:24.002Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "核心危机爆发",
+        "nirathName": "Planum-campus",
+        "generatedAt": "2026-06-11T15:46:24.002Z",
+        "terrainType": "plain"
+      },
+      {
+        "earthName": "白泽告别与小G启程",
+        "nirathName": "Aqua-aqua",
+        "generatedAt": "2026-06-11T15:46:24.002Z",
+        "terrainType": "lake"
       }
     ]
   },
@@ -11921,6 +12413,4571 @@
       "special": "磁场线与草叶接触处产生微弱荧光"
     },
     "generatedAt": "2026-06-11T00:38:16.785Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "记忆荒原：饕餮的猎场": {
+    "earthName": "记忆荒原：饕餮的猎场",
+    "nirathName": "Stepp-expanse",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "记忆荒原：饕餮的猎场（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：种子在低重力下可以随风飘行数公里。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：风吹过草原时，草浪的起伏方向受磁场轻微影响。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：点缀着磁感蒲公英，种子绒毛带有微弱荧光。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T00:43:51.587Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "回响峡谷·记忆幻象": {
+    "earthName": "回响峡谷·记忆幻象",
+    "nirathName": "Apex-peak",
+    "terrainType": "mountain",
+    "category": "山脉",
+    "description": "回响峡谷·记忆幻象（Nirath原生地貌·山脉）——\n\n重力效应（0.82G）：悬崖边缘可见因低重力而形成的悬空岩石。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：磁场使山顶云雾呈双螺旋形态（模仿双恒星轨道）。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K金色Aurelius光照射东/南坡，6500K银白Silvana光照射西/北坡，山体紫晶反射双星双色光，形成棱镜色散，磁场线与山体交汇处形成极光般的淡紫/青绿色光幕。\n\n原生生态：岩缝中的磁感地衣，在磁场最强处呈现金色荧光。山顶以太孢子密度低，星空清晰可见（双星伴月）。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "山峰高度比地球同类型高20%（低重力允许更陡峭岩壁）",
+        "山顶碎石在低重力下形成缓慢漂浮的尘埃带",
+        "登山者可以轻松跃起1.5米高度",
+        "悬崖边缘可见因低重力而形成的悬空岩石"
+      ],
+      "magneticEffects": [
+        "山体富含磁性矿石，表面可见3.2Tesla磁场线呈螺旋状缠绕",
+        "磁化岩石在双恒星照射下呈现金属光泽",
+        "山体裂缝中透出淡蓝紫色磁光",
+        "磁场使山顶云雾呈双螺旋形态（模仿双恒星轨道）"
+      ],
+      "flora": [
+        "岩缝中的磁感地衣，在磁场最强处呈现金色荧光",
+        "山腰生长柱状水晶树，树干为透明紫晶，内部可见磁场线流动",
+        "山顶无植被，但有磁场苔藓形成的发光地毯"
+      ],
+      "atmosphere": [
+        "山顶以太孢子密度低，星空清晰可见（双星伴月）",
+        "山谷中孢子密度高，形成发光雾带",
+        "海拔越高，磁场线越清晰可见（空气稀薄干扰少）"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K金色Aurelius光照射东/南坡，6500K银白Silvana光照射西/北坡",
+      "secondary": "山体紫晶反射双星双色光，形成棱镜色散",
+      "special": "磁场线与山体交汇处形成极光般的淡紫/青绿色光幕"
+    },
+    "generatedAt": "2026-06-11T01:58:25.768Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "记忆荒原·初遇": {
+    "earthName": "记忆荒原·初遇",
+    "nirathName": "Campus-planum",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "记忆荒原·初遇（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：露珠在低重力下呈更完美的球形。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原上可见微弱的磁场线（地面高度1-2米）。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：河流/湖泊边缘有磁感芦苇丛。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T02:12:40.879Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "苏醒于Nirath": {
+    "earthName": "苏醒于Nirath",
+    "nirathName": "Vastum-field",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "苏醒于Nirath（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：草原上的草穗因低重力而显得更为挺拔修长。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原地下的磁铁矿使草叶尖端微微偏向北方。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）。地平线处可见磁场线汇聚形成的淡紫色极光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T05:29:19.444Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "异星遗迹入口": {
+    "earthName": "异星遗迹入口",
+    "nirathName": "Maris-maris",
+    "terrainType": "coast",
+    "category": "海岸",
+    "description": "异星遗迹入口（Nirath原生地貌·海岸）——\n\n重力效应（0.82G）：潮汐高度比地球高25%（低重力+双星引力叠加）。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：海岸线附近的磁性沙滩（黑色磁铁矿颗粒）。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里双星在海面的双色反射（金色+银白波纹），浪花飞溅微粒的彩虹散射，退潮时沙滩上磁场线痕迹的微光。\n\n原生生态：海岸生长耐盐碱磁感红树林，根系暴露于空气中（低重力使细根悬浮）。海岸以太孢子密度中等，海风带来孢子形成光之流。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "潮汐高度比地球高25%（低重力+双星引力叠加）",
+        "海浪破碎后泡沫悬浮在空中数秒",
+        "退潮时沙滩上的水因低重力而形成更高/更细的水膜",
+        "海岸悬崖因低重力侵蚀更缓慢，形成更陡峭形态"
+      ],
+      "magneticEffects": [
+        "海岸线附近的磁性沙滩（黑色磁铁矿颗粒）",
+        "海浪与磁场相互作用，浪花边缘呈现淡紫色",
+        "潮汐受双星引力+磁场共同影响，形成复杂节律",
+        "退潮时可见磁场线在湿润沙滩上的痕迹（如发光纹路）"
+      ],
+      "flora": [
+        "海岸生长耐盐碱磁感红树林，根系暴露于空气中（低重力使细根悬浮）",
+        "潮间带覆盖双色荧光藻类（5800K下金红，6500K下银蓝）",
+        "海岸悬崖上的岩生苔藓在浪花飞溅时发出脉冲光",
+        "某些海岸有漂浮的\"海草球\"（低重力下聚集成球形）"
+      ],
+      "atmosphere": [
+        "海岸以太孢子密度中等，海风带来孢子形成光之流",
+        "浪花飞溅的微粒在双星照射下形成彩虹光环",
+        "潮汐带来的水雾与孢子结合形成光之帷幕",
+        "地平线处双星同时可见（日出/日落时分双色重叠）"
+      ]
+    },
+    "lighting": {
+      "primary": "双星在海面的双色反射（金色+银白波纹）",
+      "secondary": "浪花飞溅微粒的彩虹散射",
+      "special": "退潮时沙滩上磁场线痕迹的微光"
+    },
+    "generatedAt": "2026-06-11T05:29:19.444Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "巨兽现身": {
+    "earthName": "巨兽现身",
+    "nirathName": "Stepp-expanse",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "巨兽现身（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：种子在低重力下可以随风飘行数公里。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：风吹过草原时，草浪的起伏方向受磁场轻微影响。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：点缀着磁感蒲公英，种子绒毛带有微弱荧光。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T05:29:19.444Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "小G与饕餮的终极对决": {
+    "earthName": "小G与饕餮的终极对决",
+    "nirathName": "Campus-planum",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "小G与饕餮的终极对决（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：种子在低重力下可以随风飘行数公里。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：风吹过草原时，草浪的起伏方向受磁场轻微影响。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：点缀着磁感蒲公英，种子绒毛带有微弱荧光。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T05:29:19.445Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "Nirath的黎明": {
+    "earthName": "Nirath的黎明",
+    "nirathName": "Litus-vastum",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "Nirath的黎明（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：露珠在低重力下呈更完美的球形。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原上可见微弱的磁场线（地面高度1-2米）。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：河流/湖泊边缘有磁感芦苇丛。地平线处可见磁场线汇聚形成的淡紫色极光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T05:29:19.445Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "异星初醒": {
+    "earthName": "异星初醒",
+    "nirathName": "Litus-vastum",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "异星初醒（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：露珠在低重力下呈更完美的球形。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原上可见微弱的磁场线（地面高度1-2米）。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：河流/湖泊边缘有磁感芦苇丛。地平线处可见磁场线汇聚形成的淡紫色极光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T05:39:15.635Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "遗迹入口": {
+    "earthName": "遗迹入口",
+    "nirathName": "Aestus-aestus",
+    "terrainType": "coast",
+    "category": "海岸",
+    "description": "遗迹入口（Nirath原生地貌·海岸）——\n\n重力效应（0.82G）：海浪破碎后泡沫悬浮在空中数秒。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：海浪与磁场相互作用，浪花边缘呈现淡紫色。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里双星在海面的双色反射（金色+银白波纹），浪花飞溅微粒的彩虹散射，退潮时沙滩上磁场线痕迹的微光。\n\n原生生态：潮间带覆盖双色荧光藻类（5800K下金红，6500K下银蓝）。浪花飞溅的微粒在双星照射下形成彩虹光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "潮汐高度比地球高25%（低重力+双星引力叠加）",
+        "海浪破碎后泡沫悬浮在空中数秒",
+        "退潮时沙滩上的水因低重力而形成更高/更细的水膜",
+        "海岸悬崖因低重力侵蚀更缓慢，形成更陡峭形态"
+      ],
+      "magneticEffects": [
+        "海岸线附近的磁性沙滩（黑色磁铁矿颗粒）",
+        "海浪与磁场相互作用，浪花边缘呈现淡紫色",
+        "潮汐受双星引力+磁场共同影响，形成复杂节律",
+        "退潮时可见磁场线在湿润沙滩上的痕迹（如发光纹路）"
+      ],
+      "flora": [
+        "海岸生长耐盐碱磁感红树林，根系暴露于空气中（低重力使细根悬浮）",
+        "潮间带覆盖双色荧光藻类（5800K下金红，6500K下银蓝）",
+        "海岸悬崖上的岩生苔藓在浪花飞溅时发出脉冲光",
+        "某些海岸有漂浮的\"海草球\"（低重力下聚集成球形）"
+      ],
+      "atmosphere": [
+        "海岸以太孢子密度中等，海风带来孢子形成光之流",
+        "浪花飞溅的微粒在双星照射下形成彩虹光环",
+        "潮汐带来的水雾与孢子结合形成光之帷幕",
+        "地平线处双星同时可见（日出/日落时分双色重叠）"
+      ]
+    },
+    "lighting": {
+      "primary": "双星在海面的双色反射（金色+银白波纹）",
+      "secondary": "浪花飞溅微粒的彩虹散射",
+      "special": "退潮时沙滩上磁场线痕迹的微光"
+    },
+    "generatedAt": "2026-06-11T05:39:15.635Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "白泽现身": {
+    "earthName": "白泽现身",
+    "nirathName": "Velum-tide",
+    "terrainType": "lake",
+    "category": "水体",
+    "description": "白泽现身（Nirath原生地貌·水体）——\n\n重力效应（0.82G）：浪花溅起的高度是地球的1.5倍。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：水中微生物受磁场影响呈螺旋状排列。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里双恒星双色光在水面的镜面反射，水体内部生物荧光的散射光，磁场线与水面交汇处产生淡紫色辉光。\n\n原生生态：水岸覆盖紫色苔藓，在双恒星照射下呈现蓝绿渐变。低重力使水蒸气上升缓慢，形成持久的晨雾/暮霭。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "水面呈现微弱向上弯曲的弧度（低重力效应）",
+        "水雾在低重力下缓缓上升形成悬浮水滴云",
+        "浪花溅起的高度是地球的1.5倍",
+        "水面反射双恒星双色光，形成双色波纹纹理"
+      ],
+      "magneticEffects": [
+        "水体中含有微量磁性矿物质，水面下可见淡蓝紫色磁场线",
+        "磁场使水面形成规律的同心圆波纹（30Hz共振）",
+        "水中微生物受磁场影响呈螺旋状排列"
+      ],
+      "flora": [
+        "水边生长磁感芦苇，穗尖发出与磁场同步的脉冲微光",
+        "水面漂浮生物发光浮萍，夜间形成星点光斑",
+        "水岸覆盖紫色苔藓，在双恒星照射下呈现蓝绿渐变"
+      ],
+      "atmosphere": [
+        "水面上方悬浮以太孢子密度较高，形成朦胧光晕",
+        "双恒星双色光透过水雾形成彩虹色散条纹",
+        "低重力使水蒸气上升缓慢，形成持久的晨雾/暮霭"
+      ]
+    },
+    "lighting": {
+      "primary": "双恒星双色光在水面的镜面反射",
+      "secondary": "水体内部生物荧光的散射光",
+      "special": "磁场线与水面交汇处产生淡紫色辉光"
+    },
+    "generatedAt": "2026-06-11T05:39:15.635Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "生态裂隙危机": {
+    "earthName": "生态裂隙危机",
+    "nirathName": "Stepp-expanse",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "生态裂隙危机（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：露珠在低重力下呈更完美的球形。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原上可见微弱的磁场线（地面高度1-2米）。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：河流/湖泊边缘有磁感芦苇丛。平原上空以太孢子密度中等，形成薄雾状光带。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T05:39:15.635Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "告别与启程": {
+    "earthName": "告别与启程",
+    "nirathName": "Vastum-field",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "告别与启程（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T05:39:15.636Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "异星登陆": {
+    "earthName": "异星登陆",
+    "nirathName": "Stepp-expanse",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "异星登陆（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：种子在低重力下可以随风飘行数公里。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：风吹过草原时，草浪的起伏方向受磁场轻微影响。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：点缀着磁感蒲公英，种子绒毛带有微弱荧光。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T05:43:39.712Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "遗迹前哨": {
+    "earthName": "遗迹前哨",
+    "nirathName": "Horizon-reach",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "遗迹前哨（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：草原上的草穗因低重力而显得更为挺拔修长。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原地下的磁铁矿使草叶尖端微微偏向北方。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）。平原上空以太孢子密度中等，形成薄雾状光带。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T05:43:39.713Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "白泽现形": {
+    "earthName": "白泽现形",
+    "nirathName": "Lumina-velum",
+    "terrainType": "lake",
+    "category": "水体",
+    "description": "白泽现形（Nirath原生地貌·水体）——\n\n重力效应（0.82G）：水面反射双恒星双色光，形成双色波纹纹理。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：水中微生物受磁场影响呈螺旋状排列。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里双恒星双色光在水面的镜面反射，水体内部生物荧光的散射光，磁场线与水面交汇处产生淡紫色辉光。\n\n原生生态：水岸覆盖紫色苔藓，在双恒星照射下呈现蓝绿渐变。低重力使水蒸气上升缓慢，形成持久的晨雾/暮霭。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "水面呈现微弱向上弯曲的弧度（低重力效应）",
+        "水雾在低重力下缓缓上升形成悬浮水滴云",
+        "浪花溅起的高度是地球的1.5倍",
+        "水面反射双恒星双色光，形成双色波纹纹理"
+      ],
+      "magneticEffects": [
+        "水体中含有微量磁性矿物质，水面下可见淡蓝紫色磁场线",
+        "磁场使水面形成规律的同心圆波纹（30Hz共振）",
+        "水中微生物受磁场影响呈螺旋状排列"
+      ],
+      "flora": [
+        "水边生长磁感芦苇，穗尖发出与磁场同步的脉冲微光",
+        "水面漂浮生物发光浮萍，夜间形成星点光斑",
+        "水岸覆盖紫色苔藓，在双恒星照射下呈现蓝绿渐变"
+      ],
+      "atmosphere": [
+        "水面上方悬浮以太孢子密度较高，形成朦胧光晕",
+        "双恒星双色光透过水雾形成彩虹色散条纹",
+        "低重力使水蒸气上升缓慢，形成持久的晨雾/暮霭"
+      ]
+    },
+    "lighting": {
+      "primary": "双恒星双色光在水面的镜面反射",
+      "secondary": "水体内部生物荧光的散射光",
+      "special": "磁场线与水面交汇处产生淡紫色辉光"
+    },
+    "generatedAt": "2026-06-11T05:43:39.713Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "水晶裂谷对决": {
+    "earthName": "水晶裂谷对决",
+    "nirathName": "Tor-tor",
+    "terrainType": "mountain",
+    "category": "山脉",
+    "description": "水晶裂谷对决（Nirath原生地貌·山脉）——\n\n重力效应（0.82G）：登山者可以轻松跃起1.5米高度。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：山体裂缝中透出淡蓝紫色磁光。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K金色Aurelius光照射东/南坡，6500K银白Silvana光照射西/北坡，山体紫晶反射双星双色光，形成棱镜色散，磁场线与山体交汇处形成极光般的淡紫/青绿色光幕。\n\n原生生态：山腰生长柱状水晶树，树干为透明紫晶，内部可见磁场线流动。山谷中孢子密度高，形成发光雾带。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "山峰高度比地球同类型高20%（低重力允许更陡峭岩壁）",
+        "山顶碎石在低重力下形成缓慢漂浮的尘埃带",
+        "登山者可以轻松跃起1.5米高度",
+        "悬崖边缘可见因低重力而形成的悬空岩石"
+      ],
+      "magneticEffects": [
+        "山体富含磁性矿石，表面可见3.2Tesla磁场线呈螺旋状缠绕",
+        "磁化岩石在双恒星照射下呈现金属光泽",
+        "山体裂缝中透出淡蓝紫色磁光",
+        "磁场使山顶云雾呈双螺旋形态（模仿双恒星轨道）"
+      ],
+      "flora": [
+        "岩缝中的磁感地衣，在磁场最强处呈现金色荧光",
+        "山腰生长柱状水晶树，树干为透明紫晶，内部可见磁场线流动",
+        "山顶无植被，但有磁场苔藓形成的发光地毯"
+      ],
+      "atmosphere": [
+        "山顶以太孢子密度低，星空清晰可见（双星伴月）",
+        "山谷中孢子密度高，形成发光雾带",
+        "海拔越高，磁场线越清晰可见（空气稀薄干扰少）"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K金色Aurelius光照射东/南坡，6500K银白Silvana光照射西/北坡",
+      "secondary": "山体紫晶反射双星双色光，形成棱镜色散",
+      "special": "磁场线与山体交汇处形成极光般的淡紫/青绿色光幕"
+    },
+    "generatedAt": "2026-06-11T05:43:39.713Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "归途启程": {
+    "earthName": "归途启程",
+    "nirathName": "Litus-vastum",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "归途启程（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：露珠在低重力下呈更完美的球形。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原上可见微弱的磁场线（地面高度1-2米）。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：河流/湖泊边缘有磁感芦苇丛。平原上空以太孢子密度中等，形成薄雾状光带。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T05:43:39.713Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "登陆Nirath": {
+    "earthName": "登陆Nirath",
+    "nirathName": "Planum-campus",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "登陆Nirath（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。平原上空以太孢子密度中等，形成薄雾状光带。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T05:58:00.343Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "星云裂谷的生死抉择": {
+    "earthName": "星云裂谷的生死抉择",
+    "nirathName": "Cirrus-spire",
+    "terrainType": "mountain",
+    "category": "山脉",
+    "description": "星云裂谷的生死抉择（Nirath原生地貌·山脉）——\n\n重力效应（0.82G）：山峰高度比地球同类型高20%（低重力允许更陡峭岩壁）。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：山体富含磁性矿石，表面可见3.2Tesla磁场线呈螺旋状缠绕。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K金色Aurelius光照射东/南坡，6500K银白Silvana光照射西/北坡，山体紫晶反射双星双色光，形成棱镜色散，磁场线与山体交汇处形成极光般的淡紫/青绿色光幕。\n\n原生生态：山顶无植被，但有磁场苔藓形成的发光地毯。海拔越高，磁场线越清晰可见（空气稀薄干扰少）。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "山峰高度比地球同类型高20%（低重力允许更陡峭岩壁）",
+        "山顶碎石在低重力下形成缓慢漂浮的尘埃带",
+        "登山者可以轻松跃起1.5米高度",
+        "悬崖边缘可见因低重力而形成的悬空岩石"
+      ],
+      "magneticEffects": [
+        "山体富含磁性矿石，表面可见3.2Tesla磁场线呈螺旋状缠绕",
+        "磁化岩石在双恒星照射下呈现金属光泽",
+        "山体裂缝中透出淡蓝紫色磁光",
+        "磁场使山顶云雾呈双螺旋形态（模仿双恒星轨道）"
+      ],
+      "flora": [
+        "岩缝中的磁感地衣，在磁场最强处呈现金色荧光",
+        "山腰生长柱状水晶树，树干为透明紫晶，内部可见磁场线流动",
+        "山顶无植被，但有磁场苔藓形成的发光地毯"
+      ],
+      "atmosphere": [
+        "山顶以太孢子密度低，星空清晰可见（双星伴月）",
+        "山谷中孢子密度高，形成发光雾带",
+        "海拔越高，磁场线越清晰可见（空气稀薄干扰少）"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K金色Aurelius光照射东/南坡，6500K银白Silvana光照射西/北坡",
+      "secondary": "山体紫晶反射双星双色光，形成棱镜色散",
+      "special": "磁场线与山体交汇处形成极光般的淡紫/青绿色光幕"
+    },
+    "generatedAt": "2026-06-11T05:58:00.343Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "告别白泽": {
+    "earthName": "告别白泽",
+    "nirathName": "Velum-tide",
+    "terrainType": "lake",
+    "category": "水体",
+    "description": "告别白泽（Nirath原生地貌·水体）——\n\n重力效应（0.82G）：水面呈现微弱向上弯曲的弧度（低重力效应）。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：磁场使水面形成规律的同心圆波纹（30Hz共振）。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里双恒星双色光在水面的镜面反射，水体内部生物荧光的散射光，磁场线与水面交汇处产生淡紫色辉光。\n\n原生生态：水面漂浮生物发光浮萍，夜间形成星点光斑。双恒星双色光透过水雾形成彩虹色散条纹。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "水面呈现微弱向上弯曲的弧度（低重力效应）",
+        "水雾在低重力下缓缓上升形成悬浮水滴云",
+        "浪花溅起的高度是地球的1.5倍",
+        "水面反射双恒星双色光，形成双色波纹纹理"
+      ],
+      "magneticEffects": [
+        "水体中含有微量磁性矿物质，水面下可见淡蓝紫色磁场线",
+        "磁场使水面形成规律的同心圆波纹（30Hz共振）",
+        "水中微生物受磁场影响呈螺旋状排列"
+      ],
+      "flora": [
+        "水边生长磁感芦苇，穗尖发出与磁场同步的脉冲微光",
+        "水面漂浮生物发光浮萍，夜间形成星点光斑",
+        "水岸覆盖紫色苔藓，在双恒星照射下呈现蓝绿渐变"
+      ],
+      "atmosphere": [
+        "水面上方悬浮以太孢子密度较高，形成朦胧光晕",
+        "双恒星双色光透过水雾形成彩虹色散条纹",
+        "低重力使水蒸气上升缓慢，形成持久的晨雾/暮霭"
+      ]
+    },
+    "lighting": {
+      "primary": "双恒星双色光在水面的镜面反射",
+      "secondary": "水体内部生物荧光的散射光",
+      "special": "磁场线与水面交汇处产生淡紫色辉光"
+    },
+    "generatedAt": "2026-06-11T05:58:00.343Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "异星遗迹探索": {
+    "earthName": "异星遗迹探索",
+    "nirathName": "Planum-campus",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "异星遗迹探索（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。平原上空以太孢子密度中等，形成薄雾状光带。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T06:01:21.091Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "共生抉择": {
+    "earthName": "共生抉择",
+    "nirathName": "Litus-vastum",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "共生抉择（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：露珠在低重力下呈更完美的球形。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原上可见微弱的磁场线（地面高度1-2米）。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：河流/湖泊边缘有磁感芦苇丛。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T06:01:21.091Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "星渊回响": {
+    "earthName": "星渊回响",
+    "nirathName": "Spira-mere",
+    "terrainType": "lake",
+    "category": "水体",
+    "description": "星渊回响（Nirath原生地貌·水体）——\n\n重力效应（0.82G）：水面反射双恒星双色光，形成双色波纹纹理。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：水中微生物受磁场影响呈螺旋状排列。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里双恒星双色光在水面的镜面反射，水体内部生物荧光的散射光，磁场线与水面交汇处产生淡紫色辉光。\n\n原生生态：水岸覆盖紫色苔藓，在双恒星照射下呈现蓝绿渐变。低重力使水蒸气上升缓慢，形成持久的晨雾/暮霭。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "水面呈现微弱向上弯曲的弧度（低重力效应）",
+        "水雾在低重力下缓缓上升形成悬浮水滴云",
+        "浪花溅起的高度是地球的1.5倍",
+        "水面反射双恒星双色光，形成双色波纹纹理"
+      ],
+      "magneticEffects": [
+        "水体中含有微量磁性矿物质，水面下可见淡蓝紫色磁场线",
+        "磁场使水面形成规律的同心圆波纹（30Hz共振）",
+        "水中微生物受磁场影响呈螺旋状排列"
+      ],
+      "flora": [
+        "水边生长磁感芦苇，穗尖发出与磁场同步的脉冲微光",
+        "水面漂浮生物发光浮萍，夜间形成星点光斑",
+        "水岸覆盖紫色苔藓，在双恒星照射下呈现蓝绿渐变"
+      ],
+      "atmosphere": [
+        "水面上方悬浮以太孢子密度较高，形成朦胧光晕",
+        "双恒星双色光透过水雾形成彩虹色散条纹",
+        "低重力使水蒸气上升缓慢，形成持久的晨雾/暮霭"
+      ]
+    },
+    "lighting": {
+      "primary": "双恒星双色光在水面的镜面反射",
+      "secondary": "水体内部生物荧光的散射光",
+      "special": "磁场线与水面交汇处产生淡紫色辉光"
+    },
+    "generatedAt": "2026-06-11T06:01:21.091Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "Nirath初醒": {
+    "earthName": "Nirath初醒",
+    "nirathName": "Vastum-field",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "Nirath初醒（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。平原上空以太孢子密度中等，形成薄雾状光带。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T06:25:59.011Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "Nirath核心危机": {
+    "earthName": "Nirath核心危机",
+    "nirathName": "Campus-planum",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "Nirath核心危机（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：露珠在低重力下呈更完美的球形。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原上可见微弱的磁场线（地面高度1-2米）。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：河流/湖泊边缘有磁感芦苇丛。平原上空以太孢子密度中等，形成薄雾状光带。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T06:25:59.011Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "星际归途": {
+    "earthName": "星际归途",
+    "nirathName": "Campus-planum",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "星际归途（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：种子在低重力下可以随风飘行数公里。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：风吹过草原时，草浪的起伏方向受磁场轻微影响。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：点缀着磁感蒲公英，种子绒毛带有微弱荧光。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T06:25:59.012Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "星际觉醒": {
+    "earthName": "星际觉醒",
+    "nirathName": "Horizon-reach",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "星际觉醒（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T06:42:50.445Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "废弃观测站": {
+    "earthName": "废弃观测站",
+    "nirathName": "Campus-planum",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "废弃观测站（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：种子在低重力下可以随风飘行数公里。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：风吹过草原时，草浪的起伏方向受磁场轻微影响。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：点缀着磁感蒲公英，种子绒毛带有微弱荧光。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T06:42:50.446Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "核心决战": {
+    "earthName": "核心决战",
+    "nirathName": "Stepp-expanse",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "核心决战（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：种子在低重力下可以随风飘行数公里。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：风吹过草原时，草浪的起伏方向受磁场轻微影响。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：点缀着磁感蒲公英，种子绒毛带有微弱荧光。地平线处可见磁场线汇聚形成的淡紫色极光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T06:42:50.446Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "归途与新生": {
+    "earthName": "归途与新生",
+    "nirathName": "Horizon-reach",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "归途与新生（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：草原上的草穗因低重力而显得更为挺拔修长。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原地下的磁铁矿使草叶尖端微微偏向北方。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）。地平线处可见磁场线汇聚形成的淡紫色极光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T06:42:50.446Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "异星觉醒": {
+    "earthName": "异星觉醒",
+    "nirathName": "Stepp-expanse",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "异星觉醒（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：露珠在低重力下呈更完美的球形。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原上可见微弱的磁场线（地面高度1-2米）。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：河流/湖泊边缘有磁感芦苇丛。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T06:49:20.814Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "异星遗迹探秘": {
+    "earthName": "异星遗迹探秘",
+    "nirathName": "Vastum-field",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "异星遗迹探秘（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：草原上的草穗因低重力而显得更为挺拔修长。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原地下的磁铁矿使草叶尖端微微偏向北方。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T06:49:20.814Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "白泽真容": {
+    "earthName": "白泽真容",
+    "nirathName": "Spira-mere",
+    "terrainType": "lake",
+    "category": "水体",
+    "description": "白泽真容（Nirath原生地貌·水体）——\n\n重力效应（0.82G）：水面反射双恒星双色光，形成双色波纹纹理。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：磁场使水面形成规律的同心圆波纹（30Hz共振）。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里双恒星双色光在水面的镜面反射，水体内部生物荧光的散射光，磁场线与水面交汇处产生淡紫色辉光。\n\n原生生态：水面漂浮生物发光浮萍，夜间形成星点光斑。双恒星双色光透过水雾形成彩虹色散条纹。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "水面呈现微弱向上弯曲的弧度（低重力效应）",
+        "水雾在低重力下缓缓上升形成悬浮水滴云",
+        "浪花溅起的高度是地球的1.5倍",
+        "水面反射双恒星双色光，形成双色波纹纹理"
+      ],
+      "magneticEffects": [
+        "水体中含有微量磁性矿物质，水面下可见淡蓝紫色磁场线",
+        "磁场使水面形成规律的同心圆波纹（30Hz共振）",
+        "水中微生物受磁场影响呈螺旋状排列"
+      ],
+      "flora": [
+        "水边生长磁感芦苇，穗尖发出与磁场同步的脉冲微光",
+        "水面漂浮生物发光浮萍，夜间形成星点光斑",
+        "水岸覆盖紫色苔藓，在双恒星照射下呈现蓝绿渐变"
+      ],
+      "atmosphere": [
+        "水面上方悬浮以太孢子密度较高，形成朦胧光晕",
+        "双恒星双色光透过水雾形成彩虹色散条纹",
+        "低重力使水蒸气上升缓慢，形成持久的晨雾/暮霭"
+      ]
+    },
+    "lighting": {
+      "primary": "双恒星双色光在水面的镜面反射",
+      "secondary": "水体内部生物荧光的散射光",
+      "special": "磁场线与水面交汇处产生淡紫色辉光"
+    },
+    "generatedAt": "2026-06-11T06:49:20.814Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "核心冲突爆发": {
+    "earthName": "核心冲突爆发",
+    "nirathName": "Planum-campus",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "核心冲突爆发（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：草原上的草穗因低重力而显得更为挺拔修长。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原地下的磁铁矿使草叶尖端微微偏向北方。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T06:49:20.815Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "Nirath异星降临": {
+    "earthName": "Nirath异星降临",
+    "nirathName": "Stepp-expanse",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "Nirath异星降临（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：露珠在低重力下呈更完美的球形。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原上可见微弱的磁场线（地面高度1-2米）。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：河流/湖泊边缘有磁感芦苇丛。地平线处可见磁场线汇聚形成的淡紫色极光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T07:01:53.083Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "外星遗迹发现": {
+    "earthName": "外星遗迹发现",
+    "nirathName": "Stepp-expanse",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "外星遗迹发现（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：露珠在低重力下呈更完美的球形。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原上可见微弱的磁场线（地面高度1-2米）。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：河流/湖泊边缘有磁感芦苇丛。地平线处可见磁场线汇聚形成的淡紫色极光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T07:01:53.083Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "白泽真身显现": {
+    "earthName": "白泽真身显现",
+    "nirathName": "Magna-lacus",
+    "terrainType": "lake",
+    "category": "水体",
+    "description": "白泽真身显现（Nirath原生地貌·水体）——\n\n重力效应（0.82G）：水面反射双恒星双色光，形成双色波纹纹理。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：水体中含有微量磁性矿物质，水面下可见淡蓝紫色磁场线。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里双恒星双色光在水面的镜面反射，水体内部生物荧光的散射光，磁场线与水面交汇处产生淡紫色辉光。\n\n原生生态：水边生长磁感芦苇，穗尖发出与磁场同步的脉冲微光。水面上方悬浮以太孢子密度较高，形成朦胧光晕。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "水面呈现微弱向上弯曲的弧度（低重力效应）",
+        "水雾在低重力下缓缓上升形成悬浮水滴云",
+        "浪花溅起的高度是地球的1.5倍",
+        "水面反射双恒星双色光，形成双色波纹纹理"
+      ],
+      "magneticEffects": [
+        "水体中含有微量磁性矿物质，水面下可见淡蓝紫色磁场线",
+        "磁场使水面形成规律的同心圆波纹（30Hz共振）",
+        "水中微生物受磁场影响呈螺旋状排列"
+      ],
+      "flora": [
+        "水边生长磁感芦苇，穗尖发出与磁场同步的脉冲微光",
+        "水面漂浮生物发光浮萍，夜间形成星点光斑",
+        "水岸覆盖紫色苔藓，在双恒星照射下呈现蓝绿渐变"
+      ],
+      "atmosphere": [
+        "水面上方悬浮以太孢子密度较高，形成朦胧光晕",
+        "双恒星双色光透过水雾形成彩虹色散条纹",
+        "低重力使水蒸气上升缓慢，形成持久的晨雾/暮霭"
+      ]
+    },
+    "lighting": {
+      "primary": "双恒星双色光在水面的镜面反射",
+      "secondary": "水体内部生物荧光的散射光",
+      "special": "磁场线与水面交汇处产生淡紫色辉光"
+    },
+    "generatedAt": "2026-06-11T07:01:53.083Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "共生危机": {
+    "earthName": "共生危机",
+    "nirathName": "Horizon-reach",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "共生危机（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。地平线处可见磁场线汇聚形成的淡紫色极光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T07:01:53.084Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "Nirath星初醒": {
+    "earthName": "Nirath星初醒",
+    "nirathName": "Litus-vastum",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "Nirath星初醒（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：露珠在低重力下呈更完美的球形。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原上可见微弱的磁场线（地面高度1-2米）。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：河流/湖泊边缘有磁感芦苇丛。地平线处可见磁场线汇聚形成的淡紫色极光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T07:07:29.181Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "星核共鸣": {
+    "earthName": "星核共鸣",
+    "nirathName": "Vastum-field",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "星核共鸣（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。平原上空以太孢子密度中等，形成薄雾状光带。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T07:07:29.182Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "异星开场": {
+    "earthName": "异星开场",
+    "nirathName": "Vastum-field",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "异星开场（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。地平线处可见磁场线汇聚形成的淡紫色极光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T07:22:12.504Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "荧光丛林的揭示": {
+    "earthName": "荧光丛林的揭示",
+    "nirathName": "Arbor-nemus",
+    "terrainType": "forest",
+    "category": "森林",
+    "description": "荧光丛林的揭示（Nirath原生地貌·森林）——\n\n重力效应（0.82G）：藤蔓植物可以生长得更长，横跨数十米。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：树根缠绕磁化岩石，形成天然磁场放大器。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里双星光线透过树冠层形成双色光柱，生物发光苔藓/藤蔓提供地面照明，磁场线与树干交汇处产生紫晶般的内发光。\n\n原生生态：树冠层悬挂发光藤蔓，如瀑布般垂落。树冠层阻挡部分光照，地面呈现蓝紫色调。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "树冠因低重力而更加舒展宽广，枝叶呈水平展开",
+        "落叶缓缓飘落，速度比地球慢30%",
+        "藤蔓植物可以生长得更长，横跨数十米",
+        "树冠层的孢子云因低重力而悬浮更久"
+      ],
+      "magneticEffects": [
+        "树干含磁性树脂，在树皮裂缝中可见磁场线痕迹",
+        "森林中某些树木的排列方向受地下磁铁矿影响",
+        "树根缠绕磁化岩石，形成天然磁场放大器",
+        "林间雾气中的孢子受磁场引导形成光之流"
+      ],
+      "flora": [
+        "巨树树干为紫晶化木质，半透明，内部可见年轮般的磁场沉积纹",
+        "树叶为蓝绿色，在5800K光照下泛金边，6500K下泛银边",
+        "树冠层悬挂发光藤蔓，如瀑布般垂落",
+        "地面覆盖发光苔藓地毯，颜色随磁场强度变化（弱=蓝，强=紫）"
+      ],
+      "atmosphere": [
+        "林间以太孢子密度极高，形成淡绿色/淡蓝色雾霭",
+        "双恒星光线透过树冠形成双色光柱（丁达尔效应）",
+        "树冠层阻挡部分光照，地面呈现蓝紫色调",
+        "孢子云在树冠间流动，如发光河流"
+      ]
+    },
+    "lighting": {
+      "primary": "双星光线透过树冠层形成双色光柱",
+      "secondary": "生物发光苔藓/藤蔓提供地面照明",
+      "special": "磁场线与树干交汇处产生紫晶般的内发光"
+    },
+    "generatedAt": "2026-06-11T07:22:12.504Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "觉醒共鸣": {
+    "earthName": "觉醒共鸣",
+    "nirathName": "Vastum-field",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "觉醒共鸣（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T07:22:12.505Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "白泽告别与启程": {
+    "earthName": "白泽告别与启程",
+    "nirathName": "Velum-tide",
+    "terrainType": "lake",
+    "category": "水体",
+    "description": "白泽告别与启程（Nirath原生地貌·水体）——\n\n重力效应（0.82G）：浪花溅起的高度是地球的1.5倍。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：水体中含有微量磁性矿物质，水面下可见淡蓝紫色磁场线。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里双恒星双色光在水面的镜面反射，水体内部生物荧光的散射光，磁场线与水面交汇处产生淡紫色辉光。\n\n原生生态：水边生长磁感芦苇，穗尖发出与磁场同步的脉冲微光。水面上方悬浮以太孢子密度较高，形成朦胧光晕。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "水面呈现微弱向上弯曲的弧度（低重力效应）",
+        "水雾在低重力下缓缓上升形成悬浮水滴云",
+        "浪花溅起的高度是地球的1.5倍",
+        "水面反射双恒星双色光，形成双色波纹纹理"
+      ],
+      "magneticEffects": [
+        "水体中含有微量磁性矿物质，水面下可见淡蓝紫色磁场线",
+        "磁场使水面形成规律的同心圆波纹（30Hz共振）",
+        "水中微生物受磁场影响呈螺旋状排列"
+      ],
+      "flora": [
+        "水边生长磁感芦苇，穗尖发出与磁场同步的脉冲微光",
+        "水面漂浮生物发光浮萍，夜间形成星点光斑",
+        "水岸覆盖紫色苔藓，在双恒星照射下呈现蓝绿渐变"
+      ],
+      "atmosphere": [
+        "水面上方悬浮以太孢子密度较高，形成朦胧光晕",
+        "双恒星双色光透过水雾形成彩虹色散条纹",
+        "低重力使水蒸气上升缓慢，形成持久的晨雾/暮霭"
+      ]
+    },
+    "lighting": {
+      "primary": "双恒星双色光在水面的镜面反射",
+      "secondary": "水体内部生物荧光的散射光",
+      "special": "磁场线与水面交汇处产生淡紫色辉光"
+    },
+    "generatedAt": "2026-06-11T07:22:12.505Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "异星苏醒": {
+    "earthName": "异星苏醒",
+    "nirathName": "Campus-planum",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "异星苏醒（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：种子在低重力下可以随风飘行数公里。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：风吹过草原时，草浪的起伏方向受磁场轻微影响。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：点缀着磁感蒲公英，种子绒毛带有微弱荧光。平原上空以太孢子密度中等，形成薄雾状光带。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T07:32:49.650Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "远古真相": {
+    "earthName": "远古真相",
+    "nirathName": "Vastum-field",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "远古真相（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：草原上的草穗因低重力而显得更为挺拔修长。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原地下的磁铁矿使草叶尖端微微偏向北方。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）。地平线处可见磁场线汇聚形成的淡紫色极光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T07:32:49.651Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "晶核觉醒": {
+    "earthName": "晶核觉醒",
+    "nirathName": "Planum-campus",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "晶核觉醒（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。地平线处可见磁场线汇聚形成的淡紫色极光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T07:32:49.651Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "活体建筑": {
+    "earthName": "活体建筑",
+    "nirathName": "Vastum-field",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "活体建筑（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T08:33:33.137Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "深渊共鸣": {
+    "earthName": "深渊共鸣",
+    "nirathName": "Velum-tide",
+    "terrainType": "lake",
+    "category": "水体",
+    "description": "深渊共鸣（Nirath原生地貌·水体）——\n\n重力效应（0.82G）：浪花溅起的高度是地球的1.5倍。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：磁场使水面形成规律的同心圆波纹（30Hz共振）。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里双恒星双色光在水面的镜面反射，水体内部生物荧光的散射光，磁场线与水面交汇处产生淡紫色辉光。\n\n原生生态：水面漂浮生物发光浮萍，夜间形成星点光斑。双恒星双色光透过水雾形成彩虹色散条纹。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "水面呈现微弱向上弯曲的弧度（低重力效应）",
+        "水雾在低重力下缓缓上升形成悬浮水滴云",
+        "浪花溅起的高度是地球的1.5倍",
+        "水面反射双恒星双色光，形成双色波纹纹理"
+      ],
+      "magneticEffects": [
+        "水体中含有微量磁性矿物质，水面下可见淡蓝紫色磁场线",
+        "磁场使水面形成规律的同心圆波纹（30Hz共振）",
+        "水中微生物受磁场影响呈螺旋状排列"
+      ],
+      "flora": [
+        "水边生长磁感芦苇，穗尖发出与磁场同步的脉冲微光",
+        "水面漂浮生物发光浮萍，夜间形成星点光斑",
+        "水岸覆盖紫色苔藓，在双恒星照射下呈现蓝绿渐变"
+      ],
+      "atmosphere": [
+        "水面上方悬浮以太孢子密度较高，形成朦胧光晕",
+        "双恒星双色光透过水雾形成彩虹色散条纹",
+        "低重力使水蒸气上升缓慢，形成持久的晨雾/暮霭"
+      ]
+    },
+    "lighting": {
+      "primary": "双恒星双色光在水面的镜面反射",
+      "secondary": "水体内部生物荧光的散射光",
+      "special": "磁场线与水面交汇处产生淡紫色辉光"
+    },
+    "generatedAt": "2026-06-11T08:33:33.137Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "星痕归途": {
+    "earthName": "星痕归途",
+    "nirathName": "Campus-planum",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "星痕归途（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：种子在低重力下可以随风飘行数公里。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：风吹过草原时，草浪的起伏方向受磁场轻微影响。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：点缀着磁感蒲公英，种子绒毛带有微弱荧光。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T08:33:33.138Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "防御机制揭示": {
+    "earthName": "防御机制揭示",
+    "nirathName": "Litus-vastum",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "防御机制揭示（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：种子在低重力下可以随风飘行数公里。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：风吹过草原时，草浪的起伏方向受磁场轻微影响。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：点缀着磁感蒲公英，种子绒毛带有微弱荧光。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T08:51:31.026Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "晶渊觉醒": {
+    "earthName": "晶渊觉醒",
+    "nirathName": "Flux-pool",
+    "terrainType": "lake",
+    "category": "水体",
+    "description": "晶渊觉醒（Nirath原生地貌·水体）——\n\n重力效应（0.82G）：水面呈现微弱向上弯曲的弧度（低重力效应）。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：磁场使水面形成规律的同心圆波纹（30Hz共振）。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里双恒星双色光在水面的镜面反射，水体内部生物荧光的散射光，磁场线与水面交汇处产生淡紫色辉光。\n\n原生生态：水面漂浮生物发光浮萍，夜间形成星点光斑。双恒星双色光透过水雾形成彩虹色散条纹。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "水面呈现微弱向上弯曲的弧度（低重力效应）",
+        "水雾在低重力下缓缓上升形成悬浮水滴云",
+        "浪花溅起的高度是地球的1.5倍",
+        "水面反射双恒星双色光，形成双色波纹纹理"
+      ],
+      "magneticEffects": [
+        "水体中含有微量磁性矿物质，水面下可见淡蓝紫色磁场线",
+        "磁场使水面形成规律的同心圆波纹（30Hz共振）",
+        "水中微生物受磁场影响呈螺旋状排列"
+      ],
+      "flora": [
+        "水边生长磁感芦苇，穗尖发出与磁场同步的脉冲微光",
+        "水面漂浮生物发光浮萍，夜间形成星点光斑",
+        "水岸覆盖紫色苔藓，在双恒星照射下呈现蓝绿渐变"
+      ],
+      "atmosphere": [
+        "水面上方悬浮以太孢子密度较高，形成朦胧光晕",
+        "双恒星双色光透过水雾形成彩虹色散条纹",
+        "低重力使水蒸气上升缓慢，形成持久的晨雾/暮霭"
+      ]
+    },
+    "lighting": {
+      "primary": "双恒星双色光在水面的镜面反射",
+      "secondary": "水体内部生物荧光的散射光",
+      "special": "磁场线与水面交汇处产生淡紫色辉光"
+    },
+    "generatedAt": "2026-06-11T08:51:31.026Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "异星遗迹": {
+    "earthName": "异星遗迹",
+    "nirathName": "Planum-campus",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "异星遗迹（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T08:58:30.117Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "晶核暴走": {
+    "earthName": "晶核暴走",
+    "nirathName": "Campus-planum",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "晶核暴走（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：露珠在低重力下呈更完美的球形。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原上可见微弱的磁场线（地面高度1-2米）。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：河流/湖泊边缘有磁感芦苇丛。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T08:58:30.117Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "异星初见": {
+    "earthName": "异星初见",
+    "nirathName": "Vastum-field",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "异星初见（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：草原上的草穗因低重力而显得更为挺拔修长。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原地下的磁铁矿使草叶尖端微微偏向北方。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）。地平线处可见磁场线汇聚形成的淡紫色极光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T09:20:06.090Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "白泽觉醒": {
+    "earthName": "白泽觉醒",
+    "nirathName": "Flux-pool",
+    "terrainType": "lake",
+    "category": "水体",
+    "description": "白泽觉醒（Nirath原生地貌·水体）——\n\n重力效应（0.82G）：水面呈现微弱向上弯曲的弧度（低重力效应）。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：水体中含有微量磁性矿物质，水面下可见淡蓝紫色磁场线。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里双恒星双色光在水面的镜面反射，水体内部生物荧光的散射光，磁场线与水面交汇处产生淡紫色辉光。\n\n原生生态：水边生长磁感芦苇，穗尖发出与磁场同步的脉冲微光。水面上方悬浮以太孢子密度较高，形成朦胧光晕。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "水面呈现微弱向上弯曲的弧度（低重力效应）",
+        "水雾在低重力下缓缓上升形成悬浮水滴云",
+        "浪花溅起的高度是地球的1.5倍",
+        "水面反射双恒星双色光，形成双色波纹纹理"
+      ],
+      "magneticEffects": [
+        "水体中含有微量磁性矿物质，水面下可见淡蓝紫色磁场线",
+        "磁场使水面形成规律的同心圆波纹（30Hz共振）",
+        "水中微生物受磁场影响呈螺旋状排列"
+      ],
+      "flora": [
+        "水边生长磁感芦苇，穗尖发出与磁场同步的脉冲微光",
+        "水面漂浮生物发光浮萍，夜间形成星点光斑",
+        "水岸覆盖紫色苔藓，在双恒星照射下呈现蓝绿渐变"
+      ],
+      "atmosphere": [
+        "水面上方悬浮以太孢子密度较高，形成朦胧光晕",
+        "双恒星双色光透过水雾形成彩虹色散条纹",
+        "低重力使水蒸气上升缓慢，形成持久的晨雾/暮霭"
+      ]
+    },
+    "lighting": {
+      "primary": "双恒星双色光在水面的镜面反射",
+      "secondary": "水体内部生物荧光的散射光",
+      "special": "磁场线与水面交汇处产生淡紫色辉光"
+    },
+    "generatedAt": "2026-06-11T09:20:06.090Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "星归启程": {
+    "earthName": "星归启程",
+    "nirathName": "Planum-campus",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "星归启程（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。地平线处可见磁场线汇聚形成的淡紫色极光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T09:20:06.090Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "遗迹入口探查": {
+    "earthName": "遗迹入口探查",
+    "nirathName": "Shor-edge",
+    "terrainType": "coast",
+    "category": "海岸",
+    "description": "遗迹入口探查（Nirath原生地貌·海岸）——\n\n重力效应（0.82G）：退潮时沙滩上的水因低重力而形成更高/更细的水膜。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：潮汐受双星引力+磁场共同影响，形成复杂节律。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里双星在海面的双色反射（金色+银白波纹），浪花飞溅微粒的彩虹散射，退潮时沙滩上磁场线痕迹的微光。\n\n原生生态：海岸悬崖上的岩生苔藓在浪花飞溅时发出脉冲光。潮汐带来的水雾与孢子结合形成光之帷幕。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "潮汐高度比地球高25%（低重力+双星引力叠加）",
+        "海浪破碎后泡沫悬浮在空中数秒",
+        "退潮时沙滩上的水因低重力而形成更高/更细的水膜",
+        "海岸悬崖因低重力侵蚀更缓慢，形成更陡峭形态"
+      ],
+      "magneticEffects": [
+        "海岸线附近的磁性沙滩（黑色磁铁矿颗粒）",
+        "海浪与磁场相互作用，浪花边缘呈现淡紫色",
+        "潮汐受双星引力+磁场共同影响，形成复杂节律",
+        "退潮时可见磁场线在湿润沙滩上的痕迹（如发光纹路）"
+      ],
+      "flora": [
+        "海岸生长耐盐碱磁感红树林，根系暴露于空气中（低重力使细根悬浮）",
+        "潮间带覆盖双色荧光藻类（5800K下金红，6500K下银蓝）",
+        "海岸悬崖上的岩生苔藓在浪花飞溅时发出脉冲光",
+        "某些海岸有漂浮的\"海草球\"（低重力下聚集成球形）"
+      ],
+      "atmosphere": [
+        "海岸以太孢子密度中等，海风带来孢子形成光之流",
+        "浪花飞溅的微粒在双星照射下形成彩虹光环",
+        "潮汐带来的水雾与孢子结合形成光之帷幕",
+        "地平线处双星同时可见（日出/日落时分双色重叠）"
+      ]
+    },
+    "lighting": {
+      "primary": "双星在海面的双色反射（金色+银白波纹）",
+      "secondary": "浪花飞溅微粒的彩虹散射",
+      "special": "退潮时沙滩上磁场线痕迹的微光"
+    },
+    "generatedAt": "2026-06-11T09:38:34.264Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "Nirath核心决战": {
+    "earthName": "Nirath核心决战",
+    "nirathName": "Litus-vastum",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "Nirath核心决战（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：露珠在低重力下呈更完美的球形。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原上可见微弱的磁场线（地面高度1-2米）。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：河流/湖泊边缘有磁感芦苇丛。地平线处可见磁场线汇聚形成的淡紫色极光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T09:38:34.265Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "任务完结": {
+    "earthName": "任务完结",
+    "nirathName": "Horizon-reach",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "任务完结（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：草原上的草穗因低重力而显得更为挺拔修长。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原地下的磁铁矿使草叶尖端微微偏向北方。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T09:38:34.265Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "Nirath星球初临": {
+    "earthName": "Nirath星球初临",
+    "nirathName": "Vastum-field",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "Nirath星球初临（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。平原上空以太孢子密度中等，形成薄雾状光带。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T09:57:52.786Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "神秘现身": {
+    "earthName": "神秘现身",
+    "nirathName": "Planum-campus",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "神秘现身（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：草原上的草穗因低重力而显得更为挺拔修长。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原地下的磁铁矿使草叶尖端微微偏向北方。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T09:57:52.786Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "外星核心对决": {
+    "earthName": "外星核心对决",
+    "nirathName": "Stepp-expanse",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "外星核心对决（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：露珠在低重力下呈更完美的球形。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原上可见微弱的磁场线（地面高度1-2米）。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：河流/湖泊边缘有磁感芦苇丛。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T09:57:52.786Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "星球启示": {
+    "earthName": "星球启示",
+    "nirathName": "Planum-campus",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "星球启示（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。地平线处可见磁场线汇聚形成的淡紫色极光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T09:57:52.788Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "异星建筑": {
+    "earthName": "异星建筑",
+    "nirathName": "Stepp-expanse",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "异星建筑（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：种子在低重力下可以随风飘行数公里。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：风吹过草原时，草浪的起伏方向受磁场轻微影响。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：点缀着磁感蒲公英，种子绒毛带有微弱荧光。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T10:17:37.088Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "白泽苏醒": {
+    "earthName": "白泽苏醒",
+    "nirathName": "Velum-tide",
+    "terrainType": "lake",
+    "category": "水体",
+    "description": "白泽苏醒（Nirath原生地貌·水体）——\n\n重力效应（0.82G）：浪花溅起的高度是地球的1.5倍。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：水中微生物受磁场影响呈螺旋状排列。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里双恒星双色光在水面的镜面反射，水体内部生物荧光的散射光，磁场线与水面交汇处产生淡紫色辉光。\n\n原生生态：水岸覆盖紫色苔藓，在双恒星照射下呈现蓝绿渐变。低重力使水蒸气上升缓慢，形成持久的晨雾/暮霭。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "水面呈现微弱向上弯曲的弧度（低重力效应）",
+        "水雾在低重力下缓缓上升形成悬浮水滴云",
+        "浪花溅起的高度是地球的1.5倍",
+        "水面反射双恒星双色光，形成双色波纹纹理"
+      ],
+      "magneticEffects": [
+        "水体中含有微量磁性矿物质，水面下可见淡蓝紫色磁场线",
+        "磁场使水面形成规律的同心圆波纹（30Hz共振）",
+        "水中微生物受磁场影响呈螺旋状排列"
+      ],
+      "flora": [
+        "水边生长磁感芦苇，穗尖发出与磁场同步的脉冲微光",
+        "水面漂浮生物发光浮萍，夜间形成星点光斑",
+        "水岸覆盖紫色苔藓，在双恒星照射下呈现蓝绿渐变"
+      ],
+      "atmosphere": [
+        "水面上方悬浮以太孢子密度较高，形成朦胧光晕",
+        "双恒星双色光透过水雾形成彩虹色散条纹",
+        "低重力使水蒸气上升缓慢，形成持久的晨雾/暮霭"
+      ]
+    },
+    "lighting": {
+      "primary": "双恒星双色光在水面的镜面反射",
+      "secondary": "水体内部生物荧光的散射光",
+      "special": "磁场线与水面交汇处产生淡紫色辉光"
+    },
+    "generatedAt": "2026-06-11T10:17:37.089Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "生态临界爆发": {
+    "earthName": "生态临界爆发",
+    "nirathName": "Planum-campus",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "生态临界爆发（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：草原上的草穗因低重力而显得更为挺拔修长。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原地下的磁铁矿使草叶尖端微微偏向北方。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）。地平线处可见磁场线汇聚形成的淡紫色极光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T10:31:05.291Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "重返宁静": {
+    "earthName": "重返宁静",
+    "nirathName": "Planum-campus",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "重返宁静（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T10:31:05.292Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "共生建筑": {
+    "earthName": "共生建筑",
+    "nirathName": "Vastum-field",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "共生建筑（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：草原上的草穗因低重力而显得更为挺拔修长。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原地下的磁铁矿使草叶尖端微微偏向北方。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T11:15:46.300Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "Nirath核心共鸣": {
+    "earthName": "Nirath核心共鸣",
+    "nirathName": "Horizon-reach",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "Nirath核心共鸣（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：草原上的草穗因低重力而显得更为挺拔修长。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原地下的磁铁矿使草叶尖端微微偏向北方。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）。平原上空以太孢子密度中等，形成薄雾状光带。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T11:15:46.300Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "异星归途": {
+    "earthName": "异星归途",
+    "nirathName": "Planum-campus",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "异星归途（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T11:15:46.301Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "异星初临": {
+    "earthName": "异星初临",
+    "nirathName": "Campus-planum",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "异星初临（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：种子在低重力下可以随风飘行数公里。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：风吹过草原时，草浪的起伏方向受磁场轻微影响。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：点缀着磁感蒲公英，种子绒毛带有微弱荧光。平原上空以太孢子密度中等，形成薄雾状光带。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T11:44:47.242Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "共生契约": {
+    "earthName": "共生契约",
+    "nirathName": "Horizon-reach",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "共生契约（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。地平线处可见磁场线汇聚形成的淡紫色极光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T11:44:47.243Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "生态危机解除": {
+    "earthName": "生态危机解除",
+    "nirathName": "Campus-planum",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "生态危机解除（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：种子在低重力下可以随风飘行数公里。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：风吹过草原时，草浪的起伏方向受磁场轻微影响。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：点缀着磁感蒲公英，种子绒毛带有微弱荧光。地平线处可见磁场线汇聚形成的淡紫色极光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T11:44:47.243Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "降临Nirath": {
+    "earthName": "降临Nirath",
+    "nirathName": "Horizon-reach",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "降临Nirath（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T15:32:39.154Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "白泽真身": {
+    "earthName": "白泽真身",
+    "nirathName": "Lumina-velum",
+    "terrainType": "lake",
+    "category": "水体",
+    "description": "白泽真身（Nirath原生地貌·水体）——\n\n重力效应（0.82G）：水雾在低重力下缓缓上升形成悬浮水滴云。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：水中微生物受磁场影响呈螺旋状排列。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里双恒星双色光在水面的镜面反射，水体内部生物荧光的散射光，磁场线与水面交汇处产生淡紫色辉光。\n\n原生生态：水岸覆盖紫色苔藓，在双恒星照射下呈现蓝绿渐变。低重力使水蒸气上升缓慢，形成持久的晨雾/暮霭。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "水面呈现微弱向上弯曲的弧度（低重力效应）",
+        "水雾在低重力下缓缓上升形成悬浮水滴云",
+        "浪花溅起的高度是地球的1.5倍",
+        "水面反射双恒星双色光，形成双色波纹纹理"
+      ],
+      "magneticEffects": [
+        "水体中含有微量磁性矿物质，水面下可见淡蓝紫色磁场线",
+        "磁场使水面形成规律的同心圆波纹（30Hz共振）",
+        "水中微生物受磁场影响呈螺旋状排列"
+      ],
+      "flora": [
+        "水边生长磁感芦苇，穗尖发出与磁场同步的脉冲微光",
+        "水面漂浮生物发光浮萍，夜间形成星点光斑",
+        "水岸覆盖紫色苔藓，在双恒星照射下呈现蓝绿渐变"
+      ],
+      "atmosphere": [
+        "水面上方悬浮以太孢子密度较高，形成朦胧光晕",
+        "双恒星双色光透过水雾形成彩虹色散条纹",
+        "低重力使水蒸气上升缓慢，形成持久的晨雾/暮霭"
+      ]
+    },
+    "lighting": {
+      "primary": "双恒星双色光在水面的镜面反射",
+      "secondary": "水体内部生物荧光的散射光",
+      "special": "磁场线与水面交汇处产生淡紫色辉光"
+    },
+    "generatedAt": "2026-06-11T15:32:39.155Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "共生觉醒": {
+    "earthName": "共生觉醒",
+    "nirathName": "Vastum-field",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "共生觉醒（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T15:32:39.155Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "白泽的告别": {
+    "earthName": "白泽的告别",
+    "nirathName": "Aqua-aqua",
+    "terrainType": "lake",
+    "category": "水体",
+    "description": "白泽的告别（Nirath原生地貌·水体）——\n\n重力效应（0.82G）：浪花溅起的高度是地球的1.5倍。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：水中微生物受磁场影响呈螺旋状排列。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里双恒星双色光在水面的镜面反射，水体内部生物荧光的散射光，磁场线与水面交汇处产生淡紫色辉光。\n\n原生生态：水岸覆盖紫色苔藓，在双恒星照射下呈现蓝绿渐变。低重力使水蒸气上升缓慢，形成持久的晨雾/暮霭。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "水面呈现微弱向上弯曲的弧度（低重力效应）",
+        "水雾在低重力下缓缓上升形成悬浮水滴云",
+        "浪花溅起的高度是地球的1.5倍",
+        "水面反射双恒星双色光，形成双色波纹纹理"
+      ],
+      "magneticEffects": [
+        "水体中含有微量磁性矿物质，水面下可见淡蓝紫色磁场线",
+        "磁场使水面形成规律的同心圆波纹（30Hz共振）",
+        "水中微生物受磁场影响呈螺旋状排列"
+      ],
+      "flora": [
+        "水边生长磁感芦苇，穗尖发出与磁场同步的脉冲微光",
+        "水面漂浮生物发光浮萍，夜间形成星点光斑",
+        "水岸覆盖紫色苔藓，在双恒星照射下呈现蓝绿渐变"
+      ],
+      "atmosphere": [
+        "水面上方悬浮以太孢子密度较高，形成朦胧光晕",
+        "双恒星双色光透过水雾形成彩虹色散条纹",
+        "低重力使水蒸气上升缓慢，形成持久的晨雾/暮霭"
+      ]
+    },
+    "lighting": {
+      "primary": "双恒星双色光在水面的镜面反射",
+      "secondary": "水体内部生物荧光的散射光",
+      "special": "磁场线与水面交汇处产生淡紫色辉光"
+    },
+    "generatedAt": "2026-06-11T15:32:39.155Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "废弃外星观测站": {
+    "earthName": "废弃外星观测站",
+    "nirathName": "Planum-campus",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "废弃外星观测站（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：草原上的草穗因低重力而显得更为挺拔修长。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：草原地下的磁铁矿使草叶尖端微微偏向北方。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）。地平线处可见磁场线汇聚形成的淡紫色极光环。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T15:46:24.002Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "核心危机爆发": {
+    "earthName": "核心危机爆发",
+    "nirathName": "Planum-campus",
+    "terrainType": "plain",
+    "category": "平原",
+    "description": "核心危机爆发（Nirath原生地貌·平原）——\n\n重力效应（0.82G）：奔跑时感觉轻盈，跳跃高度明显增加。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：某些草种含磁性颗粒，在磁场下会调整叶片朝向。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里5800K/6500K双星直射，草原呈现双色光影交替，生物发光植被在夜间形成星点/光带，磁场线与草叶接触处产生微弱荧光。\n\n原生生态：偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊。双恒星光照下，草原呈现金绿/银蓝双色渐变。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "草原上的草穗因低重力而显得更为挺拔修长",
+        "种子在低重力下可以随风飘行数公里",
+        "奔跑时感觉轻盈，跳跃高度明显增加",
+        "露珠在低重力下呈更完美的球形"
+      ],
+      "magneticEffects": [
+        "草原地下的磁铁矿使草叶尖端微微偏向北方",
+        "风吹过草原时，草浪的起伏方向受磁场轻微影响",
+        "某些草种含磁性颗粒，在磁场下会调整叶片朝向",
+        "草原上可见微弱的磁场线（地面高度1-2米）"
+      ],
+      "flora": [
+        "草原主体为双色荧光草（5800K光照下偏金绿，6500K下偏银蓝）",
+        "点缀着磁感蒲公英，种子绒毛带有微弱荧光",
+        "偶尔可见巨型蘑菇状植物，伞盖下悬挂发光孢子囊",
+        "河流/湖泊边缘有磁感芦苇丛"
+      ],
+      "atmosphere": [
+        "平原上空以太孢子密度中等，形成薄雾状光带",
+        "双恒星光照下，草原呈现金绿/银蓝双色渐变",
+        "地平线处可见磁场线汇聚形成的淡紫色极光环"
+      ]
+    },
+    "lighting": {
+      "primary": "5800K/6500K双星直射，草原呈现双色光影交替",
+      "secondary": "生物发光植被在夜间形成星点/光带",
+      "special": "磁场线与草叶接触处产生微弱荧光"
+    },
+    "generatedAt": "2026-06-11T15:46:24.002Z",
+    "version": "1.0",
+    "source": "auto-generated"
+  },
+  "白泽告别与小G启程": {
+    "earthName": "白泽告别与小G启程",
+    "nirathName": "Aqua-aqua",
+    "terrainType": "lake",
+    "category": "水体",
+    "description": "白泽告别与小G启程（Nirath原生地貌·水体）——\n\n重力效应（0.82G）：水面呈现微弱向上弯曲的弧度（低重力效应）。在Nirath的低重力环境下，这里的一切都比地球上更轻盈、更飘逸。\n\n磁场效应（3.2Tesla）：水体中含有微量磁性矿物质，水面下可见淡蓝紫色磁场线。3.2Tesla的全球磁场让这里充满了肉眼可见的淡蓝紫色磁光。\n\n双星光照：Aurelius（5800K金色主星）与Silvana（6500K银白伴星）以72小时为周期交替主导光照。这里双恒星双色光在水面的镜面反射，水体内部生物荧光的散射光，磁场线与水面交汇处产生淡紫色辉光。\n\n原生生态：水边生长磁感芦苇，穗尖发出与磁场同步的脉冲微光。水面上方悬浮以太孢子密度较高，形成朦胧光晕。\n\nNirath物理法则完整性：✅ 重力0.82G ✅ 磁场3.2Tesla ✅ 双恒星5800K/6500K ✅ 以太孢子 ✅ 生物发光植被",
+    "physics": {
+      "gravity": 0.82,
+      "magneticField": 3.2,
+      "starA": {
+        "name": "Aurelius",
+        "temp": 5800,
+        "color": "金色",
+        "wavelength": "5800K"
+      },
+      "starB": {
+        "name": "Silvana",
+        "temp": 6500,
+        "color": "银白",
+        "wavelength": "6500K"
+      }
+    },
+    "ecosystem": {
+      "gravityEffects": [
+        "水面呈现微弱向上弯曲的弧度（低重力效应）",
+        "水雾在低重力下缓缓上升形成悬浮水滴云",
+        "浪花溅起的高度是地球的1.5倍",
+        "水面反射双恒星双色光，形成双色波纹纹理"
+      ],
+      "magneticEffects": [
+        "水体中含有微量磁性矿物质，水面下可见淡蓝紫色磁场线",
+        "磁场使水面形成规律的同心圆波纹（30Hz共振）",
+        "水中微生物受磁场影响呈螺旋状排列"
+      ],
+      "flora": [
+        "水边生长磁感芦苇，穗尖发出与磁场同步的脉冲微光",
+        "水面漂浮生物发光浮萍，夜间形成星点光斑",
+        "水岸覆盖紫色苔藓，在双恒星照射下呈现蓝绿渐变"
+      ],
+      "atmosphere": [
+        "水面上方悬浮以太孢子密度较高，形成朦胧光晕",
+        "双恒星双色光透过水雾形成彩虹色散条纹",
+        "低重力使水蒸气上升缓慢，形成持久的晨雾/暮霭"
+      ]
+    },
+    "lighting": {
+      "primary": "双恒星双色光在水面的镜面反射",
+      "secondary": "水体内部生物荧光的散射光",
+      "special": "磁场线与水面交汇处产生淡紫色辉光"
+    },
+    "generatedAt": "2026-06-11T15:46:24.002Z",
     "version": "1.0",
     "source": "auto-generated"
   }

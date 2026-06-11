@@ -115,15 +115,21 @@ class DurationNarrationAlignment {
         const mismatchIndex = adjustedShots.findIndex(s => s.id === mismatch.shotId);
 
         if (donorIndex >= 0 && mismatchIndex >= 0) {
-          adjustedShots[donorIndex].duration -= borrow;
-          adjustedShots[mismatchIndex].duration += borrow;
-          remainingDeficit -= borrow;
-          totalBorrowed += borrow;
+          // v6.5.36-fix: 借调后不超过 maxDuration 上限（硬规则要求15秒）
+          const maxAllowed = 15; // 与硬规则对齐
+          const afterBorrow = adjustedShots[mismatchIndex].duration + borrow;
+          const cappedBorrow = afterBorrow > maxAllowed ? (maxAllowed - adjustedShots[mismatchIndex].duration) : borrow;
+          if (cappedBorrow <= 0) continue;
+
+          adjustedShots[donorIndex].duration -= cappedBorrow;
+          adjustedShots[mismatchIndex].duration += cappedBorrow;
+          remainingDeficit -= cappedBorrow;
+          totalBorrowed += cappedBorrow;
 
           adjustments.push({
             from: donor.shotId,
             to: mismatch.shotId,
-            amount: borrow,
+            amount: cappedBorrow,
             reason: `${mismatch.shotId} narration ${mismatch.charCount}字 需要 ${mismatch.requiredDuration}秒，原分配 ${mismatch.duration}秒`
           });
         }

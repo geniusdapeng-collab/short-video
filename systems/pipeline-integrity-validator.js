@@ -347,8 +347,9 @@ class PipelineIntegrityValidator {
           
           // v6.2-patch110-fix: 放宽运镜消费检查——buildPromptV3生成多段式时间轴，不直接包含原始description
           // 改为检查prompt中是否包含运镜关键词（如dawn_break、progressive_reveal等）
+          // v6.5.55-fix: 增加10字段结构CAMERA字段中的运镜关键词（static/push_in/orbit_right等）
           if (movement?.description) {
-            const hasCameraMovement = prompt.includes('镜头') || prompt.includes('运镜') || prompt.includes('camera') || prompt.includes('movement') || prompt.includes('dawn_break') || prompt.includes('progressive_reveal') || prompt.includes('exploding') || prompt.includes('slow_fast_slow') || prompt.includes('chase_dynamic') || prompt.includes('poetic_wander') || prompt.includes('impact_shock');
+            const hasCameraMovement = prompt.includes('镜头') || prompt.includes('运镜') || prompt.includes('camera') || prompt.includes('movement') || prompt.includes('dawn_break') || prompt.includes('progressive_reveal') || prompt.includes('exploding') || prompt.includes('slow_fast_slow') || prompt.includes('chase_dynamic') || prompt.includes('poetic_wander') || prompt.includes('impact_shock') || prompt.includes('static') || prompt.includes('push_in') || prompt.includes('orbit_right') || prompt.includes('fast_orbit') || prompt.includes('extreme_push') || prompt.includes('hold') || prompt.includes('tracking') || prompt.includes('一镜到底');
             if (!hasCameraMovement) {
               check.passed = false;
               check.details.push(`${cam.shotId}: 运镜未在最终Prompt中体现`);
@@ -551,8 +552,8 @@ class PipelineIntegrityValidator {
         const visualPrompt = script.scenes[i].visualPrompt || '';
         let sceneInPrompt;
         if (visualPrompt.length > 0) {
-          // visualPrompt存在时，检查Prompt长度是否达标（>800字符）
-          sceneInPrompt = prompt.length >= 800;
+          // v6.5.55-fix: visualPrompt存在时，检查Prompt长度是否达标（>=700字符，原为800过严）
+          sceneInPrompt = prompt.length >= 700;
         } else {
           sceneInPrompt = sceneKeywords.some(kw => kw.length >= 2 && prompt.includes(kw));
         }

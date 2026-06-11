@@ -1,24 +1,24 @@
 {
-  "id": "xiaoG",
-  "name": "小G",
+  "id": "bai-ze",
+  "name": "白泽",
   "baseIdentity": {
-    "name": "小G",
-    "age": 8,
-    "gender": "male",
+    "name": "白泽",
+    "age": 28,
+    "gender": "female",
     "species": "human",
-    "role": "audience",
+    "role": "",
     "origin": "Nirath"
   },
   "visualIdentity": {
-    "age": 8,
-    "gender": "male",
+    "age": 28,
+    "gender": "female",
     "build": "average",
     "height": "medium",
     "skinTone": "warm",
     "hair": "black",
     "eyes": "brown",
     "facialFeatures": "asian",
-    "distinguishingMarks": "8岁男孩，蓝色条纹睡衣，赤脚，Nirath旧世界唯一幸存者"
+    "distinguishingMarks": "通体雪白的神兽，狮身羊角，双目如琥珀般温润，能通晓万物语言，说话时会有淡淡的光晕从角尖散发"
   },
   "personality": {
     "core": "warm",
@@ -30,7 +30,7 @@
   },
   "visualAnchors": {
     "required": [
-      "8岁男孩，蓝色条纹睡衣，赤脚，Nirath旧世界唯一幸存者"
+      "通体雪白的神兽，狮身羊角，双目如琥珀般温润，能通晓万物语言，说话时会有淡淡的光晕从角尖散发"
     ],
     "preferred": [],
     "forbidden": [
@@ -41,15 +41,15 @@
     ]
   },
   "voiceIdentity": {
-    "gender": "male",
-    "ageGroup": "child",
+    "gender": "female",
+    "ageGroup": "adult",
     "tone": "warm",
     "pace": "medium",
     "emotion": "neutral",
     "language": "zh-CN"
   },
-  "createdAt": "2026-06-11T15:36:29.294Z",
-  "updatedAt": "2026-06-11T15:36:29.294Z",
+  "createdAt": "2026-06-11T15:36:29.296Z",
+  "updatedAt": "2026-06-11T15:36:29.296Z",
   "version": "2.0",
   "generatedAssets": {
     "portraits": [],

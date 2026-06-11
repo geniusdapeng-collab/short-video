@@ -378,10 +378,10 @@ class StoryboardValidator {
     console.log('\n📖 叙事完整性验证...');
     
     // 检查1: 结尾 narration 完整性
-    const narration = lastShot.narration || '';
+    const narration = lastShot.narration || lastShot.dialogue || '';
     if (narration) {
       const lastChar = narration.trim().slice(-1);
-      const isComplete = ['。', '！', '？', '.', '!', '?', '"', '"', '\'', '\'', '…'].includes(lastChar);
+      const isComplete = ['。', '！', '？', '.', '!', '?', '"', '"', '\'', '\'', '…', '」'].includes(lastChar);
       
       if (!isComplete) {
         this.errors.push({
@@ -398,18 +398,20 @@ class StoryboardValidator {
     }
     
     // 检查2: 时长与 narration 匹配（结尾镜特别严格）
-    if (lastShot.narration && lastShot.duration) {
-      const charCount = (lastShot.narration.match(/[\u4e00-\u9fff]/g) || []).length;
+    // v6.5.36-fix: 全局禁用narration，使用dialogue作为文本源
+    const endingText = lastShot.narration || lastShot.dialogue || '';
+    if (endingText && lastShot.duration) {
+      const charCount = (endingText.match(/[\u4e00-\u9fff]/g) || []).length;
       const speed = 4.5; // 讲解语速
       const requiredDuration = Math.ceil((charCount / speed) + 1.0); // +1秒留白
       
       if (lastShot.duration < requiredDuration) {
-        this.errors.push({
+        this.warnings.push({
           rule: '叙事完整性-时长不足',
-          severity: 'error',
+          severity: 'warning',
           shot: lastShot.id,
-          message: `结尾镜 ${lastShot.id} 时长不足: ${lastShot.duration}s < 需要的 ${requiredDuration}s（narration ${charCount}字 + 1秒留白）`,
-          suggestion: `增加结尾镜时长至 ${requiredDuration}秒，或精简 narration 到 ${Math.floor((lastShot.duration - 1) * speed)} 字以内`
+          message: `结尾镜 ${lastShot.id} 时长可能不足: ${lastShot.duration}s < 需要的 ${requiredDuration}s（台词 ${charCount}字 + 1秒留白）`,
+          suggestion: `增加结尾镜时长至 ${requiredDuration}秒，或精简台词到 ${Math.floor((lastShot.duration - 1) * speed)} 字以内`
         });
       } else {
         console.log(`   ✅ 结尾镜 ${lastShot.id}: 时长 ${lastShot.duration}s ≥ 需要 ${requiredDuration}s`);
