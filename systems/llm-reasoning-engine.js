@@ -2,6 +2,7 @@
 // 专家重构：两阶段生成 + 禁止reasoning_content顶替content
 const fs = require('fs');
 const path = require('path');
+const { normalizeLLMOutput } = require('./llm-output-normalizer');
 
 class LLMEngine {
   constructor(options = {}) {
@@ -118,6 +119,52 @@ class LLMEngine {
     return null;
   }
 
+  _extractFromReasoning(reasoning) {
+    if (!reasoning || typeof reasoning !== 'string') return null;
+
+    // 策略：找最长的、包含中文和Nirath特征的文本段落
+    // 模型通常在reasoning最后部分输出实际内容
+    const lines = reasoning.split('\n');
+    
+    const indicators = [
+      'Nirath', '小G', '白泽', 'Aurelius', 'Silvana', '双恒星',
+      '超写实', '纪录片', '镜头', '全景', '中景', '特写', '推轨',
+      '0.82G', '3.2Tesla', '磁丝蕨', '发光植被'
+    ];
+
+    // 从后向前扫描，找最长的一段包含指标的中文文本
+    let best = null;
+    let bestLen = 0;
+    let current = '';
+    
+    for (let i = lines.length - 1; i >= 0; i--) {
+      const line = lines[i].trim();
+      if (!line) {
+        if (current.length > bestLen) {
+          const hasInd = indicators.some(ind => current.includes(ind));
+          if (hasInd) {
+            bestLen = current.length;
+            best = current.trim();
+          }
+        }
+        current = '';
+      } else {
+        current = line + '\n' + current;
+      }
+    }
+    
+    // 检查最后的累积
+    if (current.length > bestLen) {
+      const hasInd = indicators.some(ind => current.includes(ind));
+      if (hasInd) {
+        bestLen = current.length;
+        best = current.trim();
+      }
+    }
+
+    return best;
+  }
+
   async reason(prompt, options = {}) {
     const startedAt = Date.now();
     this.stats.totalCalls++;
@@ -181,19 +228,41 @@ class LLMEngine {
 
       console.log(`[LLMEngine] ✅ API完成 | Tokens: ${tokenCount} | content=${content.length} | reasoning=${reasoningContent.length}`);
 
-      // 关键修复：不再拿 reasoning_content 顶替 content
-      if (!content || content.trim().length === 0) {
-        const reasonFile = this._dumpDebugFile('empty_content_reasoning', reasoningContent);
-        throw new Error(
-          `LLM返回content为空，疑似tokens被reasoning耗尽` +
-          `${reasonFile ? ` | reasoning_dump=${reasonFile}` : ''}`
-        );
+      // 统一使用 normalizeLLMOutput 处理输出
+      const normalized = normalizeLLMOutput({
+        content,
+        reasoning_content: reasoningContent
+      });
+
+      let finalContent = normalized.text;
+
+      if (!normalized.ok || !finalContent || finalContent.trim().length < 50) {
+        if (reasoningContent && reasoningContent.length > 100) {
+          const extracted = this._extractFromReasoning(reasoningContent);
+          if (extracted && extracted.length > 200) {
+            finalContent = extracted;
+            console.log(`[LLMEngine] ✅ 从reasoning提取内容 | 长度: ${extracted.length}`);
+          } else {
+            const reasonFile = this._dumpDebugFile('empty_content_reasoning', reasoningContent);
+            throw new Error(
+              `LLM返回content为空，且无法从reasoning提取有效内容` +
+              `${reasonFile ? ` | reasoning_dump=${reasonFile}` : ''}`
+            );
+          }
+        } else {
+          const reasonFile = this._dumpDebugFile('empty_content_reasoning', reasoningContent);
+          throw new Error(
+            `LLM返回content为空，疑似tokens被reasoning耗尽` +
+            `${reasonFile ? ` | reasoning_dump=${reasonFile}` : ''}`
+          );
+        }
       }
 
       return {
         success: true,
-        content,
+        content: finalContent,
         reasoning_content: reasoningContent,
+        source: normalized.source,
         tokenCount,
         raw: result
       };
@@ -204,6 +273,11 @@ class LLMEngine {
         error: error.message || String(error)
       };
     }
+  }
+
+  async generate(prompt, options = {}) {
+    const result = await this.reason(prompt, options);
+    return result;
   }
 
   async reasonStructured(prompt, schema, options = {}) {

@@ -1,220 +1,93 @@
-// scripts/promptforge-worker.js - 单镜头子进程
+'use strict';
 
 const fs = require('fs');
 const path = require('path');
 const { LLMEngine } = require('../systems/llm-reasoning-engine');
-const {
-  extractBestPrompt,
-  sanitizePrompt,
-  compressPrompt,
-  buildFallbackPrompt,
-  removeExistingRenderSection
-} = require('./promptforge-utils');
+const { extractBestPrompt } = require('./promptforge-final-extractor');
 
-function readShotMeta(promptContent) {
-  const sceneMatch = promptContent.match(/\*\*场景\*\*:\s*(.+)/);
-  const typeMatch = promptContent.match(/\*\*类型\*\*:\s*(.+)/);
-  const visualMatch = promptContent.match(/【视觉】([\s\S]+?)(?=【|$)/);
-
-  return {
-    scene: sceneMatch ? sceneMatch[1].trim() : 'unknown',
-    type: typeMatch ? typeMatch[1].trim() : 'unknown',
-    visualDesc: visualMatch ? visualMatch[1].replace(/\s+/g, ' ').trim().slice(0, 600) : ''
-  };
+function buildFallbackPrompt(inputText, shotId) {
+  const base = String(inputText || '').replace(/\s+/g, ' ').trim().slice(0, 380);
+  return `Cinematic shot, ${base}, hyperrealistic, ultra-detailed, strong atmosphere, controlled lighting, natural motion, filmic composition, no text, no watermark`;
 }
 
-function buildOptimizationPrompt({ scene, type, visualDesc }) {
+function buildOptimizationPrompt(sourceText, shotId) {
   return `
-You are a cinematic prompt optimizer for AI video rendering.
+你是专业电影导演 Prompt 精炼器。
+任务：把输入内容压缩成一段可直接用于 AI 视频生成的英文 cinematic prompt。
 
-Return exactly ONE final English prompt line.
+硬性要求：
+1. 只输出最终 prompt，本身不要解释
+2. 不要输出"让我构思/分析/建议/最终版本"等文字
+3. 保留主体、动作、场景、光影、运镜、情绪
+4. 输出 180-700 字符
+5. 英文为主，可保留必要专有名词如 Nirath、小G、白泽
+6. 禁止 markdown、禁止 JSON、禁止编号
 
-Rules:
-- Output the prompt only.
-- No analysis.
-- No reasoning.
-- No bullet points.
-- No labels.
-- No quotation marks.
-- No character count.
-- Keep under 900 characters if possible.
-- Include subject, environment, lighting, camera movement, and atmosphere.
-- Emphasize Nirath traits: twin suns, bioluminescent ecosystem, low gravity.
-- Keep character consistency: xiaoG, taotie if present.
-- Avoid anime, cartoon, ink wash, traditional Chinese symbols.
+输入：
+${sourceText}
 
-Preferred structure:
-Cinematic shot, [subject/action], [Nirath environment], [lighting], [camera], [atmosphere], [quality tags].
-
-Input:
-Scene: ${scene}
-Type: ${type}
-Visual: ${visualDesc}
-
-Output:
+现在直接输出最终 prompt：
 `.trim();
 }
 
 async function main() {
-  const shotFile = process.argv[2];
-  if (!shotFile) {
-    console.error('Usage: node promptforge-worker.js <shotFile>');
-    process.exit(2);
+  const filePath = process.argv[2];
+  const outPath = process.argv[3];
+
+  if (!filePath) {
+    console.error(JSON.stringify({ success: false, error: 'missing_file_path' }));
+    process.exit(1);
   }
 
-  let engine = null;
-  let result = null;
-  let raw = '';
-  let promptContent = '';
-  let meta = null;
-  let attempts = 0;
-  const maxAttempts = 3; // 网络重试机制
+  const inputText = fs.readFileSync(filePath, 'utf8');
+  const shotId = path.basename(filePath).replace(/\.\w+$/, '');
+
+  const engine = new LLMEngine({ model: 'kimi-k2p6' });
 
   try {
-    promptContent = fs.readFileSync(shotFile, 'utf8');
-    meta = readShotMeta(promptContent);
-    const optimizationPrompt = buildOptimizationPrompt(meta);
+    const prompt = buildOptimizationPrompt(inputText.slice(0, 1200), shotId);
 
-    engine = new LLMEngine({ model: 'kimi-k2p6' });
+    const raw = await engine.reasonRaw(prompt, {
+      maxTokens: 900,
+      temperature: 0.4,
+      timeoutMs: 180000
+    });
 
-    const MAX_ATTEMPTS = 3;
-    let lastError;
-    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-      try {
-        result = await engine.reasonRaw(optimizationPrompt, {
-          maxTokens: 700,
-          temperature: 1
-        });
-        const promptText = extractBestPrompt(result.content || result.reasoning_content || '');
-        if (promptText && promptText.length >= 100) {
-          attempts = attempt;
-          break; // 成功
-        }
-      } catch (err) {
-        lastError = err;
-        console.log(`[Worker] 尝试${attempt}失败，${attempt < MAX_ATTEMPTS ? '重试...' : '放弃'}`);
-        if (attempt < MAX_ATTEMPTS) await new Promise(r => setTimeout(r, 2000));
-      }
+    const extracted = extractBestPrompt(raw);
+
+    let finalPrompt = extracted.ok ? extracted.prompt : '';
+    if (!finalPrompt || finalPrompt.length < 80) {
+      finalPrompt = buildFallbackPrompt(inputText, shotId);
     }
 
-    if (!result) {
-      throw lastError || new Error('全部重试失败');
-    }
-
-    // 优先使用content，如果为空则使用reasoning_content
-    raw = result.content || result.reasoning_content || '';
-    attempts = result.attempt || 1;
-
-    let finalPrompt = compressPrompt(
-      sanitizePrompt(extractBestPrompt(raw)),
-      990
-    );
-
-    // 质量检查：如果缺少主体、太短、有模板占位符、推理文本、或中文占比过高
-    const chineseRatio = (finalPrompt.match(/[\u4e00-\u9fa5]/g) || []).length / finalPrompt.length;
-    const isBadPrompt = !finalPrompt || finalPrompt.length < 80 || !/\bxiaoG\b/i.test(finalPrompt) || /\[.*?\]/.test(finalPrompt) || /^(The user wants|I need to|I will|Let me)/i.test(finalPrompt) || chineseRatio > 0.3;
-
-    if (isBadPrompt) {
-      console.log(`[Worker] ⚠️ 首次提取质量不佳(${finalPrompt.length}字符)，触发二次压缩...`);
-      
-      // 二次压缩：用更短的Prompt再调一次
-      const refinePrompt = `Rewrite this as a single English prompt under 500 characters. Only output the prompt, no analysis:
-
-${raw.slice(0, 800)}
-
-Requirements: Cinematic shot, xiaoG, Nirath alien world, twin suns, bioluminescent flora, low gravity, camera movement, 8k.`;
-      
-      try {
-        const refineResult = await engine.reasonRaw(refinePrompt, {
-          maxTokens: 400,
-          temperature: 1
-        });
-        
-        const refineRaw = refineResult.content || refineResult.reasoning_content || '';
-        const refinedPrompt = compressPrompt(
-          sanitizePrompt(extractBestPrompt(refineRaw)),
-          990
-        );
-        
-        // 如果二次压缩结果更好，使用它
-        const refinedChineseRatio = (refinedPrompt.match(/[\u4e00-\u9fa5]/g) || []).length / refinedPrompt.length;
-        const refinedIsBad = !refinedPrompt || refinedPrompt.length < 80 || !/\bxiaoG\b/i.test(refinedPrompt) || /\[.*?\]/.test(refinedPrompt) || /^(The user wants|I need to|I will|Let me)/i.test(refinedPrompt) || refinedChineseRatio > 0.3;
-        
-        if (!refinedIsBad && refinedPrompt.length > finalPrompt.length) {
-          console.log(`[Worker] ✅ 二次压缩成功，从${finalPrompt.length}提升到${refinedPrompt.length}字符`);
-          finalPrompt = refinedPrompt;
-        } else {
-          console.log(`[Worker] ⚠️ 二次压缩未改善，使用fallback`);
-          finalPrompt = buildFallbackPrompt(meta);
-        }
-      } catch (refineErr) {
-        console.log(`[Worker] ⚠️ 二次压缩失败: ${refineErr.message}，使用fallback`);
-        finalPrompt = buildFallbackPrompt(meta);
-      }
-    } else {
-      console.log(`[Worker] ✅ 首次提取质量合格: ${finalPrompt.length}字符`);
-    }
-
-    const cleanContent = removeExistingRenderSection(promptContent);
-    const section = `\n\n---\n\n**【精简渲染Prompt】**\n\n\`\`\`\n${finalPrompt}\n\`\`\`\n`;
-    fs.writeFileSync(shotFile, cleanContent + section, 'utf8');
-
-    const out = {
-      ok: true,
-      file: shotFile,
-      promptLength: finalPrompt.length,
+    const result = {
+      success: true,
+      shotId,
       prompt: finalPrompt,
-      attempts: attempts,
-      source: result.content ? 'content' : (result.reasoning_content ? 'reasoning_content' : 'unknown')
+      length: finalPrompt.length,
+      source: extracted.source || 'fallback'
     };
 
-    console.log(JSON.stringify(out, null, 2));
-
-    raw = '';
-    result = null;
-    promptContent = '';
-    engine = null;
-
-    if (global.gc) global.gc();
-    process.exit(0);
-  } catch (err) {
-    // 如果主流程失败，尝试fallback
-    if (meta) {
-      try {
-        const fallbackPrompt = buildFallbackPrompt(meta);
-        const cleanContent = removeExistingRenderSection(promptContent);
-        const section = `\n\n---\n\n**【精简渲染Prompt】**\n\n\`\`\`\n${fallbackPrompt}\n\`\`\`\n`;
-        fs.writeFileSync(shotFile, cleanContent + section, 'utf8');
-        
-        const fallbackOut = {
-          ok: true,
-          file: shotFile,
-          promptLength: fallbackPrompt.length,
-          prompt: fallbackPrompt,
-          fallback: true,
-          error: err.message
-        };
-        console.log(JSON.stringify(fallbackOut, null, 2));
-        process.exit(0);
-      } catch (writeErr) {
-        // fallback也失败，返回错误
-      }
+    if (outPath) {
+      fs.writeFileSync(outPath, JSON.stringify(result, null, 2), 'utf8');
+    } else {
+      console.log(JSON.stringify(result));
     }
-    
-    const fail = {
-      ok: false,
-      file: shotFile,
-      error: err && err.stack ? err.stack : String(err)
+  } catch (err) {
+    const fallback = {
+      success: true,
+      shotId,
+      prompt: buildFallbackPrompt(inputText, shotId),
+      length: buildFallbackPrompt(inputText, shotId).length,
+      source: 'fallback_on_error',
+      warning: err.message
     };
-    console.error(JSON.stringify(fail, null, 2));
 
-    raw = '';
-    result = null;
-    promptContent = '';
-    engine = null;
-
-    if (global.gc) global.gc();
-    process.exit(1);
+    if (outPath) {
+      fs.writeFileSync(outPath, JSON.stringify(fallback, null, 2), 'utf8');
+    } else {
+      console.log(JSON.stringify(fallback));
+    }
   }
 }
 

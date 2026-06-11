@@ -3,6 +3,7 @@
 // 不追求字符填满，追求信息完整、质量优先
 
 const { LLMEngine } = require('../systems/llm-reasoning-engine');
+const { safeTrimPrompt } = require('../systems/safe-prompt-trim');
 const { ProductionBible, generateCharacterAnchor, generateNirathTraits } = require('../systems/production-bible');
 const { getLightTierPrompt } = require('../systems/light-tier');
 const PROMPT_LENGTH = require('../config/prompt-length');
@@ -276,8 +277,10 @@ class PromptEngineAgentV4 {
     
     // 如果仍然超长，硬截断（但保留主体+动作+落幅）
     if (currentPrompt.length > hardMax) {
-      currentPrompt = currentPrompt.substring(0, hardMax - 3).trim() + '...';
-      log.push(`硬截断至${hardMax}字符`);
+      currentPrompt = safeTrimPrompt(currentPrompt, hardMax, {
+        protectedLabels: ['CHARACTER', 'ACTION', 'SCENE', 'CAMERA', 'LIGHTING']
+      });
+      log.push(`安全截断至${hardMax}字符`);
     }
     
     return {

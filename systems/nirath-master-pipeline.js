@@ -33,6 +33,13 @@ const { globalNegativePromptInjector } = require('./global-negative-prompts.js')
 // ========== v6.2-patch82: Prompt标准模块化系统 ==========
 const StandardV3 = require('./prompt-standard-v3');  // v3.0: 智能检测+自动修复(旁路)
 
+// ========== v6.5.53-l: 专家方案统一层 ==========
+const { normalizeLLMOutput } = require('./llm-output-normalizer');
+const { standardizePrompt } = require('./prompt-standardizer');
+const { safeTrimPrompt } = require('./safe-prompt-trim');
+const { checkStandardCompliance } = require('./prompt-standard-v3');
+const { processShotsForCompliance, processShotsForOutput, summarizeCompliance } = require('./prompt-pipeline-bridge');
+
 // ========== 新增:镜头内Prompt增强器(v6.0-patch23融入) ==========
 const { buildAudioDescription, injectAudioDescription } = require('./intra-shot-prompt-enhancer.js');
 const { CalibrationEngine, PRD_TEMPLATE } = require('../shanhaijing-render-engine/story-prd-template-v21.js');
@@ -623,6 +630,43 @@ class NirathMasterPipeline {
       }
 
       // Stage 12: 合规检查
+      // === Prompt Bridge Injection (Stage 11 -> Stage 12) ===
+      // 作用：统一 PromptForge 结果、统一 prompt 字段、标准化后再合规检查
+      {
+        const promptforgeResultDir = path.join(process.cwd(), 'output/prompts/_promptforge_results');
+        const promptforgeMarkdownDir = path.join(process.cwd(), 'output/prompts');
+        const {
+          processShotsForCompliance,
+          summarizeCompliance
+        } = require('./prompt-pipeline-bridge');
+
+        // 尝试统一 shots 来源
+        let __bridgeShots = null;
+        if (Array.isArray(result.stages?.storyboard?.shots)) {
+          __bridgeShots = result.stages.storyboard.shots;
+        } else if (Array.isArray(result.stages?.render)) {
+          __bridgeShots = result.stages.render;
+        }
+
+        if (Array.isArray(__bridgeShots)) {
+          __bridgeShots = processShotsForCompliance(__bridgeShots, {
+            promptforgeResultDir,
+            promptforgeMarkdownDir,
+            maxLength: 1500
+          });
+
+          const complianceSummary = summarizeCompliance(__bridgeShots);
+          this.log('PromptBridge', `✅ Processed ${__bridgeShots.length} shots | avg=${complianceSummary.averageScore}%`);
+
+          if (Array.isArray(result.stages?.storyboard?.shots)) {
+            result.stages.storyboard.shots = __bridgeShots;
+          }
+          if (Array.isArray(result.stages?.render)) {
+            result.stages.render = __bridgeShots;
+          }
+        }
+      }
+
       result.stages.compliance = await runStage('STAGE-12', () => this.stageCompliance(result.stages.render, result.stages.storyboard));
 
       // ===== v6.3-patch7-fix: PromptForge Director 合并逻辑完整修复 =====
@@ -1053,6 +1097,41 @@ class NirathMasterPipeline {
     result.reportPath = `预生产报告: ${result.totalShots}镜, ${result.totalDuration}秒`;
     result.canProceed = result.success && result.systemErrors === 0;
     result.feishuDocUrl = null; // 飞书文档生成在pipeline外部
+
+    // v6.5.53-l: 最终输出固化 - 确保所有shot有标准化字段和合规检查
+    {
+      const {
+        processShotsForOutput,
+        summarizeCompliance
+      } = require('./prompt-pipeline-bridge');
+      const promptforgeResultDir = path.join(process.cwd(), 'output/prompts/_promptforge_results');
+      const promptforgeMarkdownDir = path.join(process.cwd(), 'output/prompts');
+
+      let __finalShots = null;
+      if (Array.isArray(result.stages?.storyboard?.shots)) {
+        __finalShots = result.stages.storyboard.shots;
+      } else if (Array.isArray(result.stages?.render)) {
+        __finalShots = result.stages.render;
+      }
+
+      if (Array.isArray(__finalShots)) {
+        __finalShots = processShotsForOutput(__finalShots, {
+          promptforgeResultDir,
+          promptforgeMarkdownDir,
+          maxLength: 1500
+        });
+
+        if (Array.isArray(result.stages?.storyboard?.shots)) {
+          result.stages.storyboard.shots = __finalShots;
+        }
+        if (Array.isArray(result.stages?.render)) {
+          result.stages.render = __finalShots;
+        }
+
+        const complianceSummary = summarizeCompliance(__finalShots);
+        this.log('PromptBridge', `✅ Final output solidified for ${__finalShots.length} shots | avg=${complianceSummary.averageScore}%`);
+      }
+    }
 
     return result;
   }
@@ -7793,116 +7872,20 @@ ${isNirath
 
   // 🔥 v6.2-patch82: Prompt标准符合度检查(适配现有中文标记格式)
   checkStandardCompliance(prompt, shotId) {
-    if (!prompt || typeof prompt !== 'string') {
-      return {
-        shotId,
-        coverage: 0,
-        found: [],
-        missing: ['CHARACTER', 'ACTION', 'SCENE', 'MOOD', 'CAMERA', 'LIGHTING', 'NEGATIVE', 'AUDIO', 'RENDER', 'DIRECTOR'],
-        fieldCount: 0,
-        totalFields: 10,
-        status: 'low'
-      };
-    }
-
-    const checks = {
-      CHARACTER: {
-        found:
-          /CHARACTER:\s*.+/i.test(prompt) ||
-          /【视觉】.*(?:人物|角色|男孩|女孩|女性|男性)/.test(prompt) ||
-          /(?:香香|小卓|xiaoG|taotie|饕餮)/i.test(prompt) ||
-          /(?:\d+岁|\d+个月|boy|girl|man|woman)/i.test(prompt),
-        weight: 1.0
-      },
-      ACTION: {
-        found:
-          /ACTION:\s*.+/i.test(prompt) ||
-          /【动作】.+/.test(prompt) ||
-          /(?:push|pull|tilt|pan|orbit|run|walk|look|reach|grip|hug|smile|cry|crawl|拍|抱|看|走|跑|爬|转身|伸手)/i.test(prompt),
-        weight: 1.0
-      },
-      SCENE: {
-        found:
-          /SCENE:\s*.+/i.test(prompt) ||
-          /【环境布景】.+/.test(prompt) ||
-          /(?:海边|沙滩|椰树|森林|医院|演播室|峡谷|山脉|beach|forest|studio|hospital|room)/i.test(prompt),
-        weight: 1.0
-      },
-      MOOD: {
-        found:
-          /MOOD:\s*.+/i.test(prompt) ||
-          /(?:温暖|治愈|紧张|神秘|喜悦|悲伤|希望|平静|高潮|warm|healing|tense|mysterious|joy|sad|calm)/i.test(prompt),
-        weight: 0.8
-      },
-      CAMERA: {
-        found:
-          /CAMERA:\s*.+/i.test(prompt) ||
-          /【镜头时间轴】.+/.test(prompt) ||
-          /【运镜】.+/.test(prompt) ||
-          /(?:中景|近景|特写|全景|推近|拉远|环绕|横移|摇镜|俯拍|仰拍|close-up|wide shot|medium shot|push|pull|orbit|pan|tilt)/i.test(prompt),
-        weight: 1.0
-      },
-      LIGHTING: {
-        found:
-          /LIGHTING:\s*.+/i.test(prompt) ||
-          /【照明方案】.+/.test(prompt) ||
-          /(?:自然光|逆光|侧光|顶光|暖金|清冷|golden hour|backlight|rim light|key light|fill light|\d+K)/i.test(prompt),
-        weight: 0.9
-      },
-      NEGATIVE: {
-        found:
-          /NEGATIVE:\s*.+/i.test(prompt) ||
-          /【负面约束】.+/.test(prompt) ||
-          /(?:no text|no anime|no cartoon|no watermark|deformed|extra fingers)/i.test(prompt),
-        weight: 0.9
-      },
-      AUDIO: {
-        found:
-          /AUDIO:\s*.+/i.test(prompt) ||
-          /【音频】.+/.test(prompt) ||
-          /(?:伴随|动作产生|氛围弥漫|音乐线索|声画精准同步|环境音|海浪|风声|audio|sound|voice)/i.test(prompt),
-        weight: 0.8
-      },
-      RENDER: {
-        found:
-          /RENDER:\s*.+/i.test(prompt) ||
-          /【技术规格】.+/.test(prompt) ||
-          /(?:超写实|电影级|高清|胶片颗粒|render|cinematic|photorealistic)/i.test(prompt),
-        weight: 0.7
-      },
-      DIRECTOR: {
-        found:
-          /DIRECTOR:\s*.+/i.test(prompt) ||
-          /(?:导演|Director style|Cameron|Villeneuve|Spielberg|Jackson|通用导演)/i.test(prompt),
-        weight: 0.6
-      }
-    };
-
-    let totalScore = 0;
-    let maxScore = 0;
-    const found = [];
-    const missing = [];
-
-    for (const [field, check] of Object.entries(checks)) {
-      maxScore += check.weight;
-      if (check.found) {
-        totalScore += check.weight;
-        found.push(field);
-      } else {
-        missing.push(field);
-      }
-    }
-
-    const coverage = Math.round((totalScore / maxScore) * 100);
-
+    // v6.5.53-l: 使用统一的 prompt-standard-v3.js 进行检查
+    // 先标准化，再检查，兼容自然语言+块格式+key:value
+    const standardized = standardizePrompt(prompt);
+    const result = checkStandardCompliance(standardized || prompt, shotId);
+    
     return {
-      shotId,
-      coverage,
-      found,
-      missing,
-      fieldCount: found.length,
-      totalFields: Object.keys(checks).length,
-      status: coverage >= 80 ? 'high' : coverage >= 60 ? 'medium' : 'low'
+      shotId: result.shotId,
+      coverage: result.score,
+      found: Object.entries(result.checks).filter(([,v]) => v.found).map(([k]) => k),
+      missing: result.missing,
+      fieldCount: Object.entries(result.checks).filter(([,v]) => v.found).length,
+      totalFields: Object.keys(result.checks).length,
+      status: result.score >= 80 ? 'high' : result.score >= 60 ? 'medium' : 'low',
+      checks: result.checks
     };
   }
 

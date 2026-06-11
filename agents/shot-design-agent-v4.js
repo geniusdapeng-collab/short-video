@@ -328,8 +328,8 @@ EFA: [落幅构图和状态]
   _estimateQualityScore(shotData, sceneCard) {
     // 基于字段完整度估算
     const readability = shotData.primary_poi && shotData.primary_action ? 85 : 60;
-    const controllability = shotData.camera_movement && shotData.o && shotData.efa ? 80 : 55;
-    const editability = shotData.transition_intent && shotData.o ? 75 : 50;
+    const controllability = shotData.camera_movement && shotData.ofa && shotData.efa ? 80 : 55;
+    const editability = shotData.transition_intent && shotData.ofa ? 75 : 50;
     const emotionHit = shotData.performance_goal ? 80 : 50;
     const memorability = shotData.is_hero_shot ? 85 : 60;
     
@@ -435,7 +435,7 @@ EFA: [落幅构图和状态]
       const blockCheck = checkBlockConditions({
         subject: shot.primary_poi,
         actions: shot.primary_action ? [shot.primary_action] : [],
-        ofa: shot.o,
+        ofa: shot.ofa,
         efa: shot.efa,
         characters: shot.character_bindings ? shot.character_bindings.split('\n') : [],
         lightTier: shot.light_tier

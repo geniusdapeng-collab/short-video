@@ -1,96 +1,100 @@
-// scripts/promptforge-batch.js - 父进程批量调度
+'use strict';
 
 const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
 
-function runWorker(file, attempt = 1, maxRetries = 2) {
-  return new Promise((resolve) => {
-    const child = spawn(
-      process.execPath,
-      ['--expose-gc', path.join(__dirname, 'promptforge-worker.js'), file],
-      {
-        stdio: ['ignore', 'pipe', 'pipe'],
-        env: { ...process.env }
-      }
-    );
+function sleep(ms) {
+  return new Promise(r => setTimeout(r, ms));
+}
 
-    let stdout = '';
+function runWorker(inputFile, outputFile, timeoutMs = 240000) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(process.execPath, [
+      path.join(__dirname, 'promptforge-worker.js'),
+      inputFile,
+      outputFile
+    ], {
+      stdio: ['ignore', 'pipe', 'pipe']
+    });
+
     let stderr = '';
+    let stdout = '';
 
-    child.stdout.on('data', chunk => { stdout += chunk.toString(); });
-    child.stderr.on('data', chunk => { stderr += chunk.toString(); });
+    const timer = setTimeout(() => {
+      child.kill('SIGKILL');
+      reject(new Error(`worker_timeout:${path.basename(inputFile)}`));
+    }, timeoutMs);
+
+    child.stdout.on('data', d => { stdout += d.toString(); });
+    child.stderr.on('data', d => { stderr += d.toString(); });
 
     child.on('close', code => {
-      // 如果失败且未达最大重试次数，自动重试
-      if (code !== 0 && attempt < maxRetries) {
-        console.log(`  [Batch] ⚠️ ${path.basename(file)} 失败，${attempt}/${maxRetries} 次重试...`);
-        resolve(runWorker(file, attempt + 1, maxRetries));
+      clearTimeout(timer);
+      if (code === 0) {
+        resolve({ ok: true, inputFile, outputFile, stdout, stderr });
       } else {
-        resolve({
-          file,
-          code,
-          stdout,
-          stderr,
-          attempts: attempt
-        });
+        reject(new Error(`worker_exit_${code}:${stderr || stdout}`));
       }
     });
   });
 }
 
 async function main() {
-  const targetDir = process.argv[2] || path.join(process.cwd(), 'output/prompts');
-
-  if (!fs.existsSync(targetDir)) {
-    console.error(`Directory not found: ${targetDir}`);
-    process.exit(1);
-  }
-
-  const files = fs.readdirSync(targetDir)
-    .filter(f => /\.(md|txt)$/i.test(f))
-    .map(f => path.join(targetDir, f))
+  const inputDir = process.argv[2] || path.join(process.cwd(), 'output/prompts');
+  const files = fs.readdirSync(inputDir)
+    .filter(f => /prompt\.(md|txt|json)$/i.test(f) || /-prompt\.md$/i.test(f))
     .sort();
 
-  const shotFiles = files.filter(f => /S\d+/i.test(path.basename(f)));
+  const resultDir = path.join(inputDir, '_promptforge_results');
+  fs.mkdirSync(resultDir, { recursive: true });
 
-  if (!shotFiles.length) {
-    console.log(`No shot files found in ${targetDir}`);
-    process.exit(0);
-  }
+  const summary = [];
 
-  const results = [];
-  for (const file of shotFiles) {
-    console.log(`\n=== Processing ${path.basename(file)} ===`);
-    const res = await runWorker(file);
-    results.push(res);
+  for (const file of files) {
+    const inputFile = path.join(inputDir, file);
+    const outputFile = path.join(resultDir, file.replace(/\.\w+$/, '.json'));
 
-    if (res.stdout) console.log(res.stdout.trim());
-    if (res.stderr) console.error(res.stderr.trim());
+    let success = false;
+    let lastError = '';
 
-    await new Promise(r => setTimeout(r, 1500));
-  }
-
-  const failed = results.filter(r => r.code !== 0);
-  const retried = results.filter(r => r.attempts > 1);
-
-  console.log('\n=== Batch Summary ===');
-  console.log(`Total: ${results.length}`);
-  console.log(`Success: ${results.length - failed.length}`);
-  console.log(`Failed: ${failed.length}`);
-  if (retried.length) {
-    console.log(`Retried: ${retried.length}`);
-  }
-
-  if (failed.length) {
-    console.log('Failed files:');
-    for (const f of failed) {
-      console.log(`- ${f.file}`);
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      try {
+        await runWorker(inputFile, outputFile, 240000);
+        const data = JSON.parse(fs.readFileSync(outputFile, 'utf8'));
+        summary.push({
+          file,
+          success: true,
+          length: data.length,
+          source: data.source,
+          attempt
+        });
+        success = true;
+        break;
+      } catch (err) {
+        lastError = err.message;
+        if (attempt < 2) await sleep(1500);
+      }
     }
-    process.exit(1);
+
+    if (!success) {
+      summary.push({
+        file,
+        success: false,
+        error: lastError
+      });
+    }
+
+    await sleep(1000);
   }
 
-  process.exit(0);
+  const summaryPath = path.join(resultDir, 'summary.json');
+  fs.writeFileSync(summaryPath, JSON.stringify(summary, null, 2), 'utf8');
+
+  console.log(`PromptForge batch done: ${summaryPath}`);
 }
 
-main();
+main().catch(err => {
+  console.error(err);
+  process.exit(1);
+});

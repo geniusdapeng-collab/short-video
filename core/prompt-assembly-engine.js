@@ -30,6 +30,7 @@
 'use strict';
 
 const { SmartTrimV2 } = require('../systems/smart-trim-v2');
+const { safeTrimPrompt } = require('../systems/safe-prompt-trim');
 const { ImmutableShot } = require('./immutable-shot');
 const PROMPT_LENGTH = require('../config/prompt-length');
 
@@ -454,14 +455,23 @@ class PromptAssemblyEngine {
       const visualIdx = sorted.findIndex(s => s.type === 'visual');
       if (visualIdx >= 0 && sorted[visualIdx].length > maxLength * 0.5) {
         const visualTarget = Math.floor(maxLength * 0.5);
-        sorted[visualIdx] = sorted[visualIdx].substring(0, visualTarget);
+        sorted[visualIdx] = safeTrimPrompt(sorted[visualIdx], visualTarget, {
+          protectedLabels: ['CHARACTER', 'ACTION', 'SCENE', 'CAMERA']
+        });
         totalLength -= (sorted[visualIdx].length - visualTarget);
-        console.warn(`[Trim] 最终防线: visual强制裁剪到${visualTarget}`);
+        console.warn(`[Trim] 最终防线: visual安全裁剪到${visualTarget}`);
       }
     }
 
-    // 最终组装
-    return this.assemble(sorted);
+    let finalPrompt = this.assemble(sorted);
+
+    if (finalPrompt.length > maxLength) {
+      finalPrompt = safeTrimPrompt(finalPrompt, maxLength, {
+        protectedLabels: ['CHARACTER', 'ACTION', 'SCENE', 'CAMERA', 'LIGHTING']
+      });
+    }
+
+    return finalPrompt;
   }
 
   /**
