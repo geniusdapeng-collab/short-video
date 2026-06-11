@@ -6064,7 +6064,7 @@ ${isNirath
 
     const renderText =
       (prompt.match(/【技术规格】([^【]*)/) || [])[1] ||
-      'hyperrealistic cinematic quality, 35mm film grain, HDR, photorealistic with filmic treatment, 16:9 cinematic';
+      (this.mode === 'nirath' ? '超写实数字渲染，影视级画面构图，体积光照明，空气透视感，皮肤与材质微距摄影级细节，写实风格，外星繁茂植被覆盖岩石地表，背景可见奇异生物活动。' : 'hyperrealistic cinematic quality, 35mm film grain, HDR, photorealistic with filmic treatment, 16:9 cinematic');
 
     const directorText =
       (prompt.match(/Director style:\s*([^【\n]+)/i) || [])[1] ||
@@ -6123,6 +6123,28 @@ ${isNirath
       const remaining = 1500 - result.length - 3; // 预留 " | " 分隔符
       if (remaining > 50) {
         result += ' | ' + originalPrompt.substring(0, remaining);
+      }
+    }
+
+    // v6.5.34-fix: 保留Nirath模式约束字段（风格锁/负面约束/角色约束/镜头时间轴/明亮约束）
+    if (this.mode === 'nirath') {
+      const preserveBlocks = ['【风格锁】', '【负面约束】', '【角色约束】', '【镜头时间轴】', '【明亮约束】'];
+      const preservedConstraints = [];
+      for (const block of preserveBlocks) {
+        const match = originalPrompt.match(new RegExp(`${block}[^【]*?(?=【|$)`));
+        if (match && match[0].trim().length > block.length) {
+          preservedConstraints.push(match[0].trim());
+        }
+      }
+      if (preservedConstraints.length > 0) {
+        const constraintsStr = ' ' + preservedConstraints.join(' ');
+        if (result.length + constraintsStr.length <= 1500) {
+          result += constraintsStr;
+        } else {
+          // 空间不足，截断result尾部以容纳约束
+          const maxResultLen = 1500 - constraintsStr.length;
+          result = result.substring(0, maxResultLen).trim() + constraintsStr;
+        }
       }
     }
 

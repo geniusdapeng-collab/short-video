@@ -177,9 +177,9 @@ function validateDurations(storyboard, options = {}) {
   storyboard.shots.forEach(shot => {
     const duration = shot.duration;
     
-    // 有narration但没有duration = 错误
-    if (shot.narration && !duration) {
-      errors.push(`${shot.id}: 有narration但未设置duration`);
+    // 有narration或dialogue但没有duration = 错误
+    if ((shot.narration || shot.dialogue) && !duration) {
+      errors.push(`${shot.id}: 有narration/dialogue但未设置duration`);
       return;
     }
     
@@ -199,14 +199,15 @@ function validateDurations(storyboard, options = {}) {
       errors.push(`${shot.id}: duration=${duration}秒 > 最大${maxDuration}秒`);
     }
     
-    // 检查narration字数与duration是否匹配（警告级别，基于可读性语速）
-    if (shot.narration) {
-      const charCount = (shot.narration.match(/[\u4e00-\u9fff]/g) || []).length;
+    // 检查narration或dialogue字数与duration是否匹配（警告级别，基于可读性语速）
+    const textContent = shot.narration || shot.dialogue || '';
+    if (textContent) {
+      const charCount = (textContent.match(/[\u4e00-\u9fff]/g) || []).length;
       const speed = speedMap[shot.type] || speedMap.default || 4.5;
       const requiredDuration = Math.ceil((charCount / speed) + bufferSeconds);
       
       if (requiredDuration > duration) {
-        warnings.push(`${shot.id}: 按舒适语速(${speed}字/秒)narration需${requiredDuration}秒(${charCount}字) > 分配${duration}秒，内容可能说不完`);
+        warnings.push(`${shot.id}: 按舒适语速(${speed}字/秒) narration/dialogue需${requiredDuration}秒(${charCount}字) > 分配${duration}秒，内容可能说不完`);
       }
     }
   });

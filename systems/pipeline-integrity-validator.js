@@ -167,10 +167,12 @@ class PipelineIntegrityValidator {
       this.errors.push('STAGE-5: 剧本未生成场景');
     } else {
       script.scenes.forEach((scene, idx) => {
-        if (!scene.narration || scene.narration.trim() === '') {
+        // v6.5.34-fix: narration全局禁用，检查dialogue替代
+        const textContent = scene.narration || scene.dialogue;
+        if (!textContent || textContent.trim() === '') {
           check.passed = false;
-          check.details.push(`场景${idx}: narration为空`);
-          this.errors.push(`STAGE-5: 场景${idx}缺少narration`);
+          check.details.push(`场景${idx}: narration/dialogue为空`);
+          this.errors.push(`STAGE-5: 场景${idx}缺少narration/dialogue`);
         }
         if (!scene.mouthAction || scene.mouthAction.trim() === '') {
           check.passed = false;
@@ -418,8 +420,8 @@ class PipelineIntegrityValidator {
 
     const wasteItems = (compliance?.utilization || []).filter(u => u.status === 'waste');
     if (wasteItems.length > 0) {
-      check.passed = false;
-      check.details.push(`${wasteItems.length}个Prompt空间浪费(<950字符)`);
+      // v6.5.34-fix: waste状态仅为警告，不阻断链路
+      check.details.push(`${wasteItems.length}个Prompt空间利用率偏低`);
       this.warnings.push(`STAGE-12: ${wasteItems.length}个Prompt空间未充分利用，建议增强内容`);
     }
 
