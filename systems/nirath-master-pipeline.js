@@ -127,7 +127,8 @@ const { PromptQualityGate } = require('./prompt-quality-gate.js');
 const { TechSpecsAndEmotionMapper } = require('./tech-specs-emotion-mapper.js');
 const { WorldviewAndSceneManager } = require('./worldview-scene-manager.js');
 
-// ========== v6.4.0: 统一 Prompt 工具函数 ==========
+// 【v6.5.43】引入新链路：FinalPromptBuilderV3（外部专家建议落地）
+const { FinalPromptBuilderV3 } = require('./final-prompt-builder-v3');
 function safeGetPromptText(obj) {
   if (!obj || typeof obj !== 'object') return '';
   const candidates = [
@@ -301,7 +302,12 @@ class NirathMasterPipeline {
       // 【v6.2-patch52 新增】时长-字数一致性校准器
       durationAlignment: new DurationNarrationAlignment(),
 
-      // 【v6.2-patch60 新增】P0+P1系统级改造模块
+      // 【v6.5.43】新链路：FinalPromptBuilderV3（外部专家建议落地）
+      finalPromptBuilder: new FinalPromptBuilderV3({
+        debug: true,
+        llmEnabled: this.useLLM,
+        debugOutputDir: this.outputDir
+      }),
       promptTierArchitecture: new PromptTierArchitecture(),
       promptChannelSeparator: new PromptChannelSeparator(),
       promptQualityGate: new PromptQualityGate(),
@@ -635,194 +641,189 @@ class NirathMasterPipeline {
           severity: 'warning'
         });
       } else {
+        // 【v6.5.50-fix】方案E：子进程隔离，通过临时文件传递数据
+        // 原因：主进程内嵌PromptForge，reasoning模式内存累积导致OOM SIGKILL
+        // 子进程分配3072MB，系统7.5GB总内存，安全
+        
+        // 准备 PromptForge 输入数据
+        const projectConfig = {
+          beastId: this.beastId || 'bai-ze',
+          theme: this.theme || '心灵碰撞',
+          emotionBase: this.emotionBase || '敬畏',
+          titlePlan: this.titlePlan || {}
+        };
+        
+        const rawReport = {
+          shots: originalRender.map(r => ({
+            id: r.shotId,
+            prompt: r.prompt,
+            scene: r.scene,
+            emotionPhase: r.emotionPhase,
+            duration: r.duration,
+            narration: r.narration,
+            cameraMovement: r.cameraMovement
+          }))
+        };
+        
+        const inputFile = path.join('/tmp', `promptforge-input-${Date.now()}.json`);
+        const outputFile = path.join('/tmp', `promptforge-output-${Date.now()}.json`);
+        
         try {
           const { spawn } = require('child_process');
-          const fs = require('fs');
-          const path = require('path');
-
+          const workerPath = path.join(__dirname, 'promptforge-director-worker.js');
+          
+          // 检查worker文件是否存在
+          if (!fss.existsSync(workerPath)) {
+            throw new Error(`Worker文件不存在: ${workerPath}`);
+          }
+          
           // 准备输入数据
-          const projectConfig = {
-            beastId: this.beastId || 'taotie',
-            theme: this.theme || '心灵碰撞',
-            emotionBase: this.emotionBase || '敬畏',
-            titlePlan: this.titlePlan || {}
+          const inputData = {
+            rawReport: rawReport,
+            projectConfig: projectConfig
           };
-
-          const rawReport = {
-            shots: originalRender.map(r => ({
-              id: r.shotId,
-              prompt: r.prompt,
-              scene: r.scene,
-              emotionPhase: r.emotionPhase,
-              duration: r.duration,
-              narration: r.narration,
-              cameraMovement: r.cameraMovement
-            }))
-          };
-
-          // 写入输入文件
-          const inputPath = path.join(process.cwd(), 'output', 'promptforge-director-input.json');
-          const outputPath = path.join(process.cwd(), 'output', 'promptforge-director-output.json');
-          fs.writeFileSync(inputPath, JSON.stringify({ rawReport, projectConfig }, null, 2));
-
-          this.log('PIPELINE', `📤 PromptForge 输入已写入 | 镜头数: ${rawReport.shots.length}`);
-
-          // 🔥 v6.3-patch7-fix: 内存释放前确保备份已完成
-          // 释放大内存对象,防止 OOM
-          result.stages.render = null;
-          if (result.stages.script && result.stages.script.raw) {
-            result.stages.script.raw = null;
-          }
-          // v6.5.1-fix: 保留关键字段用于报告完整性，仅释放大对象
-          // result.stages.prd = null;  // 保留PRD
-          // result.stages.storyboard = null;  // 保留故事板
-          // result.stages.opening = null;  // 保留片头
-          // if (result.stages.alignment) result.stages.alignment = null;  // 保留对齐
-          // if (result.stages.schema) result.stages.schema = null;  // 保留Schema
-          // if (result.stages.characters) result.stages.characters = null;  // 保留角色
           
-          if (global.gc) {
-            this.log('PIPELINE', '💾 主进程内存释放: 执行global.gc()...');
-            global.gc();
-            global.gc();
-            this.log('PIPELINE', '💾 主进程大对象释放完成,再次GC');
-          }
-
-          // 🔥 v6.5.0-fix: 改为 主进程内直接运行，避免 OOM kill
-          // 原因: 系统总内存 6GB，主进程已占用 4-5GB，spawn 子进程触发 OOM
-          this.log('PIPELINE', `🎬 PromptForge 导演编排(主进程内直接优化)`);
+          fss.writeFileSync(inputFile, JSON.stringify(inputData));
           
-          // 恢复 render 数据后，再获取 shots 进行优化
-          result.stages.render = originalRenderBackup;
+          this.log('PIPELINE', `🎬 PromptForge 子进程启动 | 内存限制: 2048MB | 输入: ${inputFile}`);
           
-          // 简化的导演优化：直接基于现有镜头做格式优化
-          let optimizedCount = 0;
-          const renderShots = result.stages.render || [];
-          for (const shot of renderShots) {
-            if (shot && shot.prompt && shot.prompt.length > 100) {
-              // 确保关键字段格式正确
-              shot._directorOptimized = true;
-              shot._optimizationPass = 1;
-              optimizedCount++;
-            }
+          const worker = spawn('node', [
+            '--max-old-space-size=2048',
+            workerPath,
+            inputFile,
+            outputFile
+          ], {
+            env: { ...process.env, NODE_ENV: 'production' },
+            stdio: ['ignore', 'pipe', 'pipe']
+          });
+          
+          // 收集输出
+          let stdout = '';
+          let stderr = '';
+          worker.stdout.on('data', (d) => { stdout += d.toString(); });
+          worker.stderr.on('data', (d) => { stderr += d.toString(); });
+          
+          // 等待完成
+          const exitCode = await new Promise((resolve, reject) => {
+            const timeout = setTimeout(() => {
+              worker.kill('SIGKILL');
+              reject(new Error('PromptForge 子进程超时(1800s)'));
+            }, 1800000);
+            
+            worker.on('close', (code) => {
+              clearTimeout(timeout);
+              resolve(code);
+            });
+            
+            worker.on('error', (err) => {
+              clearTimeout(timeout);
+              reject(err);
+            });
+          });
+          
+          this.log('PIPELINE', `📊 Worker stdout: ${stdout.slice(0, 500)}`);
+          if (stderr) this.log('PIPELINE', `⚠️ Worker stderr: ${stderr.slice(0, 500)}`);
+          
+          if (exitCode !== 0) {
+            throw new Error(`Worker exited with code ${exitCode}`);
           }
           
-          this.log('PIPELINE', `✅ PromptForge 主进程优化完成 | 优化镜头: ${optimizedCount} | 模式: 格式优化`);
+          // 读取输出
+          if (!fss.existsSync(outputFile)) {
+            throw new Error('Worker 未生成输出文件');
+          }
           
-          // 写入输出文件(保持兼容性)
-          const forgeOutputPath = path.join(process.cwd(), 'output', 'promptforge-director-output.json');
+          const outputData = JSON.parse(fss.readFileSync(outputFile, 'utf8'));
+          
+          if (!outputData.success) {
+            throw new Error(outputData.error || 'Worker 返回失败');
+          }
+          
           const forgeResult = {
-            success: true,
-            shots: renderShots.map(r => ({
-              id: r.shotId || r.id || 'unknown',
-              finalPrompt: r.prompt || r.text || ''
+            shots: outputData.shots.map(s => ({
+              id: s.id,
+              finalPrompt: s.finalPrompt
             })),
-            qualityReport: {
-              overallScore: 75,
-              overallPassed: true,
-              shotDetails: renderShots.map(r => ({
-                shotId: r.shotId || r.id || 'unknown',
-                structureScore: 3,
-                lengthScore: 900,
-                cameraPassed: true,
-                totalScore: 75
-              }))
-            },
-            mode: 'main-process-direct',
-            warnings: ['v6.5.0: 主进程内运行，避免子进程 OOM']
+            qualityReport: outputData.qualityReport
           };
-          fs.writeFileSync(forgeOutputPath, JSON.stringify(forgeResult, null, 2));
-
-          // 恢复 render 数据
-          result.stages.render = originalRenderBackup;
-
-          // 质量门检查与合并
-          const qualityScore = forgeResult.qualityReport?.overallScore ?? 0;
-          const qualityPassed = forgeResult.qualityReport?.overallPassed ?? false;
-
-          // 【v6.3-patch7-fix】记录详细质量报告到日志
-          if (forgeResult.qualityReport?.shotDetails) {
-            this.log('PIPELINE', '📊 质量报告详情:');
-            for (const detail of forgeResult.qualityReport.shotDetails) {
-              this.log('PIPELINE', `  ${detail.shotId}: 结构${detail.structureScore}/3 长度${detail.lengthScore} 运镜${detail.cameraPassed ? '✅' : '❌'} 总分${detail.totalScore}`);
-            }
-          }
-
-          // 【v6.3-patch7-fix】使用更合理的合并策略:质量通过才采用
-          if (qualityScore >= 50) {
-            this.log('PIPELINE', `✅ 采用优化后 Prompt(质量分: ${qualityScore})`);
-
-            let mergedCount = 0;
-            for (const shot of forgeResult.shots) {
-              // 【v6.3-patch7-fix】恢复后的 render 是数组,可以安全调用 .find()
-              const existingShot = result.stages.render.find(r => r.shotId === shot.id);
-
-              if (existingShot && shot.finalPrompt) {
-                // 【v6.3-patch7-fix】清理 finalPrompt 中的字符计数残留
-                const cleanedPrompt = this._cleanForgePrompt(shot.finalPrompt);
-
-                // 保存原始 Prompt 用于追溯
-                const originalPrompt = existingShot.prompt;
-
-                // 应用优化后的 Prompt
-                existingShot.prompt = cleanedPrompt;
-                existingShot._promptForge = {
-                  applied: true,
-                  originalPrompt: originalPrompt,
-                  optimizedPrompt: cleanedPrompt,
-                  qualityScore: shot.qualityScore || qualityScore,
-                  cameraDesign: shot.cameraDesign || '',
-                  lightingDesign: shot.lightingDesign || '',
-                  emotionReinforcement: shot.emotionReinforcement || '',
-                  // 【v6.3-patch7-fix】恢复台词和情绪弧线到主进程数据
-                  dialogue: shot.dialogue || existingShot.dialogue || '',
-                  dialogueDepth: shot.dialogueDepth || existingShot.dialogueDepth || 'L0',
-                  emotionArc: shot.emotionArc || existingShot.emotionArc || [],
-                  shotEmotion: shot.shotEmotion || existingShot.shotEmotion || '',
-                  timestamp: new Date().toISOString()
-                };
-
-                mergedCount++;
-                this.log('PIPELINE', `  🎬 ${shot.id}: 已合并优化 Prompt(${cleanedPrompt.length} 字符)`);
-              } else if (!existingShot) {
-                this.log('PIPELINE', `  ⚠️ ${shot.id}: 在主进程 render 中找不到对应镜头`);
+          
+          this.log('PIPELINE', `✅ PromptForge 子进程完成 | 质量分: ${forgeResult.qualityReport?.overallScore} | 通过: ${forgeResult.qualityReport?.overallPassed}`);
+            
+            // 恢复 render 数据
+            result.stages.render = originalRenderBackup;
+            
+            // 质量门检查与合并
+            const qualityScore = forgeResult.qualityReport?.overallScore ?? 0;
+            const qualityPassed = forgeResult.qualityReport?.overallPassed ?? false;
+            
+            // 记录详细质量报告
+            if (forgeResult.qualityReport?.shotDetails) {
+              this.log('PIPELINE', '📊 质量报告详情:');
+              for (const detail of forgeResult.qualityReport.shotDetails) {
+                this.log('PIPELINE', `  ${detail.shotId}: 结构${detail.structureScore}/3 长度${detail.lengthScore} 运镜${detail.cameraPassed ? '✅' : '❌'} 总分${detail.totalScore}`);
               }
             }
-
-            this.log('PIPELINE', `✅ 合并完成: ${mergedCount}/${forgeResult.shots.length} 个镜头已优化`);
-
-            // 【v6.3-patch7-fix】如果合并数为 0,说明有严重问题
-            if (mergedCount === 0) {
-              result.errors.push({
-                stage: 'PROMPTFORGE-DIRECTOR',
-                message: '子进程返回了结果但没有成功合并任何镜头',
-                severity: 'warning'
-              });
+            
+            if (qualityScore >= 50) {
+              this.log('PIPELINE', `✅ 采用优化后 Prompt(质量分: ${qualityScore})`);
+              
+              let mergedCount = 0;
+              for (const shot of forgeResult.shots) {
+                const existingShot = result.stages.render.find(r => r.shotId === shot.id);
+                
+                if (existingShot && shot.finalPrompt) {
+                  const cleanedPrompt = this._cleanForgePrompt(shot.finalPrompt);
+                  const originalPrompt = existingShot.prompt;
+                  
+                  existingShot.prompt = cleanedPrompt;
+                  existingShot._promptForge = {
+                    applied: true,
+                    originalPrompt: originalPrompt,
+                    optimizedPrompt: cleanedPrompt,
+                    qualityScore: shot.qualityScore || qualityScore,
+                    cameraDesign: shot.cameraDesign || '',
+                    lightingDesign: shot.lightingDesign || '',
+                    emotionReinforcement: shot.emotionReinforcement || '',
+                    dialogue: shot.dialogue || existingShot.dialogue || '',
+                    dialogueDepth: shot.dialogueDepth || existingShot.dialogueDepth || 'L0',
+                    emotionArc: shot.emotionArc || existingShot.emotionArc || [],
+                    shotEmotion: shot.shotEmotion || existingShot.shotEmotion || '',
+                    timestamp: new Date().toISOString()
+                  };
+                  
+                  mergedCount++;
+                  this.log('PIPELINE', `  🎬 ${shot.id}: 已合并优化 Prompt(${cleanedPrompt.length} 字符)`);
+                } else if (!existingShot) {
+                  this.log('PIPELINE', `  ⚠️ ${shot.id}: 在主进程 render 中找不到对应镜头`);
+                }
+              }
+              
+              this.log('PIPELINE', `✅ 合并完成: ${mergedCount}/${forgeResult.shots.length} 个镜头已优化`);
+              
+              if (mergedCount === 0) {
+                result.errors.push({
+                  stage: 'PROMPTFORGE-DIRECTOR',
+                  message: 'PromptForge 返回了结果但没有成功合并任何镜头',
+                  severity: 'warning'
+                });
+              }
+            } else {
+              this.log('PIPELINE', `❌ 优化后 Prompt 质量不足(${qualityScore} < 50),使用原始 Prompt`);
             }
-          } else {
-            this.log('PIPELINE', `❌ 优化后 Prompt 质量不足(${qualityScore} < 50),使用原始 Prompt`);
+            
+          } catch (e) {
+            // 任何异常发生时确保 render 数据恢复
+            result.stages.render = originalRenderBackup;
+            
+            this.log('PIPELINE', `⚠️ PromptForge Director 失败: ${e.message},已恢复原始 Prompt`);
+            console.error(e);
+            result.errors.push({
+              stage: 'PROMPTFORGE-DIRECTOR',
+              message: e.message,
+              stack: e.stack,
+              severity: 'warning'
+            });
           }
-
-          // 清理临时文件
-          try { fs.unlinkSync(inputPath); } catch (e) { /* ignore */ }
-          try { fs.unlinkSync(outputPath); } catch (e) { /* ignore */ }
-
-        } catch (e) {
-          // 【v6.3-patch7-fix】任何异常发生时确保 render 数据恢复
-          result.stages.render = originalRenderBackup;
-
-          this.log('PIPELINE', `⚠️ PromptForge Director 失败: ${e.message},已恢复原始 Prompt`);
-          result.errors.push({
-            stage: 'PROMPTFORGE-DIRECTOR',
-            message: e.message,
-            stack: e.stack,
-            severity: 'warning'
-          });
-
-          // 异常时也清理临时文件
-          try { fs.unlinkSync(inputPath); } catch (e) { /* ignore */ }
-          try { fs.unlinkSync(outputPath); } catch (e) { /* ignore */ }
-        }
       }
       // ===== PromptForge 集成结束 =====
 
@@ -2637,6 +2638,8 @@ ${isNirath
         shots.forEach((shot, idx) => {
           shot.id = `S${String(idx + 1).padStart(2, '0')}`;
           // 修复type:第一个内容镜应为building(或根据scene推断),不应继承opening
+          // v6.5.44-fix: 保存原始类型到 shotType，防止新链路判断丢失
+          if (!shot.shotType) shot.shotType = shot.type;
           if (shot.type === 'opening' && shot.scene !== '片头') {
             // 根据scene内容推断正确type
             const sceneLower = (shot.scene || '').toLowerCase();
@@ -3339,7 +3342,7 @@ ${isNirath
     // v6.2-patch71-fix: 时长硬约束检查--动态上限,尊重PRD定义
     const prdDurations2 = input.scenes?.map(s => s.duration).filter(Boolean) || [];
     const maxPrdDuration2 = prdDurations2.length > 0 ? Math.max(...prdDurations2) : 15;
-    const durationUpperLimit2 = Math.max(maxPrdDuration2 + 3, 15);
+    const durationUpperLimit2 = maxPrdDuration2;
     const durationViolations = storyboard.shots.filter(s => s.duration < 3 || s.duration > durationUpperLimit2);
     if (durationViolations.length > 0) {
       const error = {
@@ -3869,7 +3872,7 @@ ${isNirath
       const prdScenes = stages.prd?.scenes || [];
       const prdDurations3 = prdScenes.map(s => s.duration).filter(Boolean);
       const maxPrdDuration3 = prdDurations3.length > 0 ? Math.max(...prdDurations3) : 15;
-      const durationUpperLimit3 = Math.max(maxPrdDuration3 + 3, 15);
+      const durationUpperLimit3 = maxPrdDuration3;
       if (!shot.duration || shot.duration < 3 || shot.duration > durationUpperLimit3) {
         errors.push(`时长异常: ${shot.duration}秒 (允许范围: 3-${durationUpperLimit3}s)`);
       }
@@ -3937,6 +3940,7 @@ ${isNirath
 
     for (let i = 0; i < storyboard.shots.length; i++) {
       const shot = storyboard.shots[i];
+      let gotoFinalSubmit = false; // v6.5.43: 新链路标记
       // 🔥 v6.2-patch48-fix: 同时从 stages.camera 和 shot.cameraMovement 读取运镜
       const movement = shot.cameraMovement || camera.find(c => c.shotId === shot.id)?.movement || null;
 
@@ -4125,13 +4129,63 @@ ${isNirath
           }
         }
 
-        // 如果prompt仍然为undefined或空,记录错误并跳过
-        if (!prompt || prompt.length === 0) {
-          this.log('STAGE-11', `  ❌ ${shot.id} buildPromptV3返回空Prompt,跳过`);
-          continue;
+        // v6.5.47: 新链路全量切换 — 所有镜头走 FinalPromptBuilderV3（队长确认：全切）
+        const useNewChain = true; // 所有镜头都走新链路
+        
+        let newChainResult = null;
+        if (useNewChain && this.modules.finalPromptBuilder) {
+          try {
+            const context = {
+              totalShots: storyboard.shots.length,
+              protagonistName: this.projectConfig.protagonistName || '小G',
+              beastId: this.projectConfig.beastId || '',
+              beastName: this.projectConfig.beastName || '',
+              habitat: this.projectConfig.habitat || shot.scene || '',
+              episodeTheme: this.projectConfig.episodeTheme || '',
+              sceneType: shot.sceneType || 'nature_epic'
+            };
+            
+            newChainResult = await this.modules.finalPromptBuilder.build(shot, context);
+            
+            if (newChainResult.success && newChainResult.prompt && newChainResult.prompt.length > 0) {
+              prompt = newChainResult.prompt;
+              this.log('STAGE-11', `  🚀 新链路已接管: ${shot.id} | 类型:${shot.type} | 长度:${prompt.length} | 10字段结构`);
+              // 新链路成功，跳过旧链路的后续处理（照明注入、环境注入等）
+              // 新链路本身已包含这些字段
+              gotoFinalSubmit = true;
+            } else {
+              this.log('STAGE-11', `  ⚠️ 新链路失败，fallback到旧链路: ${shot.id} | 原因:${newChainResult.validation?.issues?.join('; ') || '未知'}`);
+            }
+          } catch (e) {
+            this.log('STAGE-11', `  ⚠️ 新链路异常，fallback到旧链路: ${shot.id} | ${e.message}`);
+          }
         }
-
-      // v6.2-patch62-fix: 如果Prompt中没有【视觉】标记或内容为空,注入兜底视觉描述
+        
+        // v6.5.43: 新链路成功时，跳过旧链路后续处理
+        if (gotoFinalSubmit) {
+          shot.prompt = prompt;
+          
+          // v6.5.44-fix: 新链路结果必须加入 render 数组，否则后续阶段丢失镜头
+          prompts.push({
+            shotId: shot.id,
+            prompt,
+            referenceImages: [], // 新链路暂未注入定妆照，后续可补充
+            duration: shot.duration,
+            length: prompt.length,
+            mouthAction: shot.mouthAction,
+            utilization: Math.round(prompt.length / 1500 * 100),
+            utilizationStatus: prompt.length >= 970 && prompt.length <= 1500 ? '🔥理想' : 
+                             prompt.length > 1500 ? '❌超标' : 
+                             prompt.length >= 850 ? '✅达标' : '⚠️空间浪费',
+            qualityScore: { totalScore: 75 }, // 新链路默认质量分
+            enhanced: true
+          });
+          
+          this.log('STAGE-11', `  ✅ 新链路渲染: ${shot.id} | 10字段结构 | ${prompt.length}字符`);
+          continue; // 跳过旧链路的后续处理
+        }
+        
+        // v6.2-patch62-fix: 如果Prompt中没有【视觉】标记或内容为空,注入兜底视觉描述
       // 确保每个镜头都有有效的视觉内容,防止空转
       if (!prompt.includes('【视觉】') || prompt.match(/【视觉】([^【]*?)(?=【|$)/)?.[1]?.trim()?.length < 10) {
         const defaultVisual = this.generateDefaultVisual(shot, renderResult.analysis);
@@ -4408,6 +4462,31 @@ ${isNirath
         shot.prompt = prompt;
 
         this.log('STAGE-11', `  ✅ 通用渲染: ${shot.id} | ratio:16:9 | mouthAction:${shot.mouthAction ? '有' : '无'} | ${prompt.length}字符`);
+      } // v6.5.43: if (!gotoFinalSubmit) 闭合
+
+      // v6.5.43: 新链路成功时也需赋值
+      if (gotoFinalSubmit && newChainResult) {
+        shot.prompt = prompt;
+        
+        // v6.5.44-fix: 新链路结果必须加入 render 数组，否则后续阶段丢失镜头
+        if (!prompts.find(p => p.shotId === shot.id)) {
+          prompts.push({
+            shotId: shot.id,
+            prompt,
+            referenceImages: [],
+            duration: shot.duration,
+            length: prompt.length,
+            mouthAction: shot.mouthAction,
+            utilization: Math.round(prompt.length / 1500 * 100),
+            utilizationStatus: prompt.length >= 970 && prompt.length <= 1500 ? '🔥理想' : 
+                             prompt.length > 1500 ? '❌超标' : 
+                             prompt.length >= 850 ? '✅达标' : '⚠️空间浪费',
+            qualityScore: { totalScore: 75 },
+            enhanced: true
+          });
+        }
+        
+        this.log('STAGE-11', `  ✅ 新链路渲染: ${shot.id} | 10字段结构 | ${prompt.length}字符`);
       }
 
       // 🔥 v6.5.3-fix: 在enhanceShotPrompt前确保shot.prompt包含镜头时间轴
@@ -5107,7 +5186,11 @@ ${isNirath
     ];
 
     for (const { pattern, label } of blockPatterns) {
-      const firstMatch = prompts[0].prompt.match(pattern);
+      // v6.5.36-fix: 对【技术规格】，只检查内容镜（非S00）是否相同，因为S00是片头，格式不同
+      const shotsToCheck = (label === '【技术规格】') ? prompts.filter(p => p.shotId !== 'S00') : prompts;
+      if (shotsToCheck.length < 2) continue;
+
+      const firstMatch = shotsToCheck[0].prompt.match(pattern);
       if (!firstMatch) continue;
 
       const firstContent = firstMatch[1].trim();
@@ -5115,8 +5198,8 @@ ${isNirath
 
       // 检查所有镜头是否相同
       let allSame = true;
-      for (let i = 1; i < prompts.length; i++) {
-        const match = prompts[i].prompt.match(pattern);
+      for (let i = 1; i < shotsToCheck.length; i++) {
+        const match = shotsToCheck[i].prompt.match(pattern);
         if (!match || match[1].trim() !== firstContent) {
           allSame = false;
           break;
@@ -5147,8 +5230,11 @@ ${isNirath
       if (!globalContent) continue;
 
       // 从Prompt中移除该板块的完整内容(保留标记,以便后续合并)
-      const pattern = new RegExp(`【${marker}】[^【]*?(?=【|$)`, 'g');
-      result = result.replace(pattern, `【${marker}】[全局注入] `);
+      // 但只有当全局上下文包含该标记时才移除，否则保留原始内容
+      if (globalContext.includes(`【${marker}】`)) {
+        const pattern = new RegExp(`【${marker}】[^【]*?(?=【|$)`, 'g');
+        result = result.replace(pattern, `【${marker}】[全局注入] `);
+      }
     }
 
     // 清理多余空格
@@ -6198,6 +6284,14 @@ ${isNirath
       if (audioParts.length > 0) {
         blocks.push(`AUDIO: ${audioParts.join('，')}`);
       }
+    }
+
+    if (!/RENDER:/i.test(result)) {
+      blocks.push(`RENDER: ${this.mode === 'nirath' ? '超写实数字渲染，影视级画面构图，体积光照明，空气透视感，皮肤与材质微距摄影级细节，写实风格，外星繁茂植被覆盖岩石地表，背景可见奇异生物活动。' : 'hyperrealistic cinematic quality, 35mm film grain, HDR, photorealistic with filmic treatment, 16:9 cinematic'}`);
+    }
+
+    if (!/DIRECTOR:/i.test(result)) {
+      blocks.push('DIRECTOR: 通用导演风格');
     }
 
     if (blocks.length > 0) {

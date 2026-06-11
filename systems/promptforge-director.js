@@ -53,8 +53,8 @@ class Director {
     // 构建大模型Prompt
     const prompt = this._buildDirectorPrompt(beastProfile, nirathVisuals, directorStyles, theme, rawReport);
     
-    // 调用大模型（增加token防止content为空）
-    const response = await this.llmClient.complete(prompt, { maxTokens: 8192 });
+    // 调用大模型（v6.5.47-fix: 降低maxTokens从8192到4096，避免reasoning_content过大导致OOM）
+    const response = await this.llmClient.complete(prompt, { maxTokens: 4096 });
     
     // 解析输出
     return this._parseDirectorOutput(response);
@@ -204,7 +204,7 @@ class ChiefWriter {
   async _writeBatch(vision, shots) {
     const prompt = this._buildBatchWriterPrompt(vision, shots);
     // 限制返回token数（增加空间确保content输出）
-    const response = await this.llmClient.complete(prompt, { maxTokens: 8192 });
+    const response = await this.llmClient.complete(prompt, { maxTokens: 4096 });
     
     return this._parseBatchWriterOutput(response, shots);
   }
@@ -252,7 +252,24 @@ ${shotsDesc}
   }
   
   _parseBatchWriterOutput(response, originalShots) {
-    const text = response.text || response;
+    // v6.5.48-fix: 安全提取文本，处理 content=0 的情况
+    let text = '';
+    if (typeof response === 'string') {
+      text = response;
+    } else if (response && typeof response.text === 'string') {
+      text = response.text;
+    } else if (response && typeof response.content === 'string') {
+      text = response.content;
+    } else if (response && Array.isArray(response.messages)) {
+      text = response.messages.map(m => m.content || '').join('\n');
+    } else {
+      text = JSON.stringify(response);
+    }
+    
+    // 如果文本仍然为空或太短，返回原始响应的字符串化形式
+    if (!text || text.length < 10) {
+      text = JSON.stringify(response);
+    }
     const results = [];
     
     for (const shot of originalShots) {
@@ -320,7 +337,7 @@ ${JSON.stringify(dialogueRefs, null, 2)}
   }
 
   _parseWriterOutput(response) {
-    const text = response.text || response;
+    const text = response.text || response.content || (typeof response === 'string' ? response : JSON.stringify(response));
     
     const dialogueMatch = text.match(/【最终台词】\s*(.+?)(?=\n【深度评级】|$)/s);
     const depthMatch = text.match(/【深度评级】\s*(L[1-4])/);
@@ -379,7 +396,7 @@ class DirectorOfPhotography {
   
   async _designBatch(vision, shots) {
     const prompt = this._buildBatchDPPrompt(vision, shots);
-    const response = await this.llmClient.complete(prompt, { maxTokens: 8192 });
+    const response = await this.llmClient.complete(prompt, { maxTokens: 4096 });
     
     return this._parseBatchDPOutput(response, shots);
   }
@@ -425,7 +442,7 @@ ${shotsDesc}
   }
   
   _parseBatchDPOutput(response, originalShots) {
-    const text = response.text || response;
+    const text = response.text || response.content || (typeof response === 'string' ? response : JSON.stringify(response));
     const results = [];
     
     for (const shot of originalShots) {
@@ -545,7 +562,7 @@ ${JSON.stringify(nirathElements, null, 2)}
   }
 
   _parseDPOutput(response) {
-    const text = response.text || response;
+    const text = response.text || response.content || (typeof response === 'string' ? response : JSON.stringify(response));
     
     return {
       camera: text.match(/【镜头运动】\s*(.+?)(?=\n【光影布置】|$)/s)?.[1]?.trim() || '',
@@ -580,7 +597,7 @@ class ShotCompositor {
       const prompt = this._buildCompositorPrompt(vision, shot);
       
       // v6.2-patch118: 白天模式——maxTokens 8192，确保content有输出
-      const response = await this.llmClient.complete(prompt, { maxTokens: 8192 });
+      const response = await this.llmClient.complete(prompt, { maxTokens: 4096 });
       
       const creativeContent = this._parseCompositorOutput(response);
       
@@ -756,7 +773,7 @@ ${dialogueSection}
   _parseCompositorOutput(response, shotId) {
     if (!response) return { text: '', structure: [] };
 
-    let finalPrompt = response.text || response;
+    let finalPrompt = response.text || response.content || (typeof response === 'string' ? response : JSON.stringify(response));
 
     // 【v6.3-patch8-fix】清理思考过程：只删除明确的思考段落
     // 危险：正则 让我[\s\S]*? 会误删画面描述，改为只清理字数统计
@@ -1187,14 +1204,32 @@ class PromptForge {
     const vision = await this.director.createVision(projectConfig, rawReport);
     this.log('PROMPTFORGE', `✅ 创作意图: ${vision.coreTheme} | 风格: ${vision.directorStyle}`);
     
+    // v6.5.46-fix: Stage 1后强制GC
+    if (global.gc) {
+      global.gc();
+      this.log('PROMPTFORGE', '🧹 Stage 1后强制GC完成');
+    }
+    
     // Stage 2: 创作（编剧+摄影）
     this.log('PROMPTFORGE', '✍️ Stage 2: 首席编剧创作台词...');
     const shotsWithDialogue = await this.writer.writeDialogues(vision, rawReport.shots || []);
     this.log('PROMPTFORGE', `✅ 台词创作完成 | ${shotsWithDialogue.length}个镜头`);
     
+    // v6.5.46-fix: Stage 2a后强制GC
+    if (global.gc) {
+      global.gc();
+      this.log('PROMPTFORGE', '🧹 Stage 2a后强制GC完成');
+    }
+    
     this.log('PROMPTFORGE', '🎥 Stage 2: 摄影指导设计镜头...');
     const designedShots = await this.dp.designShots(vision, shotsWithDialogue);
     this.log('PROMPTFORGE', `✅ 镜头设计完成 | ${designedShots.length}个镜头`);
+    
+    // v6.5.46-fix: Stage 2b后强制GC
+    if (global.gc) {
+      global.gc();
+      this.log('PROMPTFORGE', '🧹 Stage 2b后强制GC完成');
+    }
     
     // Stage 3: 合成（合成师+守门员）
     this.log('PROMPTFORGE', '🔧 Stage 3: 分镜合成师融合Prompt...');
