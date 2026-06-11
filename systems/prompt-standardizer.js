@@ -91,7 +91,49 @@ function repairBrokenBlocks(text) {
   return out;
 }
 
+// ============================================================
+// 新增：Shot 对象处理工具
+// ============================================================
+
+function standardizePromptObject(shot) {
+  const raw = getPromptFromShot(shot);
+  if (!raw) return null;
+  return {
+    standardizedPrompt: standardizePrompt(raw),
+    renderFriendlyPrompt: raw,
+    source: shot._promptSource || 'unknown'
+  };
+}
+
+function getPromptFromShot(shot) {
+  if (!shot || typeof shot !== 'object') return '';
+  const candidates = [
+    shot.render_prompt,
+    shot.renderPrompt,
+    shot.prompt,
+    shot.visualPrompt,
+    shot.standardizedPrompt
+  ];
+  for (const item of candidates) {
+    if (typeof item === 'string' && item.trim()) return item.trim();
+  }
+  return '';
+}
+
+function applyStandardizedPromptToShot(shot, standardizedResult) {
+  if (!shot || typeof shot !== 'object' || !standardizedResult) return shot;
+  
+  shot.standardizedPrompt = standardizedResult.standardizedPrompt || '';
+  shot.renderFriendlyPrompt = standardizedResult.renderFriendlyPrompt || '';
+  shot.complianceChecked = true;
+  
+  return shot;
+}
+
 module.exports = {
   standardizePrompt,
+  standardizePromptObject,
+  getPromptFromShot,
+  applyStandardizedPromptToShot,
   repairBrokenBlocks
 };
