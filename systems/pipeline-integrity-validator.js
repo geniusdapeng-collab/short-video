@@ -452,8 +452,13 @@ class PipelineIntegrityValidator {
       check.details.push('风格注入输出为空');
       this.errors.push('STAGE-14: 风格注入未执行');
     } else {
+      // v6.5.35-fix: 获取全局上下文（从S00中提取）
+      const s00Result = styleResults.find(r => r.shotId === 'S00');
+      const globalContext = s00Result?.globalContext || '';
+      
       styleResults.forEach((result, idx) => {
-        const prompt = result.prompt || '';
+        // 合并全局上下文后再检查
+        const prompt = (result.prompt || '') + ' ' + globalContext;
         // v6.2-patch63-fix: hyper-realistic和UE5已从Prompt中清理（patch61），不再强制检查
         // 改为检查Nirath风格锚点和超写实中文描述
         // v6.5.3-fix: 允许 hyper-realistic 作为超写实的英文等价词

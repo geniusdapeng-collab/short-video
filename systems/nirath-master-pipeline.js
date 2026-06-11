@@ -6064,6 +6064,7 @@ ${isNirath
 
     const renderText =
       (prompt.match(/【技术规格】([^【]*)/) || [])[1] ||
+      (prompt.match(/【渲染】([^【]*)/) || [])[1] ||
       (this.mode === 'nirath' ? '超写实数字渲染，影视级画面构图，体积光照明，空气透视感，皮肤与材质微距摄影级细节，写实风格，外星繁茂植被覆盖岩石地表，背景可见奇异生物活动。' : 'hyperrealistic cinematic quality, 35mm film grain, HDR, photorealistic with filmic treatment, 16:9 cinematic');
 
     const directorText =

@@ -423,7 +423,9 @@ class QualityGate {
       const prompts = result?.stages?.output?.prompts || [];
       const hasInvalidDuration = prompts.some(shot => {
         const duration = Number(shot.duration || 0);
-        return !(duration >= 3 && duration <= 15);
+        // v6.5.35-fix: 放宽时长限制，与Stage 6的durationUpperLimit对齐（maxPrdDuration + 3）
+        // 默认允许3-18秒，适应dialogue字数多的场景
+        return !(duration >= 3 && duration <= 18);
       });
 
       if (hasInvalidDuration) {
