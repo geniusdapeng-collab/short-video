@@ -3194,7 +3194,10 @@ ${isNirath
         portraits: openingResult.portraits,
         // v6.5.8-fix: 片头也绑定定妆照
         referenceImages: openingResult.referenceImages || [],
-        content: openingResult.content || []
+        content: openingResult.content || [],
+        // v6.5.58-fix: 注入title对象和postProduction
+        title: openingResult.title || undefined,
+        postProduction: openingResult.postProduction || undefined
       };
 
       // 插入到故事板最前面
@@ -4064,11 +4067,15 @@ ${isNirath
           }
         }
 
-        prompts.push({
+        // v6.5.58-fix: 构建标准片头输出字段
+        const openingOutput = {
           shotId: shot.id,
+          id: shot.id,
+          type: 'opening',
+          scene: '片头',
           prompt: openingPrompt,
           referenceImages,
-          duration: shot.duration,
+          duration: 9, // 片头固定9秒
           length: openingPrompt.length,
           mouthAction: shot.mouthAction,
           utilization: Math.round(openingPrompt.length / 1500 * 100),
@@ -4076,7 +4083,24 @@ ${isNirath
           qualityScore: { totalScore: 95, cameraVariety: 8, lightingProgression: 'advanced', emotionalDepth: 90 },
           enhanced: true,
           isOpening: true
-        });
+        };
+        
+        // 注入title对象（从shot或postProduction提取）
+        if (shot.title && typeof shot.title === 'object') {
+          openingOutput.title = shot.title;
+        } else if (shot.postProduction && typeof shot.postProduction === 'object') {
+          openingOutput.title = {
+            main: shot.postProduction.mainTitle || '',
+            sub: shot.postProduction.subTitle || '',
+            creator: shot.postProduction.brand ? shot.postProduction.brand.replace('A Nirath Original by ', '') : 'Genius',
+            episodeName: shot.postProduction.titleFormation || '',
+            displayTiming: '6.8-9.0s',
+            position: '画面中央偏下',
+            style: shot.postProduction.fontStyle || 'elegant serif with subtle geometric flourishes'
+          };
+        }
+        
+        prompts.push(openingOutput);
 
         this.log('STAGE-11', `  ✅ 片头渲染: ${shot.id} | 由opening-system-v3.js生成 | ${openingPrompt.length}字符 | 🔥理想`);
         continue; // 跳过常规渲染流程
@@ -4250,8 +4274,12 @@ ${isNirath
           shot.prompt = prompt;
           
           // v6.5.44-fix: 新链路结果必须加入 render 数组，否则后续阶段丢失镜头
-          prompts.push({
+          // v6.5.58-fix: 构建标准输出字段，确保与schema一致
+          const standardOutput = {
             shotId: shot.id,
+            id: shot.id,
+            type: shot.type || 'generic',
+            scene: shot.scene || '',
             prompt,
             referenceImages: [], // 新链路暂未注入定妆照，后续可补充
             duration: shot.duration,
@@ -4262,8 +4290,35 @@ ${isNirath
                              prompt.length > 1500 ? '❌超标' : 
                              prompt.length >= 850 ? '✅达标' : '⚠️空间浪费',
             qualityScore: { totalScore: 75 }, // 新链路默认质量分
-            enhanced: true
-          });
+            enhanced: true,
+            cameraMovement: shot.cameraMovement || null,
+            emotionPhase: shot.emotionPhase || '',
+            importance: shot.importance || 5,
+            visualComplexity: shot.visualComplexity || 5,
+            dialogue: shot.dialogue || '',
+            narration: shot.narration || '',
+            isOpening: shot.id === 'S00' || shot.type === 'opening'
+          };
+          
+          // 片头专属：注入title对象
+          if (shot.id === 'S00' || shot.type === 'opening') {
+            if (shot.title && typeof shot.title === 'object') {
+              standardOutput.title = shot.title;
+            } else if (shot.postProduction && shot.postProduction.mainTitle) {
+              standardOutput.title = {
+                main: shot.postProduction.mainTitle || '',
+                sub: shot.postProduction.subTitle || '',
+                creator: shot.postProduction.brand ? shot.postProduction.brand.replace('A Nirath Original by ', '') : 'Genius',
+                episodeName: shot.postProduction.titleFormation || '',
+                displayTiming: '6.8-9.0s',
+                position: '画面中央偏下',
+                style: shot.postProduction.fontStyle || 'elegant serif with subtle geometric flourishes'
+              };
+            }
+            standardOutput.isOpening = true;
+          }
+          
+          prompts.push(standardOutput);
           
           this.log('STAGE-11', `  ✅ 新链路渲染: ${shot.id} | 10字段结构 | ${prompt.length}字符`);
           continue; // 跳过旧链路的后续处理
@@ -4553,9 +4608,13 @@ ${isNirath
         shot.prompt = prompt;
         
         // v6.5.44-fix: 新链路结果必须加入 render 数组，否则后续阶段丢失镜头
+        // v6.5.58-fix: 构建标准输出字段
         if (!prompts.find(p => p.shotId === shot.id)) {
-          prompts.push({
+          const standardOutput = {
             shotId: shot.id,
+            id: shot.id,
+            type: shot.type || 'generic',
+            scene: shot.scene || '',
             prompt,
             referenceImages: [],
             duration: shot.duration,
@@ -4566,8 +4625,35 @@ ${isNirath
                              prompt.length > 1500 ? '❌超标' : 
                              prompt.length >= 850 ? '✅达标' : '⚠️空间浪费',
             qualityScore: { totalScore: 75 },
-            enhanced: true
-          });
+            enhanced: true,
+            cameraMovement: shot.cameraMovement || null,
+            emotionPhase: shot.emotionPhase || '',
+            importance: shot.importance || 5,
+            visualComplexity: shot.visualComplexity || 5,
+            dialogue: shot.dialogue || '',
+            narration: shot.narration || '',
+            isOpening: shot.id === 'S00' || shot.type === 'opening'
+          };
+          
+          // 片头专属
+          if (shot.id === 'S00' || shot.type === 'opening') {
+            if (shot.title && typeof shot.title === 'object') {
+              standardOutput.title = shot.title;
+            } else if (shot.postProduction && shot.postProduction.mainTitle) {
+              standardOutput.title = {
+                main: shot.postProduction.mainTitle || '',
+                sub: shot.postProduction.subTitle || '',
+                creator: shot.postProduction.brand ? shot.postProduction.brand.replace('A Nirath Original by ', '') : 'Genius',
+                episodeName: shot.postProduction.titleFormation || '',
+                displayTiming: '6.8-9.0s',
+                position: '画面中央偏下',
+                style: shot.postProduction.fontStyle || 'elegant serif with subtle geometric flourishes'
+              };
+            }
+            standardOutput.isOpening = true;
+          }
+          
+          prompts.push(standardOutput);
         }
         
         this.log('STAGE-11', `  ✅ 新链路渲染: ${shot.id} | 10字段结构 | ${prompt.length}字符`);
@@ -5203,18 +5289,52 @@ ${isNirath
       // 最后兜底，补齐缺失字段
       prompt = this.ensureFinalPromptStructure(shot, prompt);
 
-      prompts.push({
+      // v6.5.58-fix: 构建标准输出字段，确保与schema一致
+      const standardOutput = {
         shotId: shot.id,
+        id: shot.id, // 兼容字段
+        type: shot.type || 'generic',
+        scene: shot.scene || '',
         prompt,
-        referenceImages, // v6.5.1-fix: 注入定妆照路径标记
-        duration: shot.duration, // v6.5.3-fix: 注入duration，供QualityGate检查
+        referenceImages,
+        duration: shot.duration,
         length: prompt.length,
         mouthAction: shot.mouthAction,
         utilization: Math.round(utilization * 100),
         utilizationStatus,
         qualityScore: shot.qualityScore,
-        enhanced: true
-      });
+        enhanced: true,
+        // 内容镜专属字段
+        cameraMovement: shot.cameraMovement || null,
+        emotionPhase: shot.emotionPhase || '',
+        importance: shot.importance || 5,
+        visualComplexity: shot.visualComplexity || 5,
+        dialogue: shot.dialogue || '',
+        narration: shot.narration || '',
+        // 标记是否片头
+        isOpening: shot.id === 'S00' || shot.type === 'opening'
+      };
+
+      // 片头专属：注入title对象（如果存在）
+      if (shot.id === 'S00' || shot.type === 'opening') {
+        if (shot.title && typeof shot.title === 'object') {
+          standardOutput.title = shot.title;
+        } else if (shot.postProduction && shot.postProduction.mainTitle) {
+          // 从 postProduction 构建 title
+          standardOutput.title = {
+            main: shot.postProduction.mainTitle || '',
+            sub: shot.postProduction.subTitle || '',
+            creator: shot.postProduction.brand ? shot.postProduction.brand.replace('A Nirath Original by ', '') : 'Genius',
+            episodeName: shot.postProduction.titleFormation || '',
+            displayTiming: '6.8-9.0s',
+            position: '画面中央偏下',
+            style: shot.postProduction.fontStyle || 'elegant serif with subtle geometric flourishes'
+          };
+        }
+        standardOutput.isOpening = true;
+      }
+
+      prompts.push(standardOutput);
     }
 
     // 🔥 v6.2-patch100-fix: 全局上下文去重 - 提取所有镜头的共同内容,减少冗余

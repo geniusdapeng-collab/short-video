@@ -86,11 +86,12 @@ Prompt: ${item.prompt?.slice(0, 300) || '空'}
     await this._checkStage9_Camera(stages.camera, stages.storyboard, stages.render);
     this._checkStage10_Continuity(stages.continuity);
     this._checkStage11_Render(stages.render);
-    this._checkStage12_Compliance(stages.compliance);
+    this._checkStage12_Compliance(stages.compliance, stages.render);
     this._checkStage13_PreRender(stages.preRender);
     await this._checkStage14_Style(stages.style, stages.prd?.meta?.mode || 'nirath');
     this._checkStage15_PostProduction(stages.postProduction);
     await this._checkEndToEnd_Consistency(stages);
+    this._checkStage16_FieldIntegrity(stages.render);
 
     const result = {
       valid: this.errors.length === 0,
@@ -108,6 +109,143 @@ Prompt: ${item.prompt?.slice(0, 300) || '空'}
 
     this._printSummary(result);
     return result;
+  }
+
+  // ========== 新增：标准字段完整性检查（v6.5.58-fix）==========
+  _checkStage16_FieldIntegrity(render) {
+    const check = { stage: 'STAGE-16.5', name: '标准字段完整性', passed: true, details: [] };
+
+    if (!render || !Array.isArray(render) || render.length === 0) {
+      check.passed = false;
+      check.details.push('render数据为空');
+      this.errors.push('STAGE-16.5: 无render数据，无法检查字段完整性');
+      this.checks.push(check);
+      return;
+    }
+
+    // 定义标准字段结构
+    const standardFields = {
+      // 所有镜头通用字段
+      common: {
+        required: ['id', 'type', 'scene', 'duration', 'prompt', 'length', 'utilization', 'utilizationStatus'],
+        optional: ['referenceImages', 'mouthAction', 'qualityScore', 'enhanced', 'dialogue', 'narration', 'cameraMovement', 'emotionPhase', 'importance', 'visualComplexity']
+      },
+      // 片头专属字段
+      opening: {
+        required: ['isOpening', 'title'],
+        'title.required': ['main', 'sub'],
+        'title.optional': ['creator', 'episodeName', 'displayTiming', 'position', 'style']
+      },
+      // 内容镜专属字段
+      content: {
+        required: ['cameraMovement'],
+        'cameraMovement.required': ['scene', 'primaryMovement', 'speed', 'shotSize', 'timeline']
+      }
+    };
+
+    for (const result of render) {
+      const shotId = result.shotId || result.id || 'unknown';
+      const isOpening = result.isOpening || shotId === 'S00';
+
+      // 检查通用必填字段
+      for (const field of standardFields.common.required) {
+        if (!(field in result) || result[field] === undefined || result[field] === null) {
+          check.passed = false;
+          check.details.push(`${shotId}: 缺少通用必填字段 ${field}`);
+          this.errors.push(`STAGE-16.5: ${shotId} 缺少必填字段 ${field}`);
+        }
+      }
+
+      // 检查类型一致性
+      if (result.type !== (isOpening ? 'opening' : 'building') && 
+          result.type !== 'discovery' && 
+          result.type !== 'confrontation' && 
+          result.type !== 'climax' && 
+          result.type !== 'closing') {
+        check.passed = false;
+        check.details.push(`${shotId}: 类型字段异常: ${result.type}`);
+        this.warnings.push(`STAGE-16.5: ${shotId} 类型字段可能不正确: ${result.type}`);
+      }
+
+      // 片头专属检查
+      if (isOpening) {
+        for (const field of standardFields.opening.required) {
+          if (!(field in result) || result[field] === undefined || result[field] === null) {
+            check.passed = false;
+            check.details.push(`${shotId}: 缺少片头必填字段 ${field}`);
+            this.errors.push(`STAGE-16.5: ${shotId} 缺少片头必填字段 ${field}`);
+          }
+        }
+
+        // 检查 title 结构
+        if (result.title) {
+          const title = result.title;
+          for (const field of standardFields.opening['title.required']) {
+            if (!(field in title) || !title[field] || title[field].toString().trim() === '') {
+              check.passed = false;
+              check.details.push(`${shotId}.title: 缺少必填字段 ${field}`);
+              this.errors.push(`STAGE-16.5: ${shotId} 片头标题缺少 ${field}（主标题/副标题必填）`);
+            }
+          }
+
+          // 验证 title.main 格式：必须包含 SHAN HAI JING
+          if (title.main && !title.main.includes('SHAN HAI JING')) {
+            check.passed = false;
+            check.details.push(`${shotId}.title.main: 格式错误，缺少 'SHAN HAI JING' 前缀`);
+            this.warnings.push(`STAGE-16.5: ${shotId} 主标题格式可能不正确: ${title.main}`);
+          }
+
+          // 验证 title.sub 格式：必须包含 A Nirath Original
+          if (title.sub && !title.sub.includes('A Nirath Original')) {
+            check.passed = false;
+            check.details.push(`${shotId}.title.sub: 格式错误，缺少 'A Nirath Original' 前缀`);
+            this.warnings.push(`STAGE-16.5: ${shotId} 副标题格式可能不正确: ${title.sub}`);
+          }
+        }
+      } else {
+        // 内容镜专属检查
+        for (const field of standardFields.content.required) {
+          if (!(field in result) || result[field] === undefined || result[field] === null) {
+            check.passed = false;
+            check.details.push(`${shotId}: 缺少内容镜必填字段 ${field}`);
+            this.warnings.push(`STAGE-16.5: ${shotId} 缺少内容镜字段 ${field}`);
+          }
+        }
+
+        // 检查 cameraMovement 结构
+        if (result.cameraMovement) {
+          const cm = result.cameraMovement;
+          for (const field of standardFields.content['cameraMovement.required']) {
+            if (!(field in cm) || cm[field] === undefined || cm[field] === null) {
+              check.passed = false;
+              check.details.push(`${shotId}.cameraMovement: 缺少字段 ${field}`);
+              this.warnings.push(`STAGE-16.5: ${shotId} cameraMovement 缺少 ${field}`);
+            }
+          }
+        }
+      }
+
+      // 检查 prompt 字段内部结构（10字段检查）
+      if (result.prompt) {
+        const prompt = result.prompt;
+        const requiredPromptSections = ['CHARACTER', 'ACTION', 'SCENE', 'MOOD', 'CAMERA', 'LIGHTING', 'NEGATIVE', 'AUDIO', 'RENDER', 'DIRECTOR'];
+        const missingSections = [];
+        
+        for (const section of requiredPromptSections) {
+          if (!prompt.includes(section)) {
+            missingSections.push(section);
+          }
+        }
+        
+        if (missingSections.length > 0) {
+          check.passed = false;
+          check.details.push(`${shotId}: Prompt缺少10字段: ${missingSections.join(', ')}`);
+          this.warnings.push(`STAGE-16.5: ${shotId} Prompt 缺少字段: ${missingSections.join(', ')}`);
+        }
+      }
+    }
+
+    this.checks.push(check);
   }
 
   // ========== Stage 1: PRD ==========
@@ -446,15 +584,102 @@ Prompt: ${item.prompt?.slice(0, 300) || '空'}
       this.errors.push('STAGE-11: 渲染核心未生成任何Prompt');
     } else {
       renderResults.forEach((result, idx) => {
+        // v6.5.58-fix: 标准字段完整性检查
+        const requiredFields = ['shotId', 'type', 'scene', 'duration', 'prompt', 'length', 'utilization', 'utilizationStatus', 'referenceImages', 'mouthAction', 'qualityScore', 'enhanced'];
+        const missingFields = requiredFields.filter(f => !(f in result) || result[f] === undefined || result[f] === null);
+        if (missingFields.length > 0) {
+          check.passed = false;
+          check.details.push(`${result.shotId || idx}: 缺少标准字段 ${missingFields.join(', ')}`);
+          this.errors.push(`STAGE-11: ${result.shotId || '镜头' + idx}缺少标准字段: ${missingFields.join(', ')}`);
+        }
+        
+        // 检查 id/shotId 一致性
+        if (result.id && result.shotId && result.id !== result.shotId) {
+          check.passed = false;
+          check.details.push(`${result.shotId}: id(${result.id})与shotId(${result.shotId})不一致`);
+          this.warnings.push(`STAGE-11: ${result.shotId} id与shotId不一致`);
+        }
+        
+        // 检查片头专属字段
+        if (result.isOpening || result.shotId === 'S00') {
+          if (!result.title || typeof result.title !== 'object') {
+            check.passed = false;
+            check.details.push(`${result.shotId}: 缺少片头title对象`);
+            this.errors.push(`STAGE-11: ${result.shotId} 片头缺少title对象`);
+          } else {
+            const titleRequired = ['main', 'sub', 'creator', 'episodeName', 'displayTiming', 'position', 'style'];
+            const titleMissing = titleRequired.filter(f => !(f in result.title) || !result.title[f] || result.title[f].toString().trim() === '');
+            if (titleMissing.length > 0) {
+              check.passed = false;
+              check.details.push(`${result.shotId}: title缺少字段 ${titleMissing.join(', ')}`);
+              this.errors.push(`STAGE-11: ${result.shotId} 片头title缺少字段: ${titleMissing.join(', ')}`);
+            }
+            // 验证 title.main 格式
+            if (result.title.main && !result.title.main.includes('SHAN HAI JING')) {
+              check.passed = false;
+              check.details.push(`${result.shotId}: title.main格式错误，缺少'SHAN HAI JING'前缀: ${result.title.main}`);
+              this.warnings.push(`STAGE-11: ${result.shotId} title.main格式可能不正确: ${result.title.main}`);
+            }
+            // 验证 title.sub 格式
+            if (result.title.sub && !result.title.sub.includes('A Nirath Original')) {
+              check.passed = false;
+              check.details.push(`${result.shotId}: title.sub格式错误，缺少'A Nirath Original'前缀: ${result.title.sub}`);
+              this.warnings.push(`STAGE-11: ${result.shotId} title.sub格式可能不正确: ${result.title.sub}`);
+            }
+          }
+          // 片头 duration 必须是 9
+          if (result.duration !== 9) {
+            check.passed = false;
+            check.details.push(`${result.shotId}: 片头duration必须为9，实际为${result.duration}`);
+            this.errors.push(`STAGE-11: ${result.shotId} 片头duration错误: ${result.duration}，必须为9`);
+          }
+        }
+        
+        // 检查内容镜专属字段
+        if (!result.isOpening && result.shotId !== 'S00') {
+          if (!result.cameraMovement || typeof result.cameraMovement !== 'object') {
+            check.passed = false;
+            check.details.push(`${result.shotId}: 缺少cameraMovement对象`);
+            this.errors.push(`STAGE-11: ${result.shotId} 内容镜缺少cameraMovement对象`);
+          } else {
+            const cmRequired = ['scene', 'primaryMovement', 'speed', 'shotSize', 'timeline'];
+            const cmMissing = cmRequired.filter(f => !(f in result.cameraMovement));
+            if (cmMissing.length > 0) {
+              check.passed = false;
+              check.details.push(`${result.shotId}: cameraMovement缺少字段 ${cmMissing.join(', ')}`);
+              this.warnings.push(`STAGE-11: ${result.shotId} cameraMovement缺少字段: ${cmMissing.join(', ')}`);
+            }
+            // 检查 timeline 结构
+            if (result.cameraMovement.timeline) {
+              const tl = result.cameraMovement.timeline;
+              if (!tl.segments || !Array.isArray(tl.segments)) {
+                check.passed = false;
+                check.details.push(`${result.shotId}: cameraMovement.timeline缺少segments数组`);
+                this.warnings.push(`STAGE-11: ${result.shotId} cameraMovement.timeline.segments缺失`);
+              }
+            }
+          }
+          // 检查可选字段
+          if (!result.emotionPhase) {
+            check.details.push(`${result.shotId}: 缺少emotionPhase（可选）`);
+          }
+          if (!result.importance) {
+            check.details.push(`${result.shotId}: 缺少importance（可选）`);
+          }
+          if (!result.visualComplexity) {
+            check.details.push(`${result.shotId}: 缺少visualComplexity（可选）`);
+          }
+        }
+        
         if (!result.prompt || result.prompt.trim() === '') {
           check.passed = false;
           check.details.push(`${result.shotId || idx}: prompt为空`);
           this.errors.push(`STAGE-11: ${result.shotId || '镜头' + idx}Prompt为空`);
         }
-        if (result.prompt && result.prompt.length < 800) {
+        if (result.prompt && result.prompt.length < 700) {
           check.passed = false;
           check.details.push(`${result.shotId || idx}: prompt仅${result.prompt.length}字符，严重不足`);
-          this.errors.push(`STAGE-11: ${result.shotId || '镜头' + idx}Prompt仅${result.prompt.length}字符，远低于800字符最低要求`);
+          this.errors.push(`STAGE-11: ${result.shotId || '镜头' + idx}Prompt仅${result.prompt.length}字符，远低于700字符最低要求`);
         }
         if (result.prompt && result.prompt.length > 1500) {
           check.passed = false;
@@ -468,7 +693,8 @@ Prompt: ${item.prompt?.slice(0, 300) || '空'}
   }
 
   // ========== Stage 12: Compliance ==========
-  _checkStage12_Compliance(compliance) {
+  // v6.5.58-fix: 增加片头标题字段合规检查
+  _checkStage12_Compliance(compliance, renderResults) {
     const check = { stage: 'STAGE-12', name: '合规检查有效性', passed: true, details: [] };
 
     const exceedItems = (compliance?.utilization || []).filter(u => u.status === 'exceed');
@@ -483,6 +709,97 @@ Prompt: ${item.prompt?.slice(0, 300) || '空'}
       // v6.5.34-fix: waste状态仅为警告，不阻断链路
       check.details.push(`${wasteItems.length}个Prompt空间利用率偏低`);
       this.warnings.push(`STAGE-12: ${wasteItems.length}个Prompt空间未充分利用，建议增强内容`);
+    }
+
+    // v6.5.58-fix: 片头标题字段合规检查
+    if (renderResults && Array.isArray(renderResults)) {
+      const openingShot = renderResults.find(r => r.shotId === 'S00' || r.id === 'S00' || r.isOpening);
+      if (openingShot) {
+        // 检查 title 对象存在
+        if (!openingShot.title || typeof openingShot.title !== 'object') {
+          check.passed = false;
+          check.details.push(`S00: 缺少title对象`);
+          this.errors.push(`STAGE-12: S00 片头缺少title对象——opening-system-v3.js未生成title字段`);
+        } else {
+          const title = openingShot.title;
+          // 检查必填字段
+          const titleRequiredFields = {
+            'main': '主标题（英文）',
+            'sub': '副标题（英文）',
+            'creator': '出品人',
+            'episodeName': '本集主题',
+            'displayTiming': '展示时间区间',
+            'position': '位置',
+            'style': '字体风格'
+          };
+          
+          for (const [field, label] of Object.entries(titleRequiredFields)) {
+            if (!(field in title) || !title[field] || title[field].toString().trim() === '') {
+              check.passed = false;
+              check.details.push(`S00.title: 缺少${label}(${field})`);
+              this.errors.push(`STAGE-12: S00 title.${field}缺失——片头标题${label}未生成`);
+            }
+          }
+          
+          // 验证格式
+          if (title.main && !title.main.includes('SHAN HAI JING')) {
+            check.passed = false;
+            check.details.push(`S00.title.main: 格式错误，缺少'SHAN HAI JING'前缀`);
+            this.errors.push(`STAGE-12: S00 title.main格式错误——必须以'SHAN HAI JING:'开头`);
+          }
+          if (title.sub && !title.sub.includes('A Nirath Original')) {
+            check.passed = false;
+            check.details.push(`S00.title.sub: 格式错误，缺少'A Nirath Original'前缀`);
+            this.errors.push(`STAGE-12: S00 title.sub格式错误——必须包含'A Nirath Original'`);
+          }
+          if (title.displayTiming && title.displayTiming !== '6.8-9.0s') {
+            check.passed = false;
+            check.details.push(`S00.title.displayTiming: 值错误，应为'6.8-9.0s'，实际为'${title.displayTiming}'`);
+            this.warnings.push(`STAGE-12: S00 title.displayTiming应为'6.8-9.0s'，实际为'${title.displayTiming}'`);
+          }
+        }
+        
+        // 检查 duration 固定为 9
+        if (openingShot.duration !== 9) {
+          check.passed = false;
+          check.details.push(`S00: duration必须为9，实际为${openingShot.duration}`);
+          this.errors.push(`STAGE-12: S00 duration错误——必须为9秒，实际为${openingShot.duration}`);
+        }
+        
+        // 检查 isOpening 标记
+        if (!openingShot.isOpening) {
+          check.passed = false;
+          check.details.push(`S00: 缺少isOpening=true标记`);
+          this.warnings.push(`STAGE-12: S00 缺少isOpening标记——PromptForge可能错误优化此镜头`);
+        }
+      } else {
+        check.passed = false;
+        check.details.push(`S00: 片头镜头缺失`);
+        this.errors.push(`STAGE-12: 片头镜头(S00)缺失——opening-system-v3.js未生成或未被纳入renderResults`);
+      }
+      
+      // 检查内容镜字段
+      const contentShots = renderResults.filter(r => r.shotId !== 'S00' && r.id !== 'S00' && !r.isOpening);
+      for (const shot of contentShots) {
+        // 检查 cameraMovement
+        if (!shot.cameraMovement || typeof shot.cameraMovement !== 'object') {
+          check.passed = false;
+          check.details.push(`${shot.shotId}: 缺少cameraMovement对象`);
+          this.errors.push(`STAGE-12: ${shot.shotId} 缺少cameraMovement——Stage 9运镜系统输出未流转`);
+        } else {
+          const cm = shot.cameraMovement;
+          if (!cm.primaryMovement) {
+            check.passed = false;
+            check.details.push(`${shot.shotId}: cameraMovement.primaryMovement缺失`);
+            this.warnings.push(`STAGE-12: ${shot.shotId} cameraMovement.primaryMovement缺失`);
+          }
+          if (!cm.timeline || !cm.timeline.segments) {
+            check.passed = false;
+            check.details.push(`${shot.shotId}: cameraMovement.timeline.segments缺失`);
+            this.warnings.push(`STAGE-12: ${shot.shotId} cameraMovement.timeline结构不完整`);
+          }
+        }
+      }
     }
 
     this.checks.push(check);

@@ -3,13 +3,7 @@
 
 /**
  * run-taotie-preproduction.js
- * v6.4.1-rewrite: 薄 wrapper，调用统一入口 app/cli.js
- * 
- * 原逻辑已迁移至：
- *   - 输入配置：stories/taotie-ep01-input.json
- *   - 统一服务：systems/preproduction-service.js
- *   - 统一命令：app/commands/preproduction.js
- *   - 统一入口：app/cli.js
+ * 饕餮 EP01 预生产启动器
  */
 
 const path = require('path');
@@ -19,10 +13,9 @@ const { createLogger } = require('./systems/logger');
 const logger = createLogger('taotie-wrapper');
 
 async function main() {
-  logger.info('🎬 饕餮 EP01 预生产启动（wrapper 模式）');
+  logger.info('🎬 饕餮 EP01 预生产启动（v6.5.58 验证）');
 
-  // 输入配置路径（支持环境变量覆盖）
-  const inputPath = process.env.TAOTIE_INPUT_PATH || path.join(__dirname, 'stories', 'taotie-ep01-input.json');
+  const inputPath = path.join(__dirname, 'stories', 'taotie-ep01-input.json');
   const input = require(inputPath);
 
   logger.info('📥 已加载输入配置', {
@@ -40,7 +33,10 @@ async function main() {
       projectConfig: {
         requiredCharacters: ['xiaoG', 'tao-tie'],
         isPreProduction: true,
-        ownerApproved: true
+        ownerApproved: true,
+        beastId: 'tao-tie',
+        beastName: '饕餮',
+        episodeTheme: '永恒饥饿'
       }
     });
 

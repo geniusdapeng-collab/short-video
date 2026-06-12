@@ -1050,7 +1050,19 @@ function combineActs(act1, act2, act3, config) {
     postProduction: postProduction || {},
     // v6.5.8-fix: 定妆照信息供 pipeline 使用
     referenceImages,
-    content
+    content,
+    // v6.5.58-fix: 添加标准title对象和isOpening标记
+    title: postProduction ? {
+      main: postProduction.mainTitle || '',
+      sub: postProduction.subTitle || '',
+      creator: postProduction.brand ? postProduction.brand.replace('A Nirath Original by ', '') : 'Genius',
+      episodeName: postProduction.titleFormation || '',
+      displayTiming: '6.8-9.0s',
+      position: '画面中央偏下',
+      style: postProduction.fontStyle || 'elegant serif with subtle geometric flourishes'
+    } : undefined,
+    isOpening: true,
+    duration: 9
   };
 }
 
