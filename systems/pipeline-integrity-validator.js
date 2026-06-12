@@ -670,8 +670,69 @@ Prompt: ${item.prompt?.slice(0, 300) || '空'}
             check.details.push(`${result.shotId}: 缺少visualComplexity（可选）`);
           }
           
-          // v6.5.62: 检查新增字段（基于参考v6.37-Peng）
-          // characterRef - P0字段，有角色时必须存在
+          // v6.5.62-P2: 检查 scene 字段（五维空间）
+          if (!result.scene || result.scene === '') {
+            check.passed = false;
+            check.details.push(`${result.shotId}: 缺少scene（P1字段）`);
+            this.warnings.push(`STAGE-11: ${result.shotId} 缺少scene`);
+          } else {
+            // 检查五维空间：至少包含2个维度
+            const dimensions = ['Nirath', '大陆', '峡谷', '晶体', '双恒星', '光照', '前景', '中景', '背景'];
+            const hasDimension = dimensions.some(d => result.scene.includes(d));
+            if (!hasDimension) {
+              check.passed = false;
+              check.details.push(`${result.shotId}: scene缺少五维空间描述`);
+              this.warnings.push(`STAGE-11: ${result.shotId} scene五维空间不完整`);
+            }
+          }
+          
+          // v6.5.62-P2: 检查 camera 字段（景别+运镜+焦距+速度）
+          if (!result.camera || result.camera === '') {
+            check.details.push(`${result.shotId}: 缺少camera（P1字段）`);
+            this.warnings.push(`STAGE-11: ${result.shotId} 缺少camera`);
+          } else {
+            // 检查是否包含景别和运镜
+            const hasShotSize = ['extreme_wide', 'wide', 'medium', 'close_up', 'extreme_close', 'full', 'establishing', 'low-angle', 'high-angle', 'aerial'].some(s => result.camera.includes(s));
+            const hasMovement = ['dolly', 'crane', 'pan', 'tilt', 'tracking', 'orbital', 'arc', 'handheld', 'static', 'push', 'pull', 'zoom', 'rack'].some(m => result.camera.includes(m));
+            if (!hasShotSize || !hasMovement) {
+              check.passed = false;
+              check.details.push(`${result.shotId}: camera缺少景别或运镜描述`);
+              this.warnings.push(`STAGE-11: ${result.shotId} camera格式不完整`);
+            }
+          }
+          
+          // v6.5.62-P2: 检查 lighting 字段（主光方向+色温K值）
+          if (!result.lighting || result.lighting === '') {
+            check.details.push(`${result.shotId}: 缺少lighting（P1字段）`);
+            this.warnings.push(`STAGE-11: ${result.shotId} 缺少lighting`);
+          } else {
+            // 检查是否包含色温K值
+            if (!result.lighting.includes('K')) {
+              check.passed = false;
+              check.details.push(`${result.shotId}: lighting缺少色温K值`);
+              this.warnings.push(`STAGE-11: ${result.shotId} lighting缺少色温`);
+            }
+          }
+          
+          // v6.5.62-P2: 检查 mood 字段（3-5情绪关键词）
+          if (!result.mood || result.mood === '') {
+            check.details.push(`${result.shotId}: 缺少mood（P1字段）`);
+            this.warnings.push(`STAGE-11: ${result.shotId} 缺少mood`);
+          } else {
+            // 检查是否为3-5个关键词
+            const moodKeywords = result.mood.split(/[,，]/).map(s => s.trim()).filter(s => s.length > 0);
+            if (moodKeywords.length < 3) {
+              check.passed = false;
+              check.details.push(`${result.shotId}: mood关键词过少（${moodKeywords.length}个），至少3个`);
+              this.warnings.push(`STAGE-11: ${result.shotId} mood关键词过少`);
+            }
+          }
+          
+          // v6.5.62-P2: 检查 action 字段
+          if (!result.action || result.action === '') {
+            check.details.push(`${result.shotId}: 缺少action（P1字段）`);
+            this.warnings.push(`STAGE-11: ${result.shotId} 缺少action`);
+          }
           if (result.characters && result.characters.length > 0) {
             if (!result.characterRef || result.characterRef === '') {
               check.passed = false;
