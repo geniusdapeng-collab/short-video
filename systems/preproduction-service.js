@@ -18,7 +18,9 @@ async function runPreproduction(input, options = {}) {
     resultPrefix = 'preproduction',
     mode = 'nirath',
     projectConfig = {},
-    waitPendingTasks = true
+    waitPendingTasks = true,
+    checkpoint = null,       // 🔥 v6.5.60: 断点恢复
+    onStageComplete = null     // 🔥 v6.5.60: 阶段完成回调
   } = options;
 
   const reporter = new StatusReporter({
@@ -52,7 +54,13 @@ async function runPreproduction(input, options = {}) {
 
   try {
     reporter.stage('主链路执行', 10, '剧本生成 → 镜头生成 → 时间轴');
-    const result = await pipeline.execute(input);
+    
+    // 🔥 v6.5.60: 传入阶段完成回调
+    const pipelineOptions = {};
+    if (onStageComplete) {
+      pipelineOptions.onStageComplete = onStageComplete;
+    }
+    const result = await pipeline.execute(input, pipelineOptions);
 
     if (waitPendingTasks && typeof pipeline.getPendingAsyncTasks === 'function') {
       const pendingTasks = pipeline.getPendingAsyncTasks() || [];

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-12T05:46:48.825Z",
+  "updatedAt": "2026-06-12T05:55:48.823Z",
   "entries": {
     "memory:memory/2026-05-15.md:31:42": {
       "key": "memory:memory/2026-05-15.md:31:42",
@@ -3770,17 +3770,18 @@
       "endLine": 249,
       "source": "memory",
       "snippet": "## 修复完成确认（2026-06-07 10:16 GMT+8） 所有语法检查通过，修改文件： - `shanhaijing-render-engine/orient-primordial-core-v24.js`（视觉标记） - `systems/nirath-master-pipeline.js`（Stage顺序、角色ID、LLM示例） - `systems/pipeline-integrity-validator.js`（别名映射） - `systems/prompt-standard-v3.js`（ACTION检测） - `systems/story-craft-engine/story-craft-integration.js`（StoryCraft升级） 待队长确认：渲染就绪度检查方案和下一次预生产时间。 ## 方案A实施：预生产阶段注入定妆照路径标记（v6.5.1-fix） **队长选择**：方案A（注入 referenceImages 路径标记，无 base64） **实现**： - `stageRender` 方法中，每个镜头 `prompts.push` 前注入 `referenceImages` - 从 `stages.characters[charId].portraits` 提取定妆照路径 - 格式：`{ type: 'image_url', image_url: { url: path }, role: 'reference_image', character, angle }` - 覆盖：片头镜头（S00）和常规镜头（S01-S04）",
-      "recallCount": 3,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.2951751500368118,
+      "totalScore": 1.7260553181171416,
       "maxScore": 0.4481274336576461,
       "firstRecalledAt": "2026-06-08T06:32:38.124Z",
-      "lastRecalledAt": "2026-06-12T05:46:48.825Z",
+      "lastRecalledAt": "2026-06-12T05:55:48.823Z",
       "queryHashes": [
         "812eeeecfe5e",
         "a2db0cd43b64",
-        "27b856e23512"
+        "27b856e23512",
+        "3c4c8a2199f2"
       ],
       "recallDays": [
         "2026-06-08",
@@ -3805,17 +3806,18 @@
       "endLine": 272,
       "source": "memory",
       "snippet": "**修改文件**：`systems/nirath-master-pipeline.js` ## v6.5.3 发布：OOM 修复 + 角色注入修复（2026-06-07 10:49 GMT+8） ### 问题：v6.5.2 预生产 OOM（SIGKILL） **根因分析**： - 不是系统 OOM killer（dmesg 无当日日志） - 主进程 openclaw-gateway 已占 1GB+ RSS - 预生产进程 4 批次 LLM 累积数据，批次 3 输出 8931 Tokens/1452 字符 - 总内存超过 5.75GB 可用（系统 6GB 可用，Node 堆限制 6GB） **修复**：`nirath-master-pipeline.js` 批次循环中，每批次 LLM 调用成功后执行 `global.gc()`，释放累积内存。 **验证**：4 批次全部完成，无 SIGKILL，OOM 修复成功。 ### 问题：S02 characters: [\"无\"] **根因**：Pipeline LLM prompt 未明确要求每个场景必须有角色，LLM 返回 `\"characters\": [\"无\"]` **修复**： 1. Prompt 中明确要求：`所有场景必须包含至少一个角色（如小G或饕餮），避免使用\"无\"作为角色。` 2. 返回后 fallback 逻辑：`characters: (s.characters && s.characters.length > 0 && s.characters[0] !== '无') ? s.characters :",
-      "recallCount": 3,
+      "recallCount": 4,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 1.271852186322212,
+      "totalScore": 1.7036205798387525,
       "maxScore": 0.4407790511846542,
       "firstRecalledAt": "2026-06-08T06:32:38.124Z",
-      "lastRecalledAt": "2026-06-12T05:46:48.825Z",
+      "lastRecalledAt": "2026-06-12T05:55:48.823Z",
       "queryHashes": [
         "812eeeecfe5e",
         "a2db0cd43b64",
-        "27b856e23512"
+        "27b856e23512",
+        "3c4c8a2199f2"
       ],
       "recallDays": [
         "2026-06-08",
@@ -4340,16 +4342,17 @@
       "endLine": 94,
       "source": "memory",
       "snippet": "- [ ] 超现实系统架构实现（剧本引擎/制作引擎/渲染引擎/后期引擎） --- ## 2026-06-08 下午 — v6.5.15-fix2 验证与OOM复发分析 ### v6.5.15-fix2 验证：3个原始问题全部修复，但OOM复发 - Stage 11 prompt类型错误修复成功：`char?.prompt?.substring` → 防御式检查 - 3个原始问题（Stage 8 mouthAction / Stage 9 运镜结构 / characters undefined）全部通过验证 - 但第4批LLM后进程再次被OOM SIGKILL杀死 ### OOM 成功经验总结（已验证） | 时间 | 版本 | 方案 | 结果 | |------|------|------|------| | 6月5日 | v6.3-patch2 | 子进程隔离 + 8GB内存 + 三阶流水线 | 100分，0 OOM，26分钟 | | 6月5日 | v6.5.3-fix | 主进程释放大对象 + global.gc() | 4批完成 | | 6月4日 | - | 单镜头独立Node进程（跑完即exit） | 6镜头全部完成 | | 6月8日凌晨 | v6.5.14 | --expose-gc + 6144 + 批次GC | 5批全过，526秒 | ### 失败根因分析 - 凌晨成功时：批次4仅2392 tokens（小输出缓冲了内存压力） - 现在失败时：每批5000+ tokens（LLM输出大），系统内存被其他进程占用更多 - 根因不是 `--max-old-",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.9655026346445084,
+      "totalScore": 1.412751042842865,
       "maxScore": 0.5176627993583679,
       "firstRecalledAt": "2026-06-11T09:50:30.332Z",
-      "lastRecalledAt": "2026-06-12T05:46:48.825Z",
+      "lastRecalledAt": "2026-06-12T05:55:48.823Z",
       "queryHashes": [
         "a2db0cd43b64",
-        "27b856e23512"
+        "27b856e23512",
+        "3c4c8a2199f2"
       ],
       "recallDays": [
         "2026-06-11",
@@ -4404,18 +4407,20 @@
       "endLine": 136,
       "source": "memory",
       "snippet": "## 2026-06-08 傍晚 — v6.5.16~v6.5.27 OOM 攻坚与 v6.5.28 发布 ### 大量 OOM 迭代（~12个版本） - v6.5.16: fallback 函数修复（default→narration/dialogue） - v6.5.17: 回退 v6.5.15（OOM复现） - v6.5.18: 加 `run-with-memory.sh`（8GB+GC），内存够但系统OOM killer仍介入 - v6.5.19: 恢复 `--max-old-space-size=6144`，保留 `max_tokens=3000` - v6.5.20: LLM maxTokens 3000→2000（batch 1 content为空导致fallback） - v6.5.21: `_llmGenerateScript` maxTokens 32000→2000 - v6.5.22: reasoning_content 兜底（最后2000字符） - v6.5.23: maxTokens 2000→3000（batch 1 content为空） - v6.5.24: batchSize 1→2（减少调用次数） - v6.5.25: 移除 `--max-old-space-size`（默认堆，让V8更积极GC），仍OOM - v6.5.26: 添加内存监控（每批次后打印heapUsed/rss） - v6.5.27: **专家两阶段重构**（核心修复） - 重写 `llm-reasoning-engine.js`：禁止 reasoning_conte",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4457205444574356,
+      "totalScore": 0.8707304179668426,
       "maxScore": 0.4457205444574356,
       "firstRecalledAt": "2026-06-11T09:50:30.332Z",
-      "lastRecalledAt": "2026-06-11T09:50:30.332Z",
+      "lastRecalledAt": "2026-06-12T05:55:48.823Z",
       "queryHashes": [
-        "a2db0cd43b64"
+        "a2db0cd43b64",
+        "3c4c8a2199f2"
       ],
       "recallDays": [
-        "2026-06-11"
+        "2026-06-11",
+        "2026-06-12"
       ],
       "conceptTags": [
         "v6.5.16",
@@ -4435,18 +4440,20 @@
       "endLine": 171,
       "source": "memory",
       "snippet": "### v6.5.29 准备（待提交） - 修复1：API headers + 恢复 `agent-gw.kimi.com` 端点 - 修复2：角色链路（Prompt强制角色出场 + fallback使用场景角色） - 修复3：narration收束（closing场景强制完整句） - 用户已确认\"继续修复这三个问题\" ### 经验教训 - OOM 与 `--max-old-space-size` 绝对大小无关（2048/4096/6144/默认 均失败） - 根因是 LLM 输出 tokens 太大（5000+）+ 对象引用未释放 - 两阶段分离（Phase A + Phase B）比单阶段更稳 - 专家重构（v6.5.27）比逐个参数调整更有效 - API 认证不仅是 Key，还依赖特定 Headers（User-Agent + X-Msh-Device-Name） ## 2026-06-08 晚上 — v6.5.29 修复与 v6.5.30 发布 ### v6.5.29 提交（Git commit: cd7f2bf） - LLM API Headers: 添加 `User-Agent: Kimi Claw Plugin` + `X-Msh-Device-Name: openclaw-kimi-embedding` - temperature=1, topP=0.95（对齐 v6.5.11） - 但首次验证仍失败：temperature 仅允许 1，topP 冲突（0.95 vs 1） - 后续改为：temperature 固定为 1（不传入），topP 0.95",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.444166561961174,
+      "totalScore": 0.8736825674772262,
       "maxScore": 0.444166561961174,
       "firstRecalledAt": "2026-06-11T09:50:30.332Z",
-      "lastRecalledAt": "2026-06-11T09:50:30.332Z",
+      "lastRecalledAt": "2026-06-12T05:55:48.823Z",
       "queryHashes": [
-        "a2db0cd43b64"
+        "a2db0cd43b64",
+        "3c4c8a2199f2"
       ],
       "recallDays": [
-        "2026-06-11"
+        "2026-06-11",
+        "2026-06-12"
       ],
       "conceptTags": [
         "embedding",

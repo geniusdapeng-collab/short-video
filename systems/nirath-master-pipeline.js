@@ -417,7 +417,9 @@ class NirathMasterPipeline {
   }
 
   // ========== 主链路执行 ==========
-  async execute(input) {
+  async execute(input, options = {}) {
+    const { onStageComplete } = options; // 🔥 v6.5.60: 阶段完成回调
+    
     const pipelineStart = Date.now(); // P1: 审计日志计时
     this.log('PIPELINE', `🚀 NirathMasterPipeline启动 | 模式: ${this.mode} | 项目: ${input.projectName || 'unknown'}`);
 
@@ -468,35 +470,71 @@ class NirathMasterPipeline {
       failFast: false
     });
 
-    // 辅助方法:包装每个Stage,自动审计 + 真实耗时计时
+    // 辅助方法:包装每个Stage,自动审计 + 真实耗时计时 + 阶段级重试(v6.5.60)
     const stageTimings = {}; // v6.2-patch68-fix: 记录每个Stage真实耗时
     const runStage = async (stageName, stageFn) => {
       const stageStart = Date.now(); // 真实计时开始
       enforcer.recordStageStart(stageName, JSON.stringify(stageFn.toString()));
-      try {
-        const output = await stageFn();
-        const stageDuration = Date.now() - stageStart; // 真实耗时
-        stageTimings[stageName] = stageDuration;
+      
+      // 🔥 v6.5.60: 阶段级重试配置
+      const MAX_STAGE_RETRIES = 3;
+      const STAGE_RETRY_INTERVAL = 60000; // 1分钟
+      let lastError = null;
+      
+      for (let attempt = 1; attempt <= MAX_STAGE_RETRIES; attempt++) {
+        try {
+          const output = await stageFn();
+          const stageDuration = Date.now() - stageStart; // 真实耗时
+          stageTimings[stageName] = stageDuration;
 
-        // v6.2-patch68-fix: 性能基线记录
-        const baselineResult = performanceBaseline.record(stageName, stageDuration);
-        if (baselineResult.alert) {
-          this.log('PIPELINE', baselineResult.alert.message);
+          // v6.2-patch68-fix: 性能基线记录
+          const baselineResult = performanceBaseline.record(stageName, stageDuration);
+          if (baselineResult.alert) {
+            this.log('PIPELINE', baselineResult.alert.message);
+          }
+
+          // v6.2-patch68-fix: 单个Stage耗时异常检查(<1ms = 疑似空转)
+          if (stageDuration < 1) {
+            this.log('PIPELINE', `⚠️ [性能警告] ${stageName} 耗时仅${stageDuration}ms,疑似空转或未真实执行`);
+          }
+
+          enforcer.recordStageEnd(stageName, JSON.stringify(output));
+          
+          // 🔥 v6.5.60: 阶段完成回调
+          if (onStageComplete && typeof onStageComplete === 'function') {
+            try {
+              onStageComplete(stageName, output);
+            } catch (callbackErr) {
+              // 回调失败不影响主流程
+              console.error(`[Checkpoint] 回调失败: ${callbackErr.message}`);
+            }
+          }
+          
+          return output;
+        } catch (e) {
+          lastError = e;
+          const stageDuration = Date.now() - stageStart;
+          stageTimings[stageName] = stageDuration;
+          performanceBaseline.record(stageName, stageDuration);
+          enforcer.recordStageEnd(stageName, JSON.stringify({ error: e.message }));
+          
+          // 🔥 v6.5.60: 记录失败断点
+          if (onStageComplete && typeof onStageComplete === 'function') {
+            try {
+              onStageComplete(stageName, { error: e.message, failed: true });
+            } catch (callbackErr) {
+              console.error(`[Checkpoint] 失败回调失败: ${callbackErr.message}`);
+            }
+          }
+          
+          if (attempt < MAX_STAGE_RETRIES) {
+            this.log('PIPELINE', `⚠️ ${stageName} 第${attempt}次失败，${STAGE_RETRY_INTERVAL/1000}秒后重试... | 错误: ${e.message}`);
+            await new Promise(resolve => setTimeout(resolve, STAGE_RETRY_INTERVAL));
+          } else {
+            this.log('PIPELINE', `❌ ${stageName} 已重试${MAX_STAGE_RETRIES}次，放弃`);
+            throw e;
+          }
         }
-
-        // v6.2-patch68-fix: 单个Stage耗时异常检查(<1ms = 疑似空转)
-        if (stageDuration < 1) {
-          this.log('PIPELINE', `⚠️ [性能警告] ${stageName} 耗时仅${stageDuration}ms,疑似空转或未真实执行`);
-        }
-
-        enforcer.recordStageEnd(stageName, JSON.stringify(output));
-        return output;
-      } catch (e) {
-        const stageDuration = Date.now() - stageStart;
-        stageTimings[stageName] = stageDuration;
-        performanceBaseline.record(stageName, stageDuration);
-        enforcer.recordStageEnd(stageName, JSON.stringify({ error: e.message }));
-        throw e;
       }
     };
 
