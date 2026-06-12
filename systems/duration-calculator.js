@@ -165,7 +165,6 @@ class DurationCalculator {
     }
     return result + '...';
   }
-}
 
   /**
    * v6.5.62-P1: 构建时间轴标记（timeline字段）

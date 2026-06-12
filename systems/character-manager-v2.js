@@ -757,7 +757,6 @@ class CharacterManagerV2 {
   loadGrowthTrace(filepath) {
     return this.growthTrace.loadTrace(filepath);
   }
-}
 
   /**
    * v6.5.62-P1: 构建极简锚点（character字段）
