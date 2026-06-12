@@ -104,23 +104,29 @@ class CharacterManagerV2 {
       fss.mkdirSync(characterDir, { recursive: true });
     }
     
+    // v6.5.62-P1: 生成极简锚点（character字段）
+    const minimalAnchor = this._buildMinimalAnchor(characterData);
+    
+    // v6.5.62-P1: 生成定妆照路径（characterRef字段）
+    const portraitPaths = this._buildPortraitPaths(characterId, characterData);
+    
     const characterCard = {
       ...characterData,
       id: characterId, // 强制使用传入的ID，覆盖characterData中的id
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
       version: '2.0',
       generatedAssets: {
-        portraits: [],
+        portraits: portraitPaths, // v6.5.62: 注入定妆照路径
         referenceImages: []
       },
       appearances: [],
       v2Metadata: {
         analyzedDimensions: [],
         lastComplianceCheck: null,
-        promptTemplates: {}
+        promptTemplates: {},
+        minimalAnchor: minimalAnchor, // v6.5.62: 注入极简锚点
+        portraitPaths: portraitPaths // v6.5.62: 注入定妆照路径
       }
     };
     
@@ -750,6 +756,54 @@ class CharacterManagerV2 {
    */
   loadGrowthTrace(filepath) {
     return this.growthTrace.loadTrace(filepath);
+  }
+}
+
+  /**
+   * v6.5.62-P1: 构建极简锚点（character字段）
+   * 格式：角色名: 种族, 3-5核心视觉关键词
+   */
+  _buildMinimalAnchor(characterData) {
+    const charName = characterData.name || characterData.id || '未知角色';
+    const race = characterData.race || characterData.species || 'Nirath异兽';
+    
+    // 提取3-5个核心视觉关键词
+    const keywords = [];
+    if (characterData.signatureFeatures) {
+      keywords.push(...characterData.signatureFeatures.slice(0, 3));
+    }
+    if (characterData.coreVisualTraits) {
+      keywords.push(...characterData.coreVisualTraits.slice(0, 2));
+    }
+    if (characterData.appearance) {
+      const appearanceKeywords = characterData.appearance.split(/[,，]/)
+        .map(s => s.trim())
+        .filter(s => s.length > 0);
+      keywords.push(...appearanceKeywords.slice(0, 2));
+    }
+    
+    // 去重并限制3-5个
+    const uniqueKeywords = [...new Set(keywords)].slice(0, 5);
+    if (uniqueKeywords.length < 3) {
+      uniqueKeywords.push('Nirath原生特征', '双恒星光照反射');
+    }
+    
+    return `${charName}: ${race}, ${uniqueKeywords.join(', ')}`;
+  }
+  
+  /**
+   * v6.5.62-P1: 构建定妆照路径（characterRef字段）
+   * 格式：image://bestiary/角色名-角度.png
+   */
+  _buildPortraitPaths(characterId, characterData) {
+    const paths = [];
+    const angles = ['front', 'threeQuarter', 'closeup', 'side', 'back', 'action', 'detail'];
+    
+    for (const angle of angles) {
+      paths.push(`image://bestiary/${characterId}-${angle}.png`);
+    }
+    
+    return paths.slice(0, 9); // 限制最多9张
   }
 }
 
