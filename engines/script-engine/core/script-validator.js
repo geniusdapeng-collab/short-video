@@ -190,7 +190,7 @@ class ScriptValidator {
         checks.push({
           category: 'duration',
           name: `scene_${scene.scene_id}_duration`,
-          passed: duration > 0 && duration <= 60,
+          passed: duration > 0 && duration <= 15,
           severity: 'warning',
           message: `场景 ${scene.scene_id} 时长 ${duration}s`,
           suggestion: '单个场景时长应在 1-60s 之间'

@@ -229,7 +229,7 @@ class StoryCraftIntegration {
 异兽：${beastProfile.name}
 主题：${conceptSeed.theme}
 反转：${conceptSeed.twist}
-目标时长：${projectConfig.duration || 60} 秒
+目标时长：${projectConfig.duration || 15} 秒
 
 要求输出 5 个节拍（Beat），每个包含：
 - id: beat_1 到 beat_5
@@ -622,7 +622,7 @@ if (require.main === module) {
 
   const projectConfig = {
     mode: 'nirath',
-    duration: 60,
+    duration: 15,
     storyCraftVersion: 'v1.0'
   };
 

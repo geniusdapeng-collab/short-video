@@ -37,7 +37,7 @@ const HEALTH_CHECKS = {
       name: 'prd文件存在性',
       check: (context) => context.prd?.title?.length > 0,
       repair: async (context) => {
-        context.prd = { title: '未命名PRD', duration: 40, targetBeast: '未指定' };
+        context.prd = { title: '未命名PRD', duration: 15, targetBeast: '未指定' };
         return '已生成默认PRD';
       },
       severity: 'critical'
@@ -49,7 +49,7 @@ const HEALTH_CHECKS = {
         return d >= 10 && d <= 120;
       },
       repair: async (context) => {
-        const d = context.prd?.duration || 40;
+        const d = context.prd?.duration || 15;
         context.prd.duration = Math.max(10, Math.min(120, d));
         return `PRD时长已修正为${context.prd.duration}`;
       },
@@ -452,7 +452,7 @@ if (require.main === module) {
     // 测试1：健康检查（正常）
     console.log('--- 测试1：健康检查（正常） ---');
     const result1 = await monitor.checkStage('STAGE-1', {
-      prd: { title: '饕餮传说', duration: 40, targetBeast: '饕餮' }
+      prd: { title: '饕餮传说', duration: 15, targetBeast: '饕餮' }
     });
     console.log('STAGE-1 健康评分:', result1.score);
     console.log('检查项:', result1.results.length);

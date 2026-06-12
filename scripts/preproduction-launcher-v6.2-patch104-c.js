@@ -157,7 +157,7 @@ async function main() {
     projectName: 'taotie-ep01',
     featuredBeastId: 'taotie',
     protagonistId: 'xiaoG',
-    targetDuration: 60,
+    targetDuration: 15,
     style: 'Nirath cinematic, 超写实科幻生态风格',
     world: {
       setting: 'Nirath',
@@ -226,7 +226,7 @@ async function mergeAndContinue() {
     projectName: 'taotie-ep01',
     featuredBeastId: 'taotie',
     protagonistId: 'xiaoG',
-    targetDuration: 60,
+    targetDuration: 15,
     style: 'Nirath cinematic, 超写实科幻生态风格',
     world: {
       setting: 'Nirath',

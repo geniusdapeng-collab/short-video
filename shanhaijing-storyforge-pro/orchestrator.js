@@ -582,7 +582,7 @@ function generateMockOutput(name, input) {
           { name: '高潮', duration: 25, focus: '冲突' },
           { name: '合', duration: 5, focus: '结局' }
         ],
-        totalDuration: input.duration || 60
+        totalDuration: input.duration || 15
       };
     case 'character-forge':
       // v5.1-Peng: 生成角色数组，确保可被迭代

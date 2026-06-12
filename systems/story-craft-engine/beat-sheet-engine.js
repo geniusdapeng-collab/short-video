@@ -6,7 +6,7 @@ const { VisualActionTranslator } = require('./visual-action-translator');
 
 class BeatSheetEngine {
   constructor(options = {}) {
-    this.duration = options.duration || 60; // 总时长（秒）
+    this.duration = options.duration || 15; // 总时长（秒）
     this.beatsPerStory = 5; // 固定5节拍
     this.beatDuration = Math.floor(this.duration / this.beatsPerStory); // 每节拍时长
     this.emotionCurve = options.emotionCurve || this.getDefaultEmotionCurve();
@@ -575,7 +575,7 @@ module.exports = { BeatSheetEngine };
 
 // 如果直接运行，执行测试
 if (require.main === module) {
-  const engine = new BeatSheetEngine({ duration: 60 });
+  const engine = new BeatSheetEngine({ duration: 15 });
   
   const conceptSeed = {
     theme: '永恒饥饿',

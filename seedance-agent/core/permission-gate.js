@@ -335,7 +335,7 @@ export class PermissionGate {
     
     // 时长系数
     if (tool.params?.duration) {
-      cost *= (tool.params.duration / 60); // 按分钟计费
+      cost *= (tool.params.duration / 15); // 按15秒基准计费
     }
     
     return parseFloat(cost.toFixed(3));

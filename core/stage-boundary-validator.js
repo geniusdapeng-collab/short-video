@@ -38,7 +38,7 @@ const STAGE_BOUNDARIES = {
     autoRepair: {
       'prd.title': (prd) => prd.title || '未命名项目',
       'prd.duration': (prd) => {
-        if (!prd.duration) return { total: 40, min: 30, max: 60 };
+        if (!prd.duration) return { total: 15, min: 10, max: 15 };
         if (typeof prd.duration === 'number') return { total: prd.duration, min: prd.duration * 0.8, max: prd.duration * 1.2 };
         return prd.duration;
       }
@@ -256,7 +256,7 @@ class StageBoundaryValidator {
     if (!Array.isArray(shots)) return { errors: [] };
 
     const totalDuration = shots.reduce((sum, s) => sum + (s.duration || 0), 0);
-    const targetDuration = prd?.duration?.total || 40;
+    const targetDuration = prd?.duration?.total || 15;
 
     const warnings = [];
     if (totalDuration < targetDuration * 0.8) {
@@ -393,7 +393,7 @@ if (require.main === module) {
     // 测试1：正常验证
     console.log('--- 测试1：正常验证 ---');
     const result1 = validator.validateBoundary('STAGE-1', 'STAGE-2', {
-      prd: { title: '饕餮传说', duration: { total: 40 } }
+      prd: { title: '饕餮传说', duration: { total: 15 } }
     }, {});
     console.log('通过:', result1.valid);
 

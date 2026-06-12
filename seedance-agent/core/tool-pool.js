@@ -332,7 +332,7 @@ export class ToolPool {
     const mocks = {
       'story-engine': () => ({
         title: params.title || 'Mock Story',
-        duration: params.duration || 60,
+        duration: params.duration || 15,
         acts: 5,
         scenes: 1,
         characters: params.characters ? params.characters.split(',').map(s => s.trim()) : ['主角'],
@@ -480,7 +480,7 @@ export class ToolPool {
 
     // 时长系数
     if (params.duration) {
-      cost *= (params.duration / 60);
+      cost *= (params.duration / 15);
     }
 
     return parseFloat(cost.toFixed(3));

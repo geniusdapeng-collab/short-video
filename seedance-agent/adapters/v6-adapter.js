@@ -313,7 +313,7 @@ export class V6Adapter {
     const converters = {
       'story-engine': (p, c) => ({
         title: p.title || p.userRequest?.substring(0, 50) || 'Untitled',
-        duration: p.duration || 60,
+        duration: p.duration || 15,
         outline: p.outline || p.userRequest || '',
         characters: p.characters || '',
         output: p.outputPath || `./projects/${c.projectId}/story.json`
@@ -372,7 +372,7 @@ export class V6Adapter {
     const replacements = {
       '{script}': scriptPath,
       '{title}': v6Params.title || null,
-      '{duration}': v6Params.duration || 60,
+      '{duration}': v6Params.duration || 15,
       '{outline}': v6Params.outline || null,
       '{characters}': v6Params.characters || null,
       '{style}': v6Params.style || null,
@@ -438,7 +438,7 @@ export class V6Adapter {
     }
 
     if (params.duration) {
-      cost *= (params.duration / 60);
+      cost *= (params.duration / 15);
     }
 
     return parseFloat(cost.toFixed(3));

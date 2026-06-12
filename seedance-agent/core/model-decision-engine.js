@@ -99,7 +99,7 @@ function analyzeCreativeIntent(request) {
 
   // 时长推断叙事重心
   const durationMatch = request.match(/(\d+)\s*秒/);
-  const duration = durationMatch ? parseInt(durationMatch[1]) : 60;
+  const duration = durationMatch ? parseInt(durationMatch[1]) : 15;
 
   return {
     coreTheme: matchedEmotion?.coreTheme || '角色成长与转变',

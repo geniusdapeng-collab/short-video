@@ -736,7 +736,7 @@ ${shots.map(s => `- ${s.shotId}: ${s.beatName || '未命名'}`).join('\n')}
     }
 
     // 检查2：目标时长对齐
-    const prdDuration = prd.targetDuration || prd.duration || 60;
+    const prdDuration = prd.targetDuration || prd.duration || 15;
     const actualDuration = shots.reduce((sum, s) => sum + (s.duration || 0), 0);
     const durationDiff = Math.abs(actualDuration - prdDuration);
     

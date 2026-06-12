@@ -18,7 +18,7 @@ class DurationCalculator {
       },
       // API限制
       minDuration: 3,       // 最短3秒
-      maxDuration: 5,       // Seedance API最大5秒
+      maxDuration: 15,       // Seedance API最大15秒（超短裙系统）
       // 缓冲时间（嘴巴动起来需要的时间）
       bufferSeconds: 0.5,
       ...config

@@ -428,7 +428,7 @@ async function initializeState(state, settings) {
       
       // 从需求中提取时长
       const durationMatch = state.userRequest.match(/(\d+)\s*秒/);
-      const duration = durationMatch ? parseInt(durationMatch[1]) : 60;
+      const duration = durationMatch ? parseInt(durationMatch[1]) : 15;
       state.tensionCurve = generateTensionCurve(null, duration);
       
       state.log({ type: 'director_statement', statement: state.directorStatement });

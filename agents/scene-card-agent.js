@@ -289,7 +289,7 @@ if (require.main === module) {
       characters: ['xiaoG'],
       plot: 'xiaoG首次进入Nirath异世界，探索荧光平原',
       emotionTarget: 'curiosity',
-      duration: 60,
+      duration: 15,
       prevScene: '片头',
       nextScene: '深渊初遇'
     };

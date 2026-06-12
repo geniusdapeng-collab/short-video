@@ -99,7 +99,7 @@ const STAGE_DEGRADATION_CONFIG = {
     mockData: {
       prd: {
         title: '未命名项目',
-        duration: { total: 40, min: 30, max: 60 },
+        duration: { total: 15, min: 10, max: 15 },
         targetBeast: '未指定',
         genre: '纪录片',
         style: '写实风格',

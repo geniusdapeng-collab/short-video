@@ -1548,7 +1548,7 @@ class NirathMasterPipeline {
             narrative: {
               emotion: scResult.conceptSeed?.emotionalArc?.[0] || 'neutral',
               pace: 'medium',
-              totalDuration: input.targetDuration || 60
+              totalDuration: input.targetDuration || 15
             },
             world: {
               name: this.mode === 'nirath' ? 'Nirath' : (input.world?.setting || 'default'),
@@ -1610,7 +1610,7 @@ class NirathMasterPipeline {
       narrative: {
         emotion: input.core?.emotionalArc?.[0] || 'neutral',
         pace: input.style?.pacing || 'medium',
-        totalDuration: input.targetDuration || 60
+        totalDuration: input.targetDuration || 15
       },
       world: {
         name: this.mode === 'nirath' ? 'Nirath' : (input.world?.setting || 'default'),
@@ -1972,7 +1972,7 @@ class NirathMasterPipeline {
   "narrative": {
     "emotion": "neutral",
     "pace": "medium",
-    "totalDuration": 12
+    "totalDuration": 15
   },
   "world": {
     "name": "${world.name || 'Nirath'}",
@@ -2287,7 +2287,7 @@ ${isNirath
     this.log('STAGE-6', '镜头时长分配(ShotDurationAllocatorV2 + DurationCalculator双保险)');
 
     const allocations = [];
-    const totalDuration = script.narrative?.totalDuration || (input && input.targetDuration) || 60;
+    const totalDuration = script.narrative?.totalDuration || (input && input.targetDuration) || 15;
 
     // P0修复#3 + P1修复#14-22:集成ShotDurationAllocatorV2(重要性驱动/弹性区间/双池模型)
     let v2Allocations = null;

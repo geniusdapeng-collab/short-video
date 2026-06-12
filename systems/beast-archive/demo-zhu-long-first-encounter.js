@@ -57,7 +57,7 @@ function cleanup() {
 // 故事定义
 const STORY = {
   title: '《初遇》——小G与烛龙',
-  duration: 60,
+  duration: 15,
   shots: [
     { id: 'S01', type: 'opening', narration: '小G独自走在永夜裂谷的黑暗中，四周一片寂静', beastMentioned: [], humanCharacters: ['小G'], habitat: '永夜裂谷', time: '永夜', mood: '神秘', duration: 8 },
     { id: 'S02', type: 'building', narration: '远处，两团赤红的光芒缓缓亮起，越来越大', beastMentioned: ['烛龙'], humanCharacters: ['小G'], habitat: '永夜裂谷', time: '永夜', mood: '神秘→震撼', duration: 8 },
