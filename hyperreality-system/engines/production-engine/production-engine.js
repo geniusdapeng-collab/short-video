@@ -985,15 +985,6 @@ class ProductionEngine {
       audioIncluded: !!shot.backgroundSound
     };
   }
-    
-    return {
-      fullPrompt: truncated,
-      rawPrompt: fullPrompt,
-      parts,
-      wasTruncated: fullPrompt.length !== truncated.length,
-      audioIncluded: !!audioDesc  // 🔊 标记音频是否包含
-    };
-  }
 
   /**
    * 🔊 v2.0-B+: 截断保护（保留音频层和角色一致性）
@@ -1101,6 +1092,19 @@ class ProductionEngine {
     
     const features = character.visual_anchor?.core_features || [];
     return `${character.name}${angleDesc[angle] || angle}，${features.join('，')}，超写实`;
+  }
+
+  /**
+   * v6.37-P0: 字符计数
+   */
+  _countChars(text) {
+    if (!text) return 0;
+    // 计算字符数（包括中英文）
+    let count = 0;
+    for (const char of text) {
+      count++;
+    }
+    return count;
   }
 
   /**
@@ -1216,13 +1220,14 @@ class ProductionEngine {
 
   /**
    * Stage 7: 连续性检查
+   * v6.37-P0: 适配新字段结构（characterRef 替代 imageRefs）
    */
   _checkContinuity(prompts) {
     const issues = [];
     
-    // 检查角色连续性
+    // 检查角色连续性（从 characterRef 解析）
     const characterMentions = prompts.map((p, idx) => {
-      const chars = p.imageRefs.map(r => r.characterId);
+      const chars = this._parseCharacterRefForContinuity(p.characterRef);
       return { idx, chars };
     });
     
@@ -1231,12 +1236,13 @@ class ProductionEngine {
       const prev = prompts[i - 1];
       const curr = prompts[i];
       
-      // 检查是否有共享角色
-      const sharedChars = prev.imageRefs.filter(r => 
-        curr.imageRefs.some(c => c.characterId === r.characterId)
-      );
+      const prevChars = this._parseCharacterRefForContinuity(prev.characterRef);
+      const currChars = this._parseCharacterRefForContinuity(curr.characterRef);
       
-      if (sharedChars.length === 0 && prev.imageRefs.length > 0 && curr.imageRefs.length > 0) {
+      // 检查是否有共享角色
+      const sharedChars = prevChars.filter(c => currChars.includes(c));
+      
+      if (sharedChars.length === 0 && prevChars.length > 0 && currChars.length > 0) {
         issues.push({
           type: 'character_gap',
           between: [prev.shotId, curr.shotId],
@@ -1250,6 +1256,25 @@ class ProductionEngine {
       issues,
       promptCount: prompts.length
     };
+  }
+  
+  /**
+   * v6.37-P0: 从 characterRef 解析角色名（用于连续性检查）
+   */
+  _parseCharacterRefForContinuity(characterRef) {
+    if (!characterRef || characterRef === 'NONE') return [];
+    
+    const chars = [];
+    const parts = characterRef.split(' | ');
+    
+    for (const part of parts) {
+      const match = part.match(/(.+?):\s*/);
+      if (match) {
+        chars.push(match[1].trim());
+      }
+    }
+    
+    return chars;
   }
 
   /**
