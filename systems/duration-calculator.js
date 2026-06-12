@@ -68,7 +68,9 @@ class DurationCalculator {
       charCount,
       speed,
       isValid,
-      warning
+      warning,
+      // v6.5.62-P1: 生成时间轴标记
+      timeline: this._buildTimeline(duration, shotType)
     };
   }
 
@@ -162,6 +164,34 @@ class DurationCalculator {
       result += char;
     }
     return result + '...';
+  }
+}
+
+  /**
+   * v6.5.62-P1: 构建时间轴标记（timeline字段）
+   * 格式：T00:XX-T00:XX / duration: Xs / type: XXX / mood: XXX
+   */
+  _buildTimeline(duration, shotType) {
+    const start = 0; // 相对镜头起始时间
+    const end = duration;
+    
+    const formatTime = (seconds) => {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      const tenths = Math.floor((seconds % 1) * 10);
+      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}.${tenths}`;
+    };
+    
+    const typeMap = {
+      'building': 'establishing',
+      'discovery': 'discovery',
+      'confrontation': 'confrontation',
+      'climax': 'climax',
+      'closing': 'resolution',
+      'opening': 'opening'
+    };
+    
+    return `T${formatTime(start)}-T${formatTime(end)} / duration: ${duration}s / type: ${typeMap[shotType] || 'normal'} / mood: ${shotType}`;
   }
 }
 

@@ -554,6 +554,12 @@ class CameraMovementSystemV3 extends CameraMovementSystem {
       intraShotTimeline: timeline,
       intraShotPrompt: promptParagraph,
       
+      // v6.5.62-P1: camera字段（12级机位+14运镜+焦距+速度）
+      camera: this._buildCameraSpec(timeline, baseMovement),
+      
+      // v6.5.62-P1: lighting字段（主光方向+色温K值+特效光）
+      lighting: this._buildLightingSpec(timeline),
+      
       // 配置信息
       config: {
         transitionType: autoTransitionType,
@@ -705,6 +711,55 @@ class CameraMovementSystemV3 extends CameraMovementSystem {
       duration: value.duration,
       useCase: value.useCase
     }));
+  }
+  
+  /**
+   * v6.5.62-P1: 构建 camera 字段（12级机位+14运镜+焦距+速度）
+   */
+  _buildCameraSpec(timeline, baseMovement) {
+    const segments = timeline.segments || [];
+    if (segments.length === 0) return '';
+    
+    // 提取景别（shot size）
+    const shotSizes = segments.map(s => s.shotSize).filter(Boolean);
+    const primaryShotSize = shotSizes[0] || 'medium';
+    
+    // 提取运镜（movement）
+    const movements = segments.map(s => s.movement).filter(Boolean);
+    const primaryMovement = movements[0] || 'static';
+    
+    // 提取焦距（从baseMovement或默认）
+    const focalLength = baseMovement.focalLength || '50mm';
+    
+    // 提取速度（从timeline或默认）
+    const speed = timeline.speedCurve || 'normal';
+    
+    // 构建 camera 字符串
+    return `${primaryShotSize} ${primaryMovement}, ${focalLength} lens, ${speed} speed`;
+  }
+  
+  /**
+   * v6.5.62-P1: 构建 lighting 字段（主光方向+色温K值+特效光）
+   */
+  _buildLightingSpec(timeline) {
+    const segments = timeline.segments || [];
+    if (segments.length === 0) return '';
+    
+    // 提取第一个段的光照信息
+    const firstSegment = segments[0];
+    const lighting = firstSegment.lighting || {};
+    
+    const direction = lighting.direction || 'front';
+    const colorTemp = lighting.colorTemp || 5600;
+    const effect = lighting.effect || '';
+    
+    // 构建 lighting 字符串
+    let lightingStr = `${direction} key ${colorTemp}K`;
+    if (effect) {
+      lightingStr += `, ${effect}`;
+    }
+    
+    return lightingStr;
   }
 }
 
