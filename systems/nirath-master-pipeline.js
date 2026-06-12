@@ -607,6 +607,9 @@ class NirathMasterPipeline {
 
       // Stage 11: 渲染核心(Nirath v24.3 风格前置化)
       result.stages.render = await runStage('STAGE-11', () => this.stageRender(result.stages));
+      
+      // v6.5.59-fix: 主进程内存释放（OOM修复）
+      this._releaseMemory(result);
 
       // Stage 11.5: Prompt质量闸门(v6.0新增:防空转)
       result.stages.promptQualityGate = await runStage('STAGE-11.5', () => this.stagePromptQualityGate(result.stages.render, result.stages.storyboard));
@@ -732,7 +735,7 @@ class NirathMasterPipeline {
           this.log('PIPELINE', `🎬 PromptForge 子进程启动 | 内存限制: 2048MB | 输入: ${inputFile}`);
           
           const worker = spawn('node', [
-            '--max-old-space-size=2048',
+            '--max-old-space-size=8192', // v6.5.59-fix: 恢复为8192（OOM修复）
             workerPath,
             inputFile,
             outputFile
@@ -1806,6 +1809,38 @@ class NirathMasterPipeline {
     }
 
     return results;
+  }
+
+  // v6.5.59-fix: 主进程内存释放（OOM修复）
+  // 根因：主进程执行STAGE-0~12后，累积大量内存到5.1GB
+  // 修复：释放已完成Stage的大对象，强制GC
+  _releaseMemory(result) {
+    if (!result || !result.stages) return;
+    
+    // 释放渲染结果（已写入文件）
+    if (result.stages.render) {
+      result.stages.render = null;
+    }
+    
+    // 释放剧本原始LLM输出
+    if (result.stages.script && result.stages.script.raw) {
+      result.stages.script.raw = null;
+    }
+    
+    // 释放其他已完成Stage的大对象
+    if (result.stages.prd) result.stages.prd = null;
+    if (result.stages.storyboard) result.stages.storyboard = null;
+    if (result.stages.opening) result.stages.opening = null;
+    if (result.stages.alignment) result.stages.alignment = null;
+    if (result.stages.schema) result.stages.schema = null;
+    if (result.stages.characters) result.stages.characters = null;
+    
+    // 强制GC确保释放生效
+    if (global.gc) {
+      global.gc();
+    }
+    
+    this.log('PIPELINE', '✅ 主进程内存释放完成（OOM修复）');
   }
 
   _buildScriptCorePrompt(batch, core, world, batchIdx, totalBatches) {

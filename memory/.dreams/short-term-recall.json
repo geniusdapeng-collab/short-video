@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-11T23:31:35.604Z",
+  "updatedAt": "2026-06-12T05:46:48.825Z",
   "entries": {
     "memory:memory/2026-05-15.md:31:42": {
       "key": "memory:memory/2026-05-15.md:31:42",
@@ -3770,20 +3770,22 @@
       "endLine": 249,
       "source": "memory",
       "snippet": "## 修复完成确认（2026-06-07 10:16 GMT+8） 所有语法检查通过，修改文件： - `shanhaijing-render-engine/orient-primordial-core-v24.js`（视觉标记） - `systems/nirath-master-pipeline.js`（Stage顺序、角色ID、LLM示例） - `systems/pipeline-integrity-validator.js`（别名映射） - `systems/prompt-standard-v3.js`（ACTION检测） - `systems/story-craft-engine/story-craft-integration.js`（StoryCraft升级） 待队长确认：渲染就绪度检查方案和下一次预生产时间。 ## 方案A实施：预生产阶段注入定妆照路径标记（v6.5.1-fix） **队长选择**：方案A（注入 referenceImages 路径标记，无 base64） **实现**： - `stageRender` 方法中，每个镜头 `prompts.push` 前注入 `referenceImages` - 从 `stages.characters[charId].portraits` 提取定妆照路径 - 格式：`{ type: 'image_url', image_url: { url: path }, role: 'reference_image', character, angle }` - 覆盖：片头镜头（S00）和常规镜头（S01-S04）",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.8470477163791656,
-      "maxScore": 0.44460766017436976,
+      "totalScore": 1.2951751500368118,
+      "maxScore": 0.4481274336576461,
       "firstRecalledAt": "2026-06-08T06:32:38.124Z",
-      "lastRecalledAt": "2026-06-11T09:50:30.332Z",
+      "lastRecalledAt": "2026-06-12T05:46:48.825Z",
       "queryHashes": [
         "812eeeecfe5e",
-        "a2db0cd43b64"
+        "a2db0cd43b64",
+        "27b856e23512"
       ],
       "recallDays": [
         "2026-06-08",
-        "2026-06-11"
+        "2026-06-11",
+        "2026-06-12"
       ],
       "conceptTags": [
         "systems/prompt-standard-v3.js",
@@ -3803,20 +3805,22 @@
       "endLine": 272,
       "source": "memory",
       "snippet": "**修改文件**：`systems/nirath-master-pipeline.js` ## v6.5.3 发布：OOM 修复 + 角色注入修复（2026-06-07 10:49 GMT+8） ### 问题：v6.5.2 预生产 OOM（SIGKILL） **根因分析**： - 不是系统 OOM killer（dmesg 无当日日志） - 主进程 openclaw-gateway 已占 1GB+ RSS - 预生产进程 4 批次 LLM 累积数据，批次 3 输出 8931 Tokens/1452 字符 - 总内存超过 5.75GB 可用（系统 6GB 可用，Node 堆限制 6GB） **修复**：`nirath-master-pipeline.js` 批次循环中，每批次 LLM 调用成功后执行 `global.gc()`，释放累积内存。 **验证**：4 批次全部完成，无 SIGKILL，OOM 修复成功。 ### 问题：S02 characters: [\"无\"] **根因**：Pipeline LLM prompt 未明确要求每个场景必须有角色，LLM 返回 `\"characters\": [\"无\"]` **修复**： 1. Prompt 中明确要求：`所有场景必须包含至少一个角色（如小G或饕餮），避免使用\"无\"作为角色。` 2. 返回后 fallback 逻辑：`characters: (s.characters && s.characters.length > 0 && s.characters[0] !== '无') ? s.characters :",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.8409945487976074,
+      "totalScore": 1.271852186322212,
       "maxScore": 0.4407790511846542,
       "firstRecalledAt": "2026-06-08T06:32:38.124Z",
-      "lastRecalledAt": "2026-06-11T09:50:30.332Z",
+      "lastRecalledAt": "2026-06-12T05:46:48.825Z",
       "queryHashes": [
         "812eeeecfe5e",
-        "a2db0cd43b64"
+        "a2db0cd43b64",
+        "27b856e23512"
       ],
       "recallDays": [
         "2026-06-08",
-        "2026-06-11"
+        "2026-06-11",
+        "2026-06-12"
       ],
       "conceptTags": [
         "gateway",
@@ -3993,18 +3997,20 @@
       "endLine": 370,
       "source": "memory",
       "snippet": "- 预生产模式下 `render`/`preview` 被条件跳过（`!ENABLE_RENDER_PREVIEW`） - 因此 0.17 秒是**真实的轻量执行**，而非 bug 导致的假跑 ### 25. 根治方案最终验证状态 **4 项根治措施全部落实并验证**： | 措施 | 文件 | 状态 | 验证结果 | |------|------|------|---------| | 执行模式显式声明 | `scripts/run-taotie-pre-production.js` | ✅ | 顶部注释清晰标注 | | 各 Stage 计时 + <3s 报警 | `systems/nirath-master-pipeline.js` | ✅ | P0 警告已触发 | | 耗时基线偏离 50% 报警 | `systems/stage-performance-baseline.js` | ✅ | 模块已创建并初始化 | | 关键 Stage 计算量验证 | `nirath-master-pipeline.js` Stage 5/11/17 | ✅ | 验证逻辑已插入 | **修复标记**：`v6.2-patch68-fix` 标签在 `nirath-master-pipeline.js` 中多处代码注释 ### 26. 待决策项 - **选项 A**：切换到含外部 API 的完整预生产（含 Seedream 定妆照/Seedance 渲染预览），预期 8-10 分钟 - **选项 B**：已执行（先落实根治方案），现在等待队长确认是否进入选项 A - 当前状态：根治方案已",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.3597301125526428,
-      "maxScore": 0.3597301125526428,
+      "totalScore": 0.7722228437662124,
+      "maxScore": 0.4124927312135696,
       "firstRecalledAt": "2026-06-08T23:17:31.787Z",
-      "lastRecalledAt": "2026-06-08T23:17:31.787Z",
+      "lastRecalledAt": "2026-06-12T05:46:48.825Z",
       "queryHashes": [
-        "63e3856b195b"
+        "63e3856b195b",
+        "27b856e23512"
       ],
       "recallDays": [
-        "2026-06-09"
+        "2026-06-09",
+        "2026-06-12"
       ],
       "conceptTags": [
         "enable-render-preview",
@@ -4334,18 +4340,20 @@
       "endLine": 94,
       "source": "memory",
       "snippet": "- [ ] 超现实系统架构实现（剧本引擎/制作引擎/渲染引擎/后期引擎） --- ## 2026-06-08 下午 — v6.5.15-fix2 验证与OOM复发分析 ### v6.5.15-fix2 验证：3个原始问题全部修复，但OOM复发 - Stage 11 prompt类型错误修复成功：`char?.prompt?.substring` → 防御式检查 - 3个原始问题（Stage 8 mouthAction / Stage 9 运镜结构 / characters undefined）全部通过验证 - 但第4批LLM后进程再次被OOM SIGKILL杀死 ### OOM 成功经验总结（已验证） | 时间 | 版本 | 方案 | 结果 | |------|------|------|------| | 6月5日 | v6.3-patch2 | 子进程隔离 + 8GB内存 + 三阶流水线 | 100分，0 OOM，26分钟 | | 6月5日 | v6.5.3-fix | 主进程释放大对象 + global.gc() | 4批完成 | | 6月4日 | - | 单镜头独立Node进程（跑完即exit） | 6镜头全部完成 | | 6月8日凌晨 | v6.5.14 | --expose-gc + 6144 + 批次GC | 5批全过，526秒 | ### 失败根因分析 - 凌晨成功时：批次4仅2392 tokens（小输出缓冲了内存压力） - 现在失败时：每批5000+ tokens（LLM输出大），系统内存被其他进程占用更多 - 根因不是 `--max-old-",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.5176627993583679,
+      "totalScore": 0.9655026346445084,
       "maxScore": 0.5176627993583679,
       "firstRecalledAt": "2026-06-11T09:50:30.332Z",
-      "lastRecalledAt": "2026-06-11T09:50:30.332Z",
+      "lastRecalledAt": "2026-06-12T05:46:48.825Z",
       "queryHashes": [
-        "a2db0cd43b64"
+        "a2db0cd43b64",
+        "27b856e23512"
       ],
       "recallDays": [
-        "2026-06-11"
+        "2026-06-11",
+        "2026-06-12"
       ],
       "conceptTags": [
         "剧本引擎/制作引擎/渲染引擎/后期引擎",
