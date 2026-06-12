@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-12T05:55:48.823Z",
+  "updatedAt": "2026-06-12T14:21:05.628Z",
   "entries": {
     "memory:memory/2026-05-15.md:31:42": {
       "key": "memory:memory/2026-05-15.md:31:42",
@@ -3968,18 +3968,20 @@
       "endLine": 21,
       "source": "memory",
       "snippet": "# 2026-06-08 记忆日志 ## 横纹肌溶解健康科普视频预生产（双系统并行验证） ### 老系统（Seedance v6.5.13）状态 - 四轮修复迭代完成，v6.5.13 已提交生产 - 核心修复：`_buildScriptPrompt` 动态模板（generic/Nirath 分支）、角色回退逻辑、场景名过滤 undefined、Nirath 视觉元素条件注入、导演风格分支、运镜对象返回格式 - 仍有问题：S02/S03 场景名回退 default、运镜 description 过短（5字符）、Stage 14 generic 模式仍检查 Nirath 锚点 - 已追加修复 batch 回退逻辑和 Stage 14 条件检查，尚未重跑验证 ### 超现实系统（Hyperreality System）发现 - 用户明确要求：超现实系统也需要跑这个 case，通过实战演练找出问题 - 系统路径：`/root/.openclaw/workspace/hyperreality-system/` - 架构确认：剧本引擎 → 适配层 → 制作引擎 → 渲染引擎 → 后期引擎 - 已创建运行脚本：`/root/.openclaw/workspace/scripts/run-health-edu-hyperreality.js` - 用户等待确认执行顺序：先超现实系统还是先验证老系统修复？ ### 待办 - [ ] 决定执行顺序（老系统修复验证 vs 超现实系统首次运行） - [ ] 超现实系统运行健康科普 case（跳过确认环节，dryRun模式） - [ ] 对比两个",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.431944465637207,
+      "totalScore": 0.8413801342248917,
       "maxScore": 0.431944465637207,
       "firstRecalledAt": "2026-06-08T23:17:31.787Z",
-      "lastRecalledAt": "2026-06-08T23:17:31.787Z",
+      "lastRecalledAt": "2026-06-12T14:21:05.628Z",
       "queryHashes": [
-        "63e3856b195b"
+        "63e3856b195b",
+        "4d1bedc7a3f3"
       ],
       "recallDays": [
-        "2026-06-09"
+        "2026-06-09",
+        "2026-06-12"
       ],
       "conceptTags": [
         "v6.5.13",
@@ -4536,16 +4538,17 @@
       "endLine": 418,
       "source": "memory",
       "snippet": "**根因3**：`smartTrim` 按优先级保留核心区块，如果前面的核心区块（视觉/叙事/照明）占用空间过大，后面的 `【镜头时间轴】` 被跳过。 **修复3（`nirath-master-pipeline.js`）**： - `motionEnhanced` 后强制保留：`!motionEnhanced.includes('【镜头时间轴】') && prompt.includes('【镜头时间轴】')` - 最终 `prompts.push` 前强制保留：`!prompt.includes('【镜头时间轴】') && shot.prompt && shot.prompt.includes('【镜头时间轴】')` - 二次压缩兜底：优先裁剪 `环境质感/环境音效/技术规格/照明方案` #### 问题2：**** 占位符残留 **根因**：`motionEnhanced` 的正则清理 `\\*\\*\\*\\*[^*]+\\*\\*\\*\\*` 未覆盖连续星号（如 `**** ****` 或残留 `**`）。 **修复（`nirath-master-pipeline.js`）**： - `prompts.push` 前统一正则清理：`\\*\\*\\*\\*[^*]+\\*\\*\\*\\*` - 增加兜底：` #### 问题3：hyper-realistic 风格校验失败 **根因**：`pipeline-integrity-validator.js` 的 `_checkStage14_Style` 只检查 `超写实` 关键词，不认英文 `hyper-realistic`。 **修复**：",
-      "recallCount": 2,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.8575298905372619,
+      "totalScore": 1.2667456567287445,
       "maxScore": 0.4309207439422607,
       "firstRecalledAt": "2026-06-11T23:31:30.025Z",
-      "lastRecalledAt": "2026-06-11T23:31:35.604Z",
+      "lastRecalledAt": "2026-06-12T14:21:05.628Z",
       "queryHashes": [
         "fe705e21e6a4",
-        "3dfd91cf9e1a"
+        "3dfd91cf9e1a",
+        "4d1bedc7a3f3"
       ],
       "recallDays": [
         "2026-06-12"
@@ -4714,6 +4717,130 @@
         "视觉/叙事/照明",
         "根因",
         "buildpromptv3"
+      ]
+    },
+    "memory:memory/2026-06-10.md:82:108": {
+      "key": "memory:memory/2026-06-10.md:82:108",
+      "path": "memory/2026-06-10.md",
+      "startLine": 82,
+      "endLine": 108,
+      "source": "memory",
+      "snippet": "- 已提交并推送到 `hyperreal` 仓库 --- ## 2026-06-10 00:00 ~ 00:58 - GitHub 仓库迁移 + 代码恢复 ### 问题：推错代码到 zhuoyue 仓库 - 错误：将 `short-video` 子系统 (v0.6.4) 推到了 `zhuoyue` - 正确：`zhuoyue` 应该放 Nirath 主系统 v6.5.32 - 根因：远程 `hyperreal` 分支已丢失，本地只有 `master` 含 v6.5.32 孤儿提交 ### 解决过程 1. 本地仓库检查：`git log` 找到 `84d5094` 提交（v6.5.32 初始提交，1204 文件，62MB） 2. 恢复工作树：`git checkout 84d5094` → 暂存到 `/tmp/v6.5.32-recovery/` 3. 重建仓库：在 `/tmp/zhuoyue-push/` 初始化新 git，创建 `main` 分支，排除 `.git` 和 `tmp/` 4. 提交：`8b775ba` \"v6.5.32: 卓越视频系统 (Zhuoyue Video System) - 初始提交 - 献给我最爱的老婆陈卓\" 5. 强制推送：覆盖 `zhuoyue` 远程上的错误代码（`859a5ed` short-video 子系统） 6. 验证：`git ls-remote` 确认远程 HEAD → 8b775ba，文件 1201 个，大小 59M（比早晨 62MB 少 3MB，因 .gitignore 排除了运行时产物） ### 仓库最终状态 | 仓",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.40704452991485596,
+      "maxScore": 0.40704452991485596,
+      "firstRecalledAt": "2026-06-12T14:21:05.628Z",
+      "lastRecalledAt": "2026-06-12T14:21:05.628Z",
+      "queryHashes": [
+        "4d1bedc7a3f3"
+      ],
+      "recallDays": [
+        "2026-06-12"
+      ],
+      "conceptTags": [
+        "short-video",
+        "v0.6.4",
+        "v6.5.32",
+        "tmp/v6.5.32-recovery",
+        "tmp/zhuoyue-push",
+        "ls-remote",
+        "提交",
+        "推送"
+      ]
+    },
+    "memory:memory/2026-06-10.md:453:476": {
+      "key": "memory:memory/2026-06-10.md:453:476",
+      "path": "memory/2026-06-10.md",
+      "startLine": 453,
+      "endLine": 476,
+      "source": "memory",
+      "snippet": "### 与现有超短裙系统对比（差距分析） | 维度 | 现有系统 | 文档规范 | 差距 | |------|---------|---------|------| | 结构 | 松散文本堆砌 | 七层结构化组装 | **大** | | 主体 | 简单角色描述 | 四维模型（形态/材质/状态/关系） | 中 | | 动作 | 静态为主 | 三层模型（主体+环境+镜头） | 中 | | 光影 | 简单主光/补光 | 光源三要素+时段词库+现象词库 | **大** | | 镜头 | 基础运镜 | 完整机位+运镜+光学参数 | **大** | | 物理 | 几乎无 | 水体/大气/材质/柔体完整物理 | **大** | | 色彩 | 无 | 11种色彩方案+色温控制 | **大** | | 节奏 | 无 | 三幕式+情绪曲线+节拍设计 | **大** | | 负面词 | 基础层 | 6层分层体系 | 中 | | 场景适配 | 无 | 7种场景类型适配器 | **大** | ### 建议融入策略（向队长汇报） **方案A：渐进式融入（推荐）** 1. 批次1：物理真实感描述层（水体/大气/材质）→ 替换现有形容词堆砌 2. 批次2：光影系统规范（光源三要素）→ 升级现有光影描述 3. 批次3：镜头语言完整词库（机位+光学参数）→ 丰富运镜系统 4. 批次4：七层提示词结构 → 重构Prompt组装流水线 5. 批次5：场景类型适配器 + 色彩科学 → 增加场景差异化",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.40608931779861446,
+      "maxScore": 0.40608931779861446,
+      "firstRecalledAt": "2026-06-12T14:21:05.628Z",
+      "lastRecalledAt": "2026-06-12T14:21:05.628Z",
+      "queryHashes": [
+        "4d1bedc7a3f3"
+      ],
+      "recallDays": [
+        "2026-06-12"
+      ],
+      "conceptTags": [
+        "形态/材质/状态/关系",
+        "简单主光/补光",
+        "水体/大气/材质/柔体完整物理",
+        "水体/大气/材质",
+        "现有",
+        "短裙",
+        "系统",
+        "对比"
+      ]
+    },
+    "memory:memory/2026-06-08.md:37:54": {
+      "key": "memory:memory/2026-06-08.md:37:54",
+      "path": "memory/2026-06-08.md",
+      "startLine": 37,
+      "endLine": 54,
+      "source": "memory",
+      "snippet": "- 产品定义已融合到超现实系统：`hyperreal/product-layer/product-definition.md` - 系统命名：Hyperreal AI Video System（HAVS） - 品牌口号：所想即所见，所见即超凡 / Imagine the Impossible. Render the Hyperreal. - 核心架构：ScriptCraft Engine（五大叙事引擎：Dramatic/Educational/Documentary/LifeLog/Commercial） - 关键能力：Intent Router（意图自动路由）、混合创作模式（Hybrid Mode）、双模式运行（Embedded/Standalone） - 质量评估：DramaBench/EduScore/DocuScore/LifeScore/MktScore（五套评估框架） ### 老系统 v6.5.14 全链路预生产成功（首次无OOM！） - 耗时：526秒，5批LLM全部通过，0 SIGKILL - 核心修复：`--expose-gc` 添加到运行脚本，批次间强制GC生效 - 场景名正确：S01=开场介绍, S02=症状讲解, S03=实验室检查, S04=案例展示, S05=总结强调 - 角色3人全部通过前置检查：chen-nurse/host, xiaoG/audience, coach-li/demonstrator - 但存在质量门警告：Stage 8故事板校验、Stage 9运镜结构、Stage 12 Prompt空间利用率 ### 老系统 v6.5.1",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.405030882358551,
+      "maxScore": 0.405030882358551,
+      "firstRecalledAt": "2026-06-12T14:21:05.628Z",
+      "lastRecalledAt": "2026-06-12T14:21:05.628Z",
+      "queryHashes": [
+        "4d1bedc7a3f3"
+      ],
+      "recallDays": [
+        "2026-06-12"
+      ],
+      "conceptTags": [
+        "router",
+        "embedded/standalone",
+        "v6.5.14",
+        "expose-gc",
+        "chen-nurse/host",
+        "xiaog/audience",
+        "coach-li/demonstrator",
+        "v6.5.1"
+      ]
+    },
+    "memory:memory/2026-06-10.md:102:128": {
+      "key": "memory:memory/2026-06-10.md:102:128",
+      "path": "memory/2026-06-10.md",
+      "startLine": 102,
+      "endLine": 128,
+      "source": "memory",
+      "snippet": "| 仓库 | 内容 | 状态 | |------|------|------| | zhuoyue | Nirath 主系统 v6.5.32 (1201文件) | ✅ 已推送 | | hyperreal | 只有 README（预留超现实系统） | ✅ 已清空 | | short-video | 子系统 v0.6.4 + v0.7.0 极限运动镜头库 | ✅ 保留在本地 | ### 关键教训 - 推错代码后必须恢复正确版本，不能将就 - 孤儿提交（detached commit）可以通过 `git checkout` 恢复工作树 - GitHub API 缓存延迟，git ls-remote 是更可靠的验证方式 - 早晨 1204 文件 vs 晚上 1201 文件：差异是 .gitignore 排除的临时文件，核心代码完整 --- ## 2026-06-10 01:58 ~ 02:07 - 超短裙系统主链路引擎集成 v0.7.0-xtreme-integrated ### 队长需求：将极限运动镜头库集成到超短裙系统主链路，升级版本号 - 原状态：只有镜头库 (`systems/xtreme-shot-library.js`) 和演示脚本，没有主链路引擎 - 目标：创建主链路引擎，暴露高阶 API，集成到超短裙系统 ### 实现：主链路引擎 `short-video-engine.js` - 文件：`/root/.openclaw/workspace/short-video-system/short-video-engine.js` (9.7KB) - 核心类：`Sh",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.40262947976589203,
+      "maxScore": 0.40262947976589203,
+      "firstRecalledAt": "2026-06-12T14:21:05.628Z",
+      "lastRecalledAt": "2026-06-12T14:21:05.628Z",
+      "queryHashes": [
+        "4d1bedc7a3f3"
+      ],
+      "recallDays": [
+        "2026-06-12"
+      ],
+      "conceptTags": [
+        "v6.5.32",
+        "short-video",
+        "v0.6.4",
+        "v0.7.0",
+        "ls-remote",
+        "v0.7.0-xtreme-integrated",
+        "systems/xtreme-shot-library.js",
+        "short-video-engine.js"
       ]
     }
   }

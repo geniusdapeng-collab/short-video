@@ -151,6 +151,11 @@ class ProductionEngine {
       // 汇总
       result.shots = result.stages.promptEngineering.shots;
       result.prompts = result.stages.promptEngineering.prompts;
+      
+      // v6.37-P0: 构建标准输出结构（meta + opening + shots）
+      result.meta = this._buildMeta(adaptedBlueprint);
+      result.opening = result.stages.opening?.openingData || null;
+      
       result.success = true;
       result.timing.total = Date.now() - startTime;
       
@@ -189,7 +194,31 @@ class ProductionEngine {
   }
 
   /**
+   * v6.37-P0: 构建 Meta 元信息
+   */
+  _buildMeta(adaptedBlueprint) {
+    const worldSetting = adaptedBlueprint.worldSetting || {};
+    const config = adaptedBlueprint.config || {};
+    
+    return {
+      title: config.title || '未命名短片',
+      worldview: worldSetting.world_id || 'default',
+      totalDuration: this._calculateTotalDuration(adaptedBlueprint.scenes),
+      openingDuration: config.opening_duration || 10,
+      fps: 24,
+      resolution: '1920x1080',
+      styleNotes: config.style_notes || 'cinematic, hyperrealistic'
+    };
+  }
+  
+  _calculateTotalDuration(scenes) {
+    if (!scenes || scenes.length === 0) return 0;
+    return scenes.reduce((sum, scene) => sum + (scene.timing?.duration || 20), 0);
+  }
+
+  /**
    * Stage 1: 从适配蓝图提取场景，转换为内部镜头结构
+   * v6.37-P0: 改造为符合参考文档的字段格式
    */
   _extractScenes(adaptedBlueprint) {
     const scenes = adaptedBlueprint.scenes || [];
@@ -197,49 +226,76 @@ class ProductionEngine {
     const worldSetting = adaptedBlueprint.worldSetting || {};
     
     const shots = scenes.map((scene, index) => {
-      // 构建角色描述
-      const characterDescs = (scene.characters || []).map(cid => {
+      // 构建角色描述（v6.37-P0: 改为极简锚点格式）
+      const characterAnchors = (scene.characters || []).map(cid => {
         const char = characters.find(c => c.character_id === cid);
-        if (!char) return cid;
+        if (!char) return `${cid}: unknown`;
         
+        const race = char.species || char.race || 'unknown';
         const features = char.visual_anchor?.core_features || [];
-        return `${char.name}（${features.join('、')}）`;
-      }).join('，');
+        // 取3-5个核心特征
+        const keywords = features.slice(0, 5).join(', ');
+        return `${char.name}: ${race}, ${keywords}`;
+      });
       
-      // 构建对话
-      const dialogueLines = (scene.dialogue?.lines || []).map(line =>
-        `${line.speaker}:「${line.text}」`
-      ).join('；');
+      // 构建对话（v6.37-P0: 统一格式 SPEAKER|TYPE|EMOTION|TEXT|LIP_SYNC:YES）
+      const dialogueLines = (scene.dialogue?.lines || []).map(line => {
+        const speaker = line.speaker || '角色';
+        const type = line.type || '独白';
+        const emotion = line.emotion || '平静';
+        const text = line.text || '';
+        return `${speaker}|${type}|${emotion}|${text}|LIP_SYNC:YES`;
+      });
+      
+      // v6.37-P0: 构建五维空间描述（scene字段）
+      const sceneDescription = this._buildFiveDimensionScene(scene, worldSetting);
+      
+      // v6.37-P0: 构建 mood（3-5情绪关键词）
+      const mood = this._buildMood(scene);
+      
+      // v6.37-P0: 构建 action（核心动词+交互目标）
+      const action = this._buildAction(scene);
       
       return {
-        shotId: scene.scene_id || `SC${String(index).padStart(2, '0')}`,
+        shotId: scene.scene_id || `S${String(index + 1).padStart(2, '0')}`,
         sceneType: scene.scene_type || 'establishing',
         sceneFunction: scene.scene_function || 'establish',
         
-        // 时序
+        // v6.37-P0: 时序（保留对象，后续转为字符串）
         timing: {
           start: scene.timing?.start || 0,
           duration: scene.timing?.duration || 20,
           end: scene.timing?.end || 20
         },
         
-        // 内容
-        setting: scene.setting || '',
-        visualNotes: scene.visual_notes || '',
-        characters: scene.characters || [],
-        characterDescs,
+        // v6.37-P0: 场景（五维空间描述法）
+        scene: sceneDescription,
         
-        // 对话
-        dialogue: scene.dialogue || { has_dialogue: false, lines: [] },
-        dialogueText: dialogueLines,
+        // v6.37-P0: 情绪
+        mood: mood,
+        
+        // v6.37-P0: 角色（极简锚点）
+        character: characterAnchors.join(' | '),
+        characterRef: this._buildCharacterRef(scene, characters),
+        
+        // v6.37-P0: 动作
+        action: action,
+        
+        // v6.37-P0: 对话（统一格式）
+        dialogue: dialogueLines.join(' || '),
+        
+        // 保留原始数据（供内部使用）
+        characters: scene.characters || [],
+        characterDescs: characterAnchors.join(' | '),
+        dialogueText: (scene.dialogue?.lines || []).map(l => l.text).join('；'),
         
         // 情感
         emotionalTarget: scene.emotional_target || { valence: 0, arousal: 0.5 },
         
-        // 视觉方向（从剧本引擎传入）
+        // 视觉方向
         visualDirection: scene.visual_direction || {},
         
-        // Prompt 基础（从适配器传入）
+        // Prompt 基础
         promptBase: scene.prompt_base || '',
         
         // 世界设定
@@ -252,10 +308,93 @@ class ProductionEngine {
     
     return { shots, sceneCount: shots.length };
   }
+  
+  /**
+   * v6.37-P0: 构建五维空间描述
+   */
+  _buildFiveDimensionScene(scene, worldSetting) {
+    const dimensions = [];
+    
+    // 1. 宏观地理：星球/大陆/区域
+    const worldName = worldSetting.name || worldSetting.world_id || '未知世界';
+    dimensions.push(worldName);
+    
+    // 2. 中观地貌：地形/地貌
+    const setting = scene.setting || '';
+    if (setting) dimensions.push(setting);
+    
+    // 3. 微观材质：表面材质/纹理
+    const materials = scene.materials || scene.surface_details || '';
+    if (materials) dimensions.push(materials);
+    
+    // 4. 天气时间：时间/天气/光照
+    const timeOfDay = scene.time_of_day || scene.lighting?.time_of_day || '';
+    if (timeOfDay) dimensions.push(timeOfDay);
+    
+    // 5. 空间深度：前景/中景/背景层次
+    const depth = scene.depth_layers || scene.spatial_depth || 'atmospheric perspective';
+    dimensions.push(`spatial depth: ${depth}`);
+    
+    return dimensions.join(', ');
+  }
+  
+  /**
+   * v6.37-P0: 构建 mood（3-5情绪关键词）
+   */
+  _buildMood(scene) {
+    const moodMap = {
+      'opening': 'epic, mysterious, awe-inspiring',
+      'establishing': 'mysterious, anticipation, wonder',
+      'conflict': 'tense, determined, brave, confrontational',
+      'emotional_climax': 'epic, emotional, powerful, cathartic',
+      'resolution': 'peaceful, warm, nostalgic, hopeful',
+      'discovery': 'curious, excited, surprised, wondrous',
+      'transition': 'flowing, continuous, seamless'
+    };
+    
+    return moodMap[scene.scene_type] || 'neutral, calm, steady';
+  }
+  
+  /**
+   * v6.37-P0: 构建 action（核心动词+交互目标）
+   */
+  _buildAction(scene) {
+    const actionMap = {
+      'opening': 'establishing shot, camera slowly descending through atmospheric layers',
+      'establishing': 'protagonist steps forward, observing surroundings with focused gaze',
+      'conflict': 'confrontation stance, direct eye contact, tension building in posture',
+      'emotional_climax': 'dramatic gesture, emotional peak, decisive movement',
+      'resolution': 'gentle release, returning to calm, peaceful closure',
+      'discovery': 'leaning forward, reaching out, examining with curiosity'
+    };
+    
+    return actionMap[scene.scene_type] || 'neutral stance, steady breathing';
+  }
+  
+  /**
+   * v6.37-P0: 构建 characterRef（image://格式）
+   */
+  _buildCharacterRef(scene, characters) {
+    const refs = (scene.characters || []).map(cid => {
+      const char = characters.find(c => c.character_id === cid);
+      if (!char) return null;
+      
+      // 构建 image:// 路径
+      const paths = [];
+      const angles = ['front', 'profile', 'three-quarter', 'closeup', 'detail'];
+      angles.forEach(angle => {
+        paths.push(`image://characters/${cid}-${angle}.png`);
+      });
+      
+      return `${char.name}: ${paths.join(', ')}`;
+    }).filter(Boolean);
+    
+    return refs.join(' | ') || 'NONE';
+  }
 
   /**
    * Stage 2: 时长分配（精细化）
-   * 剧本引擎已提供基础时长，这里进行微调
+   * v6.37-P0: 新增 timeline 字段
    */
   _allocateDuration(shots) {
     const allocator = this.modules.shotDurationAllocator;
@@ -265,9 +404,9 @@ class ProductionEngine {
     }
     
     // 基于内容重要性、台词长度、视觉复杂度三维度重新分配
-    const allocatedShots = shots.map(shot => {
+    const allocatedShots = shots.map((shot, index) => {
       // 台词越长，时长越长
-      const dialogueLength = shot.dialogue?.lines?.reduce((sum, l) => sum + (l.text?.length || 0), 0) || 0;
+      const dialogueLength = shot.dialogue?.length || 0;
       const dialogueFactor = Math.min(dialogueLength / 30, 1.5); // 30字基准
       
       // 场景类型权重
@@ -287,6 +426,9 @@ class ProductionEngine {
       // 限制在合理范围
       const finalDuration = Math.max(10, Math.min(40, adjustedDuration));
       
+      // v6.37-P0: 构建 timeline 字段
+      const timeline = this._buildTimeline(shot, index, finalDuration);
+      
       return {
         ...shot,
         timing: {
@@ -294,6 +436,8 @@ class ProductionEngine {
           duration: finalDuration,
           end: shot.timing.start + finalDuration
         },
+        // v6.37-P0: timeline 字段
+        timeline: timeline,
         allocation: {
           baseDuration,
           dialogueFactor,
@@ -305,9 +449,23 @@ class ProductionEngine {
     
     return { shots: allocatedShots };
   }
+  
+  /**
+   * v6.37-P0: 构建 timeline 字段
+   * 格式：T00:XX-T00:XX / duration: Xs / type: XXX / mood: XXX
+   */
+  _buildTimeline(shot, index, duration) {
+    const startTime = shot.timing.start || 0;
+    const endTime = startTime + duration;
+    const type = shot.sceneType || 'normal';
+    const mood = shot.mood || 'neutral';
+    
+    return `T${String(Math.floor(startTime/60)).padStart(2, '0')}:${String(startTime%60).padStart(2, '0')}-T${String(Math.floor(endTime/60)).padStart(2, '0')}:${String(endTime%60).padStart(2, '0')} / duration: ${duration}s / type: ${type} / mood: ${mood}`;
+  }
 
   /**
    * Stage 3: 运镜设计
+   * v6.37-P0: 改造 camera 字段为字符串格式，新增 lighting 字段
    */
   _designCameraMovement(shots) {
     const cameraSystem = this.modules.cameraMovement;
@@ -316,9 +474,17 @@ class ProductionEngine {
       // 基于场景类型推断运镜
       const cameraConfig = this._inferCameraConfig(shot);
       
+      // v6.37-P0: 构建 camera 字段（字符串格式）
+      const cameraString = this._buildCameraString(cameraConfig, shot);
+      
+      // v6.37-P0: 构建 lighting 字段
+      const lighting = this._buildLighting(shot, cameraConfig);
+      
       return {
         ...shot,
-        camera: {
+        camera: cameraString,
+        lighting: lighting,
+        cameraMovement: {
           ...cameraConfig,
           // 4段式运镜时间轴
           timeline: this._generateCameraTimeline(shot.timing.duration, cameraConfig)
@@ -327,6 +493,57 @@ class ProductionEngine {
     });
     
     return { shots: designedShots };
+  }
+  
+  /**
+   * v6.37-P0: 构建 camera 字符串（12级机位+14运镜+焦距+速度）
+   */
+  _buildCameraString(cameraConfig, shot) {
+    const shotSizeMap = {
+      'wide': 'wide shot',
+      'medium': 'medium shot',
+      'close_up': 'close-up',
+      'extreme_close_up': 'extreme close-up',
+      'establishing': 'establishing shot'
+    };
+    
+    const movementMap = {
+      '缓慢推进': 'slow dolly in',
+      '稳定机位': 'static hold',
+      '手持晃动': 'handheld shake',
+      '快速推近': 'fast push in',
+      '缓慢后拉': 'slow pull back'
+    };
+    
+    const focalMap = {
+      'slow': '24mm wide',
+      'normal': '35mm standard',
+      'fast': '85mm portrait',
+      'dynamic': '50mm standard'
+    };
+    
+    const shotSize = shotSizeMap[cameraConfig.shotType] || 'medium shot';
+    const movement = movementMap[cameraConfig.movement] || 'static';
+    const focal = focalMap[cameraConfig.speed] || '35mm';
+    const speed = cameraConfig.speed || 'normal';
+    
+    return `${shotSize}, ${movement}, ${focal} lens, ${speed} speed`;
+  }
+  
+  /**
+   * v6.37-P0: 构建 lighting 字段（主光方向+色温K值+特效光）
+   */
+  _buildLighting(shot, cameraConfig) {
+    const lightingMap = {
+      'opening': 'backlight 3200K, golden hour rim, volumetric god rays',
+      'establishing': 'front light 4500K, neutral balanced, soft fill',
+      'conflict': 'top light 5600K, harsh shadows, dramatic contrast',
+      'emotional_climax': 'omni light 8000K, bright key, volumetric glow',
+      'resolution': 'backlight 2800K, warm sunset, soft diffusion',
+      'discovery': 'side light 4500K, cool blue accent, practical source'
+    };
+    
+    return lightingMap[shot.sceneType] || 'front light 4500K, neutral balanced';
   }
 
   /**
@@ -431,14 +648,14 @@ class ProductionEngine {
 
   /**
    * Stage 4: Prompt 工程（核心）
-   * 将剧本引擎的结构化数据转换为 Seedance 可消费的 Prompt
+   * v6.37-P0: 按参考文档融合顺序构建 Prompt，产出标准字段格式
    */
   _engineerPrompts(shots, blueprint) {
     const prompts = [];
     const engineeredShots = [];
     
     for (const shot of shots) {
-      // 构建 Prompt 各部分
+      // 构建 Prompt 各部分（按融合顺序）
       const prompt = this._buildShotPrompt(shot, blueprint);
       
       // 字符计数
@@ -447,27 +664,72 @@ class ProductionEngine {
       // 定妆照引用（如果可用）
       const imageRefs = this._buildImageReferences(shot, blueprint);
       
-      const engineeredShot = {
-        ...shot,
-        prompt: {
-          ...prompt,
-          length: promptLength,
-          status: promptLength <= this.config.maxPromptLength ? 'valid' : 'overflow'
-        },
-        imageReferences: imageRefs,
-        status: 'ready'
+      // v6.37-P0: 构建标准输出对象
+      const standardOutput = {
+        shotId: shot.shotId,
+        duration: shot.timing.duration,
+        scene: shot.scene,
+        mood: shot.mood,
+        camera: shot.camera,
+        lighting: shot.lighting,
+        characterRef: shot.characterRef,
+        character: shot.character,
+        action: shot.action,
+        dialogue: shot.dialogue,
+        timeline: shot.timeline,
+        backgroundSound: this._buildBackgroundSound(shot),
+        prompt: prompt.fullPrompt,
+        promptCharCount: promptLength,
+        length: promptLength,
+        utilization: Math.round(promptLength / 1500 * 100),
+        utilizationStatus: promptLength >= 970 && promptLength <= 1500 ? '🔥理想' : (promptLength > 1500 ? '❌超标' : '⚠️空间浪费')
       };
       
-      engineeredShots.push(engineeredShot);
-      prompts.push({
-        shotId: shot.shotId,
-        prompt: prompt.fullPrompt,
-        length: promptLength,
-        imageRefs: imageRefs
-      });
+      // 片头专属字段
+      if (shot.sceneType === 'opening') {
+        standardOutput.audioLayer = this._buildAudioLayer(shot);
+        standardOutput.titleOverlay = this._buildTitleOverlay(blueprint);
+      }
+      
+      engineeredShots.push(standardOutput);
+      prompts.push(standardOutput);
     }
     
     return { shots: engineeredShots, prompts };
+  }
+  
+  /**
+   * v6.37-P0: 构建 backgroundSound 字段（三段式）
+   */
+  _buildBackgroundSound(shot) {
+    const type = shot.sceneType || 'normal';
+    
+    const soundMap = {
+      'opening': 'AMBIENT: epic atmosphere, deep earth rumble 20-60Hz | SPATIAL: 3D audio pan synchronized with camera movement | INTENSITY: crescendo 0-3s, peak 3-7s, decay 7-10s',
+      'establishing': 'AMBIENT: natural environment, wind and distant sounds | SPATIAL: ambient stereo field | INTENSITY: steady state, subtle variations',
+      'conflict': 'AMBIENT: tension building, low frequency rumble | SPATIAL: directional audio pan | INTENSITY: building 0-5s, peak 5-8s',
+      'emotional_climax': 'AMBIENT: full frequency spectrum, rich harmonics | SPATIAL: immersive surround | INTENSITY: maximum 0-3s, sustain 3-10s',
+      'resolution': 'AMBIENT: gentle atmosphere, soft reverb | SPATIAL: wide stereo field | INTENSITY: fading 0-5s, quiet 5-10s'
+    };
+    
+    return soundMap[type] || 'AMBIENT: neutral atmosphere | SPATIAL: centered mono | INTENSITY: steady';
+  }
+  
+  /**
+   * v6.37-P0: 构建 audioLayer 字段（片头专属）
+   */
+  _buildAudioLayer(shot) {
+    return 'Sub-bass earth rumble fade in 3s, distant wind and environmental sounds, string section long note at 5s, timpani strike at 8s';
+  }
+  
+  /**
+   * v6.37-P0: 构建 titleOverlay 字段（片头专属）
+   */
+  _buildTitleOverlay(blueprint) {
+    const config = blueprint.config || {};
+    const worldSetting = blueprint.worldSetting || {};
+    
+    return `MAIN_TITLE: "${config.title || '未命名'}" | SUBTITLE: "${worldSetting.name || '系列作品'}" | PRODUCER: "by ${config.producer || 'Genius'}" | TITLE_ANIM: light-vein carving growth 3.0-5.0s`;
   }
 
   /**
@@ -544,16 +806,19 @@ class ProductionEngine {
   }
 
   /**
-   * 构建单个镜头的完整 Prompt（v2.0-B+: 七层架构 + 极致视听融合）
+   * 构建单个镜头的完整 Prompt（v2.0-B+: 七层架构 + 极致视听融合 + v6.37-P0 字段对齐）
+   * 
+   * 融合顺序（按参考文档）：
+   * CharacterRef → Timeline → Dialogue → AudioLayer(片头) → TitleOverlay(片头) → BackgroundSound → Character → Action → Scene → Mood → Camera → Lighting
    * 
    * 七层结构：
    * L1: 约束层（P0必加）- 画幅/帧率/无字幕
    * L2: 基础层（P0必加）- 写实度/HDR/胶片质感
-   * L3: 空间层（P1防平庸）- 场景/天气/纵深
-   * L4: 主体层（P2防漂移）- 角色/动作/关系
-   * L5: 动态层（P1防平庸）- 运镜/时间轴
-   * L6: 风格层（P2防漂移）- 色彩/光影/情绪
-   * L7: 音频层（🔊 新增）- 环境音/动作音/情绪音
+   * L3: 空间层（P1防平庸）- scene字段（五维空间）
+   * L4: 主体层（P2防漂移）- character/action/dialogue
+   * L5: 动态层（P1防平庸）- camera/timeline
+   * L6: 风格层（P2防漂移）- mood/lighting
+   * L7: 音频层（🔊 新增）- backgroundSound/audioLayer
    * L8: 质控层（P0必加）- 负面约束/角色一致性
    */
   _buildShotPrompt(shot, blueprint) {
@@ -567,111 +832,84 @@ class ProductionEngine {
     parts.push('hyperrealistic, ultra-detailed, high dynamic range, detail in highlights and shadows, film grain, 35mm texture, cinematic film');
     
     // === L3: 空间层（P1防平庸）===
-    // 世界设定（Nirath）
-    if (shot.worldId === 'nirath') {
-      parts.push('Nirath星球');
-    }
-    // 场景设定
-    if (shot.setting) {
-      parts.push(shot.setting);
-    }
-    // 时间/天气
-    if (shot.timeOfDay || shot.lighting?.timeOfDay) {
-      parts.push(`${shot.timeOfDay || shot.lighting?.timeOfDay} lighting`);
-    }
-    // 空间纵深
-    if (shot.depthLayers || shot.depth) {
-      parts.push(shot.depthLayers || shot.depth || 'atmospheric haze, depth layers');
+    // v6.37-P0: scene 字段（五维空间描述）
+    if (shot.scene) {
+      parts.push(shot.scene);
     }
     
     // === L4: 主体层（P2防漂移）===
-    // 角色描述
-    if (shot.characterDescs) {
-      parts.push(shot.characterDescs);
+    // v6.37-P0: character 字段（极简锚点）
+    if (shot.character && shot.character !== 'NONE') {
+      parts.push(shot.character);
     }
-    // 主体动作
-    if (shot.action || shot.characterAction) {
-      parts.push(shot.action || shot.characterAction);
+    
+    // v6.37-P0: action 字段（核心动词+交互目标）
+    if (shot.action) {
+      parts.push(shot.action);
     }
-    // 主体关系
-    if (shot.characterRelation) {
-      parts.push(shot.characterRelation);
+    
+    // v6.37-P0: dialogue 字段（统一格式）
+    if (shot.dialogue && shot.dialogue !== '') {
+      parts.push(`dialogue: ${shot.dialogue}`);
     }
     
     // === L5: 动态层（P1防平庸）===
-    // 运镜描述
-    if (shot.camera?.movement) {
-      parts.push(`${shot.camera.movement}，${shot.camera.shotType}`);
+    // v6.37-P0: camera 字段（12级机位+运镜+焦距+速度）
+    if (shot.camera) {
+      parts.push(shot.camera);
     }
-    // 时间轴（4段式）
-    if (shot.camera?.timeline) {
-      const timelineText = shot.camera.timeline.map(t => 
-        `${t.timeRange} ${t.cameraMovement}`
-      ).join(' → ');
-      parts.push(`镜头时间轴：${timelineText}`);
-    }
-    // 环境动作
-    if (shot.environmentAction) {
-      parts.push(shot.environmentAction);
+    
+    // v6.37-P0: timeline 字段
+    if (shot.timeline) {
+      parts.push(`timeline: ${shot.timeline}`);
     }
     
     // === L6: 风格层（P2防漂移）===
-    // 视觉笔记
-    if (shot.visualNotes) {
-      parts.push(shot.visualNotes);
-    }
-    // 色彩方案
-    if (shot.colorScheme || shot.colorTemp) {
-      const cs = shot.colorScheme || 'natural warm tones';
-      parts.push(`color palette: ${cs}`);
-    }
-    // 情绪调性
-    if (shot.emotionPhase || shot.emotion) {
-      const emotionMap = {
-        'establishing': 'serene, awe-inspiring',
-        'rising': 'growing tension, anticipation',
-        'building': 'intensifying drama',
-        'climax': 'peak emotional intensity',
-        'resolve': 'peaceful resolution',
-        'opening': 'epic grandeur',
-        'warm': 'warm, healing, tender',
-        'joy': 'joyful, bright, energetic'
-      };
-      const ep = shot.emotionPhase || shot.emotion || 'neutral';
-      parts.push(emotionMap[ep] || 'cinematic atmosphere');
-    }
-    // 光影（如果指定）
-    if (shot.lighting?.keyLight || shot.lighting?.description) {
-      parts.push(shot.lighting?.description || shot.lighting?.keyLight);
+    // v6.37-P0: mood 字段（3-5情绪关键词）
+    if (shot.mood) {
+      parts.push(`mood: ${shot.mood}`);
     }
     
-    // === L7: 音频层（🔊 新增 - 极致视听融合）===
-    const audioDesc = this._buildAudioDescription(shot);
-    if (audioDesc) {
-      parts.push(audioDesc);
+    // v6.37-P0: lighting 字段（主光方向+色温K值+特效光）
+    if (shot.lighting) {
+      parts.push(shot.lighting);
     }
     
-    // 对话（必须嵌入）
-    if (shot.dialogueText) {
-      parts.push(`台词：${shot.dialogueText}`);
+    // === L7: 音频层（🔊 新增）===
+    // v6.37-P0: backgroundSound 字段（三段式）
+    if (shot.backgroundSound) {
+      parts.push(`audio: ${shot.backgroundSound}`);
+    }
+    
+    // v6.37-P0: audioLayer 字段（片头专属）
+    if (shot.audioLayer && shot.audioLayer !== '') {
+      parts.push(`audioLayer: ${shot.audioLayer}`);
     }
     
     // === L8: 质控层（P0必加）===
+    // 世界设定（通用化，不硬编码）
+    if (shot.worldId && shot.worldId !== 'default') {
+      parts.push(`${shot.worldId} world`);
+    }
+    
     // 负面约束
     const negativeConstraints = [
+      'no watermark, no logo, no text overlay, no subtitle, no caption',
       'blurry, low resolution, pixelated, compression artifacts',
       'cartoon, anime, illustration, 3D render look, CGI appearance, plastic look',
       'distorted perspective, impossible geometry, floating objects',
       'flat lighting, overexposed, crushed blacks, double shadows',
       'unnatural physics, fake water, static water, cardboard texture, plastic foliage'
     ];
+    
     // 人物专项（如果含角色）
-    if (shot.characters?.length > 0 || shot.characterDescs) {
+    if (shot.characters?.length > 0 || shot.character) {
       negativeConstraints.push('distorted face, deformed face, extra fingers, plastic skin, waxy skin, unnatural pose');
     }
-    // Nirath专属
-    if (shot.worldId === 'nirath') {
-      negativeConstraints.push('no metallic shine, no traditional Chinese symbols, natural eye colors only');
+    
+    // 世界专属（通用化）
+    if (shot.worldId && shot.worldId !== 'default') {
+      negativeConstraints.push('natural eye colors only, no metallic shine');
     }
     parts.push(...negativeConstraints);
     
@@ -684,6 +922,15 @@ class ProductionEngine {
     
     // 截断保护（v2.0-B+: 1500字符，保留音频层和一致性约束）
     const truncated = this._truncatePromptWithAudioProtection(fullPrompt, this.config.maxPromptLength);
+    
+    return {
+      fullPrompt: truncated,
+      rawPrompt: fullPrompt,
+      parts,
+      wasTruncated: fullPrompt.length !== truncated.length,
+      audioIncluded: !!shot.backgroundSound
+    };
+  }
     
     return {
       fullPrompt: truncated,
@@ -804,6 +1051,7 @@ class ProductionEngine {
 
   /**
    * Stage 5: 质量门校验
+   * v6.37-P0: 检查新字段格式与完整性
    */
   _runQualityGate(prompts) {
     const checks = [];
@@ -811,14 +1059,38 @@ class ProductionEngine {
     for (const p of prompts) {
       const check = {
         shotId: p.shotId,
-        promptLength: p.length,
-        hasTimeline: p.prompt.includes('【镜头时间轴】'),
-        hasCharacters: p.prompt.includes('【角色一致性】') || p.imageRefs.length > 0,
-        noForbidden: !p.prompt.includes('暗黑风') || p.prompt.includes('暗黑风') && p.prompt.indexOf('暗黑风') > p.prompt.length - 50,
-        withinLimit: p.length <= this.config.maxPromptLength
+        promptLength: p.promptCharCount || p.length || 0,
+        // v6.37-P0: 检查新字段
+        hasTimeline: !!p.timeline && p.timeline.includes('T00:'),
+        hasScene: !!p.scene && p.scene.length > 10,
+        hasMood: !!p.mood && p.mood.split(',').length >= 3,
+        hasCamera: !!p.camera && p.camera.length > 10,
+        hasLighting: !!p.lighting && p.lighting.includes('K'),
+        hasCharacter: !!p.character && p.character !== 'NONE',
+        hasAction: !!p.action && p.action.length > 5,
+        hasDialogue: !!p.dialogue && p.dialogue !== 'NONE',
+        hasBackgroundSound: !!p.backgroundSound && p.backgroundSound.includes('AMBIENT:'),
+        // 片头专属检查
+        isOpening: p.shotId === 'S00',
+        hasAudioLayer: p.shotId === 'S00' ? (!!p.audioLayer && p.audioLayer.length > 10) : true,
+        hasTitleOverlay: p.shotId === 'S00' ? (!!p.titleOverlay && p.titleOverlay.includes('MAIN_TITLE:')) : true,
+        // 字符数检查
+        withinLimit: (p.promptCharCount || p.length || 0) <= this.config.maxPromptLength,
+        // 通用检查
+        noForbidden: !p.prompt.includes('暗黑风') || p.prompt.includes('暗黑风') && p.prompt.indexOf('暗黑风') > p.prompt.length - 50
       };
       
-      check.passed = check.hasTimeline && check.hasCharacters && check.withinLimit;
+      // v6.37-P0: 综合通过条件
+      check.passed = check.hasTimeline && 
+                     check.hasScene && 
+                     check.hasMood && 
+                     check.hasCamera && 
+                     check.hasLighting &&
+                     check.hasAction &&
+                     check.withinLimit &&
+                     check.hasAudioLayer &&
+                     check.hasTitleOverlay;
+      
       checks.push(check);
     }
     
@@ -834,32 +1106,58 @@ class ProductionEngine {
 
   /**
    * Stage 6: 片头生成
+   * v6.37-P0: 产出符合片头结构（15字段）
    */
   _generateOpening(blueprint) {
     const config = blueprint.config || {};
+    const worldSetting = blueprint.worldSetting || {};
     const beastId = config.featured_beast_id;
     
     if (!beastId) {
       return { generated: false, reason: '无 featured_beast_id' };
     }
     
-    // 使用现有片头系统（如果可用）
-    const openingSystem = this.modules.openingSystem;
-    if (openingSystem) {
-      try {
-        // 简化的片头生成
-        return {
-          generated: true,
-          shotId: 'S00',
-          type: 'opening',
-          beastId
-        };
-      } catch (e) {
-        return { generated: false, error: e.message };
-      }
-    }
+    // v6.37-P0: 构建标准片头结构（15字段）
+    const openingData = {
+      shotId: 'S00',
+      duration: config.opening_duration || 10,
+      scene: this._buildOpeningScene(worldSetting),
+      mood: 'epic, mysterious, awe-inspiring',
+      camera: 'epic wide shot, slow descent through atmospheric layers, 24mm wide lens, slow speed',
+      lighting: 'backlight 3200K, golden hour rim, volumetric god rays',
+      characterRef: 'NONE',
+      character: 'NONE',
+      action: 'establishing shot, camera slowly descending through atmospheric layers',
+      dialogue: 'NONE',
+      timeline: 'T00:00-T00:10 / duration: 10s / type: opening / mood: epic',
+      audioLayer: 'Sub-bass earth rumble fade in 3s, distant wind and environmental sounds, string section long note at 5s, timpani strike at 8s',
+      titleOverlay: `MAIN_TITLE: "${config.title || '未命名'}" | SUBTITLE: "${worldSetting.name || '系列作品'}" | PRODUCER: "by ${config.producer || 'Genius'}" | TITLE_ANIM: light-vein carving growth 3.0-5.0s`,
+      backgroundSound: 'AMBIENT: epic atmosphere, deep earth rumble 20-60Hz | SPATIAL: 3D audio pan synchronized with camera movement | INTENSITY: crescendo 0-3s, peak 3-7s, decay 7-10s',
+      prompt: '', // 由 Prompt 工程构建
+      promptCharCount: 0
+    };
     
-    return { generated: false, reason: '片头系统不可用' };
+    // 构建片头 Prompt
+    const prompt = this._buildShotPrompt(openingData, blueprint);
+    openingData.prompt = prompt.fullPrompt;
+    openingData.promptCharCount = this._countChars(prompt.fullPrompt);
+    
+    return { 
+      generated: true,
+      openingData,
+      shotId: 'S00',
+      type: 'opening',
+      beastId
+    };
+  }
+  
+  _buildOpeningScene(worldSetting) {
+    const worldName = worldSetting.name || worldSetting.world_id || 'Unknown World';
+    const atmosphere = worldSetting.atmosphere || 'mysterious';
+    const timeOfDay = worldSetting.time_of_day || 'golden hour';
+    const depth = worldSetting.spatial_depth || 'atmospheric layers';
+    
+    return `${worldName}, ${atmosphere} atmosphere, ${timeOfDay} lighting, ${depth}, spatial depth: infinite`;
   }
 
   /**

@@ -149,23 +149,53 @@ class RenderingEngine {
 
   /**
    * 转换为现有系统兼容的 shot 格式
+   * v6.37-P0: 适配新字段结构
    */
   _convertToShotFormat(prompt) {
     return {
       shotId: prompt.shotId,
       id: prompt.shotId, // 兼容现有系统
       prompt: prompt.prompt,
-      duration: 12, // 默认12秒
+      duration: prompt.duration || 12, // 使用实际时长
       isOpening: prompt.shotId === 'S00' || prompt.shotId === 'SC00',
-      // 定妆照引用
-      referenceImages: (prompt.imageRefs || []).map(ref => ({
-        characterId: ref.characterId,
-        path: ref.path,
-        angle: ref.angle
-      })),
+      // 定妆照引用（v6.37-P0: 从 characterRef 解析）
+      referenceImages: this._parseCharacterRef(prompt.characterRef),
       // 字符数
-      promptLength: prompt.length
+      promptLength: prompt.promptCharCount || prompt.length || 0,
+      // v6.37-P0: 保留新字段用于调试
+      mood: prompt.mood,
+      camera: prompt.camera,
+      lighting: prompt.lighting
     };
+  }
+  
+  /**
+   * v6.37-P0: 解析 characterRef 字符串为 image 引用数组
+   */
+  _parseCharacterRef(characterRef) {
+    if (!characterRef || characterRef === 'NONE') return [];
+    
+    const refs = [];
+    const parts = characterRef.split(' | ');
+    
+    for (const part of parts) {
+      const match = part.match(/(.+?):\s*(.+)/);
+      if (match) {
+        const charName = match[1].trim();
+        const paths = match[2].split(',').map(p => p.trim());
+        
+        paths.forEach(path => {
+          const angleMatch = path.match(/-(\w+)\.png$/);
+          refs.push({
+            characterId: charName,
+            path: path,
+            angle: angleMatch ? angleMatch[1] : 'unknown'
+          });
+        });
+      }
+    }
+    
+    return refs;
   }
 
   /**
