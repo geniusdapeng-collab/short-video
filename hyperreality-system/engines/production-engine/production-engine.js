@@ -649,6 +649,7 @@ class ProductionEngine {
   /**
    * Stage 4: Prompt 工程（核心）
    * v6.37-P0: 按参考文档融合顺序构建 Prompt，产出标准字段格式
+   * 保留卓越系统特有字段：mouthAction, importance, visualComplexity, qualityScore, enhanced
    */
   _engineerPrompts(shots, blueprint) {
     const prompts = [];
@@ -661,11 +662,9 @@ class ProductionEngine {
       // 字符计数
       const promptLength = this._countChars(prompt.fullPrompt);
       
-      // 定妆照引用（如果可用）
-      const imageRefs = this._buildImageReferences(shot, blueprint);
-      
-      // v6.37-P0: 构建标准输出对象
+      // v6.37-P0: 构建标准输出对象（参考文档格式 + 卓越系统保留字段）
       const standardOutput = {
+        // === 核心字段（参考文档 v6.37-Peng）===
         shotId: shot.shotId,
         duration: shot.timing.duration,
         scene: shot.scene,
@@ -680,6 +679,22 @@ class ProductionEngine {
         backgroundSound: this._buildBackgroundSound(shot),
         prompt: prompt.fullPrompt,
         promptCharCount: promptLength,
+        
+        // === 卓越系统保留字段 ===
+        mouthAction: shot.mouthAction || this._buildMouthAction(shot),
+        importance: shot.importance || 5,
+        visualComplexity: shot.visualComplexity || 5,
+        qualityScore: shot.qualityScore || { totalScore: 75 },
+        enhanced: true,
+        
+        // === 内部字段（扩展接口）===
+        physicsLayer: shot.physicsLayer || '',
+        colorScience: shot.colorScience || '',
+        negativePrompt: shot.negativePrompt || '',
+        renderStyle: shot.renderStyle || '',
+        directorStyle: shot.directorStyle || '',
+        
+        // === 兼容性字段 ===
         length: promptLength,
         utilization: Math.round(promptLength / 1500 * 100),
         utilizationStatus: promptLength >= 970 && promptLength <= 1500 ? '🔥理想' : (promptLength > 1500 ? '❌超标' : '⚠️空间浪费')
@@ -696,6 +711,21 @@ class ProductionEngine {
     }
     
     return { shots: engineeredShots, prompts };
+  }
+  
+  /**
+   * v6.37-P0: 构建 mouthAction 字段（供Seedance对口型）
+   */
+  _buildMouthAction(shot) {
+    const actionMap = {
+      'opening': '嘴部自然闭合，面对镜头，准备开口',
+      'establishing': '嘴部微张，观察时自然呼吸',
+      'conflict': '嘴部紧闭，紧张时咬紧牙关',
+      'emotional_climax': '嘴部张大，情感爆发时大声呼喊',
+      'resolution': '嘴部放松，微笑，平静呼吸'
+    };
+    
+    return actionMap[shot.sceneType] || '嘴部自然闭合';
   }
   
   /**
@@ -808,8 +838,10 @@ class ProductionEngine {
   /**
    * 构建单个镜头的完整 Prompt（v2.0-B+: 七层架构 + 极致视听融合 + v6.37-P0 字段对齐）
    * 
-   * 融合顺序（按参考文档）：
-   * CharacterRef → Timeline → Dialogue → AudioLayer(片头) → TitleOverlay(片头) → BackgroundSound → Character → Action → Scene → Mood → Camera → Lighting
+   * 融合顺序（按参考文档 v6.37-Peng）：
+   * CharacterRef → Timeline → Dialogue → AudioLayer(片头) → TitleOverlay(片头) → 
+   * BackgroundSound → Character → Action → Scene → Mood → Camera → Lighting → 
+   * PhysicsLayer → ColorScience → NegativePrompt → RenderStyle → DirectorStyle
    * 
    * 七层结构：
    * L1: 约束层（P0必加）- 画幅/帧率/无字幕
@@ -819,7 +851,8 @@ class ProductionEngine {
    * L5: 动态层（P1防平庸）- camera/timeline
    * L6: 风格层（P2防漂移）- mood/lighting
    * L7: 音频层（🔊 新增）- backgroundSound/audioLayer
-   * L8: 质控层（P0必加）- 负面约束/角色一致性
+   * L8: 内部层（扩展）- PhysicsLayer/ColorScience/NegativePrompt/RenderStyle/DirectorStyle
+   * L9: 质控层（P0必加）- 负面约束/角色一致性
    */
   _buildShotPrompt(shot, blueprint) {
     const parts = [];
@@ -886,13 +919,34 @@ class ProductionEngine {
       parts.push(`audioLayer: ${shot.audioLayer}`);
     }
     
-    // === L8: 质控层（P0必加）===
+    // === L8: 内部层（扩展接口）===
+    // PhysicsLayer
+    if (shot.physicsLayer && shot.physicsLayer !== '') {
+      parts.push(`physics: ${shot.physicsLayer}`);
+    }
+    
+    // ColorScience
+    if (shot.colorScience && shot.colorScience !== '') {
+      parts.push(`color: ${shot.colorScience}`);
+    }
+    
+    // RenderStyle
+    if (shot.renderStyle && shot.renderStyle !== '') {
+      parts.push(`style: ${shot.renderStyle}`);
+    }
+    
+    // DirectorStyle
+    if (shot.directorStyle && shot.directorStyle !== '') {
+      parts.push(`director: ${shot.directorStyle}`);
+    }
+    
+    // === L9: 质控层（P0必加）===
     // 世界设定（通用化，不硬编码）
     if (shot.worldId && shot.worldId !== 'default') {
       parts.push(`${shot.worldId} world`);
     }
     
-    // 负面约束
+    // 负面约束（NegativePrompt）
     const negativeConstraints = [
       'no watermark, no logo, no text overlay, no subtitle, no caption',
       'blurry, low resolution, pixelated, compression artifacts',
