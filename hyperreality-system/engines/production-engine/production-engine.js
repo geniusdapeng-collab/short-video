@@ -1109,7 +1109,7 @@ class ProductionEngine {
 
   /**
    * Stage 5: 质量门校验
-   * v6.37-P0: 检查新字段格式与完整性
+   * v6.37-P2: 审核增强 - 检查新字段格式与完整性
    */
   _runQualityGate(prompts) {
     const checks = [];
@@ -1118,8 +1118,8 @@ class ProductionEngine {
       const check = {
         shotId: p.shotId,
         promptLength: p.promptCharCount || p.length || 0,
-        // v6.37-P0: 检查新字段
-        hasTimeline: !!p.timeline && p.timeline.includes('T00:'),
+        
+        // v6.37-P2: 核心字段检查
         hasScene: !!p.scene && p.scene.length > 10,
         hasMood: !!p.mood && p.mood.split(',').length >= 3,
         hasCamera: !!p.camera && p.camera.length > 10,
@@ -1127,27 +1127,41 @@ class ProductionEngine {
         hasCharacter: !!p.character && p.character !== 'NONE',
         hasAction: !!p.action && p.action.length > 5,
         hasDialogue: !!p.dialogue && p.dialogue !== 'NONE',
+        hasTimeline: !!p.timeline && p.timeline.includes('T00:'),
         hasBackgroundSound: !!p.backgroundSound && p.backgroundSound.includes('AMBIENT:'),
+        
         // 片头专属检查
         isOpening: p.shotId === 'S00',
         hasAudioLayer: p.shotId === 'S00' ? (!!p.audioLayer && p.audioLayer.length > 10) : true,
         hasTitleOverlay: p.shotId === 'S00' ? (!!p.titleOverlay && p.titleOverlay.includes('MAIN_TITLE:')) : true,
+        
         // 字符数检查
         withinLimit: (p.promptCharCount || p.length || 0) <= this.config.maxPromptLength,
+        
+        // 格式检查
+        characterRefFormat: p.characterRef === 'NONE' || p.characterRef.includes('image://'),
+        dialogueFormat: p.dialogue === 'NONE' || p.dialogue.includes('|'),
+        timelineFormat: p.timeline === 'NONE' || p.timeline.includes('T00:'),
+        
         // 通用检查
         noForbidden: !p.prompt.includes('暗黑风') || p.prompt.includes('暗黑风') && p.prompt.indexOf('暗黑风') > p.prompt.length - 50
       };
       
-      // v6.37-P0: 综合通过条件
-      check.passed = check.hasTimeline && 
-                     check.hasScene && 
-                     check.hasMood && 
-                     check.hasCamera && 
-                     check.hasLighting &&
-                     check.hasAction &&
-                     check.withinLimit &&
-                     check.hasAudioLayer &&
-                     check.hasTitleOverlay;
+      // v6.37-P2: 综合通过条件（更严格）
+      check.passed = 
+        check.hasScene && 
+        check.hasMood && 
+        check.hasCamera && 
+        check.hasLighting &&
+        check.hasAction &&
+        check.hasTimeline &&
+        check.hasBackgroundSound &&
+        check.withinLimit &&
+        check.characterRefFormat &&
+        check.dialogueFormat &&
+        check.timelineFormat &&
+        check.hasAudioLayer &&
+        check.hasTitleOverlay;
       
       checks.push(check);
     }
@@ -1158,7 +1172,11 @@ class ProductionEngine {
       passed: allPassed,
       checks,
       totalPrompts: prompts.length,
-      passedCount: checks.filter(c => c.passed).length
+      passedCount: checks.filter(c => c.passed).length,
+      failedFields: checks.filter(c => !c.passed).map(c => ({
+        shotId: c.shotId,
+        failed: Object.entries(c).filter(([k, v]) => k.startsWith('has') && !v).map(([k]) => k)
+      }))
     };
   }
 
