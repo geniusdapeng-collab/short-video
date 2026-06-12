@@ -716,7 +716,7 @@ function generateAct3_Climax({ startTime, duration, episodeTitle, protagonist, b
   // 🔥 v6.2-patch101-fix: 分离生成Prompt与后期包装文档
   // 根因：标题字体、品牌设计等不可执行指令混入画面生成Prompt
   // 修复：拆分为两个字段：content（画面）+ postProduction（后期包装）
-  const titleVisualOnly = `主标题【${finalMainTitle}】${finalSubTitle ? ' 副标题【' + finalSubTitle + '】' : ''} 出品人【${producerText}】`;
+  const titleVisualOnly = `主标题【${finalMainTitle}】${finalSubTitle ? ' 副标题【' + finalSubTitle + '】' : ' 副标题【A Nirath Original by Genius】'} 出品人【${producerText}】`;
   
   // 后期包装指令（字幕/字体/品牌设计）——不进入生成Prompt
   const postProduction = {
@@ -1052,9 +1052,9 @@ function combineActs(act1, act2, act3, config) {
     referenceImages,
     content,
     // v6.5.58-fix: 添加标准title对象和isOpening标记
-    title: postProduction ? {
+    title: postProduction && postProduction.mainTitle ? {
       main: postProduction.mainTitle || '',
-      sub: postProduction.subTitle || '',
+      sub: postProduction.subTitle || 'A Nirath Original by Genius',
       creator: postProduction.brand ? postProduction.brand.replace('A Nirath Original by ', '') : 'Genius',
       episodeName: postProduction.titleFormation || '',
       displayTiming: '6.8-9.0s',

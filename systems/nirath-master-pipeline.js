@@ -4297,17 +4297,26 @@ ${isNirath
             visualComplexity: shot.visualComplexity || 5,
             dialogue: shot.dialogue || '',
             narration: shot.narration || '',
-            isOpening: shot.id === 'S00' || shot.type === 'opening'
+            isOpening: shot.id === 'S00' || shot.type === 'opening',
+            // v6.5.59-fix: 片头注入title对象
+            title: (shot.id === 'S00' || shot.type === 'opening') ? (shot.title || {
+              main: shot.postProduction?.mainTitle || '',
+              sub: shot.postProduction?.subTitle || 'A Nirath Original by Genius',
+              creator: 'Genius',
+              displayTiming: '6.8-9.0s',
+              position: '画面中央偏下',
+              style: 'elegant serif with subtle geometric flourishes'
+            }) : undefined
           };
           
           // 片头专属：注入title对象
           if (shot.id === 'S00' || shot.type === 'opening') {
-            if (shot.title && typeof shot.title === 'object') {
+            if (shot.title && typeof shot.title === 'object' && shot.title.main) {
               standardOutput.title = shot.title;
             } else if (shot.postProduction && shot.postProduction.mainTitle) {
               standardOutput.title = {
                 main: shot.postProduction.mainTitle || '',
-                sub: shot.postProduction.subTitle || '',
+                sub: shot.postProduction.subTitle || 'A Nirath Original by Genius',
                 creator: shot.postProduction.brand ? shot.postProduction.brand.replace('A Nirath Original by ', '') : 'Genius',
                 episodeName: shot.postProduction.titleFormation || '',
                 displayTiming: '6.8-9.0s',
@@ -4632,7 +4641,16 @@ ${isNirath
             visualComplexity: shot.visualComplexity || 5,
             dialogue: shot.dialogue || '',
             narration: shot.narration || '',
-            isOpening: shot.id === 'S00' || shot.type === 'opening'
+            isOpening: shot.id === 'S00' || shot.type === 'opening',
+            // v6.5.59-fix: 片头注入title对象
+            title: (shot.id === 'S00' || shot.type === 'opening') ? (shot.title || {
+              main: shot.postProduction?.mainTitle || '',
+              sub: shot.postProduction?.subTitle || 'A Nirath Original by Genius',
+              creator: 'Genius',
+              displayTiming: '6.8-9.0s',
+              position: '画面中央偏下',
+              style: 'elegant serif with subtle geometric flourishes'
+            }) : undefined
           };
           
           // 片头专属
@@ -5312,7 +5330,16 @@ ${isNirath
         dialogue: shot.dialogue || '',
         narration: shot.narration || '',
         // 标记是否片头
-        isOpening: shot.id === 'S00' || shot.type === 'opening'
+        isOpening: shot.id === 'S00' || shot.type === 'opening',
+        // v6.5.59-fix: 片头注入title对象
+        title: (shot.id === 'S00' || shot.type === 'opening') ? (shot.title || {
+          main: shot.postProduction?.mainTitle || '',
+          sub: shot.postProduction?.subTitle || 'A Nirath Original by Genius',
+          creator: 'Genius',
+          displayTiming: '6.8-9.0s',
+          position: '画面中央偏下',
+          style: 'elegant serif with subtle geometric flourishes'
+        }) : undefined
       };
 
       // 片头专属：注入title对象（如果存在）
