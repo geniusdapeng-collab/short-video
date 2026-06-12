@@ -193,6 +193,13 @@ async function run() {
       }
       
       const len = prompt.length;
+      const originalLen = (originalShot.prompt || '').length;
+      
+      // v6.5.58-fix: 如果生成Prompt太短，使用原始Prompt（如果原始更长）
+      if (len < 700 && originalLen > len) {
+        console.log(`[WORKER] ⚠️ ${originalShot.id} 生成Prompt太短(${len})，使用原始Prompt(${originalLen})`);
+        prompt = originalShot.prompt || '';
+      }
       
       if (len < 889) {
         console.log(`[WORKER] ⚠️ ${originalShot.id} 长度不足: ${len} < 889`);

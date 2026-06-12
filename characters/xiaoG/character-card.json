@@ -4,21 +4,21 @@
   "baseIdentity": {
     "name": "小G",
     "age": 8,
-    "gender": "male",
+    "gender": "boy",
     "species": "human",
     "role": "audience",
     "origin": "Nirath"
   },
   "visualIdentity": {
     "age": 8,
-    "gender": "male",
+    "gender": "boy",
     "build": "average",
     "height": "medium",
     "skinTone": "warm",
     "hair": "black",
     "eyes": "brown",
     "facialFeatures": "asian",
-    "distinguishingMarks": "8岁男孩，蓝色条纹睡衣，赤脚，Nirath旧世界唯一幸存者"
+    "distinguishingMarks": ""
   },
   "personality": {
     "core": "warm",
@@ -30,7 +30,7 @@
   },
   "visualAnchors": {
     "required": [
-      "8岁男孩，蓝色条纹睡衣，赤脚，Nirath旧世界唯一幸存者"
+      ""
     ],
     "preferred": [],
     "forbidden": [
@@ -41,15 +41,15 @@
     ]
   },
   "voiceIdentity": {
-    "gender": "male",
-    "ageGroup": "child",
+    "gender": "female",
+    "ageGroup": "adult",
     "tone": "warm",
     "pace": "medium",
     "emotion": "neutral",
     "language": "zh-CN"
   },
-  "createdAt": "2026-06-11T16:12:24.970Z",
-  "updatedAt": "2026-06-11T16:12:24.971Z",
+  "createdAt": "2026-06-12T01:49:13.384Z",
+  "updatedAt": "2026-06-12T01:49:13.384Z",
   "version": "2.0",
   "generatedAssets": {
     "portraits": [],

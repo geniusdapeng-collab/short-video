@@ -173,7 +173,8 @@ async function main() {
   // 【v6.3-patch8-fix】改进LLM内容提取策略
   const llmClient = {
     complete: async (prompt, options = {}) => {
-      const result = await llmEngine.reasonRaw(prompt, {
+      const result = await llmEngine.generate(prompt, {
+        systemPrompt: '你是顶级Prompt工程师。请直接输出镜头Prompt文本，不要解释，不要JSON格式。',
         temperature: 1,
         maxTokens: options.maxTokens || 4000, // 【v6.3-patch8-fix】降低到4000
         timeoutMs: options.timeoutMs || 180000

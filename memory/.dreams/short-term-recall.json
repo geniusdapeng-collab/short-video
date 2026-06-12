@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-11T09:50:30.332Z",
+  "updatedAt": "2026-06-11T23:31:35.604Z",
   "entries": {
     "memory:memory/2026-05-15.md:31:42": {
       "key": "memory:memory/2026-05-15.md:31:42",
@@ -4449,6 +4449,256 @@
         "v6.5.27",
         "user-agent",
         "x-msh-device-name"
+      ]
+    },
+    "memory:memory/2026-06-03.md:134:167": {
+      "key": "memory:memory/2026-06-03.md:134:167",
+      "path": "memory/2026-06-03.md",
+      "startLine": 134,
+      "endLine": 167,
+      "source": "memory",
+      "snippet": "- 修复：launcher 改为 `result.stages?.style || result.stages?.render || result.shots || []` 3. **运镜验证器检查太严格** - 验证器检查 `prompt.includes(movement.description.substring(0, 30))` - 但 `buildPromptV3` 生成的是多段式运镜时间轴，不是直接包含原始 description - 导致所有 S01-S05 验证失败 - 修复：放宽为检查运镜关键词（如 \"一镜到底\", \"镜头时间轴\" 等） ### 修复后的预期 - 修复后再次运行，应该能正确显示 6 个镜头 - 总时间仍然在 38-40 分钟安全线内 - 不需要回退到第二轮代码 ### 教训 - 不要只修复表面问题，要追踪数据流的全链路 - 一个字段改名（`shots` → `stages.style`）能破坏整个交付流程 - 同步模式和异步模式本身都没问题，问题在周边代码 node -e \" const fs = require('fs'); const content = fs.readFileSync('/root/.openclaw/workspace/systems/nirath-master-pipeline.js', 'utf8'); if (!content.includes('this.outputDir = options.outputDir')) { const newContent = conte",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.8507615864276885,
+      "maxScore": 0.43270341157913206,
+      "firstRecalledAt": "2026-06-11T23:31:30.025Z",
+      "lastRecalledAt": "2026-06-11T23:31:35.604Z",
+      "queryHashes": [
+        "fe705e21e6a4",
+        "3dfd91cf9e1a"
+      ],
+      "recallDays": [
+        "2026-06-12"
+      ],
+      "conceptTags": [
+        "result.stages",
+        "result.shots",
+        "prompt.includes",
+        "movement.description.substring",
+        "s01-s05",
+        "38-40",
+        "stages.style",
+        "fs.readfilesync"
+      ]
+    },
+    "memory:memory/2026-06-10.md:807:828": {
+      "key": "memory:memory/2026-06-10.md:807:828",
+      "path": "memory/2026-06-10.md",
+      "startLine": 807,
+      "endLine": 828,
+      "source": "memory",
+      "snippet": "**触发**: 大鹏转发外部专家分析报告，包含8文件15处补丁的完整修复方案。 **核心问题**（专家诊断）: 1. STAGE-12 合规检查误报 ~49% — 自然语言Prompt vs 结构化字段检查器不匹配 2. Prompt截断会破坏 `【】` 标记结构 3. 负面提示词过长（400-500字）挤占正向内容 4. char-counter 988 vs 系统1500 双标准冲突 5. 角色卡数据冲突（xiangXiang: 7个月男婴但 voiceIdentity=female/adult） 6. running-status.json 状态污染（success+killed共存） 7. signal handler 重复注册风险 **已落地补丁**（8文件15项）: | 文件 | 修改 | |---|---| | `prompt-tier-architecture.js` | build() 返回 `raw` 兼容字段；`_trimAtPunctuation` 保护未闭合 `【】` | | `prompt-standard-v3.js` | `parsePrompt` 增加自然语言兜底解析（角色/场景/运镜/音频） | | `global-negative-prompts.js` | 新增 `generateCompact({maxLength:180})` — 13项核心负面词精简版 | | `char-counter.js` | 统一上限 988→1500，SAFETY_MARGIN 8→20 | | `nirath-master-pipeline.js`",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.42820808589458464,
+      "maxScore": 0.42820808589458464,
+      "firstRecalledAt": "2026-06-11T23:31:30.025Z",
+      "lastRecalledAt": "2026-06-11T23:31:30.025Z",
+      "queryHashes": [
+        "fe705e21e6a4"
+      ],
+      "recallDays": [
+        "2026-06-12"
+      ],
+      "conceptTags": [
+        "stage-12",
+        "400-500字",
+        "char-counter",
+        "female/adult",
+        "running-status.json",
+        "prompt-tier-architecture.js",
+        "prompt-standard-v3.js",
+        "角色/场景/运镜/音频"
+      ]
+    },
+    "memory:memory/2026-06-07.md:392:418": {
+      "key": "memory:memory/2026-06-07.md:392:418",
+      "path": "memory/2026-06-07.md",
+      "startLine": 392,
+      "endLine": 418,
+      "source": "memory",
+      "snippet": "**根因3**：`smartTrim` 按优先级保留核心区块，如果前面的核心区块（视觉/叙事/照明）占用空间过大，后面的 `【镜头时间轴】` 被跳过。 **修复3（`nirath-master-pipeline.js`）**： - `motionEnhanced` 后强制保留：`!motionEnhanced.includes('【镜头时间轴】') && prompt.includes('【镜头时间轴】')` - 最终 `prompts.push` 前强制保留：`!prompt.includes('【镜头时间轴】') && shot.prompt && shot.prompt.includes('【镜头时间轴】')` - 二次压缩兜底：优先裁剪 `环境质感/环境音效/技术规格/照明方案` #### 问题2：**** 占位符残留 **根因**：`motionEnhanced` 的正则清理 `\\*\\*\\*\\*[^*]+\\*\\*\\*\\*` 未覆盖连续星号（如 `**** ****` 或残留 `**`）。 **修复（`nirath-master-pipeline.js`）**： - `prompts.push` 前统一正则清理：`\\*\\*\\*\\*[^*]+\\*\\*\\*\\*` - 增加兜底：` #### 问题3：hyper-realistic 风格校验失败 **根因**：`pipeline-integrity-validator.js` 的 `_checkStage14_Style` 只检查 `超写实` 关键词，不认英文 `hyper-realistic`。 **修复**：",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.8575298905372619,
+      "maxScore": 0.4309207439422607,
+      "firstRecalledAt": "2026-06-11T23:31:30.025Z",
+      "lastRecalledAt": "2026-06-11T23:31:35.604Z",
+      "queryHashes": [
+        "fe705e21e6a4",
+        "3dfd91cf9e1a"
+      ],
+      "recallDays": [
+        "2026-06-12"
+      ],
+      "conceptTags": [
+        "视觉/叙事/照明",
+        "nirath-master-pipeline.js",
+        "motionenhanced.includes",
+        "prompt.includes",
+        "prompts.push",
+        "shot.prompt",
+        "shot.prompt.includes",
+        "环境质感/环境音效/技术规格/照明方案"
+      ]
+    },
+    "memory:memory/2026-06-05.md:96:123": {
+      "key": "memory:memory/2026-06-05.md:96:123",
+      "path": "memory/2026-06-05.md",
+      "startLine": 96,
+      "endLine": 123,
+      "source": "memory",
+      "snippet": "3. 两者相加：476 + 830 = 1306字符，超标30% ### 修复方案 - **系统模板精简**：476→256字符（删除冗余描述，保留核心约束：ASTRALIS、环境质感、负面约束、明亮约束、风格锁、角色约束、技术规格） - **创意部分下调**：800-1200→500-650字符 - **质量门同步适配**：`_checkStructure` 从检查旧字段名改为检查新精简字段名（【视觉】【镜头时间轴】【环境音效】） ### 修复过程 - 11:43 - 模板精简后测试：796/831字符，但结构检查失败（字段名未适配） - 11:57 - 结构检查适配后：100分通过，796/831字符，全部合规！ ### 验证结果 - **S00**: 796字符，100分 ✅ - **S01**: 831字符，100分 ✅ - 质量门8项：全部通过 ✅ - 耗时：8.5分钟（比26分钟大幅缩短） ### 经验总结 1. **1000字符是硬性底线**：任何情况下都不能超过，必须严守 2. **系统模板可以精简**：不影响核心信息传达，冗余描述可删除 3. **质量门必须与模板同步**：修改模板后，检查逻辑必须同步适配 4. **Prompt 越短越好**：在1000以内留有余量，避免边缘情况触发超限 --- ## 队长今日反馈时间线 - 09:57 - 队长发现超时，质问是否走到老链路 - 10:13 - 确认问题，队长认可修复",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.42203494310379025,
+      "maxScore": 0.42203494310379025,
+      "firstRecalledAt": "2026-06-11T23:31:30.025Z",
+      "lastRecalledAt": "2026-06-11T23:31:30.025Z",
+      "queryHashes": [
+        "fe705e21e6a4"
+      ],
+      "recallDays": [
+        "2026-06-12"
+      ],
+      "conceptTags": [
+        "800-1200",
+        "500-650字符",
+        "796/831字符",
+        "8.5分钟",
+        "两者",
+        "相加",
+        "字符",
+        "修复"
+      ]
+    },
+    "memory:memory/2026-06-10.md:753:774": {
+      "key": "memory:memory/2026-06-10.md:753:774",
+      "path": "memory/2026-06-10.md",
+      "startLine": 753,
+      "endLine": 774,
+      "source": "memory",
+      "snippet": "| DIRECTOR | `Cameron\\|Villeneuve` | \"通用导演\" | ❌ | 检查器要求英文导演名 | **额外问题**： - 标记截断：`【明亮约束`（未闭合）、`【角色一致性约束`（未闭合）—— smartTrim 截断时破坏了标记结构 - 负面约束占比 30%（约400-500字符），挤占正面内容空间 - 标记命名不一致：生成层用 `【约束】`/`【基础】`/`【空间】`/`【主体】`/`【动态】`，检查层用 `【视觉】`/`【环境布景】`/`【运镜】`/`【镜头时间轴】` ### 三库分立纠正 - **错误**：习惯性将超短裙系统推送到 `zhuoyue` 仓库的 `short-video-system` 分支 - **纠正**：队长指出三库分立——`zhuoyue` 只放 Nirath 主系统，超短裙只推 `short-video` 仓库 - **删除**：`zhuoyue` 远程上的 `short-video-system` 分支 - 最终状态： - `zhuoyue` → Nirath 主系统 `main` 分支 - `short-video` → 超短裙系统 `main` 分支 - `hyperreal` → 超现实系统 ### 详细分析报告 - 文件：`/root/.openclaw/workspace/analysis/stage-12-compliance-analysis.md`（17KB） - 内容：问题现象、三层根因分析、期望 vs 当前结果、代码定位、3个解决方案（A用raw格式/B改检查器/C混合方案）、5",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4210763305425644,
+      "maxScore": 0.4210763305425644,
+      "firstRecalledAt": "2026-06-11T23:31:30.025Z",
+      "lastRecalledAt": "2026-06-11T23:31:30.025Z",
+      "queryHashes": [
+        "fe705e21e6a4"
+      ],
+      "recallDays": [
+        "2026-06-12"
+      ],
+      "conceptTags": [
+        "约400-500字符",
+        "short-video-system",
+        "short-video",
+        "a用raw格式/b改检查器/c混合方案",
+        "director",
+        "cameron",
+        "villeneuve",
+        "通用"
+      ]
+    },
+    "memory:memory/2026-06-10.md:321:343": {
+      "key": "memory:memory/2026-06-10.md:321:343",
+      "path": "memory/2026-06-10.md",
+      "startLine": 321,
+      "endLine": 343,
+      "source": "memory",
+      "snippet": "- S03 1496/1500几乎填满，但 S01/S02 仍有430字符空间未用满（需优化注入策略） - 批次4完整质感系统（肤色/外观瑕疵）在输出中未出现 — 需排查注入路径 - 批次2运镜叙事化（Dolly Zoom/手持）在时间轴中未体现 — 需检查`buildTimelinePrompt`输出格式 - 负面提示词中 `Nirath alien landscape` 与马尔代夫温馨场景不匹配 — 需模式差异化处理 --- ## 2026-06-10 10:53 ~ 12:24 - 系统级优化：81分根因修复 (SHORT-VIDEO-0.7.7) ### 81分质量分析发现的5个系统级根因 | 问题 | 根因 | 影响评分 | 修复文件 | 修复版本 | |------|------|----------|----------|----------| | Narration过度精简 | 无最小长度保护，S03 76字→5字 | 内容-5 | narration-auto-trim.js | v6.5.37-fix | | 光影单调 | 全片分配相同光效(golden_hour/rembrandt) | 光影-8 | intra-shot-prompt-enhancer.js | v6.5.37-fix | | 情绪深度不足 | social模式无基础分，强依赖Nirath关键词 | 情绪-5 | nirath-master-pipeline.js | v6.5.37-fix | | 镜头多样性低 | segCount<4只得6分，S01/S02仅3个 | 结构",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4099635303020477,
+      "maxScore": 0.4099635303020477,
+      "firstRecalledAt": "2026-06-11T23:31:35.604Z",
+      "lastRecalledAt": "2026-06-11T23:31:35.604Z",
+      "queryHashes": [
+        "3dfd91cf9e1a"
+      ],
+      "recallDays": [
+        "2026-06-12"
+      ],
+      "conceptTags": [
+        "1496/1500几乎填满",
+        "s01/s02",
+        "肤色/外观瑕疵",
+        "zoom/手持",
+        "short-video-0.7.7",
+        "内容-5",
+        "narration-auto-trim.js",
+        "v6.5.37-fix"
+      ]
+    },
+    "memory:memory/2026-06-07.md:354:371": {
+      "key": "memory:memory/2026-06-07.md:354:371",
+      "path": "memory/2026-06-07.md",
+      "startLine": 354,
+      "endLine": 371,
+      "source": "memory",
+      "snippet": "**涉及文件**：`nirath-master-pipeline.js`（Stage 执行顺序）或 `pre-render-validation.js`（验证逻辑） --- ## 教训总结 1. **截断策略必须保护所有核心字段**：不能假设\"在末尾的字段不重要\"。`【镜头时间轴】` 是运镜系统的核心输出，必须被保护。 2. **Stage 执行顺序决定验证有效性**：验证逻辑必须检查已存在的数据，而不是未来才会生成的数据。Stage 10.5 检查 Stage 11 的数据，逻辑上必然失败。 3. **系统级修复 vs 单 case 修复**：这两个问题都是结构性问题（截断策略缺陷 + Stage 执行顺序缺陷），不是单 case 可以绕过的。必须从系统层面修复。 Pre-compaction memory flush completed. Appended v6.5.3 release notes, patch1/patch2 fixes, and deep root cause analysis for camera movement truncation and referenceImages timing mismatch to memory/2026-06-07.md. ## v6.5.4 发布：【镜头时间轴】修复 + 占位符清理 + 风格校验修复（2026-06-07 12:30 GMT+8） ### 修复问题 | # | 问题 | 根因 | 修复文件 | |---|------|------|---------| | 1 | **【镜头时间轴】缺失（",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4095054715871811,
+      "maxScore": 0.4095054715871811,
+      "firstRecalledAt": "2026-06-11T23:31:35.604Z",
+      "lastRecalledAt": "2026-06-11T23:31:35.604Z",
+      "queryHashes": [
+        "3dfd91cf9e1a"
+      ],
+      "recallDays": [
+        "2026-06-12"
+      ],
+      "conceptTags": [
+        "nirath-master-pipeline.js",
+        "pre-render-validation.js",
+        "10.5",
+        "pre-compaction",
+        "v6.5.3",
+        "patch1/patch2",
+        "memory/2026-06-07.md",
+        "v6.5.4"
+      ]
+    },
+    "memory:memory/2026-06-07.md:380:395": {
+      "key": "memory:memory/2026-06-07.md:380:395",
+      "path": "memory/2026-06-07.md",
+      "startLine": 380,
+      "endLine": 395,
+      "source": "memory",
+      "snippet": "**根因1**：`buildPromptV3` 的 `removeDuplicateSentences` 去重环节检测重复句子（>=10字符），如果 `【镜头时间轴】` 的内容与 `【视觉】` 或 `【环境布景】` 有重复，就会被整段移除。 **修复1（`orient-primordial-core-v24.js`）**： - 去重前提取保存 `【镜头时间轴】`：`prompt.match(/【镜头时间轴】[^【]*/)` - 去重后重新注入：`prompt += \\` ${timelineBlock}\\`` **根因2**：`stageRender` 中 `shot.prompt` 被多次覆盖（`generateSceneSpecificEnvironment` → `closingBooster` → `narrativeArc` → `enhanceShotPrompt`），每次覆盖都可能丢失 `【镜头时间轴】`。 **修复2（`nirath-master-pipeline.js`）**： - `enhanceShotPrompt` 前重新同步 `shot.prompt`：`shot.prompt = prompt`（确保 `shot.prompt` 与当前 `prompt` 一致） - `smartTrim` 后强制保留逻辑：如果 `prompt` 丢失但 `shot.prompt` 或 `enhanced.prompt` 包含，则提取并重新注入 **根因3**：`smartTrim` 按优先级保留核心区块，如果前面的核心区块（视觉/叙事/照明）占用空间过大，后",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.40948166847229,
+      "maxScore": 0.40948166847229,
+      "firstRecalledAt": "2026-06-11T23:31:35.604Z",
+      "lastRecalledAt": "2026-06-11T23:31:35.604Z",
+      "queryHashes": [
+        "3dfd91cf9e1a"
+      ],
+      "recallDays": [
+        "2026-06-12"
+      ],
+      "conceptTags": [
+        "orient-primordial-core-v24.js",
+        "prompt.match",
+        "shot.prompt",
+        "nirath-master-pipeline.js",
+        "enhanced.prompt",
+        "视觉/叙事/照明",
+        "根因",
+        "buildpromptv3"
       ]
     }
   }

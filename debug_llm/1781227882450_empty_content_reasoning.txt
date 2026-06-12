@@ -1,0 +1,15 @@
+用户要求我作为电影Prompt语义检查器，对每个检查项判断Prompt是否满足要求。只回答yes或no，不要解释。输出JSON格式，无markdown代码块。
+
+逐项检查：
+
+[S01-scene] 场景描述："知识圣殿"，Prompt中SCENE: 知识圣殿。完全匹配。所以是 yes。
+
+[S02-scene] 场景描述："万物之林"，Prompt中SCENE: 建木林。"建木林"不等于"万物之林"。所以是 no。
+
+[S03-scene] 场景描述："白泽居所"，Prompt中SCENE: 白泽居所。完全匹配。所以是 yes。
+
+[S04-scene] 场景描述："智慧核心"，Prompt中SCENE: 智慧核心。完全匹配。所以是 yes。
+
+输出JSON：{"S01-scene":"yes","S02-scene":"no","S03-scene":"yes","S04-scene":"yes"}
+
+确保没有多余文字，

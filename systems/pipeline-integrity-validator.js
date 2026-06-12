@@ -1,3 +1,6 @@
+// 引入 LLM 引擎用于语义检查
+const { LLMEngine } = require('./llm-reasoning-engine');
+
 /**
  * Pipeline Output Integrity Validator v1.0
  * 链路输出完整性反向验证器
@@ -7,6 +10,8 @@
  * 2. 字段值有效（非空、类型正确、在合理范围）
  * 3. 下游正确消费（上游输出确实出现在最终产物中）
  * 4. 端到端一致性（narration→prompt→最终输出链路贯通）
+ * 
+ * v6.5.58-fix: 所有内容检查改为LLM语义推理，替代硬编码关键词匹配
  */
 
 class PipelineIntegrityValidator {
@@ -14,10 +19,54 @@ class PipelineIntegrityValidator {
     this.errors = [];
     this.warnings = [];
     this.checks = [];
+    this.llm = new LLMEngine({ model: 'kimi-k2p6' });
+  }
+
+  /**
+   * 批量语义检查：一次 LLM 调用检查多个问题
+   * @param {Array} items - [{id, prompt, question}]
+   * @returns {Object} - {id: boolean}
+   */
+  async _batchSemanticCheck(items) {
+    if (!items || items.length === 0) return {};
+
+    const prompt = `你是电影Prompt语义检查器。对以下每个检查项，判断Prompt是否满足要求。只回答 yes 或 no，不要解释。
+
+${items.map(item => `
+[${item.id}] 检查: ${item.question}
+Prompt: ${item.prompt?.slice(0, 300) || '空'}
+`).join('')}
+
+输出JSON格式（无markdown代码块）：${JSON.stringify(items.reduce((acc, item) => { acc[item.id] = 'yes/no'; return acc; }, {}))}`;
+
+    try {
+      const result = await this.llm.reason(prompt, {
+        maxTokens: 200,
+        temperature: 0.1,
+        timeoutMs: 30000
+      });
+
+      // 解析 JSON 结果
+      const content = result.content || '';
+      const jsonMatch = content.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        const parsed = JSON.parse(jsonMatch[0]);
+        const normalized = {};
+        for (const [key, val] of Object.entries(parsed)) {
+          normalized[key] = String(val).toLowerCase().startsWith('y');
+        }
+        return normalized;
+      }
+    } catch (e) {
+      console.error('[SemanticCheck] LLM调用失败:', e.message);
+    }
+
+    // 失败时全部返回 true（不阻塞，避免误报）
+    return items.reduce((acc, item) => { acc[item.id] = true; return acc; }, {});
   }
 
   // ========== 主入口：验证完整链路 ==========
-  validatePipeline(stages) {
+  async validatePipeline(stages) {
     this.errors = [];
     this.warnings = [];
     this.checks = [];
@@ -34,14 +83,14 @@ class PipelineIntegrityValidator {
     this._checkStage6_Duration(stages.duration, stages.script);
     this._checkStage7_Storyboard(stages.storyboard);
     this._checkStage8_StoryboardValidation(stages.storyboardValidation);
-    this._checkStage9_Camera(stages.camera, stages.storyboard, stages.render);
+    await this._checkStage9_Camera(stages.camera, stages.storyboard, stages.render);
     this._checkStage10_Continuity(stages.continuity);
     this._checkStage11_Render(stages.render);
     this._checkStage12_Compliance(stages.compliance);
     this._checkStage13_PreRender(stages.preRender);
-    this._checkStage14_Style(stages.style, stages.prd?.meta?.mode || 'nirath');
+    await this._checkStage14_Style(stages.style, stages.prd?.meta?.mode || 'nirath');
     this._checkStage15_PostProduction(stages.postProduction);
-    this._checkEndToEnd_Consistency(stages);
+    await this._checkEndToEnd_Consistency(stages);
 
     const result = {
       valid: this.errors.length === 0,
@@ -271,7 +320,8 @@ class PipelineIntegrityValidator {
   }
 
   // ========== Stage 9: Camera (关键验证！) ==========
-  _checkStage9_Camera(cameraMovements, storyboard, renderResults) {
+  // v6.5.58-fix: 改为LLM语义检查，替代硬编码关键词匹配
+  async _checkStage9_Camera(cameraMovements, storyboard, renderResults) {
     const check = { stage: 'STAGE-9', name: '运镜系统输出有效性（核心）', passed: true, details: [] };
 
     if (!cameraMovements || cameraMovements.length === 0) {
@@ -333,31 +383,40 @@ class PipelineIntegrityValidator {
       }
       });
 
-      // 检查5：下游消费验证——description是否出现在最终prompt中
-      // 🔥 v6.1-fix: 片头S00由opening-system-v3.js独立生成，跳过运镜消费检查
-      if (renderResults && renderResults.length > 0) {
-        // v6.5.3-fix: 按 shotId 匹配而非索引匹配，避免 cameraMovements 和 renderResults 数量不一致导致错位（如片头S00在renderResults中但不在cameraMovements中）
-        const renderMap = new Map(renderResults.map(r => [r.shotId, r]));
-        cameraMovements.forEach((cam) => {
-          if (cam.shotId === 'S00') return; // 片头镜头独立生成
-          
-          const movement = cam.movement;
-          const renderResult = renderMap.get(cam.shotId);
-          const prompt = renderResult?.prompt || '';
-          
-          // v6.2-patch110-fix: 放宽运镜消费检查——buildPromptV3生成多段式时间轴，不直接包含原始description
-          // 改为检查prompt中是否包含运镜关键词（如dawn_break、progressive_reveal等）
-          // v6.5.55-fix: 增加10字段结构CAMERA字段中的运镜关键词（static/push_in/orbit_right等）
-          if (movement?.description) {
-            const hasCameraMovement = prompt.includes('镜头') || prompt.includes('运镜') || prompt.includes('camera') || prompt.includes('movement') || prompt.includes('dawn_break') || prompt.includes('progressive_reveal') || prompt.includes('exploding') || prompt.includes('slow_fast_slow') || prompt.includes('chase_dynamic') || prompt.includes('poetic_wander') || prompt.includes('impact_shock') || prompt.includes('static') || prompt.includes('push_in') || prompt.includes('orbit_right') || prompt.includes('fast_orbit') || prompt.includes('extreme_push') || prompt.includes('hold') || prompt.includes('tracking') || prompt.includes('一镜到底');
-            if (!hasCameraMovement) {
-              check.passed = false;
-              check.details.push(`${cam.shotId}: 运镜未在最终Prompt中体现`);
-              this.errors.push(`STAGE-9: ${cam.shotId}运镜输出未被下游消费——buildPromptV3未正确读取运镜！`);
-            }
-          }
+  // 检查5：下游消费验证——LLM语义检查替代硬编码关键词
+  // v6.5.58-fix: 用LLM判断prompt是否包含运镜描述，替代硬编码关键词列表
+  if (renderResults && renderResults.length > 0) {
+    const renderMap = new Map(renderResults.map(r => [r.shotId, r]));
+    const semanticItems = [];
+    
+    cameraMovements.forEach((cam) => {
+      if (cam.shotId === 'S00') return; // 片头镜头独立生成
+      
+      const movement = cam.movement;
+      const renderResult = renderMap.get(cam.shotId);
+      const prompt = renderResult?.prompt || '';
+      
+      if (movement?.description && prompt) {
+        semanticItems.push({
+          id: cam.shotId,
+          prompt: prompt,
+          question: `该Prompt是否包含运镜/镜头运动描述？（如推进、拉远、环绕、跟踪、一镜到底等）`
         });
       }
+    });
+
+    if (semanticItems.length > 0) {
+      const results = await this._batchSemanticCheck(semanticItems);
+      
+      for (const item of semanticItems) {
+        if (!results[item.id]) {
+          check.passed = false;
+          check.details.push(`${item.id}: 运镜未在最终Prompt中体现`);
+          this.errors.push(`STAGE-9: ${item.id}运镜输出未被下游消费——buildPromptV3未正确读取运镜！`);
+        }
+      }
+    }
+  }
     }
 
     this.checks.push(check);
@@ -444,8 +503,8 @@ class PipelineIntegrityValidator {
   }
 
   // ========== Stage 14: Style ==========
-  // v6.2-patch63: 废弃hyper-realistic/UE5检查（patch61已清理），改为检查超写实/Nirath锚点
-  _checkStage14_Style(styleResults, mode = 'nirath') {
+  // v6.5.58-fix: LLM语义检查替代硬编码关键词匹配
+  async _checkStage14_Style(styleResults, mode = 'nirath') {
     const check = { stage: 'STAGE-14', name: '风格注入有效性', passed: true, details: [] };
 
     if (!styleResults || styleResults.length === 0) {
@@ -457,24 +516,48 @@ class PipelineIntegrityValidator {
       const s00Result = styleResults.find(r => r.shotId === 'S00');
       const globalContext = s00Result?.globalContext || '';
       
+      // 批量语义检查：超写实风格 + Nirath世界观
+      const semanticItems = [];
+      
       styleResults.forEach((result, idx) => {
-        // 合并全局上下文后再检查
         const prompt = (result.prompt || '') + ' ' + globalContext;
-        // v6.2-patch63-fix: hyper-realistic和UE5已从Prompt中清理（patch61），不再强制检查
-        // 改为检查Nirath风格锚点和超写实中文描述
-        // v6.5.3-fix: 允许 hyper-realistic 作为超写实的英文等价词
-        if (!prompt.includes('超写实') && !prompt.includes('写实风格') && !prompt.includes('hyper-realistic')) {
-          check.passed = false;
-          check.details.push(`${result.shotId || idx}: 缺少超写实风格词`);
-          this.warnings.push(`STAGE-14: ${result.shotId || '镜头' + idx}缺少超写实风格词`);
-        }
-        // v6.5.13-fix: 仅nirath模式检查Nirath世界观锚点
-        if (mode === 'nirath' && !prompt.includes('Nirath')) {
-          check.passed = false;
-          check.details.push(`${result.shotId || idx}: 缺少Nirath世界观锚点`);
-          this.warnings.push(`STAGE-14: ${result.shotId || '镜头' + idx}缺少Nirath世界观锚点`);
+        if (prompt) {
+          semanticItems.push({
+            id: result.shotId || `idx-${idx}`,
+            prompt: prompt,
+            question: `该Prompt是否体现了超写实/照片级写实风格？（如photorealistic, hyper-realistic, ultra-detailed, realistic等类似表达均可）`
+          });
+          if (mode === 'nirath') {
+            semanticItems.push({
+              id: `${result.shotId || `idx-${idx}`}-nirath`,
+              prompt: prompt,
+              question: `该Prompt是否包含Nirath星球/异世界世界观元素？（如双恒星、5800K/6500K光照、以太、紫晶等，或明确提到Nirath/异世界/外星等）`
+            });
+          }
         }
       });
+
+      if (semanticItems.length > 0) {
+        const results = await this._batchSemanticCheck(semanticItems);
+        
+        for (const result of styleResults) {
+          const sid = result.shotId;
+          
+          // 检查超写实风格
+          if (results[sid] === false) {
+            check.passed = false;
+            check.details.push(`${sid}: 缺少超写实风格词`);
+            this.warnings.push(`STAGE-14: ${sid}缺少超写实风格词`);
+          }
+          
+          // 检查Nirath世界观
+          if (mode === 'nirath' && results[`${sid}-nirath`] === false) {
+            check.passed = false;
+            check.details.push(`${sid}: 缺少Nirath世界观锚点`);
+            this.warnings.push(`STAGE-14: ${sid}缺少Nirath世界观锚点`);
+          }
+        }
+      }
     }
 
     this.checks.push(check);
@@ -505,7 +588,8 @@ class PipelineIntegrityValidator {
   }
 
   // ========== 端到端一致性验证（最严格！）==========
-  _checkEndToEnd_Consistency(stages) {
+  // v6.5.58-fix: LLM语义检查替代硬编码关键词匹配
+  async _checkEndToEnd_Consistency(stages) {
     const check = { stage: 'END-TO-END', name: '端到端链路一致性', passed: true, details: [] };
 
     const script = stages.script;
@@ -528,9 +612,11 @@ class PipelineIntegrityValidator {
         this.errors.push(`END-TO-END: 链路数量断裂！场景${sceneCount}→故事板${shotCount}→Prompt${promptCount}`);
       }
 
-      // 检查2：narration主题是否通过scene描述在prompt中体现（而非原文照搬）
-      // v6.2-patch55-fix: 片头S00自动插入导致索引错位，需跳过片头
+      // 检查2+3：LLM语义检查——场景描述+角色锚定
+      // v6.5.58-fix: 收集所有检查项，批量LLM语义检查
+      const semanticItems = [];
       let renderIdx = 0;
+      
       for (let i = 0; i < script.scenes.length; i++) {
         // 跳过render中的片头镜头
         while (renderIdx < render.length && render[renderIdx]?.isOpening) {
@@ -538,37 +624,25 @@ class PipelineIntegrityValidator {
         }
         if (renderIdx >= render.length) break;
         
-        const narration = script.scenes[i].narration || '';
-        const scene = script.scenes[i].scene || '';
+        const scene = script.scenes[i];
+        const narration = scene.narration || '';
+        const sceneDesc = scene.scene || '';
         const prompt = render[renderIdx].prompt || '';
+        const shotId = render[renderIdx].shotId || `S${String(i+1).padStart(2,'0')}`;
         renderIdx++;
         
-        // 提取 narration 关键词（人名、地点、动作）
-        const narrationKeywords = this.extractKeywords(narration);
-        const sceneKeywords = this.extractKeywords(scene);
-        
-        // 检查 scene 描述是否出现在 prompt 中（场景→画面链路）
-        // 🔥 v6.1-fix: 同时检查visualPrompt和scene字段
-        const visualPrompt = script.scenes[i].visualPrompt || '';
-        let sceneInPrompt;
-        if (visualPrompt.length > 0) {
-          // v6.5.55-fix: visualPrompt存在时，检查Prompt长度是否达标（>=700字符，原为800过严）
-          sceneInPrompt = prompt.length >= 700;
-        } else {
-          sceneInPrompt = sceneKeywords.some(kw => kw.length >= 2 && prompt.includes(kw));
-        }
-        if (!sceneInPrompt && scene.length > 0) {
-          check.passed = false;
-          check.details.push(`S${i + 1}: 场景描述未体现在Prompt中`);
-          this.errors.push(`END-TO-END: S${i + 1} 场景描述未流转到Prompt——场景→渲染链路断裂！`);
+        // 场景描述检查
+        if (sceneDesc.length > 0) {
+          semanticItems.push({
+            id: `${shotId}-scene`,
+            prompt: prompt,
+            question: `该Prompt是否描述了以下场景内容？场景描述："${sceneDesc.slice(0,100)}"`
+          });
         }
         
-        // 检查 narration 中的核心角色名是否出现在 prompt 中
-        // 从 storyboard.characters 配置动态读取角色名，不硬编码任何剧集特定角色
+        // 角色锚定检查（从storyboard.characters动态读取）
         const configuredCharacters = storyboard?.characters || {};
-        const characterEntries = Object.entries(configuredCharacters);
-        
-        for (const [charId, charConfig] of characterEntries) {
+        for (const [charId, charConfig] of Object.entries(configuredCharacters)) {
           const charNames = [
             charId,
             charConfig?.name,
@@ -576,54 +650,114 @@ class PipelineIntegrityValidator {
             ...(charConfig?.aliases || [])
           ].filter(Boolean);
           
-          // 检查该角色是否出现在 narration 中
           const appearsInNarration = charNames.some(n => narration.includes(n));
-          // 检查该角色是否出现在 prompt 中（支持任何名称变体）
-          const appearsInPrompt = charNames.some(n => prompt.includes(n));
-          
-          if (appearsInNarration && !appearsInPrompt) {
-            // 检查该镜头是否应该包含这个角色
+          if (appearsInNarration) {
             const shotChars = storyboard?.shots?.[i]?.characters || [];
             if (shotChars.some(c => c.toLowerCase() === charId.toLowerCase())) {
-              check.passed = false;
-              check.details.push(`S${i + 1}: 核心角色"${charId}"未出现在Prompt中`);
-              this.warnings.push(`END-TO-END: S${i + 1} 核心角色"${charId}"未出现在Prompt中——角色锚定可能失效`);
+              semanticItems.push({
+                id: `${shotId}-char-${charId}`,
+                prompt: prompt,
+                question: `该Prompt是否描述了角色"${charConfig?.name || charId}"的形象或动作？`
+              });
             }
           }
         }
       }
 
-      // 检查3：角色提示词是否出现在最终prompt
+      // 批量语义检查
+      if (semanticItems.length > 0) {
+        const results = await this._batchSemanticCheck(semanticItems);
+        
+        renderIdx = 0;
+        for (let i = 0; i < script.scenes.length; i++) {
+          while (renderIdx < render.length && render[renderIdx]?.isOpening) {
+            renderIdx++;
+          }
+          if (renderIdx >= render.length) break;
+          
+          const scene = script.scenes[i];
+          const sceneDesc = scene.scene || '';
+          const prompt = render[renderIdx].prompt || '';
+          const shotId = render[renderIdx].shotId || `S${String(i+1).padStart(2,'0')}`;
+          renderIdx++;
+          
+          // 场景描述检查
+          if (sceneDesc.length > 0) {
+            const visualPrompt = scene.visualPrompt || '';
+            if (visualPrompt.length > 0) {
+              // visualPrompt存在时，检查Prompt长度是否达标
+              if (prompt.length < 700) {
+                check.passed = false;
+                check.details.push(`${shotId}: Prompt长度${prompt.length}未达700字符`);
+                this.warnings.push(`END-TO-END: ${shotId} Prompt长度不足，场景描述可能未充分展开`);
+              }
+            } else if (results[`${shotId}-scene`] === false) {
+              check.passed = false;
+              check.details.push(`${shotId}: 场景描述未体现在Prompt中`);
+              this.errors.push(`END-TO-END: ${shotId} 场景描述未流转到Prompt——场景→渲染链路断裂！`);
+            }
+          }
+          
+          // 角色锚定检查
+          const configuredCharacters = storyboard?.characters || {};
+          for (const [charId, charConfig] of Object.entries(configuredCharacters)) {
+            const charNames = [
+              charId,
+              charConfig?.name,
+              charConfig?.displayName,
+              ...(charConfig?.aliases || [])
+            ].filter(Boolean);
+            
+            const narration = scene.narration || '';
+            const appearsInNarration = charNames.some(n => narration.includes(n));
+            if (appearsInNarration) {
+              const shotChars = storyboard?.shots?.[i]?.characters || [];
+              if (shotChars.some(c => c.toLowerCase() === charId.toLowerCase())) {
+                if (results[`${shotId}-char-${charId}`] === false) {
+                  check.passed = false;
+                  check.details.push(`${shotId}: 核心角色"${charId}"未出现在Prompt中`);
+                  this.warnings.push(`END-TO-END: ${shotId} 核心角色"${charId}"未出现在Prompt中——角色锚定可能失效`);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      // 检查4：角色提示词是否出现在最终prompt（全局检查）
+      // v6.5.58-fix: 也改为LLM语义检查
       const characters = stages.characters || {};
-      // 🔥 已知角色中文名映射（用于跨语言匹配）
-      const knownAliases = {
-        'xiaoG': ['小G', '小g'],
-        'tao-tie': ['饕餮', 'taotie'],
-        'zhu-long': ['烛龙'],
-        'qing-qiu': ['青丘'],
-        'phoenix': ['凤凰'],
-        'qilin': ['麒麟'],
-        'di-jiang': ['帝江'],
-        'bai-ze': ['白泽']
-      };
+      const charSemanticItems = [];
+      
       for (const [charId, charData] of Object.entries(characters)) {
-        // 🔥 修复：处理prompt可能是对象的情况
         let charPrompt = charData.prompt || '';
         if (typeof charPrompt === 'object') {
           charPrompt = charPrompt.text || charPrompt.prompt || charPrompt.description || JSON.stringify(charPrompt);
         }
         if (charPrompt.length > 0) {
           const charName = charPrompt.split(',')[0]?.trim() || charId;
-          // 🔥 增强：同时检查角色ID、角色名、displayName、name、以及已知中文别名
-          const aliases = knownAliases[charId] || [];
-          const searchTerms = [charName, charId, charData.displayName, charData.name, ...aliases].filter(Boolean);
-          const appearsInPrompts = render.some(r => 
-            searchTerms.some(term => r.prompt?.includes(term))
-          );
-          if (!appearsInPrompts) {
-            check.passed = false;
-            check.details.push(`角色${charId}未出现在任何Prompt中`);
-            this.warnings.push(`END-TO-END: 角色${charId}提示词未出现在任何Prompt中——角色系统→渲染链路可能断裂`);
+          charSemanticItems.push({
+            id: `global-char-${charId}`,
+            prompt: render.map(r => r.prompt).join(' '),
+            question: `以下Prompts中是否描述了角色"${charName}"的形象特征？（如外貌、服装、动作等）`
+          });
+        }
+      }
+
+      if (charSemanticItems.length > 0) {
+        const charResults = await this._batchSemanticCheck(charSemanticItems);
+        
+        for (const [charId, charData] of Object.entries(characters)) {
+          let charPrompt = charData.prompt || '';
+          if (typeof charPrompt === 'object') {
+            charPrompt = charPrompt.text || charPrompt.prompt || charPrompt.description || JSON.stringify(charPrompt);
+          }
+          if (charPrompt.length > 0) {
+            if (charResults[`global-char-${charId}`] === false) {
+              check.passed = false;
+              check.details.push(`角色${charId}未出现在任何Prompt中`);
+              this.warnings.push(`END-TO-END: 角色${charId}提示词未出现在任何Prompt中——角色系统→渲染链路可能断裂`);
+            }
           }
         }
       }

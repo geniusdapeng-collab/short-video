@@ -33,7 +33,7 @@ const { globalNegativePromptInjector } = require('./global-negative-prompts.js')
 // ========== v6.2-patch82: Prompt标准模块化系统 ==========
 const StandardV3 = require('./prompt-standard-v3');  // v3.0: 智能检测+自动修复(旁路)
 
-// ========== v6.5.53-l: 专家方案统一层 ==========
+// ========== v6.5.58: Validator 3 Bug 修复 ==========
 const { normalizeLLMOutput } = require('./llm-output-normalizer');
 const { standardizePrompt } = require('./prompt-standardizer');
 const { safeTrimPrompt } = require('./safe-prompt-trim');
@@ -699,7 +699,7 @@ class NirathMasterPipeline {
         
         const rawReport = {
           shots: originalRender.map(r => ({
-            id: r.shotId,
+            id: r.id || r.shotId,
             prompt: r.prompt,
             scene: r.scene,
             emotionPhase: r.emotionPhase,
@@ -814,7 +814,7 @@ class NirathMasterPipeline {
               let mergedCount = 0;
               for (const shot of forgeResult.shots) {
                 // v6.5.55-fix: 跳过片头镜头，保留opening-system-v3.js生成的原始Prompt
-                const existingShot = result.stages.render.find(r => r.shotId === shot.id);
+                const existingShot = result.stages.render.find(r => r.shotId === shot.id || r.id === shot.id);
                 if (!shot.id || shot.id === 'S00' || shot.id === 'undefined') {
                   this.log('PIPELINE', `  ⏭️ 跳过片头镜头: ${shot.id || 'S00'}，保留原始Prompt(${existingShot?.prompt?.length || 0}字符)`);
                   continue;
@@ -5812,7 +5812,7 @@ ${isNirath
     // ==== P0关键修复:链路完整性反向验证 ====
     this.log('STAGE-16.5', '链路输出完整性反向验证(PipelineIntegrityValidator)');
     const validator = new PipelineIntegrityValidator();
-    const integrityResult = validator.validatePipeline(stages);
+    const integrityResult = await validator.validatePipeline(stages);
 
     if (!integrityResult.valid) {
       this.log('STAGE-16.5', `⛔ 链路验证失败!${integrityResult.summary.errorCount}个错误,${integrityResult.summary.warningCount}个警告`, 'error');
@@ -5903,7 +5903,7 @@ ${isNirath
     if (success) {
       this.log('RETRY', '🔄 重试后执行二次验证...');
       const revalidator = new PipelineIntegrityValidator();
-      const recheck = revalidator.validatePipeline(stages);
+      const recheck = await revalidator.validatePipeline(stages);
       if (!recheck.valid) {
         this.log('RETRY', `⚠️ 二次验证仍有${recheck.summary.errorCount}个错误`, 'error');
         return { success: false, result: recheck };

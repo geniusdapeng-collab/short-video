@@ -18,7 +18,7 @@
     "hair": "black",
     "eyes": "brown",
     "facialFeatures": "asian",
-    "distinguishingMarks": "通体雪白的神兽，狮身羊角，双目如琥珀般温润，能通晓万物语言，说话时会有淡淡的光晕从角尖散发"
+    "distinguishingMarks": ""
   },
   "personality": {
     "core": "warm",
@@ -30,7 +30,7 @@
   },
   "visualAnchors": {
     "required": [
-      "通体雪白的神兽，狮身羊角，双目如琥珀般温润，能通晓万物语言，说话时会有淡淡的光晕从角尖散发"
+      ""
     ],
     "preferred": [],
     "forbidden": [
@@ -48,8 +48,8 @@
     "emotion": "neutral",
     "language": "zh-CN"
   },
-  "createdAt": "2026-06-11T16:12:24.973Z",
-  "updatedAt": "2026-06-11T16:12:24.973Z",
+  "createdAt": "2026-06-12T01:49:13.387Z",
+  "updatedAt": "2026-06-12T01:49:13.388Z",
   "version": "2.0",
   "generatedAssets": {
     "portraits": [],
