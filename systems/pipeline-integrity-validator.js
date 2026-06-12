@@ -669,6 +669,74 @@ Prompt: ${item.prompt?.slice(0, 300) || '空'}
           if (!result.visualComplexity) {
             check.details.push(`${result.shotId}: 缺少visualComplexity（可选）`);
           }
+          
+          // v6.5.62: 检查新增字段（基于参考v6.37-Peng）
+          // characterRef - P0字段，有角色时必须存在
+          if (result.characters && result.characters.length > 0) {
+            if (!result.characterRef || result.characterRef === '') {
+              check.passed = false;
+              check.details.push(`${result.shotId}: 有角色但缺少characterRef（P0字段）`);
+              this.warnings.push(`STAGE-11: ${result.shotId} 有角色但缺少characterRef`);
+            } else if (!result.characterRef.includes('image://')) {
+              check.passed = false;
+              check.details.push(`${result.shotId}: characterRef格式错误，缺少image://前缀`);
+              this.warnings.push(`STAGE-11: ${result.shotId} characterRef格式错误`);
+            }
+          }
+          
+          // character - P0字段，有角色时必须存在
+          if (result.characters && result.characters.length > 0) {
+            if (!result.character || result.character === '') {
+              check.passed = false;
+              check.details.push(`${result.shotId}: 有角色但缺少character（P0字段）`);
+              this.warnings.push(`STAGE-11: ${result.shotId} 有角色但缺少character`);
+            } else {
+              // 检查极简锚点格式：角色名: 种族, 关键词1, 关键词2
+              const charParts = result.character.split(':').map(s => s.trim());
+              if (charParts.length < 2) {
+                check.passed = false;
+                check.details.push(`${result.shotId}: character格式错误，应为"角色名: 种族, 关键词"`);
+                this.warnings.push(`STAGE-11: ${result.shotId} character格式错误`);
+              } else {
+                const keywords = charParts[1].split(',').map(s => s.trim()).filter(s => s.length > 0);
+                if (keywords.length < 3) {
+                  check.passed = false;
+                  check.details.push(`${result.shotId}: character关键词过少（${keywords.length}个），至少3个`);
+                  this.warnings.push(`STAGE-11: ${result.shotId} character关键词过少`);
+                }
+              }
+            }
+          }
+          
+          // timeline - P1字段
+          if (!result.timeline || result.timeline === '') {
+            check.details.push(`${result.shotId}: 缺少timeline（P1字段）`);
+            this.warnings.push(`STAGE-11: ${result.shotId} 缺少timeline`);
+          } else {
+            // 检查格式：T00:XX-T00:XX / duration: Xs / type: XXX / mood: XXX
+            const timelinePattern = /T\d{2}:\d{2}\.\d-T\d{2}:\d{2}\.\d \/ duration: \d+s \/ type: \w+ \/ mood: \w+/;
+            if (!timelinePattern.test(result.timeline)) {
+              check.passed = false;
+              check.details.push(`${result.shotId}: timeline格式错误: ${result.timeline}`);
+              this.warnings.push(`STAGE-11: ${result.shotId} timeline格式错误`);
+            }
+          }
+          
+          // backgroundSound - P1字段
+          if (!result.backgroundSound || result.backgroundSound === '') {
+            check.details.push(`${result.shotId}: 缺少backgroundSound（P1字段）`);
+            this.warnings.push(`STAGE-11: ${result.shotId} 缺少backgroundSound`);
+          } else {
+            // 检查三段式：AMBIENT + SPATIAL + INTENSITY
+            const hasAmbient = result.backgroundSound.includes('AMBIENT:');
+            const hasSpatial = result.backgroundSound.includes('SPATIAL:');
+            const hasIntensity = result.backgroundSound.includes('INTENSITY:');
+            if (!hasAmbient || !hasIntensity) {
+              check.passed = false;
+              check.details.push(`${result.shotId}: backgroundSound缺少AMBIENT或INTENSITY段`);
+              this.warnings.push(`STAGE-11: ${result.shotId} backgroundSound结构不完整`);
+            }
+          }
         }
         
         if (!result.prompt || result.prompt.trim() === '') {

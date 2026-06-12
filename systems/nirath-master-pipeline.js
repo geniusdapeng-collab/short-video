@@ -2990,6 +2990,168 @@ ${isNirath
   }
 
   /**
+   * v6.5.62: 构建characterRef字段（定妆照绑定）
+   * 格式：角色名: image://bestiary/角色名-角度.png
+   */
+  _buildCharacterRef(shot, stages) {
+    if (!shot.characters || shot.characters.length === 0) return '';
+    
+    const refs = [];
+    for (const charId of shot.characters) {
+      const char = stages.characters?.[charId];
+      if (!char) continue;
+      
+      // 获取角色名（优先使用profile.name）
+      const charName = char.profile?.name || char.name || charId;
+      
+      // 构建image://路径
+      const imagePaths = [];
+      if (char.portraits) {
+        // 使用已生成的定妆照
+        for (const [angle, path] of Object.entries(char.portraits)) {
+          if (path && typeof path === 'string') {
+            imagePaths.push(`image://bestiary/${charId}-${angle}.png`);
+          }
+        }
+      }
+      
+      // 如果没有定妆照，使用占位符
+      if (imagePaths.length === 0) {
+        imagePaths.push(`image://bestiary/${charId}-front.png`);
+      }
+      
+      // 限制最多9张
+      const limitedPaths = imagePaths.slice(0, 9);
+      refs.push(`${charName}: ${limitedPaths.join(', ')}`);
+    }
+    
+    return refs.join(' | ');
+  }
+
+  /**
+   * v6.5.62: 构建character字段（极简锚点）
+   * 格式：角色名: 种族, 关键词1, 关键词2, 关键词3
+   */
+  _buildCharacterMinimal(shot, stages) {
+    if (!shot.characters || shot.characters.length === 0) return '';
+    
+    const characters = [];
+    for (const charId of shot.characters) {
+      const char = stages.characters?.[charId];
+      if (!char) continue;
+      
+      const charName = char.profile?.name || char.name || charId;
+      
+      // 获取种族/物种
+      const race = char.profile?.race || char.profile?.species || 'Nirath异兽';
+      
+      // 获取3-5个核心视觉关键词
+      const keywords = [];
+      if (char.profile?.signatureFeatures) {
+        keywords.push(...char.profile.signatureFeatures.slice(0, 3));
+      }
+      if (char.profile?.coreVisualTraits) {
+        keywords.push(...char.profile.coreVisualTraits.slice(0, 2));
+      }
+      if (char.profile?.appearance) {
+        // 从appearance提取关键词（简化）
+        const appearanceKeywords = char.profile.appearance.split(/[,，]/).map(s => s.trim()).filter(s => s.length > 0);
+        keywords.push(...appearanceKeywords.slice(0, 2));
+      }
+      
+      // 去重并限制3-5个
+      const uniqueKeywords = [...new Set(keywords)].slice(0, 5);
+      if (uniqueKeywords.length < 3) {
+        // 兜底关键词
+        uniqueKeywords.push('Nirath原生特征', '双恒星光照反射');
+      }
+      
+      characters.push(`${charName}: ${race}, ${uniqueKeywords.join(', ')}`);
+    }
+    
+    return characters.join(' | ');
+  }
+
+  /**
+   * v6.5.62: 构建timeline字段（时间轴标记）
+   * 格式：T00:XX-T00:XX / duration: Xs / type: XXX / mood: XXX
+   */
+  _buildTimeline(shot, currentTime) {
+    const start = currentTime || 0;
+    const duration = shot.duration || 0;
+    const end = start + duration;
+    
+    // 格式化时间
+    const formatTime = (seconds) => {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      const tenths = Math.floor((seconds % 1) * 10);
+      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}.${tenths}`;
+    };
+    
+    const startStr = formatTime(start);
+    const endStr = formatTime(end);
+    
+    // 类型映射
+    const typeMap = {
+      'building': 'establishing',
+      'discovery': 'discovery',
+      'confrontation': 'confrontation',
+      'climax': 'climax',
+      'closing': 'resolution',
+      'opening': 'opening'
+    };
+    const type = typeMap[shot.type] || 'normal';
+    
+    // 情绪
+    const mood = shot.emotionPhase || 'neutral';
+    
+    return `T${startStr}-T${endStr} / duration: ${duration}s / type: ${type} / mood: ${mood}`;
+  }
+
+  /**
+   * v6.5.62: 构建backgroundSound字段（结构化音效）
+   * 格式：AMBIENT: ... | SPATIAL: ... | INTENSITY: ...
+   */
+  _buildBackgroundSound(shot) {
+    const duration = shot.duration || 0;
+    const sceneType = shot.type || 'normal';
+    
+    // 根据场景类型选择音效模板
+    const soundTemplates = {
+      'building': {
+        ambient: 'fantasy atmosphere, deep earth rumble 20-60Hz, enchanted wind',
+        spatial: '3D audio panning synchronized with camera movement',
+        intensity: `crescendo 0-${Math.floor(duration * 0.3)}s, peak ${Math.floor(duration * 0.3)}-${Math.floor(duration * 0.7)}s, decay ${Math.floor(duration * 0.7)}-${duration}s`
+      },
+      'discovery': {
+        ambient: 'tension-building drone, subtle heartbeat 40BPM, bioluminescent pulse',
+        spatial: 'approaching footsteps echo, spatial depth increase',
+        intensity: `crescendo 0-${Math.floor(duration * 0.4)}s, peak ${Math.floor(duration * 0.4)}-${Math.floor(duration * 0.6)}s, decay ${Math.floor(duration * 0.6)}-${duration}s`
+      },
+      'confrontation': {
+        ambient: 'low frequency beast growl 30-80Hz, magnetic field hum, crystal resonance',
+        spatial: 'beast movement tracking L-R, approach intensity',
+        intensity: `crescendo 0-${Math.floor(duration * 0.2)}s, peak ${Math.floor(duration * 0.2)}-${Math.floor(duration * 0.8)}s, decay ${Math.floor(duration * 0.8)}-${duration}s`
+      },
+      'climax': {
+        ambient: 'full spectrum activation, bioluminescent surge, magnetic field peak',
+        spatial: '360° surround, beast roar spatial sweep',
+        intensity: `crescendo 0-${Math.floor(duration * 0.2)}s, peak ${Math.floor(duration * 0.2)}-${Math.floor(duration * 0.7)}s, release ${Math.floor(duration * 0.7)}-${duration}s`
+      },
+      'closing': {
+        ambient: 'gentle wind return, distant spore drift, soft earth breath',
+        spatial: 'wide open space, fading echoes',
+        intensity: `sustain 0-${Math.floor(duration * 0.5)}s, gentle decay ${Math.floor(duration * 0.5)}-${duration}s`
+      }
+    };
+    
+    const template = soundTemplates[sceneType] || soundTemplates['building'];
+    
+    return `AMBIENT: ${template.ambient} | SPATIAL: ${template.spatial} | INTENSITY: ${template.intensity}`;
+  }
+
+  /**
    * 检查角色的定妆照(4角度)是否已生成并确认
    */
   async checkCharacterPortraits(characterId) {
@@ -4370,6 +4532,11 @@ ${isNirath
             visualComplexity: shot.visualComplexity || 5,
             dialogue: shot.dialogue || '',
             narration: shot.narration || '',
+            // v6.5.62: 新增字段（基于参考v6.37-Peng优化）
+            characterRef: this._buildCharacterRef(shot, stages) || '',
+            character: this._buildCharacterMinimal(shot, stages) || '',
+            timeline: this._buildTimeline(shot, currentTime) || '',
+            backgroundSound: this._buildBackgroundSound(shot) || '',
             isOpening: shot.id === 'S00' || shot.type === 'opening',
             // v6.5.59-fix: 片头注入title对象
             title: (shot.id === 'S00' || shot.type === 'opening') ? (shot.title || {
@@ -4714,6 +4881,11 @@ ${isNirath
             visualComplexity: shot.visualComplexity || 5,
             dialogue: shot.dialogue || '',
             narration: shot.narration || '',
+            // v6.5.62: 新增字段（基于参考v6.37-Peng优化）
+            characterRef: this._buildCharacterRef(shot, stages) || '',
+            character: this._buildCharacterMinimal(shot, stages) || '',
+            timeline: this._buildTimeline(shot, currentTime) || '',
+            backgroundSound: this._buildBackgroundSound(shot) || '',
             isOpening: shot.id === 'S00' || shot.type === 'opening',
             // v6.5.59-fix: 片头注入title对象
             title: (shot.id === 'S00' || shot.type === 'opening') ? (shot.title || {
@@ -5415,6 +5587,11 @@ ${isNirath
         visualComplexity: shot.visualComplexity || 5,
         dialogue: shot.dialogue || '',
         narration: shot.narration || '',
+        // v6.5.62: 新增字段（基于参考v6.37-Peng优化）
+        characterRef: this._buildCharacterRef(shot, stages) || '',
+        character: this._buildCharacterMinimal(shot, stages) || '',
+        timeline: this._buildTimeline(shot, currentTime) || '',
+        backgroundSound: this._buildBackgroundSound(shot) || '',
         // 标记是否片头
         isOpening: shot.id === 'S00' || shot.type === 'opening',
         // v6.5.59-fix: 片头注入title对象
