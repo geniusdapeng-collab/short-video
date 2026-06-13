@@ -200,18 +200,21 @@ async function run() {
 
 // 生成报告
 function generateReport(result, outputPath) {
-  const shots = result.storyboard?.shots || [];
+  // v6.5.63-P3-fix: 优先从 stages.output.shots 读取（最终输出包含 id/type 字段）
+  const shots = result.stages?.output?.shots || result.storyboard?.shots || [];
+  const totalDuration = shots.reduce((sum, s) => sum + (s.duration || 0), 0) || result.totalDuration || 0;
+  
   let md = `# 健康科普系列 - 第一集《什么是横纹肌溶解》预生产报告\n\n`;
   md += `**生成时间**: ${new Date().toLocaleString()}\n\n`;
   md += `**主讲人**: 陈卓（穿警服的护士小姐姐）\n\n`;
-  md += `**总时长**: ${result.storyboard?.totalDuration || 0} 秒\n\n`;
+  md += `**总时长**: ${totalDuration} 秒\n\n`;
   md += `**镜头数**: ${shots.length}\n\n`;
   md += `---\n\n`;
   
   md += `## 镜头列表\n\n`;
   shots.forEach((shot, i) => {
-    md += `### ${shot.id} - ${shot.name || '未命名'}\n\n`;
-    md += `- **时长**: ${shot.duration} 秒\n`;
+    md += `### ${shot.id || shot.shotId || 'S' + (i + 1)} - ${shot.name || shot.type || '未命名'}\n\n`;
+    md += `- **时长**: ${shot.duration || 0} 秒\n`;
     md += `- **类型**: ${shot.type || 'unknown'}\n`;
     md += `- **场景**: ${shot.scene || '未指定'}\n`;
     md += `- **角色**: ${(shot.characters || []).join(', ')}\n\n`;
