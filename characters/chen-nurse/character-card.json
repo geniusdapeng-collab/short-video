@@ -57,8 +57,8 @@
     "emotion": "neutral",
     "language": "zh-CN"
   },
-  "createdAt": "2026-06-13T09:23:18.526Z",
-  "updatedAt": "2026-06-13T09:23:18.526Z",
+  "createdAt": "2026-06-13T14:24:01.291Z",
+  "updatedAt": "2026-06-13T14:24:01.292Z",
   "version": "2.0",
   "generatedAssets": {
     "portraits": [
@@ -73,7 +73,24 @@
     "referenceImages": []
   },
   "appearances": [],
-  "v2Metadata": {
+  "portraitStyles": {
+    "police-uniform-realistic": {
+      "description": "警服写实风格（真人风格）",
+      "pathPrefix": "characters/chen-nurse/portraits/chen-nurse-police",
+      "angles": ["front", "threeQuarter", "side", "closeup", "fullBody"]
+    },
+    "cg-v4": {
+      "description": "CG渲染风格v4",
+      "pathPrefix": "characters/chen-nurse/portraits/chen-nurse-cg-v4",
+      "angles": ["front", "threeQuarter", "side", "closeup"]
+    },
+    "cartoon-professional": {
+      "description": "职业卡通风格（当前使用）",
+      "pathPrefix": "characters/chen-nurse/portraits/cartoon-style/cartoon",
+      "angles": ["front", "threeQuarter", "side", "halfBody", "fullBody", "fullBodySide"],
+      "note": "3D动画卡通风格，用于当前Seedance API隐私检测过渡方案"
+    }
+  },
     "analyzedDimensions": [],
     "lastComplianceCheck": null,
     "promptTemplates": {},
