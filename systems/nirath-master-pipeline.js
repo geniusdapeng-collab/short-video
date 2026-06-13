@@ -48,6 +48,10 @@ const { SchemaRuntimeValidator } = require('../seedance-director/scripts/schema-
 const { StoryboardValidator } = require('./storyboard-validator.js');
 const { preRenderValidation, validateCharacterReferences } = require('./pre-render-validation.js');
 
+// ========== v2.0: 创意指数系统 (Creative Intensity Index) ==========
+const { CreativeIntensityIndex } = require('./creative-intensity-index.js');
+const { CreativeIntensityRecommender } = require('./creative-intensity-recommender.js');
+
 // ========== 新增:片头系统集成(v3.0-patch5) ==========
 const OpeningSystem = require('./opening-system-v3.js');
 const { CharacterManagerV2 } = require('./character-manager-v2.js');
@@ -235,7 +239,21 @@ class NirathMasterPipeline {
       configurable: true
     });
 
-    this.logs = [];
+    // 🔥 v2.0: 创意指数系统初始化
+    this.creativeIntensityIndex = new CreativeIntensityIndex({
+      defaultValue: 0.2,
+      maxValue: 1.0,
+      minValue: 0.0
+    });
+    
+    // 🔥 v2.0: Phase 3 - 智能推荐系统初始化
+    this.creativeIntensityRecommender = new CreativeIntensityRecommender({
+      dataPath: path.join(__dirname, '../data/creative-intensity-feedback.json'),
+      minSamples: 3,
+      confidenceThreshold: 0.6
+    });
+    
+    this.creativeIntensity = null; // 将在execute中解析
     this.errors = [];
     this._asyncTasks = []; // v6.2-patch76: 追踪异步LLM任务
   }
@@ -431,6 +449,32 @@ class NirathMasterPipeline {
     // 违反 = 系统级错误,立即上报队长
     this.log('PIPELINE', '🔥 P0-固化:每次预生产 = 全链路 + 最新版 | 无视历史,全新执行');
 
+    // 🔥 v2.0: 创意指数解析（Stage 0 前置）
+    this.creativeIntensity = this.creativeIntensityIndex.parse(input);
+    
+    // 🔥 v2.0: Phase 3 - 智能推荐系统（如果用户未指定，自动推荐）
+    if (!input.creativeIntensity && !input.creative && !input.intensity) {
+      const videoType = input.videoType || input.type || 'generic';
+      const recommendation = this.creativeIntensityRecommender.recommend(videoType);
+      
+      if (!recommendation.isDefault) {
+        // 数据驱动推荐，覆盖默认值
+        this.creativeIntensity = recommendation.intensity;
+        this.log('PIPELINE', `🎨 [智能推荐] 视频类型="${videoType}" | 基于 ${recommendation.samples} 个样本推荐 intensity=${recommendation.intensity} | 置信度 ${(recommendation.confidence * 100).toFixed(0)}%`);
+      } else {
+        // 使用默认值，但提示用户
+        this.log('PIPELINE', `🎨 [智能推荐] 视频类型="${videoType}" | 样本不足，使用类型默认值 intensity=${recommendation.intensity} | ${recommendation.reason}`);
+      }
+    }
+    
+    const ciiReport = this.creativeIntensityIndex.generateReport(this.creativeIntensity);
+    this.log('PIPELINE', `🎨 创意指数解析: ${this.creativeIntensity} (${ciiReport.levelName}) | 激活 ${ciiReport.activeModules.length}/14 模块`);
+    this.log('PIPELINE', ciiReport.firewall);
+    
+    // 将创意指数存入result供后续Stage使用
+    result.creativeIntensity = this.creativeIntensity;
+    result.creativeIntensityReport = ciiReport;
+
     // 【v6.2-patch53】执行完整性强制器 - 三重锁启动
     const enforcer = new ExecutionIntegrityEnforcer();
     await enforcer.enforcePreExecution(path.join(__dirname, '..'));
@@ -572,6 +616,7 @@ class NirathMasterPipeline {
 
       // Stage 5: 剧本生成与分析
       result.stages.script = await runStage('STAGE-5', () => this.stageScriptGeneration(input, result.stages.prd));
+      this._injectCreativeIntensity('STAGE-5', result.stages.script);
 
       // 【v6.2-patch87-2】Stage 5导演预检:旁白-画面对齐检查
       const preflightWarnings = this._directorPreflight(
@@ -606,9 +651,11 @@ class NirathMasterPipeline {
 
       // Stage 6: 时长分配
       result.stages.duration = await runStage('STAGE-6', () => this.stageDurationAllocation(result.stages.script, input));
+      this._injectCreativeIntensity('STAGE-6', result.stages.duration);
 
       // Stage 7: 故事板生成
       result.stages.storyboard = await runStage('STAGE-7', () => this.stageStoryboard(result.stages.script, result.stages.duration, input));
+      this._injectCreativeIntensity('STAGE-7', result.stages.storyboard);
 
       // Stage 7.2: 【v6.2-patch51】主角主动性自动注入
       result.stages.protagonistInitiative = await runStage('STAGE-7.2', () => this.stageProtagonistInitiative(result.stages.storyboard, input));
@@ -633,9 +680,11 @@ class NirathMasterPipeline {
 
       // Stage 9: 运镜系统(Nirath v2 + FPV导演决策)
       result.stages.camera = await runStage('STAGE-9', () => this.stageCameraMovement(result.stages.storyboard, result.stages.fpvDecision));
+      this._injectCreativeIntensity('STAGE-9', result.stages.camera);
 
       // Stage 10: 连续性检查
       result.stages.continuity = await runStage('STAGE-10', () => this.stageContinuity(result.stages.storyboard));
+      this._injectCreativeIntensity('STAGE-10', result.stages.continuity);
 
       // Stage 10.5: 渲染前置输入检查(v6.0: 检查输入完整性,不死锁)
       result.stages.safetyGate = await runStage('STAGE-10.5', () => this.stageSafetyGate(result.stages));
@@ -645,6 +694,7 @@ class NirathMasterPipeline {
 
       // Stage 11: 渲染核心(Nirath v24.3 风格前置化)
       result.stages.render = await runStage('STAGE-11', () => this.stageRender(result.stages));
+      this._injectCreativeIntensity('STAGE-11', result.stages.render);
       
       // v6.5.59-fix: 主进程内存释放（OOM修复）
       this._releaseMemory(result);
@@ -925,6 +975,7 @@ class NirathMasterPipeline {
 
       // Stage 15: 后期规则
       result.stages.postProduction = await runStage('STAGE-15', () => this.stagePostProduction(result.stages));
+      this._injectCreativeIntensity('STAGE-15', result.stages.postProduction);
 
       // Stage 16: 最终输出(基础版)
       result.stages.output = await runStage('STAGE-16', () => this.stageFinalOutput(result.stages));
@@ -2038,6 +2089,14 @@ class NirathMasterPipeline {
     parts.push(`4. 光线与画面质感`);
     parts.push(`5. 纪录片/真实科普风格`);
     parts.push(`6. 不要出现参数化提示词，不要出现分辨率、英文模型参数、括号权重`);
+
+    // 🔥 v2.0: 创意指数指令注入（仅影响视觉表现层）
+    const ciiInstructions = this._getCreativeIntensityInstructions('STAGE-5');
+    if (ciiInstructions) {
+      parts.push(`
+【创意增强】`);
+      parts.push(ciiInstructions.trim());
+    }
 
     parts.push(`
 【风格要求】`);
@@ -4001,6 +4060,12 @@ ${isNirath
     const oneShotPrefix = canUseOneShot ? '(一镜到底!)' : '(多段运镜)';
     movement.description = `${oneShotPrefix},镜头时间轴:${segDesc}。${baseMovement.description || ''}`;
 
+    // 🔥 v2.0: 创意指数指令注入（运镜风格、构图、镜头语言、时间操控）
+    const ciiInstructions = this._getCreativeIntensityInstructions('STAGE-9');
+    if (ciiInstructions) {
+      movement.description += `\n${ciiInstructions.trim()}`;
+    }
+
     // v6.2-patch63-fix: 将timeline段数同步到shot对象,供Stage 11质量评分使用
     shot._segments = timeline.segments;
     shot._segmentCount = timeline.segmentCount;
@@ -4039,6 +4104,16 @@ ${isNirath
     }
 
     this.log('STAGE-10', `✅ 连续性检查 | 问题: ${continuity.issues?.length || 0}`);
+
+    // 🔥 v2.0: 创意指数指令注入（灯光、色彩、氛围、空间、布景）
+    const ciiInstructions = this._getCreativeIntensityInstructions('STAGE-10');
+    if (ciiInstructions) {
+      continuity._creativeIntensity = {
+        intensity: this.creativeIntensity,
+        instructions: ciiInstructions
+      };
+    }
+
     return continuity;
   }
 
@@ -4703,6 +4778,9 @@ ${isNirath
         // 🔥 v6.1-fix: 将生成的prompt赋值给shot,供后续enhanceShotPrompt使用
         shot.prompt = prompt;
 
+        // 🔥 v2.0: 创意指数指令注入（灯光、色彩、特效、质感、氛围）
+        shot.prompt = this._injectCreativeIntensityToPrompt(shot.prompt, 'STAGE-11', shot.id);
+
         // ========== 【v6.2-patch51】结尾镜情绪增强(Nirath模式)==========
         if (this.modules.closingBooster) {
           const boostResult = this.modules.closingBooster.boost({prompt}, shot);
@@ -4849,12 +4927,18 @@ ${isNirath
         // 🔥 v6.1-fix: 将生成的prompt赋值给shot
         shot.prompt = prompt;
 
+        // 🔥 v2.0: 创意指数指令注入（灯光、色彩、特效、质感、氛围）
+        shot.prompt = this._injectCreativeIntensityToPrompt(shot.prompt, 'STAGE-11', shot.id);
+
         this.log('STAGE-11', `  ✅ 通用渲染: ${shot.id} | ratio:16:9 | mouthAction:${shot.mouthAction ? '有' : '无'} | ${prompt.length}字符`);
       } // v6.5.43: if (!gotoFinalSubmit) 闭合
 
       // v6.5.43: 新链路成功时也需赋值
       if (gotoFinalSubmit && newChainResult) {
         shot.prompt = prompt;
+
+        // 🔥 v2.0: 创意指数指令注入（灯光、色彩、特效、质感、氛围）
+        shot.prompt = this._injectCreativeIntensityToPrompt(shot.prompt, 'STAGE-11', shot.id);
         
         // v6.5.44-fix: 新链路结果必须加入 render 数组，否则后续阶段丢失镜头
         // v6.5.58-fix: 构建标准输出字段
@@ -6047,6 +6131,16 @@ ${isNirath
     }
 
     this.log('STAGE-12', `✅ 合规检查 | 问题: ${hasIssues ? '有' : '无'} | 利用率检查: ${compliance.utilization.length}个镜头 | 片头合规: ${compliance.openingCompliance.length}项`);
+
+    // 🔥 v2.0: 创意指数指令注入（声音设计）
+    const ciiInstructions = this._getCreativeIntensityInstructions('STAGE-12');
+    if (ciiInstructions) {
+      compliance._creativeIntensity = {
+        intensity: this.creativeIntensity,
+        instructions: ciiInstructions
+      };
+    }
+
     return compliance;
   }
 
@@ -8520,8 +8614,101 @@ ${isNirath
    * @param {Object} input - 原始输入
    */
 
+
+  // ========== v2.0: 创意指数系统辅助方法 ==========
+
+  /**
+   * 为指定Stage注入创意指数指令
+   * 在Stage执行完成后调用，增强输出结果
+   */
+  _injectCreativeIntensity(stageName, stageOutput) {
+    if (!this.creativeIntensity || this.creativeIntensity <= 0.2) {
+      return stageOutput; // 0.2以下不干预
+    }
+
+    const cii = this.creativeIntensityIndex;
+    const instructions = cii.generateStageInstructions(stageName, this.creativeIntensity);
+
+    if (!instructions) {
+      return stageOutput; // 该Stage无激活模块
+    }
+
+    this.log('PIPELINE', `[创意指数] ${stageName} 注入 ${instructions.count} 个模块指令`);
+
+    // 将指令附加到Stage输出中
+    if (!stageOutput._creativeIntensity) {
+      stageOutput._creativeIntensity = {
+        intensity: this.creativeIntensity,
+        level: instructions.level,
+        instructions: []
+      };
+    }
+
+    stageOutput._creativeIntensity.instructions.push({
+      stage: stageName,
+      ...instructions
+    });
+
+    return stageOutput;
+  }
+
+  /**
+   * 获取指定Stage的创意指数指令文本（用于Prompt注入）
+   */
+  _getCreativeIntensityInstructions(stageName) {
+    if (!this.creativeIntensity || this.creativeIntensity <= 0.2) return '';
+
+    const cii = this.creativeIntensityIndex;
+    const instructions = cii.generateStageInstructions(stageName, this.creativeIntensity);
+
+    if (!instructions) return '';
+
+    return `\n[CREATIVE_INTENSITY_${this.creativeIntensity}]\n${instructions.instructions}\n[/CREATIVE_INTENSITY]\n`;
+  }
+
+  /**
+   * 将创意指数指令注入到 Prompt 字符串中（智能长度控制）
+   * 确保不超出 1500 字符上限
+   */
+  _injectCreativeIntensityToPrompt(prompt, stageName, shotId = '') {
+    if (!this.creativeIntensity || this.creativeIntensity <= 0.2) {
+      return prompt; // 0.2以下不干预
+    }
+
+    const cii = this.creativeIntensityIndex;
+    const instructions = cii.generateStageInstructions(stageName, this.creativeIntensity);
+
+    if (!instructions) {
+      return prompt; // 该Stage无激活模块
+    }
+
+    const instructionText = instructions.instructions;
+    const currentLength = prompt.length;
+    const instructionLength = instructionText.length;
+
+    // 如果注入后不超过 1500 字符，直接追加
+    if (currentLength + instructionLength + 20 <= 1500) {
+      this.log('STAGE-11', `  🎨 [创意指数] ${shotId} 注入${instructions.count}个模块 | +${instructionLength}字符 | 总:${currentLength + instructionLength + 20}/1500`);
+      return `${prompt}\n[创意指数${this.creativeIntensity}]${instructionText}[/创意指数]`;
+    }
+
+    // 如果会超出，进行智能裁剪
+    const maxAvailable = 1500 - currentLength - 20;
+    if (maxAvailable > 50) {
+      const truncated = instructionText.substring(0, maxAvailable - 3) + '...';
+      this.log('STAGE-11', `  🎨 [创意指数] ${shotId} 注入${instructions.count}个模块(截断) | +${truncated.length}字符 | 原:${instructionLength} | 总:${currentLength + truncated.length + 20}/1500`);
+      return `${prompt}\n[创意指数${this.creativeIntensity}]${truncated}[/创意指数]`;
+    }
+
+    // 空间不足，不注入
+    this.log('STAGE-11', `  ⚠️ [创意指数] ${shotId} 空间不足(${currentLength}/1500),跳过注入`);
+    return prompt;
+  }
+
+  // 🔥 v2.0: 创意指数系统辅助方法结束
 }
 
+// ========== v6.2-patch87-2: 分段验证独立函数 ==========
 // ========== v6.2-patch87-2: 分段验证独立函数 ==========
 
 /**
@@ -8579,5 +8766,6 @@ async function runStandaloneStage(pipeline, stageName, upstreamStages = {}, inpu
     return { stageName, error: err.message, elapsedMs: elapsed, success: false };
   }
 }
+
 
 module.exports = { NirathMasterPipeline, runStandaloneStage };
