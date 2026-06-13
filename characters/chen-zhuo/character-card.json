@@ -1,17 +1,17 @@
 {
-  "id": "xiangXiang",
-  "name": "香香",
+  "id": "chen-zhuo",
+  "name": "陈卓",
   "baseIdentity": {
-    "name": "香香",
-    "age": 8,
-    "gender": "boy",
+    "name": "陈卓",
+    "age": 28,
+    "gender": "female",
     "species": "human",
-    "role": "audience",
+    "role": "",
     "origin": "Earth"
   },
   "visualIdentity": {
-    "age": 8,
-    "gender": "boy",
+    "age": 28,
+    "gender": "female",
     "build": "average",
     "height": "medium",
     "skinTone": "warm",
@@ -25,9 +25,9 @@
       "core": "warm",
       "traits": [
         "kind",
-        "brave",
-        "curious",
-        "playful"
+        "patient",
+        "loving",
+        "nurturing"
       ]
     },
     "traits": [
@@ -56,18 +56,18 @@
     "emotion": "neutral",
     "language": "zh-CN"
   },
-  "createdAt": "2026-06-13T01:26:13.364Z",
-  "updatedAt": "2026-06-13T01:26:13.364Z",
+  "createdAt": "2026-06-12T23:44:47.321Z",
+  "updatedAt": "2026-06-12T23:44:47.321Z",
   "version": "2.0",
   "generatedAssets": {
     "portraits": [
-      "image://bestiary/xiangXiang-front.png",
-      "image://bestiary/xiangXiang-threeQuarter.png",
-      "image://bestiary/xiangXiang-closeup.png",
-      "image://bestiary/xiangXiang-side.png",
-      "image://bestiary/xiangXiang-back.png",
-      "image://bestiary/xiangXiang-action.png",
-      "image://bestiary/xiangXiang-detail.png"
+      "image://bestiary/chen-zhuo-front.png",
+      "image://bestiary/chen-zhuo-threeQuarter.png",
+      "image://bestiary/chen-zhuo-closeup.png",
+      "image://bestiary/chen-zhuo-side.png",
+      "image://bestiary/chen-zhuo-back.png",
+      "image://bestiary/chen-zhuo-action.png",
+      "image://bestiary/chen-zhuo-detail.png"
     ],
     "referenceImages": []
   },
@@ -76,15 +76,15 @@
     "analyzedDimensions": [],
     "lastComplianceCheck": null,
     "promptTemplates": {},
-    "minimalAnchor": "香香: Nirath异兽, Nirath原生特征, 双恒星光照反射",
+    "minimalAnchor": "陈卓: Nirath异兽, Nirath原生特征, 双恒星光照反射",
     "portraitPaths": [
-      "image://bestiary/xiangXiang-front.png",
-      "image://bestiary/xiangXiang-threeQuarter.png",
-      "image://bestiary/xiangXiang-closeup.png",
-      "image://bestiary/xiangXiang-side.png",
-      "image://bestiary/xiangXiang-back.png",
-      "image://bestiary/xiangXiang-action.png",
-      "image://bestiary/xiangXiang-detail.png"
+      "image://bestiary/chen-zhuo-front.png",
+      "image://bestiary/chen-zhuo-threeQuarter.png",
+      "image://bestiary/chen-zhuo-closeup.png",
+      "image://bestiary/chen-zhuo-side.png",
+      "image://bestiary/chen-zhuo-back.png",
+      "image://bestiary/chen-zhuo-action.png",
+      "image://bestiary/chen-zhuo-detail.png"
     ]
   }
 }

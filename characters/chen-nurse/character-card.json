@@ -1,8 +1,8 @@
 {
   "id": "chen-nurse",
-  "name": "陈女士",
+  "name": "陈卓",
   "baseIdentity": {
-    "name": "陈女士",
+    "name": "陈卓",
     "age": 30,
     "gender": "female",
     "species": "human",
@@ -21,7 +21,15 @@
     "distinguishingMarks": ""
   },
   "personality": {
-    "core": "warm",
+    "core": {
+      "core": "warm",
+      "traits": [
+        "kind",
+        "patient",
+        "loving",
+        "nurturing"
+      ]
+    },
     "traits": [
       "kind",
       "brave"
@@ -48,17 +56,35 @@
     "emotion": "neutral",
     "language": "zh-CN"
   },
-  "createdAt": "2026-06-08T17:16:56.252Z",
-  "updatedAt": "2026-06-08T17:16:56.252Z",
+  "createdAt": "2026-06-13T01:26:13.366Z",
+  "updatedAt": "2026-06-13T01:26:13.366Z",
   "version": "2.0",
   "generatedAssets": {
-    "portraits": [],
+    "portraits": [
+      "image://bestiary/chen-nurse-front.png",
+      "image://bestiary/chen-nurse-threeQuarter.png",
+      "image://bestiary/chen-nurse-closeup.png",
+      "image://bestiary/chen-nurse-side.png",
+      "image://bestiary/chen-nurse-back.png",
+      "image://bestiary/chen-nurse-action.png",
+      "image://bestiary/chen-nurse-detail.png"
+    ],
     "referenceImages": []
   },
   "appearances": [],
   "v2Metadata": {
     "analyzedDimensions": [],
     "lastComplianceCheck": null,
-    "promptTemplates": {}
+    "promptTemplates": {},
+    "minimalAnchor": "陈卓: Nirath异兽, Nirath原生特征, 双恒星光照反射",
+    "portraitPaths": [
+      "image://bestiary/chen-nurse-front.png",
+      "image://bestiary/chen-nurse-threeQuarter.png",
+      "image://bestiary/chen-nurse-closeup.png",
+      "image://bestiary/chen-nurse-side.png",
+      "image://bestiary/chen-nurse-back.png",
+      "image://bestiary/chen-nurse-action.png",
+      "image://bestiary/chen-nurse-detail.png"
+    ]
   }
 }

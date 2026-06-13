@@ -1,0 +1,7 @@
+用户要求我作为电影Prompt语义检查器，对两个检查项判断Prompt是否满足要求，只回答yes或no，输出JSON格式。
+
+检查项1 [global-char-xiangXiang]: 检查是否描述了角色"香香，8岁男孩，听众，穿休闲运动童装，好奇活泼，眼睛睁大，充满求知欲，摄影棚三点布光，背景虚化，专业人像摄影，观众席"的形象特征。
+
+Prompt内容：CHARACTER: xiangXiang，chen-nurse | state: natural pose, balanced posture, normal state | relation: positioned within environment, spatial relationship to 开场-洗澡焦虑 | ACTION: 陈卓：香香，慢点！你这一爬，妈妈更焦虑了。这洗澡水放好了，可我怎么才能保证你的安全呢？ | steady camera movement, smooth tracking, natural pace | SCENE: 开场-洗澡焦虑, foreground
+
+分析：这个Prompt中提到了xiangXiang，但只提到了

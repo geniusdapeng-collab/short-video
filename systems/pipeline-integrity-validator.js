@@ -15,11 +15,12 @@ const { LLMEngine } = require('./llm-reasoning-engine');
  */
 
 class PipelineIntegrityValidator {
-  constructor() {
+  constructor(options = {}) {
     this.errors = [];
     this.warnings = [];
     this.checks = [];
     this.llm = new LLMEngine({ model: 'kimi-k2p6' });
+    this.mode = options.mode || 'nirath'; // v6.37-fix: 支持 generic 模式跳过片头检查
   }
 
   /**
@@ -157,11 +158,9 @@ Prompt: ${item.prompt?.slice(0, 300) || '空'}
       }
 
       // 检查类型一致性
-      if (result.type !== (isOpening ? 'opening' : 'building') && 
-          result.type !== 'discovery' && 
-          result.type !== 'confrontation' && 
-          result.type !== 'climax' && 
-          result.type !== 'closing') {
+      const validTypes = ['building', 'discovery', 'confrontation', 'climax', 'closing', 'opening',
+        'hook', 'pain-point', 'product-reveal', 'solution', 'feature-demo', 'emotional', 'transition'];
+      if (!validTypes.includes(result.type)) {
         check.passed = false;
         check.details.push(`${shotId}: 类型字段异常: ${result.type}`);
         this.warnings.push(`STAGE-16.5: ${shotId} 类型字段可能不正确: ${result.type}`);
@@ -676,13 +675,15 @@ Prompt: ${item.prompt?.slice(0, 300) || '空'}
             check.details.push(`${result.shotId}: 缺少scene（P1字段）`);
             this.warnings.push(`STAGE-11: ${result.shotId} 缺少scene`);
           } else {
+            // v6.37-fix: scene可以是对象或字符串
+            const sceneStr = typeof result.scene === 'string' ? result.scene : JSON.stringify(result.scene);
             // 检查五维空间：至少包含2个维度
-            const dimensions = ['Nirath', '大陆', '峡谷', '晶体', '双恒星', '光照', '前景', '中景', '背景'];
-            const hasDimension = dimensions.some(d => result.scene.includes(d));
+            const dimensions = ['Nirath', '大陆', '峡谷', '晶体', '双恒星', '光照', '前景', '中景', '背景', '浴室', '家庭', '温馨', '室内', '房间', '空间'];
+            const hasDimension = dimensions.some(d => sceneStr.includes(d));
             if (!hasDimension) {
               check.passed = false;
-              check.details.push(`${result.shotId}: scene缺少五维空间描述`);
-              this.warnings.push(`STAGE-11: ${result.shotId} scene五维空间不完整`);
+              check.details.push(`${result.shotId}: scene缺少空间描述`);
+              this.warnings.push(`STAGE-11: ${result.shotId} scene空间描述不完整`);
             }
           }
           
@@ -691,9 +692,10 @@ Prompt: ${item.prompt?.slice(0, 300) || '空'}
             check.details.push(`${result.shotId}: 缺少camera（P1字段）`);
             this.warnings.push(`STAGE-11: ${result.shotId} 缺少camera`);
           } else {
-            // 检查是否包含景别和运镜
-            const hasShotSize = ['extreme_wide', 'wide', 'medium', 'close_up', 'extreme_close', 'full', 'establishing', 'low-angle', 'high-angle', 'aerial'].some(s => result.camera.includes(s));
-            const hasMovement = ['dolly', 'crane', 'pan', 'tilt', 'tracking', 'orbital', 'arc', 'handheld', 'static', 'push', 'pull', 'zoom', 'rack'].some(m => result.camera.includes(m));
+            // v6.37-fix: camera可以是对象或字符串
+            const cameraStr = typeof result.camera === 'string' ? result.camera : JSON.stringify(result.camera);
+            const hasShotSize = ['extreme_wide', 'wide', 'medium', 'close_up', 'extreme_close', 'full', 'establishing', 'low-angle', 'high-angle', 'aerial'].some(s => cameraStr.includes(s));
+            const hasMovement = ['dolly', 'crane', 'pan', 'tilt', 'tracking', 'orbital', 'arc', 'handheld', 'static', 'push', 'pull', 'zoom', 'rack'].some(m => cameraStr.includes(m));
             if (!hasShotSize || !hasMovement) {
               check.passed = false;
               check.details.push(`${result.shotId}: camera缺少景别或运镜描述`);
@@ -706,8 +708,9 @@ Prompt: ${item.prompt?.slice(0, 300) || '空'}
             check.details.push(`${result.shotId}: 缺少lighting（P1字段）`);
             this.warnings.push(`STAGE-11: ${result.shotId} 缺少lighting`);
           } else {
-            // 检查是否包含色温K值
-            if (!result.lighting.includes('K')) {
+            // v6.37-fix: lighting可以是对象或字符串
+            const lightingStr = typeof result.lighting === 'string' ? result.lighting : JSON.stringify(result.lighting);
+            if (!lightingStr.includes('K')) {
               check.passed = false;
               check.details.push(`${result.shotId}: lighting缺少色温K值`);
               this.warnings.push(`STAGE-11: ${result.shotId} lighting缺少色温`);
@@ -774,11 +777,13 @@ Prompt: ${item.prompt?.slice(0, 300) || '空'}
             check.details.push(`${result.shotId}: 缺少timeline（P1字段）`);
             this.warnings.push(`STAGE-11: ${result.shotId} 缺少timeline`);
           } else {
+            // v6.37-fix: timeline可以是对象或字符串
+            const timelineStr = typeof result.timeline === 'string' ? result.timeline : JSON.stringify(result.timeline);
             // 检查格式：T00:XX-T00:XX / duration: Xs / type: XXX / mood: XXX
             const timelinePattern = /T\d{2}:\d{2}\.\d-T\d{2}:\d{2}\.\d \/ duration: \d+s \/ type: \w+ \/ mood: \w+/;
-            if (!timelinePattern.test(result.timeline)) {
+            if (!timelinePattern.test(timelineStr)) {
               check.passed = false;
-              check.details.push(`${result.shotId}: timeline格式错误: ${result.timeline}`);
+              check.details.push(`${result.shotId}: timeline格式错误: ${timelineStr.slice(0,100)}`);
               this.warnings.push(`STAGE-11: ${result.shotId} timeline格式错误`);
             }
           }
@@ -788,10 +793,12 @@ Prompt: ${item.prompt?.slice(0, 300) || '空'}
             check.details.push(`${result.shotId}: 缺少backgroundSound（P1字段）`);
             this.warnings.push(`STAGE-11: ${result.shotId} 缺少backgroundSound`);
           } else {
+            // v6.37-fix: backgroundSound可以是对象或字符串
+            const bgStr = typeof result.backgroundSound === 'string' ? result.backgroundSound : JSON.stringify(result.backgroundSound);
             // 检查三段式：AMBIENT + SPATIAL + INTENSITY
-            const hasAmbient = result.backgroundSound.includes('AMBIENT:');
-            const hasSpatial = result.backgroundSound.includes('SPATIAL:');
-            const hasIntensity = result.backgroundSound.includes('INTENSITY:');
+            const hasAmbient = bgStr.includes('AMBIENT');
+            const hasSpatial = bgStr.includes('SPATIAL');
+            const hasIntensity = bgStr.includes('INTENSITY');
             if (!hasAmbient || !hasIntensity) {
               check.passed = false;
               check.details.push(`${result.shotId}: backgroundSound缺少AMBIENT或INTENSITY段`);
@@ -902,9 +909,12 @@ Prompt: ${item.prompt?.slice(0, 300) || '空'}
           this.warnings.push(`STAGE-12: S00 缺少isOpening标记——PromptForge可能错误优化此镜头`);
         }
       } else {
-        check.passed = false;
-        check.details.push(`S00: 片头镜头缺失`);
-        this.errors.push(`STAGE-12: 片头镜头(S00)缺失——opening-system-v3.js未生成或未被纳入renderResults`);
+        // v6.37-fix: generic 模式跳过片头检查
+        if (this.mode !== 'generic') {
+          check.passed = false;
+          check.details.push(`S00: 片头镜头缺失`);
+          this.errors.push(`STAGE-12: 片头镜头(S00)缺失——opening-system-v3.js未生成或未被纳入renderResults`);
+        }
       }
       
       // 检查内容镜字段

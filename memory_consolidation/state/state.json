@@ -7,8 +7,8 @@
     "last_chars": 18022
   },
   "diary": {
-    "count": 50,
-    "last_ts": "2026-06-12T03:33:56.415688",
+    "count": 51,
+    "last_ts": "2026-06-13T03:47:52.040949",
     "last_day": 16,
     "last_sessions": 19,
     "last_messages": 3824,
@@ -17,12 +17,12 @@
     "last_skip": "no_sessions_today"
   },
   "compact": {
-    "count": 50,
-    "last_ts": "2026-06-12T03:34:44.218274",
-    "last_invoke": 27,
-    "last_sessions": 159,
-    "last_messages": 3405,
-    "last_latency_s": 33.4,
+    "count": 51,
+    "last_ts": "2026-06-13T03:49:25.390366",
+    "last_invoke": 28,
+    "last_sessions": 132,
+    "last_messages": 2877,
+    "last_latency_s": 78.2,
     "last_model": "k2p6",
     "last_skip": "stm_hash_unchanged",
     "last_error": "The read operation timed out"
