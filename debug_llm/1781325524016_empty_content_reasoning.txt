@@ -1,0 +1,10 @@
+用户要求我作为电影Prompt语义检查器，对给定的检查项进行判断，只输出yes或no，并且以JSON格式输出（无markdown代码块）。
+
+检查项：[global-char-chen-nurse]
+检查内容：Prompt是否描述了角色"陈卓，30岁女性，护士，穿白色护士服，亲和专业，微笑自然，眼神温暖，摄影棚三点布光，背景虚化，专业人像摄影，健康科普演播室"的形象特征？（如外貌、服装、动作等）
+
+给定Prompt内容：
+CHARACTER: chen-nurse | state: natural pose, balanced posture, normal state | relation: positioned within environment, spatial relationship to 开场-自我介绍 | ACTION: 大家好，我是陈卓，一名护士。欢迎来到今天的健康科普讲堂。 | steady camera movement, smooth tracking, natural pace | SCENE: 开场-自我介绍, foreground detail establishing depth
+
+分析：
+1. Prompt中提到了CHARACTER: chen-nurse，说明

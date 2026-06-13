@@ -462,20 +462,27 @@ class ReferenceImageGate {
 
   /**
    * 检查图片URL是否有效
+   * v6.5.8-fix: 支持文件路径（预生产模式）和 base64（生产模式）
    */
   isValidImageUrl(url) {
     if (!url) return false;
-    if (url.length < 100) return false; // base64 至少100字符
-    if (!url.includes('base64')) return false;
-    return true;
+    // base64 格式：长度≥100且包含 base64
+    if (url.includes('base64') && url.length >= 100) return true;
+    // 文件路径格式：包含 / 且以 .png/.jpg/.jpeg 结尾
+    if (url.includes('/') && /\.(png|jpg|jpeg|webp)$/i.test(url)) return true;
+    return false;
   }
 
   /**
    * 获取镜头Prompt文本
+   * v6.5.8-fix: 支持 shot.prompt 为字符串的情况
    */
   getPromptText(shot) {
     if (typeof shot === 'string') return shot;
-    return shot.prompt?.text || shot.visualPrompt || shot.narration || shot.scene || '';
+    // 处理 shot.prompt 为字符串或对象的情况
+    const promptText = shot.prompt;
+    if (typeof promptText === 'string') return promptText;
+    return promptText?.text || shot.visualPrompt || shot.narration || shot.scene || '';
   }
 
   /**

@@ -1,0 +1,18 @@
+用户要求我作为电影Prompt语义检查器，对6个检查项判断Prompt是否满足要求，只回答yes或no，不要解释。输出必须是JSON格式，无markdown代码块。
+
+让我逐一检查：
+
+[S01-scene] 检查场景描述："开场-自我介绍"
+Prompt中：SCENE: 开场-自我介绍, ... 并且ACTION中有自我介绍内容"大家好，我是陈卓，一名护士。欢迎来到今天的健康科普讲堂..."
+匹配。答案：yes
+
+[S02-scene] 检查场景描述："什么是横纹肌溶解"
+Prompt中：relation: ... spatial relationship to 什么是横纹肌溶解，并且ACTION中解释了横纹肌溶解的概念。
+匹配。答案：yes
+
+[S03-scene] 检查场景描述："症状表现"
+Prompt中：relation: ... spatial relationship to 症状表现，并且ACTION中描述了三大典型症状。
+匹配。答案：yes
+
+[S04-scene] 检查场景描述："实验室检查"
+Prompt中：relation
