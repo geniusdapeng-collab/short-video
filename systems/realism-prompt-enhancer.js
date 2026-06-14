@@ -82,6 +82,183 @@ class RealismPromptEnhancer {
       'frozen moment': 'motion blur on fast elements, dust particles'
     };
 
+    // 金色光影五维参数库（v2.0 通用版）
+    this.goldLightingDimensions = {
+      // 2.1 轮廓逆光 (Rim Backlight)
+      rimBacklight: {
+        intensity: ['0.6 subtle rim', '0.75 elegant glow', '0.85 dramatic halo', '0.95 sacred aura', '1.0 silhouette'],
+        colorTemp: ['4000K', '4500K', '5500K'],
+        direction: ['15° above behind', '30° side behind', '45° low behind'],
+        template: '{intensity} golden rim backlight from {direction}, luminous edge glow outlining {subject}, warm champagne gold rim color, subtle golden aura surrounding {subject}, clean separation from background'
+      },
+      // 2.2 体积光/上帝光 (Volumetric God Rays)
+      volumetricLight: {
+        opening: ['cloud gap', 'window', 'skylight', 'canopy gap'],
+        direction: ['vertical 80°-90°', 'diagonal 45°-60°'],
+        density: ['low subtle haze', 'medium soft beams', 'high dramatic shafts'],
+        gradient: ['white to warm gold', 'top white to bottom warm gold'],
+        template: 'volumetric {intensity} light beams piercing through {medium} from {opening}, god rays descending through atmospheric haze, particles of light visible in beam, {gradient} color gradient along beam length'
+      },
+      // 2.3 漫射柔光 (Diffused Ambient)
+      diffusedAmbient: {
+        ratio: ['1:1', '1:1.2', '1:1.5'],
+        shadowOpacity: ['80%', '85%', '90%', '95%'],
+        colorTemp: ['5500K', '6500K', '7500K'],
+        template: 'soft diffused ambient lighting from {source}, extremely gentle shadow transitions, no harsh shadows, no visible light source, seamless tonal gradation, ethereal and weightless atmosphere, {colorTemp} white balance'
+      },
+      // 2.4 微粒金光 (Particulate Gold)
+      particulateGold: {
+        density: ['sparse', 'scattered', 'medium', 'dense'],
+        particleType: ['dust-like', 'pollen', 'sparkle', 'bokeh'],
+        motion: ['static', 'floating', 'rising', 'swirling'],
+        glowMode: ['lit-only', 'self-glow', 'both'],
+        depthDistribution: { front: 20, mid: 50, back: 30 },
+        template: '{particleType} of golden light {motion} in air, {density} distribution, {glowMode} in light beams, creating depth layers, subtle magical atmosphere'
+      },
+      // 2.5 反射映射 (Reflective Mapping)
+      reflectiveMapping: {
+        surface: ['marble', 'water', 'glass', 'metal', 'silk'],
+        intensity: ['subtle 0.2-0.3', 'moderate 0.4-0.6', 'strong 0.7-0.9'],
+        clarity: ['blurred', 'soft', 'sharp'],
+        colorShift: ['warm gold', 'neutral', 'cool blue'],
+        template: '{surface} surface reflecting {reflectionColor} light, {clarity} reflection quality, golden light bounce creating subtle warm glow, expanded sense of space through reflection'
+      }
+    };
+
+    // 金色色彩分级体系（v2.0 通用版）
+    this.goldColorSystem = {
+      // 3.1 三层金色模型
+      threeLayerGold: {
+        ambientGold: { saturation: '10-25%', lightness: '75-90%', area: '50-70%' },
+        structuralGold: { saturation: '35-55%', lightness: '55-75%', area: '15-25%' },
+        highlightGold: { saturation: '55-80%', lightness: '85-100%', area: '5-15%' },
+        maxTotalArea: '30%'
+      },
+      // 3.2 金色色温情绪谱
+      goldTemperatureEmotion: {
+        sacred: { hue: '偏黄', hex: '#D4A574', temp: '4500K', light: '高轮廓光+体积光+冷暗部' },
+        dreamy: { hue: '偏玫瑰', hex: '#E8B4A2', temp: '3800K', light: '柔光漫射+微粒金光+浅景深' },
+        cool: { hue: '偏白金', hex: '#E5DCC3', temp: '6200K', light: '均匀漫射+冷轮廓+极简构图' },
+        epic: { hue: '偏暗赭', hex: '#B8860B', temp: '5200K', light: '侧光硬阴影+暖暗部+大景别' },
+        passionate: { hue: '偏橙', hex: '#E8985E', temp: '3500K', light: '高对比+硬光+动态光效' },
+        futuristic: { hue: '偏柠檬', hex: '#F0E68C', temp: '5800K', light: '冷主光+金轮廓+数据粒子' },
+        organic: { hue: '偏草金', hex: '#C9B037', temp: '4800K', light: '自然光+漫射+环境反射' }
+      },
+      // 3.3 "白灰金"通用配色公式
+      whiteGrayGoldFormula: {
+        white: '60-75%',
+        gray: '8-15%',
+        gold: '15-25%',
+        accent: '0-5%'
+      },
+      // 3.4 暗部压色规范
+      shadowColor: {
+        coolBlueGray: { hex: '#2C3E50-#4A6274', effect: '冷暖对比，空间深邃', usage: '通用首选' },
+        warmBrownGray: { hex: '#4A3C2A-#5C4D3C', effect: '统一暖调，复古质感', usage: '古典/自然' },
+        purpleGray: { hex: '#3D2B4E-#5A3D6E', effect: '神秘高贵，戏剧性强', usage: '奢华/奇幻' },
+        greenGray: { hex: '#2F4538-#4A6350', effect: '自然有机，宁静感', usage: '生态/茶酒' },
+        neutralGray: { hex: '#404040-#5A5A5A', effect: '无色彩倾向，极简', usage: '科技/建筑' }
+      }
+    };
+
+    // v2.0: 金色光影场景化模板（通用版）
+    this.goldTemplates = {
+      // 4.1 人像/人物类
+      portraitDreamy: [
+        'subject in light-colored flowing garments, minimal background',
+        'strong golden rim backlight at 30° above behind subject, 0.8 intensity',
+        'soft diffused ambient from front-left, extremely gentle shadows',
+        'golden particles floating at midground, shallow depth of field',
+        'ethereal, serene, timeless',
+        'white:gray:gold = 70:10:20',
+        'hair and fabric edges glowing with golden rim light'
+      ],
+      portraitLuxury: [
+        'subject against clean white/gray backdrop',
+        'precise golden rim light outlining facial bone structure and shoulders',
+        'near-shadowless diffused ambient at 1:1.2 ratio',
+        'subtle golden reflection in eyes, minimal gold accessories',
+        'sophisticated, controlled luxury',
+        'white:gray:gold = 75:12:13',
+        'sharp but soft rim, no spill onto face center'
+      ],
+      portraitCinematic: [
+        'environmental context with depth layers',
+        'golden hour natural backlight through environment',
+        'cool blue-gray ambient shadow side',
+        'volumetric god rays + floating golden dust',
+        'nostalgic, epic, emotional',
+        'white:gray:gold = 55:20:25',
+        'strong warm/cool contrast on subject'
+      ],
+      // 4.2 产品/静物类
+      productLuxury: [
+        'product on reflective white marble surface, soft gradient background',
+        'precise golden rim light tracing product silhouette, 0.7 intensity',
+        '360° diffused soft light, minimal shadows',
+        'golden reflection on surface + subtle sparkle particles',
+        'premium, aspirational, meticulous',
+        'white:gray:gold = 70:8:22',
+        'reflection doubles the golden presence without adding area'
+      ],
+      productFood: [
+        'food on white/cream ceramic surface, minimal props',
+        'warm golden side-light at 45° emphasizing texture',
+        'soft overhead diffused light',
+        'steam/glow with golden particles + reflective sauce highlights',
+        'appetizing, warm, artisanal',
+        'white:gray:gold = 65:10:25',
+        'golden light makes food appear warmer and fresher'
+      ],
+      productTech: [
+        'device floating in white void, subtle geometric elements',
+        'cool white main light + golden accent rim on edges',
+        'evenly diffused ambient, clinical precision',
+        'golden UI elements reflecting on surface + data particles',
+        'futuristic, premium tech, clean luxury',
+        'white:gray:gold = 75:10:12',
+        'gold leans lemon (#F0E68C), not warm orange'
+      ],
+      // 4.3 建筑/空间类
+      architectureSacred: [
+        'grand interior with white/cream surfaces, tall vertical space',
+        'vertical god ray from ceiling opening, central dominant beam',
+        'ambient golden bounce from floor and walls',
+        'golden structural details + particle rain in light beam',
+        'majestic, sacred, transcendent',
+        'white:gray:gold = 65:10:25',
+        'symmetrical composition, central light as axis'
+      ],
+      architectureModern: [
+        'clean geometric white concrete/glass structure',
+        'golden hour sunlight grazing surfaces at low angle',
+        'soft sky ambient filling shadows with cool blue-gray',
+        'golden light on one facade, cool shadow on opposite',
+        'serene, monumental, timeless',
+        'white:gray:gold = 70:15:15',
+        'strong warm/cool facade contrast'
+      ],
+      // 4.4 自然/风景类
+      natureClouds: [
+        'cloud layers or atmospheric vista with white/gray dominant',
+        'golden hour backlight illuminating cloud edges from behind',
+        'soft ambient sky light, blue-gray shadow areas',
+        'golden rim on cloud formations + god rays through gaps',
+        'ethereal, infinite, transcendent',
+        'white:gray:gold = 70:15:15',
+        'cloud layers create natural depth planes'
+      ],
+      natureForest: [
+        'forest scene with white mist + dark tree silhouettes',
+        'golden light shafts through canopy gaps, volumetric in mist',
+        'cool blue-gray shadow under canopy',
+        'golden dust/pollen in light beams + backlit leaves',
+        'magical, serene, enchanted',
+        'white:gray:gold = 50:25:25',
+        'darker base makes golden light more dramatic'
+      ]
+    };
+
     // 场景化模板
     this.templates = {
       portrait: [
@@ -169,7 +346,98 @@ class RealismPromptEnhancer {
     // 4. 追加缺失维度（避免重复）
     const enhancedPrompt = this._mergePrompts(cleanedPrompt, missingKeywords);
     
-    return enhancedPrompt;
+    // 5. v2.0: 金色光影软性注入
+    const goldEnhanced = this._injectGoldLighting(enhancedPrompt, sceneType);
+    
+    return goldEnhanced;
+  }
+
+  /**
+   * v2.0: 金色光影软性注入
+   * 基于五维打光体系和金色色彩分级，自动注入光影描述
+   */
+  _injectGoldLighting(prompt, sceneType) {
+    // 检查是否已有金色光影描述
+    const hasGoldLighting = /golden|gold|champagne|rim light|god rays|volumetric/i.test(prompt);
+    const hasRimLight = /rim light|backlight|edge glow|luminous edge/i.test(prompt);
+    const hasVolumetric = /volumetric|god rays|light beams|shafts of light/i.test(prompt);
+    const hasDiffused = /diffused|soft ambient|gentle shadow|ethereal/i.test(prompt);
+    const hasParticulate = /particles|dust motes|sparkle|bokeh/i.test(prompt);
+    
+    let goldKeywords = [];
+    
+    // 根据场景类型选择光影模板
+    if (sceneType === 'portrait') {
+      if (!hasRimLight) {
+        goldKeywords.push('strong golden rim backlight at 30° above behind subject, luminous edge glow');
+      }
+      if (!hasDiffused) {
+        goldKeywords.push('soft diffused ambient from front-left, extremely gentle shadows');
+      }
+      if (!hasParticulate) {
+        goldKeywords.push('golden particles floating at midground, shallow depth of field');
+      }
+      if (!hasGoldLighting) {
+        goldKeywords.push('warm champagne gold and ivory white color palette');
+      }
+    } else if (sceneType === 'product') {
+      if (!hasRimLight) {
+        goldKeywords.push('precise golden rim light tracing product silhouette, 0.7 intensity');
+      }
+      if (!hasDiffused) {
+        goldKeywords.push('360° diffused soft light, minimal shadows');
+      }
+      if (!hasGoldLighting) {
+        goldKeywords.push('white:gray:gold = 70:8:22, premium commercial lighting');
+      }
+    } else if (sceneType === 'architecture') {
+      if (!hasVolumetric) {
+        goldKeywords.push('volumetric god rays from skylight, golden light shafts');
+      }
+      if (!hasDiffused) {
+        goldKeywords.push('ambient golden bounce from floor and walls');
+      }
+      if (!hasGoldLighting) {
+        goldKeywords.push('white:gray:gold = 65:10:25, majestic sacred lighting');
+      }
+    } else if (sceneType === 'nature') {
+      if (!hasVolumetric) {
+        goldKeywords.push('golden light shafts through canopy gaps, volumetric in mist');
+      }
+      if (!hasRimLight) {
+        goldKeywords.push('golden rim backlight on hill ridges, luminous edge glow');
+      }
+      if (!hasGoldLighting) {
+        goldKeywords.push('white:gray:gold = 70:15:15, ethereal nature lighting');
+      }
+    } else {
+      // general 默认
+      if (!hasRimLight) {
+        goldKeywords.push('subtle golden rim backlight, luminous edge glow separating subject');
+      }
+      if (!hasDiffused) {
+        goldKeywords.push('soft diffused ambient lighting, gentle shadow transitions');
+      }
+      if (!hasGoldLighting) {
+        goldKeywords.push('warm champagne gold and ivory white color palette');
+      }
+    }
+    
+    // 添加三层金色控制（确保不超限30%）
+    if (!hasGoldLighting) {
+      goldKeywords.push('ambient gold 15% + structural gold 20% + highlight gold 10%');
+    }
+    
+    // 添加暗部压色（冷蓝灰）
+    if (!/cool shadow|blue-gray|teal shadow|cold shadow/i.test(prompt)) {
+      goldKeywords.push('cool blue-gray shadows (#2C3E50), subtle warm/cool contrast');
+    }
+    
+    if (goldKeywords.length > 0) {
+      return `${prompt}, ${goldKeywords.join(', ')}`;
+    }
+    
+    return prompt;
   }
 
   /**
@@ -203,12 +471,13 @@ class RealismPromptEnhancer {
   _analyzeCoverage(prompt) {
     const coverage = {
       camera: false, lens: false, aperture: false, lighting: false,
-      color: false, material: false, motion: false, grain: false
+      color: false, material: false, motion: false, grain: false,
+      goldLighting: false, goldColor: false, goldShadow: false
     };
     
     const lowerPrompt = prompt.toLowerCase();
     
-    // 检查各维度
+    // 检查原有维度
     if (lowerPrompt.includes('arri') || lowerPrompt.includes('red') || lowerPrompt.includes('sony venice')) {
       coverage.camera = true;
     }
@@ -232,6 +501,17 @@ class RealismPromptEnhancer {
     }
     if (lowerPrompt.includes('grain') || lowerPrompt.includes('texture') || lowerPrompt.includes('raw')) {
       coverage.grain = true;
+    }
+    
+    // v2.0: 检查金色光影维度
+    if (lowerPrompt.includes('golden') || lowerPrompt.includes('gold') || lowerPrompt.includes('champagne') || lowerPrompt.includes('rim light')) {
+      coverage.goldLighting = true;
+    }
+    if (lowerPrompt.includes('white:gray:gold') || lowerPrompt.includes('color palette') || lowerPrompt.includes('three-layer gold')) {
+      coverage.goldColor = true;
+    }
+    if (lowerPrompt.includes('cool shadow') || lowerPrompt.includes('blue-gray') || lowerPrompt.includes('teal shadow') || lowerPrompt.includes('#2C3E50')) {
+      coverage.goldShadow = true;
     }
     
     return coverage;
