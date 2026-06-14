@@ -2605,9 +2605,19 @@ ${isNirath
             duration = prdDuration;
             this.log('STAGE-6', `  🎯 V2分配(尊重PRD): ${scene.id} | PRD:${prdDuration}s ≈ V2:${v2Duration}s | 使用PRD:${duration}s`);
           } else {
-            // v2分配与PRD差异过大,警告但仍使用PRD(业务定义优先)
-            duration = prdDuration;
-            this.log('STAGE-6', `  ⚠️ V2与PRD差异大: ${scene.id} | PRD:${prdDuration}s vs V2:${v2Duration}s | 强制使用PRD:${duration}s`);
+            // v6.6.2-fix: 当V2计算值大于PRD，且不超过15秒硬约束时，使用V2值
+            if (v2Duration > prdDuration && v2Duration <= 15) {
+              duration = v2Duration;
+              this.log('STAGE-6', `  🎯 V2调整(内容适配): ${scene.id} | PRD:${prdDuration}s → V2:${v2Duration}s (≤15s硬约束)`);
+            } else if (v2Duration > 15) {
+              // 超过15秒硬约束，使用15秒，警告
+              duration = 15;
+              this.log('STAGE-6', `  ⚠️ V2超限(15s硬约束): ${scene.id} | PRD:${prdDuration}s vs V2:${v2Duration}s → 强制15s，建议精简台词`);
+            } else {
+              // V2 < PRD，使用PRD（业务定义优先）
+              duration = prdDuration;
+              this.log('STAGE-6', `  ⚠️ V2与PRD差异大: ${scene.id} | PRD:${prdDuration}s vs V2:${v2Duration}s | 强制使用PRD:${duration}s`);
+            }
           }
         } else {
           duration = v2Duration;
