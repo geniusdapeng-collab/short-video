@@ -861,6 +861,205 @@ EDU=教育科普, SOC=社媒短视频, ADV=商业广告, DOC=纪录片, DRAMA=�
     });
     
     return merged;
+  /**
+   * v6.6.4: 生成《视频需求要点清单》Markdown文档
+   * 用于用户确认环节，必须包含所有关键字段
+   * @param {Object} parseResult - 解析结果
+   * @returns {string} Markdown格式的需求清单
+   */
+  generateRequirementList(parseResult) {
+    const basic = parseResult.basicInfo;
+    const specs = parseResult.productionSpecs;
+    const creative = parseResult.contentCreative;
+    const structure = parseResult.structure;
+    const series = parseResult.series;
+    const confidence = parseResult.fieldConfidence || {};
+    const notes = parseResult.aiDecisionNotes || {};
+    
+    const styleDesc = this.styleEncoder.expandStyle(
+      specs.style.primary,
+      specs.style.secondary,
+      basic.videoType
+    );
+    
+    const formatConfidence = (field) => {
+      const conf = confidence[field];
+      if (conf === undefined) return '—';
+      if (conf >= 0.8) return '✅ 高置信度';
+      if (conf >= 0.6) return '⚠️ 中等置信度';
+      return '❓ 低置信度（建议确认）';
+    };
+    
+    const formatInferred = (field) => {
+      const note = notes[field];
+      if (!note) return '';
+      return note.includes('AI推断') ? ' *(AI推断)*' : ' *(用户指定)*';
+    };
+
+    return `# 🎬 视频需求要点清单
+
+> **生成时间**: ${new Date().toLocaleString('zh-CN')}
+> **版本**: v6.6.4
+> **状态**: 待确认 ⏳
+
+---
+
+## 一、基本信息
+
+| 字段 | 值 | 置信度 |
+|------|-----|--------|
+| **视频类型** | ${basic.videoTypeName || basic.videoType} | ${formatConfidence('videoType')}${formatInferred('videoType')} |
+| **主题/标题** | ${basic.title || '未命名'} | ${formatConfidence('title')}${formatInferred('title')} |
+| **目标受众** | ${basic.targetAudience || '—'} | — |
+| **投放平台** | ${basic.platform || '—'} | ${formatConfidence('platform')}${formatInferred('platform')} |
+
+## 二、制作规格
+
+| 字段 | 值 | 置信度 |
+|------|-----|--------|
+| **目标时长** | ${specs.duration?.target || '—'} 秒 | ${formatConfidence('duration')}${formatInferred('duration')} |
+| **画幅比例** | ${specs.aspectRatio || '—'} | — |
+| **创意指数** | ${specs.creativeIntensity !== undefined ? specs.creativeIntensity.toFixed(1) : '—'} / 1.0 | ${formatConfidence('creativeIntensity')}${formatInferred('creativeIntensity')} |
+| **质量等级** | ${specs.quality || '—'} | — |
+| **色彩基调** | ${specs.colorTone || '根据风格自动匹配'} | — |
+
+### 风格设定
+- **主风格**: ${specs.style.primaryName || specs.style.primary || '—'}${formatInferred('style')}
+- **辅助风格**: ${specs.style.secondaryNames?.join('、') || '无'}${formatInferred('style')}
+- **风格描述**: ${styleDesc}
+
+## 三、内容创意
+
+| 字段 | 值 |
+|------|-----|
+| **叙事模式** | ${creative.narrativeMode || '—'} |
+| **内容调性** | ${creative.contentTone || '—'} |
+| **视觉风格** | ${creative.visualStyle || '—'} |
+| **音乐风格** | ${creative.musicStyle || '根据风格自动匹配'} |
+
+## 四、角色信息
+
+${basic.characters?.length > 0 ? basic.characters.map((char, i) => `
+**角色 ${i + 1}: ${char.name || '未命名'}**
+- 描述: ${char.description || '—'}
+- 角色定位: ${char.role || '—'}
+`).join('') : '*(无角色信息)*'}
+
+## 五、结构规划
+
+### 开场
+- ${structure.opening?.enabled ? '✅ 启用' : '❌ 跳过'}
+${structure.opening?.title ? `  - 标题: ${structure.opening.title}` : ''}
+${structure.opening?.subtitle ? `  - 副标题: ${structure.opening.subtitle}` : ''}
+
+### 场景规划
+${structure.scenes?.length > 0 ? structure.scenes.map((s, i) => `- 场景 ${i + 1}: ${s.description || s.type || '—'} (${s.duration || '—'}秒)`).join('\n') : '*(待生成)*'}
+
+### 结尾
+- 风格: ${structure.ending?.style || '—'}
+- 下集预告: ${structure.ending?.previewNext ? '✅ 是' : '❌ 否'}
+
+## 六、系列信息
+
+${series.isSeries ? `
+- **系列模式**: ✅ 是
+- **总集数**: ${series.totalEpisodes || '—'} 集
+- **当前集数**: 第 ${series.currentEpisode || '—'} 集
+- **集间隔离**: ${series.contentIsolation ? '✅ 已启用' : '❌ 未启用'}
+` : '- **系列模式**: 否（单集）'}
+
+## 七、系统约束
+
+| 约束项 | 限制 |
+|--------|------|
+| 单集最长时长 | 180秒 |
+| 单个镜头最长 | 15秒 |
+| 总时长上限 | 20分钟（1200秒） |
+| 系列最多集数 | 7集（推荐5集） |
+
+---
+
+## ⚠️ 需要确认的事项
+
+${parseResult.requiresConfirmation?.length > 0 ? parseResult.requiresConfirmation.map(f => `- **${f}**: 置信度较低，请确认`).join('\n') : '*(所有字段置信度均较高，无需特别确认)*'}
+
+## 📝 AI决策说明
+
+${Object.entries(notes).map(([field, note]) => `- **${field}**: ${note}`).join('\n') || '*(无AI决策说明)*'}
+
+---
+
+## ✅ 请确认
+
+**请检查以上信息是否准确，如有修改意见请直接提出。**
+
+确认方式：
+- ✅ **确认无误** → 回复"确认"，进入预生产链路
+- ✏️ **需要修改** → 指出具体修改项，最多迭代1-2轮
+- ❌ **放弃** → 回复"取消"
+
+> **注意**: 未确认前，预生产链路不会启动。这是为了确保最终成片符合您的预期。
+`;
+  }
+
+  /**
+   * v6.6.4: 保存需求清单到文件
+   * @param {Object} parseResult - 解析结果
+   * @param {string} outputPath - 输出路径（可选）
+   * @returns {string} 文件路径
+   */
+  async saveRequirementList(parseResult, outputPath) {
+    const markdown = this.generateRequirementList(parseResult);
+    const fs = require('fs').promises;
+    const path = require('path');
+    
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const defaultPath = outputPath || path.join(
+      process.cwd(),
+      'output',
+      'requirement-lists',
+      `requirement-list-${timestamp}.md`
+    );
+    
+    // 确保目录存在
+    await fs.mkdir(path.dirname(defaultPath), { recursive: true });
+    await fs.writeFile(defaultPath, markdown, 'utf-8');
+    
+    return defaultPath;
+  }
+
+  /**
+   * v6.6.4: 检查用户反馈是否包含确认指令
+   * @param {string} feedback - 用户反馈文本
+   * @returns {Object} { confirmed: boolean, modifications: Array, cancelled: boolean }
+   */
+  parseUserConfirmation(feedback) {
+    const text = feedback.toLowerCase().trim();
+    
+    // 确认指令
+    const confirmPatterns = ['确认', '没问题', 'ok', '可以', '对的', 'yes', '是的', '没错', '就这样', '通过'];
+    const confirmed = confirmPatterns.some(p => text.includes(p));
+    
+    // 取消指令
+    const cancelPatterns = ['取消', '放弃', '算了', 'stop', 'no', '不要'];
+    const cancelled = cancelPatterns.some(p => text.includes(p));
+    
+    // 提取修改意见（简单实现）
+    const modifications = [];
+    if (!confirmed && !cancelled) {
+      // 尝试提取"修改XXX为YYY"的模式
+      const modifyMatches = text.match(/修改(.+?)为(.+?)[，。！]/g);
+      if (modifyMatches) {
+        modifyMatches.forEach(m => {
+          const parts = m.match(/修改(.+?)为(.+?)[，。！]/);
+          if (parts) {
+            modifications.push({ field: parts[1].trim(), value: parts[2].trim() });
+          }
+        });
+      }
+    }
+    
+    return { confirmed, cancelled, modifications };
   }
 }
 

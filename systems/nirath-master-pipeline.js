@@ -494,6 +494,43 @@ class NirathMasterPipeline {
       
       this.log('PIPELINE', `📝 [Stage -1] ✅ 需求解析完成 | 类型: ${parseResult.basicInfo.videoTypeName} | 时长: ${parseResult.productionSpecs.duration.target}秒 | 创意指数: ${parseResult.productionSpecs.creativeIntensity}`);
       
+      // v6.6.4: 生成《视频需求要点清单》并保存
+      const requirementListPath = await parser.saveRequirementList(parseResult);
+      const requirementList = parser.generateRequirementList(parseResult);
+      this.log('PIPELINE', `📝 [Stage -1] ✅ 需求清单已生成: ${requirementListPath}`);
+      
+      // 输出清单内容到日志（用户可见）
+      console.log('\n' + '='.repeat(60));
+      console.log('📋 视频需求要点清单（请确认后进入预生产）');
+      console.log('='.repeat(60));
+      console.log(requirementList);
+      console.log('='.repeat(60));
+      
+      // 将清单保存到 pipeline 上下文，供后续追溯
+      this.requirementList = {
+        content: requirementList,
+        path: requirementListPath,
+        parseResult: parseResult,
+        confirmed: false, // 待确认
+        timestamp: new Date().toISOString()
+      };
+      
+      // v6.6.4: 需求清单确认检查（除非用户显式跳过）
+      if (options.skipRequirementConfirmation !== true) {
+        this.log('PIPELINE', '⏸️ [Stage -1] 需求清单已生成，等待用户确认...');
+        this.log('PIPELINE', '⏸️ 请检查上方"视频需求要点清单"，确认后回复"确认"继续');
+        
+        // 返回清单等待确认，不进入主链路
+        return {
+          status: 'REQUIREMENT_CONFIRMATION_REQUIRED',
+          message: '请确认视频需求要点清单',
+          requirementList: this.requirementList,
+          nextStep: '回复"确认"或提出修改意见'
+        };
+      }
+      
+      this.log('PIPELINE', '📝 [Stage -1] ✅ 用户已确认（跳过模式），进入主链路...');
+      
       // 将解析结果合并到现有输入（解析结果优先，但保留用户的显式指定）
       const pipelineInput = parser.toPipelineInput(parseResult);
       
@@ -1965,6 +2002,18 @@ class NirathMasterPipeline {
           visualPrompt = enhanced;
         }
         
+        // v6.6.4: 金色光影技能系统接入（三点照明+情绪光影+环境光效+AI真实感）
+        if (typeof this.applyLightingSkills === 'function') {
+          const lightingEnhanced = await this.applyLightingSkills(scene, visualPrompt, {
+            shotIndex: i,
+            mode: this.mode
+          });
+          if (lightingEnhanced !== visualPrompt) {
+            this.log('STAGE-5B', `🎨 ${scene.id} 光影技能增强 | 已注入金色光影体系`);
+          }
+          visualPrompt = lightingEnhanced;
+        }
+        
         results.push({
           ...scene,
           visualPrompt: visualPrompt,
@@ -1979,6 +2028,14 @@ class NirathMasterPipeline {
           visualPrompt = this.realismEnhancer.enhance(visualPrompt, {
             sceneType: scene.type || 'general',
             shotIndex: i
+          });
+        }
+        
+        // v6.6.4: 金色光影技能系统接入（fallback分支同样增强）
+        if (typeof this.applyLightingSkills === 'function') {
+          visualPrompt = await this.applyLightingSkills(scene, visualPrompt, {
+            shotIndex: i,
+            mode: this.mode
           });
         }
         

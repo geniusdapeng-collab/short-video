@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-12T14:21:05.628Z",
+  "updatedAt": "2026-06-14T04:19:23.002Z",
   "entries": {
     "memory:memory/2026-05-15.md:31:42": {
       "key": "memory:memory/2026-05-15.md:31:42",
@@ -4841,6 +4841,130 @@
         "v0.7.0-xtreme-integrated",
         "systems/xtreme-shot-library.js",
         "short-video-engine.js"
+      ]
+    },
+    "memory:memory/2026-06-10.md:250:269": {
+      "key": "memory:memory/2026-06-10.md:250:269",
+      "path": "memory/2026-06-10.md",
+      "startLine": 250,
+      "endLine": 269,
+      "source": "memory",
+      "snippet": "### 5批次知识注入（用满450字符剩余空间） | 批次 | 内容 | 字符增量 | 注入点 | 验证结果 | |------|------|----------|--------|----------| | **批次1** | 动作具象化+情绪留白化 | ~150 | `injectVividness()` | 面部动作链（眉头/眼睑/嘴角/下颌）+ 情绪过程延展（L1-L5分级） | | **批次2** | 运镜叙事化 | ~100 | `buildTimelinePrompt()` | Push In/Pull Out/Dolly Zoom/手持 + 情绪对照表 | | **批次3** | 四大顶级指令集 | ~150 | `buildFourCommands()` | 皮肤毛孔/动作重量感/眼神灵魂/场景颗粒 | | **批次4** | 完整质感系统 | ~50 | `buildCompleteTexture()` | 肤色贴合（高原红/小麦色/苍白）+ 外观瑕疵（褶皱/黑眼圈） | | **批次5** | 质量评估自检 | 检查流程 | `stagePromptQualityGate` | 人物鲜活度5项检查 + 光影质量5项检查 | ### 1500字符全链路修复（v0.7.4） - 修复22个文件140处硬编码（950→1470/980→1500） - `config-center-v2.js`：`maxLength: 980→1500`，`optimalLength: 970→1470` - 质量门阈值调整：nirath模式1470/920，generic",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4322209447622299,
+      "maxScore": 0.4322209447622299,
+      "firstRecalledAt": "2026-06-14T04:19:23.002Z",
+      "lastRecalledAt": "2026-06-14T04:19:23.002Z",
+      "queryHashes": [
+        "434e43f62b5c"
+      ],
+      "recallDays": [
+        "2026-06-14"
+      ],
+      "conceptTags": [
+        "眉头/眼睑/嘴角/下颌",
+        "l1-l5分级",
+        "in/pull",
+        "out/dolly",
+        "zoom/手持",
+        "皮肤毛孔/动作重量感/眼神灵魂/场景颗粒",
+        "高原红/小麦色/苍白",
+        "褶皱/黑眼圈"
+      ]
+    },
+    "memory:memory/2026-06-07.md:438:464": {
+      "key": "memory:memory/2026-06-07.md:438:464",
+      "path": "memory/2026-06-07.md",
+      "startLine": 438,
+      "endLine": 464,
+      "source": "memory",
+      "snippet": "### 验证结果（v6.5.5 预生产） | 镜头 | 时间轴 | 占位符 | 风格标记 | 长度 | |------|--------|--------|----------|------| | S01 | ✅ | ❌ | ✅ | 960 | | S02 | ✅ | ❌ | ✅ | 900 | | S03 | ✅ | ❌ | ✅ | 930 | | S04 | ✅ | ❌ | ✅ | 899 | **全部内容镜头（S01-S04）通过验证！** --- ## 关键教训 1. **截断策略必须保护所有核心字段**：`【镜头时间轴】` 在 prompt 末尾被 `smartTrim`/`smartTruncate` 整段丢失。修复需要：a) 注入位置提前到高优先级区域；b) 截断后强制保留；c) 最终 push 前最终兜底。 2. **占位符清理需覆盖所有变体**：`****文本****` 清理后可能残留 `**` 或 `****`，需要多层正则兜底。 3. **英文等价词需显式注册**：`hyper-realistic` 是 `超写实` 的英文等价词，但 Validator 未注册，导致误判。 4. **系统级修复 vs 单 case 修复**：本次所有修复都是结构性修复（截断策略、占位符清理、等价词注册），不是单 case 绕过。 --- ## 修改文件汇总（v6.5.4 + v6.5.5） - `shanhaijing-render-engine/orient-primordial-core-v24.js`（去重前提取保存 `【镜头时间轴】`） - `sys",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.41911314725875853,
+      "maxScore": 0.41911314725875853,
+      "firstRecalledAt": "2026-06-14T04:19:23.002Z",
+      "lastRecalledAt": "2026-06-14T04:19:23.002Z",
+      "queryHashes": [
+        "434e43f62b5c"
+      ],
+      "recallDays": [
+        "2026-06-14"
+      ],
+      "conceptTags": [
+        "v6.5.5",
+        "s01-s04",
+        "hyper-realistic",
+        "v6.5.4",
+        "验证",
+        "结果",
+        "生产",
+        "镜头"
+      ]
+    },
+    "memory:memory/2026-06-10.md:283:313": {
+      "key": "memory:memory/2026-06-10.md:283:313",
+      "path": "memory/2026-06-10.md",
+      "startLine": 283,
+      "endLine": 313,
+      "source": "memory",
+      "snippet": "- 待修：需统一字段或增加兼容读取 ### 版本发布 | 版本 | 提交 | 内容 | |------|------|------| | SHORT-VIDEO-0.7.3 | `37a0064` | maldives-fix（定妆照+角色+对齐度+评分+占位符） | | SHORT-VIDEO-0.7.4 | `dc23e1e` / `1a0edfc` | 1500字符全链路修复 | | SHORT-VIDEO-0.7.5 | `ad34c37` | 三大方案基础注入（人物鲜活度+光影+负面词） | | **SHORT-VIDEO-0.7.6** | `bd33854` | **5批次知识全注入，用满1500字符** | ### 质量评分记录 - v0.7.3-fix3: 85分 (B级 PASS) - v0.7.5: 83分 (B级 PASS) - v0.7.6: 81分 (B级 PASS) — 评分略降因内容更丰富，但质感大幅提升 ### 最终Prompt利用率对比 | 镜头 | 修复前 | v0.7.3 | v0.7.6（5批次注入后） | |------|--------|--------|----------------------| | S01 | ~973 | 1054 | 1070 (含人物鲜活度+光影+动作具象化) | | S02 | ~975 | 1054 | 1055 (含人物鲜活度+光影+动作具象化) | | S03 | ~974 | 1043 | **1496** (几乎填满1500！含完整质感+运镜叙事+四大指令) | ### 自检清单全链",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.41634412109851837,
+      "maxScore": 0.41634412109851837,
+      "firstRecalledAt": "2026-06-14T04:19:23.002Z",
+      "lastRecalledAt": "2026-06-14T04:19:23.002Z",
+      "queryHashes": [
+        "434e43f62b5c"
+      ],
+      "recallDays": [
+        "2026-06-14"
+      ],
+      "conceptTags": [
+        "short-video-0.7.3",
+        "maldives-fix",
+        "short-video-0.7.4",
+        "short-video-0.7.5",
+        "short-video-0.7.6",
+        "v0.7.3-fix3",
+        "v0.7.5",
+        "v0.7.6"
+      ]
+    },
+    "memory:memory/2026-06-12.md:79:120": {
+      "key": "memory:memory/2026-06-12.md:79:120",
+      "path": "memory/2026-06-12.md",
+      "startLine": 79,
+      "endLine": 120,
+      "source": "memory",
+      "snippet": "- 添加 lighting 字段（主光方向+色温K值+特效光） - 构建函数：buildCameraMovement, buildLighting **P2级代码改造（全链路验证）** - `systems/pipeline-integrity-validator.js`： - 添加 mood 检查（3-5个关键词） - 添加 action 检查 - 添加 characterRef 格式检查（image://前缀） - 添加 character 格式检查（极简锚点格式） - 添加 timeline 检查 - 添加 backgroundSound 检查 ### 版本号 当前：v6.5.62-P2 ### 待完成工作 - 推送代码到GitHub - 运行预生产验证 ## 2026-06-12 22:16 会话记录 ### 已完成工作 **P1级代码改造（产出环节）** - `systems/stages/stage-script.js`： - 添加 dialogue 字段（统一格式：SPEAKER|TYPE|EMOTION|TEXT|LIP_SYNC:YES） - 添加 action 字段（核心动词+交互目标+身体运动） - 添加 mood 字段（3-5情绪关键词） - 构建函数：buildDialogue, buildAction, buildMood - `systems/stages/stage-storyboard.js`： - 添加五维空间描述法（scene字段优化） - 构建函数：buildFiveD",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.41500593125820157,
+      "maxScore": 0.41500593125820157,
+      "firstRecalledAt": "2026-06-14T04:19:23.002Z",
+      "lastRecalledAt": "2026-06-14T04:19:23.002Z",
+      "queryHashes": [
+        "434e43f62b5c"
+      ],
+      "recallDays": [
+        "2026-06-14"
+      ],
+      "conceptTags": [
+        "3-5个关键词",
+        "v6.5.62-p2",
+        "systems/stages/stage-script.js",
+        "lip-sync",
+        "3-5情绪关键词",
+        "添加",
+        "lighting",
+        "方向"
       ]
     }
   }
