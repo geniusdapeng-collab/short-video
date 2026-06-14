@@ -127,6 +127,9 @@ const { NarrationAutoTrim } = require('./narration-auto-trim.js');
 // 【v6.2-patch52 新增】时长-字数一致性校准器
 const { DurationNarrationAlignment } = require('./duration-narration-alignment.js');
 // 【v6.2-patch53 新增】执行完整性强制器
+// 【v6.6.0 新增】用户需求解析确认模块（Stage -1）
+const { UserRequirementParser } = require('./user-requirement-parser.js');
+
 const { ExecutionIntegrityEnforcer } = require('./execution-integrity-enforcer.js');
 
 // ========== v6.2-patch96: 微表情系统 v2.0 ==========
@@ -448,6 +451,66 @@ class NirathMasterPipeline {
     // 即使同一任务反复测试,每次也必须用最新系统版本重新跑完整链路
     // 违反 = 系统级错误,立即上报队长
     this.log('PIPELINE', '🔥 P0-固化:每次预生产 = 全链路 + 最新版 | 无视历史,全新执行');
+
+    // 🔥 v6.6.0: Stage -1 — 用户需求解析确认模块（前置闸机，所有输入必须经过）
+    // 无论输入是自然语言还是结构化数据，都要经过需求解析确认
+    // 自然语言：解析+补全+确认
+    // 结构化数据：验证+补全+确认（可能用户遗漏了某些字段）
+    this.log('PIPELINE', '📝 [Stage -1] 启动需求解析确认模块...');
+    try {
+      const parser = new UserRequirementParser({ llmEngine: this.llmEngine });
+      
+      // 将输入统一为字符串（如果是结构化，先序列化）
+      let parseInput;
+      if (typeof input === 'string') {
+        parseInput = input;
+      } else {
+        // 结构化输入：提取关键信息，让 parser 做验证和补全
+        parseInput = JSON.stringify({
+          videoType: input.videoType || input.type,
+          title: input.title || input.projectName,
+          characters: input.characters?.map(c => c.name || c).join(', '),
+          duration: input.targetDuration || input.duration,
+          style: input.style,
+          creativeIntensity: input.creativeIntensity,
+          platform: input.platform || input.core?.platform,
+          series: input.isSeries ? `共${input.totalEpisodes}集，第${input.episode}集` : '',
+          // 保留原始描述
+          rawDescription: input.description || input._rawInput || ''
+        });
+      }
+      
+      const parseResult = await parser.parse(parseInput, { mode: this.mode });
+      
+      this.log('PIPELINE', `📝 [Stage -1] ✅ 需求解析完成 | 类型: ${parseResult.basicInfo.videoTypeName} | 时长: ${parseResult.productionSpecs.duration.target}秒 | 创意指数: ${parseResult.productionSpecs.creativeIntensity}`);
+      
+      // 将解析结果合并到现有输入（解析结果优先，但保留用户的显式指定）
+      const pipelineInput = parser.toPipelineInput(parseResult);
+      
+      // 如果用户输入是结构化的，保留用户的显式字段（用户指定 > AI推断）
+      if (typeof input === 'object') {
+        // 保留用户显式指定的字段
+        if (input.videoType) pipelineInput.videoType = input.videoType;
+        if (input.title) pipelineInput.title = input.title;
+        if (input.targetDuration) pipelineInput.targetDuration = input.targetDuration;
+        if (input.creativeIntensity !== undefined) pipelineInput.creativeIntensity = input.creativeIntensity;
+        if (input.style) pipelineInput.style = input.style;
+        if (input.characters) pipelineInput.characters = input.characters;
+        // 保留其他用户字段
+        pipelineInput = { ...pipelineInput, ...input };
+      }
+      
+      pipelineInput._requirementParseResult = parseResult; // 保留原始解析结果供追溯
+      input = pipelineInput;
+      
+      this.log('PIPELINE', '📝 [Stage -1] ✅ 需求解析确认完成，进入主链路...');
+    } catch (error) {
+      this.log('PIPELINE', `⚠️ [Stage -1] 需求解析异常: ${error.message}，使用原始输入继续`);
+      // 如果解析失败，保持原始输入不变，但记录错误
+      if (typeof input === 'object') {
+        input._requirementParseError = error.message;
+      }
+    }
 
     // 🔥 v2.0: 创意指数解析（Stage 0 前置）
     this.creativeIntensity = this.creativeIntensityIndex.parse(input);
@@ -1969,6 +2032,38 @@ class NirathMasterPipeline {
     parts.push(`- dialogue中角色名称必须完整出现，不能省略`);
     parts.push(`- 禁止生成无角色或角色为"无"的场景`);
 
+    // v6.6.0: 叙事方式与结尾处理
+    const narrativeMode = input.narrativeMode || 'dialogue';
+    const endingStyle = input.endingStyle || 'summary';
+    parts.push(`
+【叙事方式】`);
+    parts.push(`- 叙事模式: ${narrativeMode}`);
+    if (narrativeMode === 'dialogue') {
+      parts.push(`- 对话式讲解: 角色直接面向观众说话，口语化、自然`);
+    } else if (narrativeMode === 'narration') {
+      parts.push(`- 旁白式: 以旁白为主，角色动作配合画面`);
+    } else if (narrativeMode === 'drama') {
+      parts.push(`- 剧情式: 角色间互动对话，有戏剧冲突`);
+    } else if (narrativeMode === 'interview') {
+      parts.push(`- 访谈式: 问答形式，一问一答`);
+    }
+    parts.push(`- dialogue必须符合叙事模式，不要混用其他模式`);
+
+    parts.push(`
+【结尾处理】`);
+    parts.push(`- 结尾风格: ${endingStyle}`);
+    if (endingStyle === 'summary') {
+      parts.push(`- 总结式: 总结本集要点，给出结论`);
+    } else if (endingStyle === 'cliffhanger') {
+      parts.push(`- 悬念式: 留下悬念，引发好奇`);
+    } else if (endingStyle === 'callToAction') {
+      parts.push(`- 行动号召: 引导观众采取行动`);
+    } else if (endingStyle === 'emotional') {
+      parts.push(`- 情感升华: 情感升华，引发共鸣`);
+    } else if (endingStyle === 'open') {
+      parts.push(`- 开放式: 不给出明确结论，留给观众思考`);
+    }
+
     parts.push(`
 【场景列表】`);
     batch.forEach((scene, idx) => {
@@ -2096,6 +2191,33 @@ class NirathMasterPipeline {
       parts.push(`
 【创意增强】`);
       parts.push(ciiInstructions.trim());
+    }
+
+    // v6.6.0: 平台适配与视觉风格
+    const platform = input.platform || '视频号/抖音';
+    const visualStyle = input.visualStyle || '';
+    const styleModifiers = input.styleModifiers || [];
+    
+    parts.push(`
+【平台与画幅】`);
+    parts.push(`- 投放平台: ${platform}`);
+    if (platform.includes('抖音') || platform.includes('快手') || platform.includes('小红书')) {
+      parts.push(`- 推荐画幅: 9:16 竖屏`);
+    } else if (platform.includes('B站') || platform.includes('YouTube')) {
+      parts.push(`- 推荐画幅: 16:9 横屏`);
+    } else {
+      parts.push(`- 推荐画幅: 9:16 竖屏（默认）`);
+    }
+    
+    if (visualStyle || styleModifiers.length > 0) {
+      parts.push(`
+【视觉风格指导】`);
+      if (visualStyle) {
+        parts.push(`- 整体视觉风格: ${visualStyle}`);
+      }
+      if (styleModifiers.length > 0) {
+        parts.push(`- 辅助风格修饰: ${styleModifiers.join('、')}`);
+      }
     }
 
     parts.push(`
@@ -5036,7 +5158,8 @@ ${isNirath
       // v6.5.59-fix: 注入人物鲜活度和光影质量细节（解决Stage 11.5检查不通过问题）
       // 根因：Prompt缺少人物细节和光影细节，导致质量闸门0-1/5通过
       // 修复：在Prompt末尾注入人物鲜活度和光影质量描述（如果空间允许）
-      const vividnessDetails = `【人物鲜活度】超写实皮肤纹理，可见毛孔与细微绒毛。${characterName || '角色'}眼神聚焦有光，微表情自然流露真实情绪。动作有重量感，身体重心随动作自然偏移。面部细节丰富，脸颊、眼眶、嘴角、眉弓处光影自然，情绪饱满有留白。`;
+      const characterName = charData?.name || charData?.profile?.baseIdentity?.name || '角色';
+      const vividnessDetails = `【人物鲜活度】超写实皮肤纹理，可见毛孔与细微绒毛。${characterName}眼神聚焦有光，微表情自然流露真实情绪。动作有重量感，身体重心随动作自然偏移。面部细节丰富，脸颊、眼眶、嘴角、眉弓处光影自然，情绪饱满有留白。`;
       const lightingDetails = `【光影质量】主光源从侧上方倾泻，形成明确的明暗对比。阴影有层次，暗部细节可见。环境弥漫细微颗粒与灰尘，增加空气质感。色调温暖，色温约5800K，光影过渡自然柔和。`;
       
       if (enhanced.prompt.length + vividnessDetails.length + 2 <= 1500) {
@@ -6267,7 +6390,9 @@ ${isNirath
       concatOnly: this.mode === 'nirath' ? true : false,
       format: 'mp4',
       ratio: '16:9',
-      resolution: '1920x1080'
+      resolution: '1920x1080',
+      // v6.6.0: 音乐风格
+      musicStyle: input.musicStyle || '根据风格自动匹配'
     };
 
     // 【v6.0-patch22 新增】片头标题配置检查

@@ -21,16 +21,7 @@
     "distinguishingMarks": ""
   },
   "personality": {
-    "core": {
-      "core": "warm",
-      "traits": [
-        "kind",
-        "professional",
-        "patient",
-        "trustworthy",
-        "knowledgeable"
-      ]
-    },
+    "core": "warm",
     "traits": [
       "kind",
       "brave"
@@ -57,8 +48,8 @@
     "emotion": "neutral",
     "language": "zh-CN"
   },
-  "createdAt": "2026-06-13T14:24:01.291Z",
-  "updatedAt": "2026-06-13T14:24:01.292Z",
+  "createdAt": "2026-06-14T00:24:39.790Z",
+  "updatedAt": "2026-06-14T00:24:39.790Z",
   "version": "2.0",
   "generatedAssets": {
     "portraits": [
@@ -73,24 +64,7 @@
     "referenceImages": []
   },
   "appearances": [],
-  "portraitStyles": {
-    "police-uniform-realistic": {
-      "description": "警服写实风格（真人风格）",
-      "pathPrefix": "characters/chen-nurse/portraits/chen-nurse-police",
-      "angles": ["front", "threeQuarter", "side", "closeup", "fullBody"]
-    },
-    "cg-v4": {
-      "description": "CG渲染风格v4",
-      "pathPrefix": "characters/chen-nurse/portraits/chen-nurse-cg-v4",
-      "angles": ["front", "threeQuarter", "side", "closeup"]
-    },
-    "cartoon-professional": {
-      "description": "职业卡通风格（当前使用）",
-      "pathPrefix": "characters/chen-nurse/portraits/cartoon-style/cartoon",
-      "angles": ["front", "threeQuarter", "side", "halfBody", "fullBody", "fullBodySide"],
-      "note": "3D动画卡通风格，用于当前Seedance API隐私检测过渡方案"
-    }
-  },
+  "v2Metadata": {
     "analyzedDimensions": [],
     "lastComplianceCheck": null,
     "promptTemplates": {},

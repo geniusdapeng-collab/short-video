@@ -1,0 +1,13 @@
+用户要求我作为电影Prompt语义检查器，对每个检查项判断Prompt是否满足要求。场景描述都是"default"，需要检查每个Prompt中是否包含该场景描述。
+
+逐一检查：
+1. S01: Prompt包含 "SCENE: default" - 满足，yes
+2. S02: Prompt包含 "SCENE: default" - 满足，yes
+3. S03: Prompt包含 "SCENE: default" - 满足，yes
+4. S04: Prompt包含 "SCENE: default" - 满足，yes
+5. S05: Prompt包含 "SCENE: default" - 满足，yes
+6. S06: Prompt包含 "SCENE: default" - 满足，yes
+
+所有Prompt都明确包含了"SCENE: default"或场景描述"default"。
+
+输出要求：严格JSON格式，无额外文字，无markdown代码块。

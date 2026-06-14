@@ -1,0 +1,18 @@
+用户要求我作为电影Prompt语义检查器，对6个场景检查项判断给定的Prompt是否描述了对应场景。每个检查只回答yes或no，不要解释，最终输出JSON格式。
+
+让我逐一分析：
+
+[S01-scene] 场景："开场-自我介绍"
+Prompt内容：只有导演风格、负面提示、技术参数（16:9 cinematic, no text, no subtitle, no caption, no watermark, 24fps cinematic...），完全没有提到任何关于"开场"或"自我介绍"的内容。
+判断：no
+
+[S02-scene] 场景："什么是横纹肌溶解"
+Prompt内容：同上，只有技术参数和负面提示，没有任何医学内容，没有提到"横纹肌溶解"。
+判断：no
+
+[S03-scene] 场景："三大核心症状"
+Prompt内容：同上，没有提到"症状"相关内容。
+判断：no
+
+[S04-scene] 场景："实验室关键指标解读"
+Prompt内容：同上，没有提到"

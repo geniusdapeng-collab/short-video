@@ -1,0 +1,15 @@
+用户要求我作为电影Prompt语义检查器，对6个检查项判断Prompt是否满足要求（是否体现了超写实/照片级写实风格）。每个检查项只回答yes或no，不要解释。最终输出JSON格式。
+
+检查每个Prompt：
+
+[S01] Prompt包含：hyperrealistic, ultra-detailed, photorealistic。这些明确符合超写实/照片级写实风格的表达。→ yes
+
+[S02] Prompt包含：hyperrealistic, ultra-detailed, 以及"pho"（明显是photorealistic的截断）。这些表达符合要求。→ yes
+
+[S03] 与S02完全相同。包含hyperrealistic, ultra-detailed, photorealistic的截断。→ yes
+
+[S04] 与S02、S03完全相同。→ yes
+
+[S05] Prompt包含：hyperrealistic, ultra-detailed, photorealistic。→ yes
+
+[S06] Prompt包含：hyperrealistic, ultra-detailed,
