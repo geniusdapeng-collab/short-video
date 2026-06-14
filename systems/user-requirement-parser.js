@@ -12,7 +12,7 @@
  * @since v6.6.0
  */
 
-const { LLMEngine } = require('../../systems/llm-engine');
+const { LLMEngine } = require('./llm-reasoning-engine');
 
 /**
  * 风格编码展开映射器

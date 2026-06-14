@@ -1712,7 +1712,7 @@ class NirathMasterPipeline {
         id: scene.id || `S${String(idx + 1).padStart(2, '0')}`,
         scene: scene.scene || 'default',
         // v6.5.34-fix: 全局禁用narration，只保留dialogue
-        dialogue: scene.dialogue || scene.narration || '',
+        dialogue: scene.dialogue || scene.narration || this._buildFallbackDialogue(scene, input.characters) || '',
         narration: '', // v6.5.34: narration已禁用，置空
         type: scene.type || 'explanation',
         shotType,
@@ -1836,7 +1836,7 @@ class NirathMasterPipeline {
 
     for (let batchIdx = 0; batchIdx < batches.length; batchIdx++) {
       const batch = batches[batchIdx];
-      const prompt = this._buildScriptCorePrompt(batch, core, world, batchIdx, batches.length);
+      const prompt = this._buildScriptCorePrompt(batch, core, world, batchIdx, batches.length, input);
 
       this.log('STAGE-5A', `🧩 批次 ${batchIdx + 1}/${batches.length} | 镜数: ${batch.length} | Prompt: ${prompt.length}字符`);
 
@@ -1936,7 +1936,7 @@ class NirathMasterPipeline {
 
     for (let i = 0; i < scenes.length; i++) {
       const scene = scenes[i];
-      const prompt = this._buildVisualPrompt(scene, core, world, i, scenes.length);
+      const prompt = this._buildVisualPrompt(scene, core, world, i, scenes.length, input);
 
       this.log('STAGE-5B', `🎬 镜头 ${i + 1}/${scenes.length} | scene=${scene.id} | Prompt: ${prompt.length}字符`);
 
@@ -2047,7 +2047,7 @@ class NirathMasterPipeline {
     this.log('PIPELINE', '✅ 主进程内存释放完成（OOM修复）');
   }
 
-  _buildScriptCorePrompt(batch, core, world, batchIdx, totalBatches) {
+  _buildScriptCorePrompt(batch, core, world, batchIdx, totalBatches, input) {
     const parts = [];
     const isNirath = this.mode === 'nirath';
 
@@ -2181,7 +2181,7 @@ class NirathMasterPipeline {
     return parts.join('\n');
   }
 
-  _buildVisualPrompt(scene, core, world, idx, total) {
+  _buildVisualPrompt(scene, core, world, idx, total, input) {
     const parts = [];
     const isNirath = this.mode === 'nirath';
 
