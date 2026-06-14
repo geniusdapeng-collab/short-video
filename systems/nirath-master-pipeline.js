@@ -6498,6 +6498,9 @@ ${isNirath
       const shot = storyboard.shots[i];
       const errors = [];
       const warnings = [];
+      
+      // v6.6.5-fix: 防御性检查，避免null/undefined
+      const promptText = result.prompt || '';
 
       // 检查1: Prompt必须包含视觉内容(防空转)
       // v6.2-patch62-fix: narration已移至TTS通道,不再检查narration是否融入视觉Prompt
@@ -6524,7 +6527,6 @@ ${isNirath
 
       // 检查2: Prompt不能是纯粹场景DNA介绍(差异化检查)
       // v6.6.5-fix: 防御性检查，避免null/undefined
-      const promptText = result.prompt || '';
       const hasSceneDNAOnly = promptText.includes('Nirath赤道超级火山链') ||
                               promptText.includes('Nirath最富饶的生命摇篮');
       if (hasSceneDNAOnly && promptText.length < 600) {
@@ -6538,7 +6540,7 @@ ${isNirath
         this.log('STAGE-11.5', `  🔥 ${result.shotId} 利用率理想: ${result.length}/1500`);
       }
 
-      // 检查5: 镜头内增强质量评分(v6.0-patch23新增)
+  // 检查5: 镜头内增强质量评分(v6.0-patch23新增)
       const qualityScore = result.qualityScore || {};
       if (qualityScore.totalScore) {
         if (qualityScore.totalScore >= 85) {
@@ -6552,15 +6554,11 @@ ${isNirath
       }
 
       // 检查4: Nirath风格锚点存在性
-      // v6.6.5-fix: 防御性检查，避免null/undefined
-      const promptText = result.prompt || '';
       if (!promptText.includes('Nirath') && !promptText.includes('alien world')) {
         errors.push(`Prompt缺少Nirath风格锚点`);
       }
 
       // 检查6: v6.5.36批次5 - 人物鲜活度自检清单
-      // v6.6.5-fix: 防御性检查，避免null/undefined
-      const promptText = result.prompt || '';
       const vividnessChecks = {
         skinTexture: promptText.includes('皮肤') && promptText.includes('毛孔'),
         expression: promptText.includes('眼神') || promptText.includes('微表情'),
@@ -6579,8 +6577,6 @@ ${isNirath
       }
 
       // 检查7: v6.5.36批次5 - 光影质量自检清单
-      // v6.6.5-fix: 防御性检查，避免null/undefined
-      const promptText = result.prompt || '';
       const lightingChecks = {
         lightDirection: promptText.includes('光') && (promptText.includes('侧') || promptText.includes('顶') || promptText.includes('逆')),
         shadow: promptText.includes('阴影') || promptText.includes('明暗'),
