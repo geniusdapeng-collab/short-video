@@ -6638,6 +6638,22 @@ ${isNirath
   async stageCompliance(renderResults, storyboard) {
     this.log('STAGE-12', '合规检查(Prompt利用率 + 禁止词 + L2降级 + 片头专项合规)');
 
+    // v6.6.5-fix: 防御性检查
+    if (!renderResults || !Array.isArray(renderResults)) {
+      this.log('STAGE-12', `❌ renderResults无效(${typeof renderResults})，返回空合规结果`);
+      return {
+        promptLength: [], bannedWords: [], style: [], utilization: [], l2Downgrade: [], openingCompliance: [],
+        passed: true, issues: [], score: 0
+      };
+    }
+    if (!storyboard || !storyboard.shots) {
+      this.log('STAGE-12', '❌ storyboard无效，返回空合规结果');
+      return {
+        promptLength: [], bannedWords: [], style: [], utilization: [], l2Downgrade: [], openingCompliance: [],
+        passed: true, issues: [], score: 0
+      };
+    }
+
     const compliance = {
       promptLength: [],
       bannedWords: [],
