@@ -6948,7 +6948,7 @@ ${isNirath
       ratio: '16:9',
       resolution: '1920x1080',
       // v6.6.0: 音乐风格
-      musicStyle: input.musicStyle || '根据风格自动匹配'
+      musicStyle: this.projectConfig?.musicStyle || '根据风格自动匹配'
     };
 
     // 【v6.0-patch22 新增】片头标题配置检查
