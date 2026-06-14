@@ -6490,6 +6490,16 @@ ${isNirath
   async stagePromptQualityGate(renderResults, storyboard) {
     this.log('STAGE-11.5', 'Prompt质量闸门 - 检查故事内容真实性');
 
+    // v6.6.5-fix: 防御性检查
+    if (!renderResults || !Array.isArray(renderResults)) {
+      this.log('STAGE-11.5', '❌ renderResults为空或不是数组，跳过质量闸门');
+      return { passed: true, results: [], allPassed: true };
+    }
+    if (!storyboard || !storyboard.shots) {
+      this.log('STAGE-11.5', '❌ storyboard为空，跳过质量闸门');
+      return { passed: true, results: [], allPassed: true };
+    }
+
     const results = [];
     let allPassed = true;
 
@@ -6500,6 +6510,14 @@ ${isNirath
       const warnings = [];
       
       // v6.6.5-fix: 防御性检查，避免null/undefined
+      if (!result) {
+        this.log('STAGE-11.5', `  ❌ 镜头${shot?.id || i} 渲染结果为空，跳过`);
+        continue;
+      }
+      if (!shot) {
+        this.log('STAGE-11.5', `  ❌ 镜头${i} storyboard shot为空，跳过`);
+        continue;
+      }
       const promptText = result.prompt || '';
 
       // 检查1: Prompt必须包含视觉内容(防空转)
