@@ -2109,10 +2109,11 @@ class NirathMasterPipeline {
   _releaseMemory(result) {
     if (!result || !result.stages) return;
     
-    // 释放渲染结果（已写入文件）
-    if (result.stages.render) {
-      result.stages.render = null;
-    }
+    // v6.6.5-fix: 不释放渲染结果，因为后续Stage 11.5/12/13/14等仍需要引用
+    // 内存释放推迟到所有Stage完成后执行
+    // if (result.stages.render) {
+    //   result.stages.render = null;
+    // }
     
     // 释放剧本原始LLM输出
     if (result.stages.script && result.stages.script.raw) {
