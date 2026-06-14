@@ -21,6 +21,9 @@ const fs = require('fs').promises;
 const fss = require('fs');
 const path = require('path');
 
+// ========== v6.6.0: 真实感提示词增强器（软性注入层）==========
+const { RealismPromptEnhancer } = require('./realism-prompt-enhancer.js');
+
 // ========== 新增:链路完整性反向验证器 ==========
 const { PipelineIntegrityValidator } = require('./pipeline-integrity-validator.js');
 
@@ -256,6 +259,13 @@ class NirathMasterPipeline {
       confidenceThreshold: 0.6
     });
     
+    // 🔥 v6.6.0: 真实感提示词增强器（软性注入层）
+    this.realismEnhancer = new RealismPromptEnhancer({
+      enabled: true,
+      mode: 'smart', // 默认智能模式：分析缺失维度并补全
+      sceneType: 'general'
+    });
+
     this.creativeIntensity = null; // 将在execute中解析
     this.errors = [];
     this._asyncTasks = []; // v6.2-patch76: 追踪异步LLM任务
@@ -1941,17 +1951,41 @@ class NirathMasterPipeline {
       });
 
       if (result.success && result.data?.id === scene.id) {
+        let visualPrompt = result.data.visualPrompt || this._buildFallbackVisualPrompt(scene, world);
+        
+        // v6.6.0: 真实感提示词增强（软性注入）
+        if (this.realismEnhancer && this.realismEnhancer.enabled) {
+          const enhanced = this.realismEnhancer.enhance(visualPrompt, {
+            sceneType: scene.type || 'general',
+            shotIndex: i
+          });
+          if (enhanced !== visualPrompt) {
+            this.log('STAGE-5B', `🎨 ${scene.id} 真实感增强 | 已注入7维质感参数`);
+          }
+          visualPrompt = enhanced;
+        }
+        
         results.push({
           ...scene,
-          visualPrompt: result.data.visualPrompt || this._buildFallbackVisualPrompt(scene, world),
+          visualPrompt: visualPrompt,
           visualPromptSuccess: true
         });
         this.log('STAGE-5B', `✅ ${scene.id} visualPrompt 成功`);
       } else {
+        let visualPrompt = this._buildFallbackVisualPrompt(scene, world);
+        
+        // v6.6.0: 真实感提示词增强（软性注入，fallback也增强）
+        if (this.realismEnhancer && this.realismEnhancer.enabled) {
+          visualPrompt = this.realismEnhancer.enhance(visualPrompt, {
+            sceneType: scene.type || 'general',
+            shotIndex: i
+          });
+        }
+        
         this.log('STAGE-5B', `⚠️ ${scene.id} visualPrompt 失败: ${result.error}`);
         results.push({
           ...scene,
-          visualPrompt: this._buildFallbackVisualPrompt(scene, world),
+          visualPrompt: visualPrompt,
           visualPromptSuccess: false,
           visualPromptError: result.error
         });
@@ -1961,6 +1995,24 @@ class NirathMasterPipeline {
     }
 
     return results;
+  }
+
+  // v6.6.0: 视觉提示词真实感增强（后置处理）
+  _enhanceVisualPromptWithRealism(visualPrompt, scene, index) {
+    if (!this.realismEnhancer || !this.realismEnhancer.enabled) {
+      return visualPrompt;
+    }
+    
+    const enhanced = this.realismEnhancer.enhance(visualPrompt, {
+      sceneType: scene.type || 'general',
+      shotIndex: index
+    });
+    
+    if (enhanced !== visualPrompt) {
+      this.log('STAGE-5B', `🎨 ${scene.id} 真实感增强已注入 | 7维质感参数`);
+    }
+    
+    return enhanced;
   }
 
   // v6.5.59-fix: 主进程内存释放（OOM修复）
