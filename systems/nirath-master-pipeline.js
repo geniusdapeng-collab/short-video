@@ -2109,10 +2109,13 @@ class NirathMasterPipeline {
   _releaseMemory(result) {
     if (!result || !result.stages) return;
     
-    // v6.6.5-fix: 不释放渲染结果，因为后续Stage 11.5/12/13/14等仍需要引用
+    // v6.6.5-fix: 不释放渲染结果和故事板，因为后续Stage 11.5/12/13/14等仍需要引用
     // 内存释放推迟到所有Stage完成后执行
     // if (result.stages.render) {
     //   result.stages.render = null;
+    // }
+    // if (result.stages.storyboard) {
+    //   result.stages.storyboard = null;
     // }
     
     // 释放剧本原始LLM输出
@@ -2122,7 +2125,6 @@ class NirathMasterPipeline {
     
     // 释放其他已完成Stage的大对象
     if (result.stages.prd) result.stages.prd = null;
-    if (result.stages.storyboard) result.stages.storyboard = null;
     if (result.stages.opening) result.stages.opening = null;
     if (result.stages.alignment) result.stages.alignment = null;
     if (result.stages.schema) result.stages.schema = null;
