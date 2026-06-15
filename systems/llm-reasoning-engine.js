@@ -187,7 +187,7 @@ class LLMEngine {
           content: prompt
         }
       ],
-      temperature: options.temperature ?? (forceJson ? 0.1 : 1),
+      temperature: options.temperature ?? 1,
       top_p: options.topP ?? 0.95,
       max_tokens: options.maxTokens ?? this.maxTokens
     };
@@ -307,7 +307,7 @@ class LLMEngine {
         ...options,
         forceJson: true,
         responseFormat: { type: 'json_object' },
-        temperature: options.temperature ?? 0.1,
+        temperature: options.temperature ?? 1,
         maxTokens: options.maxTokens ?? this.maxTokens
       });
 

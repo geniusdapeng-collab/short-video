@@ -28,22 +28,32 @@
     }
   },
   "personality": {
-    "core": "warm",
-    "traits": ["kind", "brave"],
+    "core": {
+      "core": "warm",
+      "traits": [
+        "kind",
+        "professional",
+        "patient",
+        "trustworthy",
+        "knowledgeable"
+      ]
+    },
+    "traits": [
+      "kind",
+      "brave"
+    ],
     "mbti": "INFJ"
   },
   "visualAnchors": {
     "required": [
-      "standard Chinese police uniform",
-      "formal police cap"
+      ""
     ],
     "preferred": [],
     "forbidden": [
       "western face",
       "caucasian",
       "blonde hair",
-      "blue eyes",
-      "white nurse uniform"
+      "blue eyes"
     ]
   },
   "voiceIdentity": {
@@ -54,11 +64,37 @@
     "emotion": "neutral",
     "language": "zh-CN"
   },
+  "createdAt": "2026-06-15T09:17:00.582Z",
+  "updatedAt": "2026-06-15T09:17:00.583Z",
+  "version": "2.1",
+  "generatedAssets": {
+    "portraits": [
+      "image://bestiary/chen-nurse-front.png",
+      "image://bestiary/chen-nurse-threeQuarter.png",
+      "image://bestiary/chen-nurse-closeup.png",
+      "image://bestiary/chen-nurse-side.png",
+      "image://bestiary/chen-nurse-back.png",
+      "image://bestiary/chen-nurse-action.png",
+      "image://bestiary/chen-nurse-detail.png"
+    ],
+    "referenceImages": []
+  },
+  "appearances": [],
   "v2Metadata": {
-    "minimalAnchor": "陈卓: 人类, 30岁女性, presenter, standard Chinese police uniform with formal police cap, hair neatly tied back in professional bun",
+    "analyzedDimensions": [],
+    "lastComplianceCheck": null,
+    "promptTemplates": {},
+    "minimalAnchor": "陈卓: 人类, 30岁女性, presenter",
     "portraitPaths": [
       "image://bestiary/chen-nurse-front.png",
-      "image://bestiary/chen-nurse-threeQuarter.png"
+      "image://bestiary/chen-nurse-threeQuarter.png",
+      "image://bestiary/chen-nurse-closeup.png",
+      "image://bestiary/chen-nurse-side.png",
+      "image://bestiary/chen-nurse-back.png",
+      "image://bestiary/chen-nurse-action.png",
+      "image://bestiary/chen-nurse-detail.png"
     ]
-  }
+  },
+  "species": "human",
+  "race": "human"
 }
