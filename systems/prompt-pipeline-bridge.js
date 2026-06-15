@@ -19,6 +19,8 @@ const {
   applyStandardizedPromptToShot
 } = require('./prompt-standardizer');
 
+const { checkStandardCompliance } = require('./prompt-standard-v3');
+
 const PROMPT_LENGTH = require('../config/prompt-length');
 
 // ============================================================
