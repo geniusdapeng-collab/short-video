@@ -9,7 +9,7 @@
         "title": "health-edu-ep01-rhabdomyolysis",
         "version": "v1.0",
         "mode": "generic",
-        "createdAt": "2026-06-15T09:17:00.566Z"
+        "createdAt": "2026-06-15T09:29:08.357Z"
       },
       "core": {},
       "world": {
@@ -186,8 +186,8 @@
             "emotion": "neutral",
             "language": "zh-CN"
           },
-          "createdAt": "2026-06-15T09:17:00.582Z",
-          "updatedAt": "2026-06-15T09:17:00.583Z",
+          "createdAt": "2026-06-15T09:29:08.373Z",
+          "updatedAt": "2026-06-15T09:29:08.375Z",
           "version": "2.1",
           "generatedAssets": {
             "portraits": [
@@ -264,10 +264,10 @@
           "mouthAction": "speaking_normal",
           "emotionPhase": "curiosity",
           "scriptCoreSuccess": false,
-          "scriptCoreError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515021240_http_error.txt",
+          "scriptCoreError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515748845_http_error.txt",
           "visualPrompt": "超写实纪录片风格,modern-hospital,镜头表现开场-自我介绍,突出陈卓女士穿警服制服，站在医院办公室/健康讲堂，微笑着面向镜头自我介绍。表情亲切专业，手势自然。背景有健康知识海报或书架。字幕：主讲人 陈卓 护士。,人物动作自然,表情专业克制,采用中近景或特写镜头,自然光或柔和室内布光,画面真实、干净、稳定,适合医学科普视频生成。, Arri Alexa 65, Cooke S7/i, f/2.0 shallow DOF, natural diffused overcast, no hard light, muted desaturated earth tones, teal shadows, warm highlights, subsurface scattering, motion blur on fast elements, subtle film grain, subtle golden rim backlight, luminous edge glow separating subject, warm champagne gold and ivory white color palette, ambient gold 15% + structural gold 20% + highlight gold 10%",
           "visualPromptSuccess": false,
-          "visualPromptError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515023083_http_error.txt",
+          "visualPromptError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515751004_http_error.txt",
           "fpvRecommended": false,
           "fpvScore": 38,
           "fpvReason": "建议传统运镜：情绪/视觉不适合FPV",
@@ -287,10 +287,10 @@
           "mouthAction": "speaking_normal",
           "emotionPhase": "tension",
           "scriptCoreSuccess": false,
-          "scriptCoreError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515021534_http_error.txt",
+          "scriptCoreError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515749267_http_error.txt",
           "visualPrompt": "超写实纪录片风格,modern-hospital,镜头表现什么是横纹肌溶解,突出陈卓用通俗语言解释横纹肌溶解的定义。配合手势比喻（如捏橡皮泥或模拟肌肉纤维断裂）。表情认真但不沉重。可配合简单的动画或示意图展示肌肉细胞损伤过程。字幕关键词：肌肉细胞损伤、内容物释放到血液。,人物动作自然,表情专业克制,采用中近景或特写镜头,自然光或柔和室内布光,画面真实、干净、稳定,适合医学科普视频生成。, Arri Alexa 65, Cooke S7/i, f/2.0 shallow DOF, natural diffused overcast, no hard light, muted desaturated earth tones, teal shadows, warm highlights, subsurface scattering, motion blur on fast elements, subtle film grain, subtle golden rim backlight, luminous edge glow separating subject, warm champagne gold and ivory white color palette, ambient gold 15% + structural gold 20% + highlight gold 10%",
           "visualPromptSuccess": false,
-          "visualPromptError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515023416_http_error.txt",
+          "visualPromptError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515751352_http_error.txt",
           "fpvRecommended": false,
           "fpvScore": 58,
           "fpvReason": "建议传统运镜：情绪/视觉不适合FPV"
@@ -307,10 +307,10 @@
           "mouthAction": "speaking_normal",
           "emotionPhase": "climax",
           "scriptCoreSuccess": false,
-          "scriptCoreError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515021840_http_error.txt",
+          "scriptCoreError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515749596_http_error.txt",
           "visualPrompt": "超写实纪录片风格,modern-hospital,镜头表现症状表现,突出陈卓讲解三大核心症状，配合自然肢体语言。1)肌肉疼痛：手按大腿/手臂示意；2)肌肉无力：模拟无力抬手；3)尿液变色：指向下水道或展示示意图（茶色/酱油色）。表情从关切到提醒。字幕：疼痛、无力、茶色尿。,人物动作自然,表情专业克制,采用中近景或特写镜头,自然光或柔和室内布光,画面真实、干净、稳定,适合医学科普视频生成。, Arri Alexa 65, Cooke S7/i, f/2.0 shallow DOF, natural diffused overcast, no hard light, muted desaturated earth tones, teal shadows, warm highlights, subsurface scattering, motion blur on fast elements, subtle film grain, subtle golden rim backlight, luminous edge glow separating subject, warm champagne gold and ivory white color palette, ambient gold 15% + structural gold 20% + highlight gold 10%",
           "visualPromptSuccess": false,
-          "visualPromptError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515023977_http_error.txt",
+          "visualPromptError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515751643_http_error.txt",
           "fpvRecommended": false,
           "fpvScore": 43,
           "fpvReason": "建议传统运镜：情绪/视觉不适合FPV"
@@ -327,10 +327,10 @@
           "mouthAction": "speaking_normal",
           "emotionPhase": "tension",
           "scriptCoreSuccess": false,
-          "scriptCoreError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515022125_http_error.txt",
+          "scriptCoreError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515749877_http_error.txt",
           "visualPrompt": "超写实纪录片风格,modern-hospital,镜头表现实验室检查,突出陈卓讲解实验室检查指标。可以手持化验单或指向屏幕/白板。三大关键指标：1)肌酸激酶(CK)显著升高；2)肌红蛋白尿；3)电解质异常。表情专业严谨。配合数据可视化或图表展示。字幕：CK值、肌红蛋白、电解质。,人物动作自然,表情专业克制,采用中近景或特写镜头,自然光或柔和室内布光,画面真实、干净、稳定,适合医学科普视频生成。, Arri Alexa 65, Cooke S7/i, f/2.0 shallow DOF, natural diffused overcast, no hard light, muted desaturated earth tones, teal shadows, warm highlights, subsurface scattering, motion blur on fast elements, subtle film grain, subtle golden rim backlight, luminous edge glow separating subject, warm champagne gold and ivory white color palette, ambient gold 15% + structural gold 20% + highlight gold 10%",
           "visualPromptSuccess": false,
-          "visualPromptError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515024333_http_error.txt",
+          "visualPromptError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515751944_http_error.txt",
           "fpvRecommended": true,
           "fpvScore": 60,
           "fpvReason": "导演决策:无强烈FPV适配镜头，S04相对最佳(60分)，可选FPV增强"
@@ -347,10 +347,10 @@
           "mouthAction": "speaking_normal",
           "emotionPhase": "resolution",
           "scriptCoreSuccess": false,
-          "scriptCoreError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515022465_http_error.txt",
+          "scriptCoreError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515750310_http_error.txt",
           "visualPrompt": "超写实纪录片风格,modern-hospital,镜头表现总结提醒,突出陈卓总结核心要点，强调及时就医的重要性。表情温暖关切，手势鼓励。面向镜头直接对话感。字幕：出现症状请及时就医。背景保持医院办公环境。,人物动作自然,表情专业克制,采用中近景或特写镜头,自然光或柔和室内布光,画面真实、干净、稳定,适合医学科普视频生成。, Arri Alexa 65, Cooke S7/i, f/2.0 shallow DOF, natural diffused overcast, no hard light, muted desaturated earth tones, teal shadows, warm highlights, subsurface scattering, motion blur on fast elements, subtle film grain, subtle golden rim backlight, luminous edge glow separating subject, warm champagne gold and ivory white color palette, ambient gold 15% + structural gold 20% + highlight gold 10%",
           "visualPromptSuccess": false,
-          "visualPromptError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515024674_http_error.txt",
+          "visualPromptError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515752246_http_error.txt",
           "fpvRecommended": false,
           "fpvScore": 41,
           "fpvReason": "建议传统运镜：情绪/视觉不适合FPV"
@@ -367,10 +367,10 @@
           "mouthAction": "speaking_normal",
           "emotionPhase": "curiosity",
           "scriptCoreSuccess": false,
-          "scriptCoreError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515022766_http_error.txt",
+          "scriptCoreError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515750653_http_error.txt",
           "visualPrompt": "超写实纪录片风格,modern-hospital,镜头表现片尾,突出片尾画面。陈卓微笑点头致意。系列标题展示：居民健康科普系列。第一集完。无下一集预告。简洁收尾。,人物动作自然,表情专业克制,采用中近景或特写镜头,自然光或柔和室内布光,画面真实、干净、稳定,适合医学科普视频生成。, Arri Alexa 65, Cooke S7/i, f/2.0 shallow DOF, natural diffused overcast, no hard light, muted desaturated earth tones, teal shadows, warm highlights, subsurface scattering, motion blur on fast elements, subtle film grain, subtle golden rim backlight, luminous edge glow separating subject, warm champagne gold and ivory white color palette, ambient gold 15% + structural gold 20% + highlight gold 10%",
           "visualPromptSuccess": false,
-          "visualPromptError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515024957_http_error.txt",
+          "visualPromptError": "HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515752536_http_error.txt",
           "fpvRecommended": false,
           "fpvScore": 37,
           "fpvReason": "建议传统运镜：情绪/视觉不适合FPV"
@@ -1113,7 +1113,7 @@
             ],
             "physics": false
           },
-          "prompt": "情绪基调：温暖、治愈。16:9宽屏电影级镜头。【约束】16:9 cinematic, no text, no subtitle, no caption, no watermark, 24fps cinematic | 【基础】hyperrealistic, ultra-detailed, high dynamic range, detail in highlights and shadows, film grain, 35mm texture, cinematic film | 【空间】golden hour, clear sky, atmospheric haze, depth layers, foreground to background | 【主体】 | 【动态】电影级镜头, 总结提醒, realistic scene, slow_dolly_out | 【风格】color palette: natural earth shadows + daylight highlights + green foliage accents, cinematic atmosphere, 通用导演 aesthetic | 【音频】伴随白天环境音, 动作产生自然动作声, 氛围弥漫明亮日常氛围, 声画精准同步，嘴型与发音对齐 | 【质控】blurry, low resolution, pixelated, compression artifacts, cartoon, anime, illustration, 3D render look, CGI appearance, plastic look, distorted perspective, impossible geometry, floating objects, inconsistent scale, flat lighting, overexposed, crushed blacks, double shadows, wrong light direction, unnatural physics, fake water, static water, cardboard texture, plastic foliage 平滑缓慢拉远，中景居中构图，结尾场景。5秒内完成景别过渡，保持画面稳定流畅。通过精准的镜头运动引导观众视线，强化叙事节奏。 【负面约束】no blurry, no cartoon, no deformed hands, no extra fingers, no watermark, no text 【明亮约束】\n【光影增强】暖金色光芒从双恒星洒落，在角色身上形成柔和光晕\n自然光或柔和室内照明,画面真实干净,禁止暗黑/灰暗。\n【空间深度】远景中出现之前镜头的呼应元素，形成视觉回声 speaking_normal",
+          "prompt": "情绪基调：温暖、治愈。16:9宽屏电影级镜头。【约束】16:9 cinematic, no text, no subtitle, no caption, no watermark, 24fps cinematic | 【基础】hyperrealistic, ultra-detailed, high dynamic range, detail in highlights and shadows, film grain, 35mm texture, cinematic film | 【空间】golden hour, clear sky, atmospheric haze, depth layers, foreground to background | 【主体】 | 【动态】电影级镜头, 总结提醒, realistic scene, slow_dolly_out | 【风格】color palette: natural earth shadows + daylight highlights + green foliage accents, cinematic atmosphere, 通用导演 aesthetic | 【音频】伴随白天环境音, 动作产生自然动作声, 氛围弥漫明亮日常氛围, 声画精准同步，嘴型与发音对齐 | 【质控】blurry, low resolution, pixelated, compression artifacts, cartoon, anime, illustration, 3D render look, CGI appearance, plastic look, distorted perspective, impossible geometry, floating objects, inconsistent scale, flat lighting, overexposed, crushed blacks, double shadows, wrong light direction, unnatural physics, fake water, static water, cardboard texture, plastic foliage 平滑缓慢拉远，中景居中构图，结尾场景。5秒内完成景别过渡，保持画面稳定流畅。通过精准的镜头运动引导观众视线，强化叙事节奏。 【负面约束】no blurry, no cartoon, no deformed hands, no extra fingers, no watermark, no text 【明亮约束】\n【光影增强】逆光轮廓光勾勒角色边缘，神圣而温暖\n自然光或柔和室内照明,画面真实干净,禁止暗黑/灰暗。\n【空间深度】环境从冷色调渐变为暖色调，暗示情感转变 speaking_normal",
           "qualityScore": {
             "cameraVariety": 15,
             "lightingProgression": 2,
@@ -1170,7 +1170,7 @@
             ],
             "physics": false
           },
-          "prompt": "情绪基调：温暖、治愈。16:9宽屏电影级镜头。【约束】16:9 cinematic, no text, no subtitle, no caption, no watermark, 24fps cinematic | 【基础】hyperrealistic, ultra-detailed, high dynamic range, detail in highlights and shadows, film grain, 35mm texture, cinematic film | 【空间】golden hour, clear sky, atmospheric haze, depth layers, foreground to background | 【主体】 | 【动态】电影级镜头, 片尾, realistic scene, orbit_soft | 【风格】color palette: natural earth shadows + daylight highlights + green foliage accents, cinematic atmosphere, 通用导演 aesthetic | 【音频】伴随白天环境音, 动作产生自然动作声, 氛围弥漫明亮日常氛围, 声画精准同步，嘴型与发音对齐 | 【质控】blurry, low resolution, pixelated, compression artifacts, cartoon, anime, illustration, 3D render look, CGI appearance, plastic look, distorted perspective, impossible geometry, floating objects, inconsistent scale, flat lighting, overexposed, crushed blacks, double shadows, wrong light direction, unnatural physics, fake water, static water, cardboard texture, plastic foliage 平滑柔和环绕，中景居中构图，纪录片场景。5秒内完成景别过渡，保持画面稳定流畅。通过精准的镜头运动引导观众视线，强化叙事节奏。 【负面约束】no blurry, no cartoon, no deformed hands, no extra fingers, no watermark, no text 【明亮约束】\n【光影增强】环境光反射在角色瞳孔中，形成微小光斑\n自然光或柔和室内照明,画面真实干净,禁止暗黑/灰暗。\n【空间深度】环境从冷色调渐变为暖色调，暗示情感转变 speaking_normal",
+          "prompt": "情绪基调：温暖、治愈。16:9宽屏电影级镜头。【约束】16:9 cinematic, no text, no subtitle, no caption, no watermark, 24fps cinematic | 【基础】hyperrealistic, ultra-detailed, high dynamic range, detail in highlights and shadows, film grain, 35mm texture, cinematic film | 【空间】golden hour, clear sky, atmospheric haze, depth layers, foreground to background | 【主体】 | 【动态】电影级镜头, 片尾, realistic scene, orbit_soft | 【风格】color palette: natural earth shadows + daylight highlights + green foliage accents, cinematic atmosphere, 通用导演 aesthetic | 【音频】伴随白天环境音, 动作产生自然动作声, 氛围弥漫明亮日常氛围, 声画精准同步，嘴型与发音对齐 | 【质控】blurry, low resolution, pixelated, compression artifacts, cartoon, anime, illustration, 3D render look, CGI appearance, plastic look, distorted perspective, impossible geometry, floating objects, inconsistent scale, flat lighting, overexposed, crushed blacks, double shadows, wrong light direction, unnatural physics, fake water, static water, cardboard texture, plastic foliage 平滑柔和环绕，中景居中构图，纪录片场景。5秒内完成景别过渡，保持画面稳定流畅。通过精准的镜头运动引导观众视线，强化叙事节奏。 【负面约束】no blurry, no cartoon, no deformed hands, no extra fingers, no watermark, no text 【明亮约束】\n【光影增强】光影边缘柔和虚化，如梦境般朦胧\n自然光或柔和室内照明,画面真实干净,禁止暗黑/灰暗。\n【空间深度】远景中出现之前镜头的呼应元素，形成视觉回声 speaking_normal",
           "qualityScore": {
             "cameraVariety": 15,
             "lightingProgression": 2,
@@ -1906,7 +1906,7 @@
           ],
           "physics": false
         },
-        "prompt": "情绪基调：温暖、治愈。16:9宽屏电影级镜头。【约束】16:9 cinematic, no text, no subtitle, no caption, no watermark, 24fps cinematic | 【基础】hyperrealistic, ultra-detailed, high dynamic range, detail in highlights and shadows, film grain, 35mm texture, cinematic film | 【空间】golden hour, clear sky, atmospheric haze, depth layers, foreground to background | 【主体】 | 【动态】电影级镜头, 总结提醒, realistic scene, slow_dolly_out | 【风格】color palette: natural earth shadows + daylight highlights + green foliage accents, cinematic atmosphere, 通用导演 aesthetic | 【音频】伴随白天环境音, 动作产生自然动作声, 氛围弥漫明亮日常氛围, 声画精准同步，嘴型与发音对齐 | 【质控】blurry, low resolution, pixelated, compression artifacts, cartoon, anime, illustration, 3D render look, CGI appearance, plastic look, distorted perspective, impossible geometry, floating objects, inconsistent scale, flat lighting, overexposed, crushed blacks, double shadows, wrong light direction, unnatural physics, fake water, static water, cardboard texture, plastic foliage 平滑缓慢拉远，中景居中构图，结尾场景。5秒内完成景别过渡，保持画面稳定流畅。通过精准的镜头运动引导观众视线，强化叙事节奏。 【负面约束】no blurry, no cartoon, no deformed hands, no extra fingers, no watermark, no text 【明亮约束】\n【光影增强】暖金色光芒从双恒星洒落，在角色身上形成柔和光晕\n自然光或柔和室内照明,画面真实干净,禁止暗黑/灰暗。\n【空间深度】远景中出现之前镜头的呼应元素，形成视觉回声 speaking_normal",
+        "prompt": "情绪基调：温暖、治愈。16:9宽屏电影级镜头。【约束】16:9 cinematic, no text, no subtitle, no caption, no watermark, 24fps cinematic | 【基础】hyperrealistic, ultra-detailed, high dynamic range, detail in highlights and shadows, film grain, 35mm texture, cinematic film | 【空间】golden hour, clear sky, atmospheric haze, depth layers, foreground to background | 【主体】 | 【动态】电影级镜头, 总结提醒, realistic scene, slow_dolly_out | 【风格】color palette: natural earth shadows + daylight highlights + green foliage accents, cinematic atmosphere, 通用导演 aesthetic | 【音频】伴随白天环境音, 动作产生自然动作声, 氛围弥漫明亮日常氛围, 声画精准同步，嘴型与发音对齐 | 【质控】blurry, low resolution, pixelated, compression artifacts, cartoon, anime, illustration, 3D render look, CGI appearance, plastic look, distorted perspective, impossible geometry, floating objects, inconsistent scale, flat lighting, overexposed, crushed blacks, double shadows, wrong light direction, unnatural physics, fake water, static water, cardboard texture, plastic foliage 平滑缓慢拉远，中景居中构图，结尾场景。5秒内完成景别过渡，保持画面稳定流畅。通过精准的镜头运动引导观众视线，强化叙事节奏。 【负面约束】no blurry, no cartoon, no deformed hands, no extra fingers, no watermark, no text 【明亮约束】\n【光影增强】逆光轮廓光勾勒角色边缘，神圣而温暖\n自然光或柔和室内照明,画面真实干净,禁止暗黑/灰暗。\n【空间深度】环境从冷色调渐变为暖色调，暗示情感转变 speaking_normal",
         "qualityScore": {
           "cameraVariety": 15,
           "lightingProgression": 2,
@@ -1963,7 +1963,7 @@
           ],
           "physics": false
         },
-        "prompt": "情绪基调：温暖、治愈。16:9宽屏电影级镜头。【约束】16:9 cinematic, no text, no subtitle, no caption, no watermark, 24fps cinematic | 【基础】hyperrealistic, ultra-detailed, high dynamic range, detail in highlights and shadows, film grain, 35mm texture, cinematic film | 【空间】golden hour, clear sky, atmospheric haze, depth layers, foreground to background | 【主体】 | 【动态】电影级镜头, 片尾, realistic scene, orbit_soft | 【风格】color palette: natural earth shadows + daylight highlights + green foliage accents, cinematic atmosphere, 通用导演 aesthetic | 【音频】伴随白天环境音, 动作产生自然动作声, 氛围弥漫明亮日常氛围, 声画精准同步，嘴型与发音对齐 | 【质控】blurry, low resolution, pixelated, compression artifacts, cartoon, anime, illustration, 3D render look, CGI appearance, plastic look, distorted perspective, impossible geometry, floating objects, inconsistent scale, flat lighting, overexposed, crushed blacks, double shadows, wrong light direction, unnatural physics, fake water, static water, cardboard texture, plastic foliage 平滑柔和环绕，中景居中构图，纪录片场景。5秒内完成景别过渡，保持画面稳定流畅。通过精准的镜头运动引导观众视线，强化叙事节奏。 【负面约束】no blurry, no cartoon, no deformed hands, no extra fingers, no watermark, no text 【明亮约束】\n【光影增强】环境光反射在角色瞳孔中，形成微小光斑\n自然光或柔和室内照明,画面真实干净,禁止暗黑/灰暗。\n【空间深度】环境从冷色调渐变为暖色调，暗示情感转变 speaking_normal",
+        "prompt": "情绪基调：温暖、治愈。16:9宽屏电影级镜头。【约束】16:9 cinematic, no text, no subtitle, no caption, no watermark, 24fps cinematic | 【基础】hyperrealistic, ultra-detailed, high dynamic range, detail in highlights and shadows, film grain, 35mm texture, cinematic film | 【空间】golden hour, clear sky, atmospheric haze, depth layers, foreground to background | 【主体】 | 【动态】电影级镜头, 片尾, realistic scene, orbit_soft | 【风格】color palette: natural earth shadows + daylight highlights + green foliage accents, cinematic atmosphere, 通用导演 aesthetic | 【音频】伴随白天环境音, 动作产生自然动作声, 氛围弥漫明亮日常氛围, 声画精准同步，嘴型与发音对齐 | 【质控】blurry, low resolution, pixelated, compression artifacts, cartoon, anime, illustration, 3D render look, CGI appearance, plastic look, distorted perspective, impossible geometry, floating objects, inconsistent scale, flat lighting, overexposed, crushed blacks, double shadows, wrong light direction, unnatural physics, fake water, static water, cardboard texture, plastic foliage 平滑柔和环绕，中景居中构图，纪录片场景。5秒内完成景别过渡，保持画面稳定流畅。通过精准的镜头运动引导观众视线，强化叙事节奏。 【负面约束】no blurry, no cartoon, no deformed hands, no extra fingers, no watermark, no text 【明亮约束】\n【光影增强】光影边缘柔和虚化，如梦境般朦胧\n自然光或柔和室内照明,画面真实干净,禁止暗黑/灰暗。\n【空间深度】远景中出现之前镜头的呼应元素，形成视觉回声 speaking_normal",
         "qualityScore": {
           "cameraVariety": 15,
           "lightingProgression": 2,
@@ -1991,13 +1991,435 @@
         "renderFriendlyPrompt": "",
         "complianceChecked": true
       }
-    ]
+    ],
+    "promptQualityGate": {
+      "success": true,
+      "mode": "generic",
+      "shots": [
+        {
+          "shotId": "S01",
+          "id": "S01",
+          "type": "intro",
+          "scene": "开场-自我介绍",
+          "prompt": "CHARACTER: chen-nurse | state: natural pose, balanced posture, normal state | relation: positioned within environment, spatial relationship to 开场-自我介绍 | ACTION: 下面陈卓进入开场-自我介绍。 | steady camera movement, smooth tracking, natural pace | SCENE: 开场-自我介绍, foreground detail establishing depth, daylight balanced, natural lighting, clear atmosphere | MOOD: 自然氛围 | color palette: natural balanced tones + daylight neutral, moderate saturation, standard contrast | 5600K daylight balanced, neutral | standard dynamic range, SDR, balanced contrast | CAMERA: 50mm lens, f/2.8 shallow depth of field, medium shot, dolly in, steady, moderate pace | LIGHTING: 自然光,明暗层次清晰 | NEGATIVE: no text, no anime, no cartoon, no deformed hands, no extra fingers, no watermark | AUDIO: L1:白天环境音，自然 ambient，-22LUFS | L2:自然动作声 | L3:自然平衡氛围，72BPM，自然 ambient | L4:极简背景音 | 避让:L4避1-4kHz|L2侧重2-8kHz|L3侧重<500Hz | 同步:嘴型与发音对齐，环境音自动避让 | RENDER: hyperrealistic cinematic quality, 35mm film grain, HDR, photorealistic with filmic",
+          "referenceImages": [
+            {
+              "type": "image_url",
+              "image_url": {
+                "url": "characters/chen-nurse/portraits/chen-nurse-cg-v3-closeup.png"
+              },
+              "role": "reference_image",
+              "character": "chen-nurse",
+              "angle": "closeup"
+            },
+            {
+              "type": "image_url",
+              "image_url": {
+                "url": "characters/chen-nurse/portraits/chen-nurse-cg-v3-closeup.png"
+              },
+              "role": "reference_image",
+              "character": "chen-nurse",
+              "angle": "closeup"
+            }
+          ],
+          "duration": 8,
+          "length": 988,
+          "mouthAction": "speaking_normal",
+          "utilization": 100,
+          "utilizationStatus": "🔥理想",
+          "qualityScore": {
+            "cameraVariety": 15,
+            "lightingProgression": 8,
+            "emotionalDepth": 12,
+            "promptUtilization": 15,
+            "narrativeAlignment": 9.5,
+            "totalScore": 59.5,
+            "segmentCount": 4
+          },
+          "enhanced": true,
+          "cameraMovement": {
+            "description": "平滑缓慢推近，中景居中构图，纪录片场景。5秒内完成景别过渡，保持画面稳定流畅。通过精准的镜头运动引导观众视线，强化叙事节奏。",
+            "movement": "slow_push_in",
+            "movementType": "slow_push_in",
+            "speed": "smooth",
+            "shotSize": "medium",
+            "position": "center",
+            "timeRange": [
+              0,
+              5
+            ],
+            "physics": false
+          },
+          "emotionPhase": "curiosity",
+          "importance": 5,
+          "visualComplexity": 5,
+          "dialogue": "下面陈卓进入开场-自我介绍。",
+          "narration": "下面陈卓进入开场-自我介绍。",
+          "characterRef": "陈卓: image://bestiary/chen-nurse-front.png, image://bestiary/chen-nurse-threeQuarter.png, image://bestiary/chen-nurse-closeup.png, image://bestiary/chen-nurse-side.png",
+          "character": "陈卓: human, 现实人类特征, 自然光照反射",
+          "timeline": "T00:00.0-T00:08.0 / duration: 8s / type: normal / mood: curiosity",
+          "backgroundSound": "AMBIENT: fantasy atmosphere, deep earth rumble 20-60Hz, enchanted wind | SPATIAL: 3D audio panning synchronized with camera movement | INTENSITY: crescendo 0-2s, peak 2-5s, decay 5-8s",
+          "isOpening": false,
+          "_renderMeta": {
+            "characterIds": [
+              "陈卓: human, 现实人类特征, 自然光照反射"
+            ],
+            "characters": [],
+            "characterAnchors": [],
+            "mergedCharacterAnchor": ""
+          },
+          "qualityGate": {
+            "passed": false,
+            "fixes": [],
+            "warnings": [
+              "quality_gate_exception:this._collectForbiddenKeywordsForMode is not a function"
+            ],
+            "promptLength": 988,
+            "lengthStatus": "ideal",
+            "forbiddenHit": "",
+            "checkedAt": "2026-06-15T09:29:12.594Z"
+          }
+        },
+        {
+          "shotId": "S02",
+          "id": "S02",
+          "type": "explanation",
+          "scene": "什么是横纹肌溶解",
+          "prompt": "CHARACTER: 人物出场,形象明确 | ACTION: 这一部分陈卓重点讲解什么是横纹肌溶解,帮助大家快速抓住关键知识点。 | steady camera movement, smooth tracking, natural pace | SCENE: 什么是横纹肌溶解, foreground detail establishing depth, daylight balanced, natural lighting, clear atmosphere | MOOD: 自然氛围 | color palette: natural balanced tones + daylight neutral, moderate saturation, standard contrast | 5600K daylight balanced, neutral | standard dynamic range, SDR, balanced contrast | CAMERA: 50mm lens, f/2.8 shallow depth of field, medium shot, dolly in, steady, moderate pace | LIGHTING: 自然光,明暗层次清晰 | NEGATIVE: no text, no anime, no cartoon, no deformed hands, no extra fingers, no watermark | AUDIO: L1:白天环境音，自然 ambient，-22LUFS | L2:自然动作声 | L3:自然平衡氛围，72BPM，自然 ambient | L4:极简背景音 | 避让:L4避1-4kHz|L2侧重2-8kHz|L3侧重<500Hz | 同步:嘴型与发音对齐，环境音自动避让 | RENDER: hyperrealistic cinematic quality, 35mm film grain, HDR, photorealistic with filmic treatment, 16:9 cinematic | DIRECTOR: 通用导演风格 | 【音频】伴随白天环境音,动作产生自然动作声,氛围弥漫明亮日常氛围,声画精准同步，嘴型与发音对齐 | 【音频】L1:白天环境音",
+          "referenceImages": [],
+          "duration": 10,
+          "length": 988,
+          "mouthAction": "speaking_normal",
+          "utilization": 100,
+          "utilizationStatus": "🔥理想",
+          "qualityScore": {
+            "cameraVariety": 15,
+            "lightingProgression": 8,
+            "emotionalDepth": 14,
+            "promptUtilization": 15,
+            "narrativeAlignment": 9,
+            "totalScore": 61,
+            "segmentCount": 4
+          },
+          "enhanced": true,
+          "cameraMovement": {
+            "description": "平滑缓慢推近，中景居中构图，讲解场景。5秒内完成景别过渡，保持画面稳定流畅。通过精准的镜头运动引导观众视线，强化叙事节奏。",
+            "movement": "slow_push_in",
+            "movementType": "slow_push_in",
+            "speed": "smooth",
+            "shotSize": "medium",
+            "position": "center",
+            "timeRange": [
+              0,
+              5
+            ],
+            "physics": false
+          },
+          "emotionPhase": "tension",
+          "importance": 5,
+          "visualComplexity": 5,
+          "dialogue": "这一部分陈卓重点讲解什么是横纹肌溶解,帮助大家快速抓住关键知识点。",
+          "narration": "这一部分陈卓重点讲解什么是横纹肌溶解,帮助大家快速抓住关键知识点。",
+          "characterRef": "",
+          "character": "",
+          "timeline": "T00:00.0-T00:10.0 / duration: 10s / type: normal / mood: tension",
+          "backgroundSound": "AMBIENT: fantasy atmosphere, deep earth rumble 20-60Hz, enchanted wind | SPATIAL: 3D audio panning synchronized with camera movement | INTENSITY: crescendo 0-3s, peak 3-7s, decay 7-10s",
+          "isOpening": false,
+          "_renderMeta": {
+            "characterIds": [
+              "chen-nurse"
+            ],
+            "characters": [],
+            "characterAnchors": [],
+            "mergedCharacterAnchor": ""
+          },
+          "qualityGate": {
+            "passed": false,
+            "fixes": [],
+            "warnings": [
+              "quality_gate_exception:this._collectForbiddenKeywordsForMode is not a function"
+            ],
+            "promptLength": 988,
+            "lengthStatus": "ideal",
+            "forbiddenHit": "",
+            "checkedAt": "2026-06-15T09:29:12.594Z"
+          }
+        },
+        {
+          "shotId": "S03",
+          "id": "S03",
+          "type": "demonstration",
+          "scene": "症状表现",
+          "prompt": "CHARACTER: 人物出场,形象明确 | ACTION: 接下来陈卓通过一个示范动作,直观理解症状表现的表现和检查方式。 | camera rapid movement, whip pan, extreme fast tracking, dynamic angle change | SCENE: 症状表现, foreground detail establishing depth, dramatic sunset, intense golden light, vivid sky colors | MOOD: 高潮爆发 | color palette: intense warm orange + deep crimson + golden highlights, high saturation, dramatic contrast | 3200K tungsten warm, golden intense | high contrast, dramatic lighting, deep shadows and bright highlights | CAMERA: 50mm lens, f/2.8 shallow depth of field, medium shot, pan, steady, moderate pace | LIGHTING: 自然光,明暗层次清晰 | NEGATIVE: no text, no anime, no cartoon, no deformed hands, no extra fingers, no watermark | AUDIO: L1:白天环境音，自然 ambient，-22LUFS | L2:自然动作声 | L3:全频段饱满情绪峰值，120BPM，全频动态 | L4:极简背景音 | 避让:L4避1-4kHz|L2侧重2-8kHz|L3侧重<500Hz | 同步:嘴型与发音对齐，环境音自动避让 | RENDER: hyperrealistic cinematic quality, 35mm film grain, HDR, photorealistic with filmic treatment, 16:9 cinematic | DIRECTOR: 通用导演风格",
+          "referenceImages": [],
+          "duration": 12,
+          "length": 969,
+          "mouthAction": "speaking_normal",
+          "utilization": 98,
+          "utilizationStatus": "🔥理想",
+          "qualityScore": {
+            "cameraVariety": 15,
+            "lightingProgression": 8,
+            "emotionalDepth": 14,
+            "promptUtilization": 15,
+            "narrativeAlignment": 9,
+            "totalScore": 61,
+            "segmentCount": 4
+          },
+          "enhanced": true,
+          "cameraMovement": {
+            "description": "平滑向下摇镜，中景居中构图，演示场景。5秒内完成景别过渡，保持画面稳定流畅。通过精准的镜头运动引导观众视线，强化叙事节奏。",
+            "movement": "tilt_down",
+            "movementType": "tilt_down",
+            "speed": "smooth",
+            "shotSize": "medium",
+            "position": "center",
+            "timeRange": [
+              0,
+              5
+            ],
+            "physics": false
+          },
+          "emotionPhase": "climax",
+          "importance": 5,
+          "visualComplexity": 5,
+          "dialogue": "接下来陈卓通过一个示范动作,直观理解症状表现的表现和检查方式。",
+          "narration": "接下来陈卓通过一个示范动作,直观理解症状表现的表现和检查方式。",
+          "characterRef": "",
+          "character": "",
+          "timeline": "T00:00.0-T00:12.0 / duration: 12s / type: normal / mood: climax",
+          "backgroundSound": "AMBIENT: fantasy atmosphere, deep earth rumble 20-60Hz, enchanted wind | SPATIAL: 3D audio panning synchronized with camera movement | INTENSITY: crescendo 0-3s, peak 3-8s, decay 8-12s",
+          "isOpening": false,
+          "_renderMeta": {
+            "characterIds": [
+              "chen-nurse"
+            ],
+            "characters": [],
+            "characterAnchors": [],
+            "mergedCharacterAnchor": ""
+          },
+          "qualityGate": {
+            "passed": false,
+            "fixes": [],
+            "warnings": [
+              "quality_gate_exception:this._collectForbiddenKeywordsForMode is not a function"
+            ],
+            "promptLength": 969,
+            "lengthStatus": "ideal",
+            "forbiddenHit": "",
+            "checkedAt": "2026-06-15T09:29:12.594Z"
+          }
+        },
+        {
+          "shotId": "S04",
+          "id": "S04",
+          "type": "explanation",
+          "scene": "实验室检查",
+          "prompt": "CHARACTER: 人物出场,形象明确 | ACTION: 这一部分陈卓重点讲解实验室检查,帮助大家快速抓住关键知识点。 | steady camera movement, smooth tracking, natural pace | SCENE: 实验室检查, foreground detail establishing depth, daylight balanced, natural lighting, clear atmosphere | MOOD: 自然氛围 | color palette: natural balanced tones + daylight neutral, moderate saturation, standard contrast | 5600K daylight balanced, neutral | standard dynamic range, SDR, balanced contrast | CAMERA: 50mm lens, f/2.8 shallow depth of field, medium shot, steady tracking shot, steady, moderate pace | LIGHTING: 自然光,明暗层次清晰 | NEGATIVE: no text, no anime, no cartoon, no deformed hands, no extra fingers, no watermark | AUDIO: L1:白天环境音，自然 ambient，-22LUFS | L2:自然动作声 | L3:自然平衡氛围，72BPM，自然 ambient | L4:极简背景音 | 避让:L4避1-4kHz|L2侧重2-8kHz|L3侧重<500Hz | 同步:嘴型与发音对齐，环境音自动避让 | RENDER: hyperrealistic cinematic quality, 35mm film grain, HDR, photorealistic with filmic treatment, 16:9 cinematic | DIRECTOR: 通用导演风格 | 【音频】伴随白天环境音,动作产生自然动作声,氛围弥漫明亮日常氛围,声画精准同步，嘴型与发音对齐 | 【音频】L1",
+          "referenceImages": [],
+          "duration": 15,
+          "length": 988,
+          "mouthAction": "speaking_normal",
+          "utilization": 100,
+          "utilizationStatus": "🔥理想",
+          "qualityScore": {
+            "cameraVariety": 15,
+            "lightingProgression": 8,
+            "emotionalDepth": 14,
+            "promptUtilization": 15,
+            "narrativeAlignment": 9,
+            "totalScore": 61,
+            "segmentCount": 4
+          },
+          "enhanced": true,
+          "cameraMovement": {
+            "description": "平滑稳定定镜，中景居中构图，讲解场景。5秒内完成景别过渡，保持画面稳定流畅。通过精准的镜头运动引导观众视线，强化叙事节奏。",
+            "movement": "static_hold",
+            "movementType": "static_hold",
+            "speed": "smooth",
+            "shotSize": "medium",
+            "position": "center",
+            "timeRange": [
+              0,
+              5
+            ],
+            "physics": false
+          },
+          "emotionPhase": "tension",
+          "importance": 5,
+          "visualComplexity": 5,
+          "dialogue": "这一部分陈卓重点讲解实验室检查,帮助大家快速抓住关键知识点。",
+          "narration": "这一部分陈卓重点讲解实验室检查,帮助大家快速抓住关键知识点。",
+          "characterRef": "",
+          "character": "",
+          "timeline": "T00:00.0-T00:15.0 / duration: 15s / type: normal / mood: tension",
+          "backgroundSound": "AMBIENT: fantasy atmosphere, deep earth rumble 20-60Hz, enchanted wind | SPATIAL: 3D audio panning synchronized with camera movement | INTENSITY: crescendo 0-4s, peak 4-10s, decay 10-15s",
+          "isOpening": false,
+          "_renderMeta": {
+            "characterIds": [
+              "chen-nurse"
+            ],
+            "characters": [],
+            "characterAnchors": [],
+            "mergedCharacterAnchor": ""
+          },
+          "qualityGate": {
+            "passed": false,
+            "fixes": [],
+            "warnings": [
+              "quality_gate_exception:this._collectForbiddenKeywordsForMode is not a function"
+            ],
+            "promptLength": 988,
+            "lengthStatus": "ideal",
+            "forbiddenHit": "",
+            "checkedAt": "2026-06-15T09:29:12.594Z"
+          }
+        },
+        {
+          "shotId": "S05",
+          "id": "S05",
+          "type": "closing",
+          "scene": "总结提醒",
+          "prompt": "CHARACTER: 人物出场,形象明确 | ACTION: 最后陈卓再强调一次,如果出现相关症状,一定要及时就医,不要拖延。 | camera slow-down, gentle static hold, final framing lock | SCENE: 总结提醒, foreground detail establishing depth, soft diffused light, gentle atmosphere, peaceful ambiance | MOOD: 温柔收束 | color palette: soft pastel warm + gentle cream + muted gold, low saturation, warm monochrome | 4000K neutral warm, gentle soft white | low contrast, muted tones, soft shadows, gentle dynamic range | CAMERA: 50mm lens, f/2.8 shallow depth of field, medium shot, dolly out, steady, moderate pace | LIGHTING: 自然光,明暗层次清晰 | NEGATIVE: no text, no anime, no cartoon, no deformed hands, no extra fingers, no watermark | AUDIO: L1:白天环境音，自然 ambient，-22LUFS | L2:自然动作声 | L3:自然平衡氛围，72BPM，自然 ambient | L4:极简背景音 | 避让:L4避1-4kHz|L2侧重2-8kHz|L3侧重<500Hz | 同步:嘴型与发音对齐，环境音自动避让 | RENDER: hyperrealistic cinematic quality, 35mm film grain, HDR, photorealistic with filmic treatment, 16:9 cinematic | DIRECTOR: 通用导演风格",
+          "referenceImages": [],
+          "duration": 8,
+          "length": 942,
+          "mouthAction": "speaking_normal",
+          "utilization": 95,
+          "utilizationStatus": "🔥理想",
+          "qualityScore": {
+            "cameraVariety": 15,
+            "lightingProgression": 2,
+            "emotionalDepth": 14,
+            "promptUtilization": 15,
+            "narrativeAlignment": 9,
+            "totalScore": 55,
+            "segmentCount": 4
+          },
+          "enhanced": true,
+          "cameraMovement": {
+            "description": "平滑缓慢拉远，中景居中构图，结尾场景。5秒内完成景别过渡，保持画面稳定流畅。通过精准的镜头运动引导观众视线，强化叙事节奏。",
+            "movement": "slow_dolly_out",
+            "movementType": "slow_dolly_out",
+            "speed": "smooth",
+            "shotSize": "medium",
+            "position": "center",
+            "timeRange": [
+              0,
+              5
+            ],
+            "physics": false
+          },
+          "emotionPhase": "resolution",
+          "importance": 5,
+          "visualComplexity": 5,
+          "dialogue": "最后陈卓再强调一次,如果出现相关症状,一定要及时就医,不要拖延。",
+          "narration": "最后陈卓再强调一次,如果出现相关症状,一定要及时就医,不要拖延。",
+          "characterRef": "",
+          "character": "",
+          "timeline": "T00:00.0-T00:08.0 / duration: 8s / type: resolution / mood: resolution",
+          "backgroundSound": "AMBIENT: gentle wind return, distant spore drift, soft earth breath | SPATIAL: wide open space, fading echoes | INTENSITY: sustain 0-4s, gentle decay 4-8s",
+          "isOpening": false,
+          "_renderMeta": {
+            "characterIds": [
+              "chen-nurse"
+            ],
+            "characters": [],
+            "characterAnchors": [],
+            "mergedCharacterAnchor": ""
+          },
+          "qualityGate": {
+            "passed": false,
+            "fixes": [],
+            "warnings": [
+              "quality_gate_exception:this._collectForbiddenKeywordsForMode is not a function"
+            ],
+            "promptLength": 942,
+            "lengthStatus": "ideal",
+            "forbiddenHit": "",
+            "checkedAt": "2026-06-15T09:29:12.594Z"
+          }
+        },
+        {
+          "shotId": "S06",
+          "id": "S06",
+          "type": "ending",
+          "scene": "片尾",
+          "prompt": "CHARACTER: 人物出场,形象明确 | ACTION: 下面陈卓进入片尾。 | steady camera movement, smooth tracking, natural pace | SCENE: 片尾 | MOOD: 自然氛围 | color palette: natural balanced tones + daylight neutral, moderate saturation, standard contrast | 5600K daylight balanced, neutral | standard dynamic range, SDR, balanced contrast | CAMERA: 50mm lens, f/2.8 shallow depth of field, medium shot, orbit, steady, moderate pace | LIGHTING: 自然光,明暗层次清晰 | NEGATIVE: no text, no anime, no cartoon, no deformed hands, no extra fingers, no watermark | AUDIO: L1:白天环境音，自然 ambient，-22LUFS | L2:自然动作声 | L3:自然平衡氛围，72BPM，自然 ambient | L4:极简背景音 | 避让:L4避1-4kHz|L2侧重2-8kHz|L3侧重<500Hz | 同步:嘴型与发音对齐，环境音自动避让 | RENDER: hyperrealistic cinematic quality, 35mm film grain, HDR, photorealistic with filmic treatment, 16:9 cinematic | DIRECTOR: 通用导演风格 | 【音频】伴随白天环境音,动作产生自然动作声,氛围弥漫明亮日常氛围,声画精准同步，嘴型与发音对齐 | 【音频】L1:白天环境音，自然 ambient，-22LUFS | L2:动作反馈声，推进空气流动声，环绕环绕感 | L3:自然平衡氛围，72BPM，自然 ambient | L4:极简背景音 | 避让:L4避1-4kHz|L2侧重2-8kHz|L3侧重<500Hz | 同步",
+          "referenceImages": [],
+          "duration": 5,
+          "length": 988,
+          "mouthAction": "speaking_normal",
+          "utilization": 100,
+          "utilizationStatus": "🔥理想",
+          "qualityScore": {
+            "cameraVariety": 15,
+            "lightingProgression": 2,
+            "emotionalDepth": 11.5,
+            "promptUtilization": 15,
+            "narrativeAlignment": 8,
+            "totalScore": 51.5,
+            "segmentCount": 4
+          },
+          "enhanced": true,
+          "cameraMovement": {
+            "description": "平滑柔和环绕，中景居中构图，纪录片场景。5秒内完成景别过渡，保持画面稳定流畅。通过精准的镜头运动引导观众视线，强化叙事节奏。",
+            "movement": "orbit_soft",
+            "movementType": "orbit_soft",
+            "speed": "smooth",
+            "shotSize": "medium",
+            "position": "center",
+            "timeRange": [
+              0,
+              5
+            ],
+            "physics": false
+          },
+          "emotionPhase": "curiosity",
+          "importance": 5,
+          "visualComplexity": 5,
+          "dialogue": "下面陈卓进入片尾。",
+          "narration": "下面陈卓进入片尾。",
+          "characterRef": "",
+          "character": "",
+          "timeline": "T00:00.0-T00:05.0 / duration: 5s / type: normal / mood: curiosity",
+          "backgroundSound": "AMBIENT: fantasy atmosphere, deep earth rumble 20-60Hz, enchanted wind | SPATIAL: 3D audio panning synchronized with camera movement | INTENSITY: crescendo 0-1s, peak 1-3s, decay 3-5s",
+          "isOpening": false,
+          "_renderMeta": {
+            "characterIds": [
+              "chen-nurse"
+            ],
+            "characters": [],
+            "characterAnchors": [],
+            "mergedCharacterAnchor": ""
+          },
+          "qualityGate": {
+            "passed": false,
+            "fixes": [],
+            "warnings": [
+              "quality_gate_exception:this._collectForbiddenKeywordsForMode is not a function"
+            ],
+            "promptLength": 988,
+            "lengthStatus": "ideal",
+            "forbiddenHit": "",
+            "checkedAt": "2026-06-15T09:29:12.594Z"
+          }
+        }
+      ],
+      "summary": {
+        "total": 6,
+        "passed": 0,
+        "warned": 6,
+        "failed": 0,
+        "totalFixes": 0
+      }
+    }
   },
   "errors": [
     {
       "stage": "PIPELINE",
-      "message": "this._summarizePromptQualityGate is not a function",
-      "stack": "TypeError: this._summarizePromptQualityGate is not a function\n    at NirathMasterPipeline.stagePromptQualityGate (/root/.openclaw/workspace/zhuoyue-system/core/nirath-master-pipeline.js:6479:26)\n    at /root/.openclaw/workspace/zhuoyue-system/core/nirath-master-pipeline.js:822:81\n    at runStage (/root/.openclaw/workspace/zhuoyue-system/core/nirath-master-pipeline.js:636:32)\n    at async NirathMasterPipeline.execute (/root/.openclaw/workspace/zhuoyue-system/core/nirath-master-pipeline.js:822:41)\n    at async run (/root/.openclaw/workspace/run-health-edu-ep01.js:175:20)"
+      "message": "checkStandardCompliance is not defined",
+      "stack": "ReferenceError: checkStandardCompliance is not defined\n    at attachComplianceToShot (/root/.openclaw/workspace/systems/prompt-pipeline-bridge.js:225:22)\n    at /root/.openclaw/workspace/systems/prompt-pipeline-bridge.js:236:30\n    at Array.map (<anonymous>)\n    at attachComplianceToShots (/root/.openclaw/workspace/systems/prompt-pipeline-bridge.js:236:16)\n    at processShotsForCompliance (/root/.openclaw/workspace/systems/prompt-pipeline-bridge.js:245:15)\n    at NirathMasterPipeline.execute (/root/.openclaw/workspace/zhuoyue-system/core/nirath-master-pipeline.js:868:27)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async run (/root/.openclaw/workspace/run-health-edu-ep01.js:175:20)"
     }
   ],
   "creativeIntensity": 0.2,
@@ -2083,1236 +2505,1116 @@
   },
   "logs": [
     {
-      "timestamp": "2026-06-15T09:17:00.493Z",
+      "timestamp": "2026-06-15T09:29:08.346Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "🚀 NirathMasterPipeline启动 | 模式: generic | 项目: health-edu-ep01-rhabdomyolysis"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.493Z",
+      "timestamp": "2026-06-15T09:29:08.346Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "🔥 P0-固化:每次预生产 = 全链路 + 最新版 | 无视历史,全新执行"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.493Z",
+      "timestamp": "2026-06-15T09:29:08.346Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "📝 [Stage -1] 启动需求解析确认模块..."
     },
     {
-      "timestamp": "2026-06-15T09:17:00.494Z",
+      "timestamp": "2026-06-15T09:29:08.347Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "⚠️ [Stage -1] 需求解析异常: input.characters?.map is not a function,使用原始输入继续"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.495Z",
+      "timestamp": "2026-06-15T09:29:08.347Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "🎨 [智能推荐] 视频类型=\"educational\" | 样本不足,使用类型默认值 intensity=0.5 | 通用默认值（当前样本不足 3 个，使用类型默认值）"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.495Z",
+      "timestamp": "2026-06-15T09:29:08.348Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "🎨 创意指数解析: 0.2 (标准) | 激活 0/14 模块"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.495Z",
+      "timestamp": "2026-06-15T09:29:08.348Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "\n[CONTENT_FIREWALL] 🔒 内容层完全隔离，创意指数无效：\n  - 剧本内容 (Script) → 已锁定\n  - 台词对白 (Dialogue) → 已锁定\n  - 医学事实 (Medical Facts) → 已锁定\n  - 科学数据 (Data) → 已锁定\n  - 叙事逻辑 (Story Logic) → 已锁定\n[CONTENT_FIREWALL] ✅ 表现层接受创意指数调控：运镜、灯光、布景、剪辑、声音、色彩、构图、表演、特效、镜头语言、氛围、质感、时间、空间\n"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.565Z",
+      "timestamp": "2026-06-15T09:29:08.356Z",
       "stage": "STAGE-0",
       "level": "info",
       "message": "✅ Mock数据清理检查通过,无残留测试文件"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.566Z",
+      "timestamp": "2026-06-15T09:29:08.357Z",
       "stage": "STAGE-1",
       "level": "info",
       "message": "PRD中央校准文档生成"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.566Z",
-      "stage": "PIPELINE",
-      "level": "info",
-      "message": "[性能报警] STAGE-1 耗时仅0ms，低于本地基线1ms，疑似空转或短路"
-    },
-    {
-      "timestamp": "2026-06-15T09:17:00.566Z",
-      "stage": "PIPELINE",
-      "level": "info",
-      "message": "⚠️ [性能警告] STAGE-1 耗时仅0ms,疑似空转或未真实执行"
-    },
-    {
-      "timestamp": "2026-06-15T09:17:00.566Z",
+      "timestamp": "2026-06-15T09:29:08.357Z",
       "stage": "STAGE-2",
       "level": "info",
       "message": "需求对齐闸机检查"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.566Z",
+      "timestamp": "2026-06-15T09:29:08.357Z",
       "stage": "STAGE-2",
       "level": "info",
       "message": "✅ 需求对齐通过 | 检查项: 5"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.566Z",
+      "timestamp": "2026-06-15T09:29:08.357Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "[性能报警] STAGE-2 耗时仅0ms，低于本地基线1ms，疑似空转或短路"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.567Z",
+      "timestamp": "2026-06-15T09:29:08.357Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "⚠️ [性能警告] STAGE-2 耗时仅0ms,疑似空转或未真实执行"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.567Z",
+      "timestamp": "2026-06-15T09:29:08.357Z",
       "stage": "STAGE-3",
       "level": "info",
       "message": "Schema运行时校验"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.567Z",
+      "timestamp": "2026-06-15T09:29:08.358Z",
       "stage": "INIT",
       "level": "info",
       "message": "🚀 首次访问modules,惰性初始化59个模块(启动提速50-70%)"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.580Z",
+      "timestamp": "2026-06-15T09:29:08.371Z",
       "stage": "STAGE-3",
       "level": "info",
       "message": "✅ Schema校验完成 | 错误: 0"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.581Z",
+      "timestamp": "2026-06-15T09:29:08.372Z",
       "stage": "STAGE-4",
       "level": "info",
       "message": "角色系统(v2)"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.584Z",
+      "timestamp": "2026-06-15T09:29:08.375Z",
       "stage": "STAGE-4",
       "level": "info",
       "message": "  ✅ CharacterManagerV2: chen-nurse"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.585Z",
+      "timestamp": "2026-06-15T09:29:08.376Z",
       "stage": "STAGE-4",
       "level": "info",
       "message": "  ✅ 定妆照检查通过: chen-nurse | 4个角度"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.586Z",
+      "timestamp": "2026-06-15T09:29:08.377Z",
       "stage": "STAGE-4",
       "level": "info",
       "message": "  ✅ CharacterPromptBuilder: chen-nurse"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.586Z",
+      "timestamp": "2026-06-15T09:29:08.378Z",
       "stage": "STAGE-4",
       "level": "info",
       "message": "  ✅ CharacterComplianceChecker: chen-nurse | 级别: L0"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.586Z",
+      "timestamp": "2026-06-15T09:29:08.378Z",
       "stage": "STAGE-4",
       "level": "info",
       "message": "✅ 角色系统完成 | 角色数: 1"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.586Z",
+      "timestamp": "2026-06-15T09:29:08.378Z",
       "stage": "PIPELINE",
       "level": "info",
-      "message": "[性能报警] STAGE-4 耗时6ms，偏离历史基线3537.4ms 100%"
+      "message": "[性能报警] STAGE-4 耗时7ms，偏离历史基线2478ms 100%"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.587Z",
+      "timestamp": "2026-06-15T09:29:08.378Z",
       "stage": "STAGE-5",
       "level": "info",
       "message": "剧本生成与分析(剧本生成Agent驱动)"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.587Z",
+      "timestamp": "2026-06-15T09:29:08.378Z",
       "stage": "STAGE-5",
       "level": "info",
       "message": "🧠 LLM 同步生成剧本(阻塞等待,确保数据完整性)"
     },
     {
-      "timestamp": "2026-06-15T09:17:00.587Z",
+      "timestamp": "2026-06-15T09:29:08.379Z",
       "stage": "STAGE-5A",
       "level": "info",
       "message": "🧩 批次 1/6 | 镜数: 1 | Prompt: 1554字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:01.240Z",
+      "timestamp": "2026-06-15T09:29:08.845Z",
       "stage": "STAGE-5A",
       "level": "info",
-      "message": "⚠️ 批次 1 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515021240_http_error.txt"
+      "message": "⚠️ 批次 1 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515748845_http_error.txt"
     },
     {
-      "timestamp": "2026-06-15T09:17:01.240Z",
+      "timestamp": "2026-06-15T09:29:08.846Z",
       "stage": "STAGE-5A",
       "level": "info",
       "message": "🧩 批次 2/6 | 镜数: 1 | Prompt: 1584字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:01.534Z",
+      "timestamp": "2026-06-15T09:29:09.267Z",
       "stage": "STAGE-5A",
       "level": "info",
-      "message": "⚠️ 批次 2 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515021534_http_error.txt"
+      "message": "⚠️ 批次 2 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515749267_http_error.txt"
     },
     {
-      "timestamp": "2026-06-15T09:17:01.535Z",
+      "timestamp": "2026-06-15T09:29:09.267Z",
       "stage": "STAGE-5A",
       "level": "info",
       "message": "🧩 批次 3/6 | 镜数: 1 | Prompt: 1587字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:01.840Z",
+      "timestamp": "2026-06-15T09:29:09.596Z",
       "stage": "STAGE-5A",
       "level": "info",
-      "message": "⚠️ 批次 3 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515021840_http_error.txt"
+      "message": "⚠️ 批次 3 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515749596_http_error.txt"
     },
     {
-      "timestamp": "2026-06-15T09:17:01.841Z",
+      "timestamp": "2026-06-15T09:29:09.596Z",
       "stage": "STAGE-5A",
       "level": "info",
       "message": "🧩 批次 4/6 | 镜数: 1 | Prompt: 1588字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:02.125Z",
+      "timestamp": "2026-06-15T09:29:09.877Z",
       "stage": "STAGE-5A",
       "level": "info",
-      "message": "⚠️ 批次 4 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515022125_http_error.txt"
+      "message": "⚠️ 批次 4 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515749877_http_error.txt"
     },
     {
-      "timestamp": "2026-06-15T09:17:02.125Z",
+      "timestamp": "2026-06-15T09:29:09.877Z",
       "stage": "STAGE-5A",
       "level": "info",
       "message": "🧩 批次 5/6 | 镜数: 1 | Prompt: 1546字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:02.465Z",
+      "timestamp": "2026-06-15T09:29:10.310Z",
       "stage": "STAGE-5A",
       "level": "info",
-      "message": "⚠️ 批次 5 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515022465_http_error.txt"
+      "message": "⚠️ 批次 5 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515750310_http_error.txt"
     },
     {
-      "timestamp": "2026-06-15T09:17:02.465Z",
+      "timestamp": "2026-06-15T09:29:10.310Z",
       "stage": "STAGE-5A",
       "level": "info",
       "message": "🧩 批次 6/6 | 镜数: 1 | Prompt: 1524字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:02.766Z",
+      "timestamp": "2026-06-15T09:29:10.653Z",
       "stage": "STAGE-5A",
       "level": "info",
-      "message": "⚠️ 批次 6 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515022766_http_error.txt"
+      "message": "⚠️ 批次 6 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515750653_http_error.txt"
     },
     {
-      "timestamp": "2026-06-15T09:17:02.767Z",
+      "timestamp": "2026-06-15T09:29:10.654Z",
       "stage": "STAGE-5B",
       "level": "info",
       "message": "🎬 镜头 1/6 | scene=S01 | Prompt: 1208字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:03.085Z",
+      "timestamp": "2026-06-15T09:29:11.005Z",
       "stage": "STAGE-5B",
       "level": "info",
-      "message": "⚠️ S01 visualPrompt 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515023083_http_error.txt"
+      "message": "⚠️ S01 visualPrompt 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515751004_http_error.txt"
     },
     {
-      "timestamp": "2026-06-15T09:17:03.085Z",
+      "timestamp": "2026-06-15T09:29:11.005Z",
       "stage": "STAGE-5B",
       "level": "info",
       "message": "🎬 镜头 2/6 | scene=S02 | Prompt: 1257字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:03.416Z",
+      "timestamp": "2026-06-15T09:29:11.352Z",
       "stage": "STAGE-5B",
       "level": "info",
-      "message": "⚠️ S02 visualPrompt 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515023416_http_error.txt"
+      "message": "⚠️ S02 visualPrompt 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515751352_http_error.txt"
     },
     {
-      "timestamp": "2026-06-15T09:17:03.417Z",
+      "timestamp": "2026-06-15T09:29:11.353Z",
       "stage": "STAGE-5B",
       "level": "info",
       "message": "🎬 镜头 3/6 | scene=S03 | Prompt: 1258字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:03.978Z",
+      "timestamp": "2026-06-15T09:29:11.643Z",
       "stage": "STAGE-5B",
       "level": "info",
-      "message": "⚠️ S03 visualPrompt 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515023977_http_error.txt"
+      "message": "⚠️ S03 visualPrompt 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515751643_http_error.txt"
     },
     {
-      "timestamp": "2026-06-15T09:17:03.978Z",
+      "timestamp": "2026-06-15T09:29:11.643Z",
       "stage": "STAGE-5B",
       "level": "info",
       "message": "🎬 镜头 4/6 | scene=S04 | Prompt: 1258字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.333Z",
+      "timestamp": "2026-06-15T09:29:11.944Z",
       "stage": "STAGE-5B",
       "level": "info",
-      "message": "⚠️ S04 visualPrompt 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515024333_http_error.txt"
+      "message": "⚠️ S04 visualPrompt 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515751944_http_error.txt"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.333Z",
+      "timestamp": "2026-06-15T09:29:11.944Z",
       "stage": "STAGE-5B",
       "level": "info",
       "message": "🎬 镜头 5/6 | scene=S05 | Prompt: 1218字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.675Z",
+      "timestamp": "2026-06-15T09:29:12.247Z",
       "stage": "STAGE-5B",
       "level": "info",
-      "message": "⚠️ S05 visualPrompt 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515024674_http_error.txt"
+      "message": "⚠️ S05 visualPrompt 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515752246_http_error.txt"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.675Z",
+      "timestamp": "2026-06-15T09:29:12.247Z",
       "stage": "STAGE-5B",
       "level": "info",
       "message": "🎬 镜头 6/6 | scene=S06 | Prompt: 1173字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.958Z",
+      "timestamp": "2026-06-15T09:29:12.536Z",
       "stage": "STAGE-5B",
       "level": "info",
-      "message": "⚠️ S06 visualPrompt 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515024957_http_error.txt"
+      "message": "⚠️ S06 visualPrompt 失败: HTTP 400: {\"error\":{\"message\":\"invalid temperature: only 1 is allowed for this model\",\"type\":\"invalid_request_error\"}} | dump=/root/.openclaw/workspace/debug_llm/1781515752536_http_error.txt"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.958Z",
+      "timestamp": "2026-06-15T09:29:12.536Z",
       "stage": "STAGE-5",
       "level": "info",
       "message": "✅ LLM剧本同步生成完成 | 场景数: 6"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.958Z",
+      "timestamp": "2026-06-15T09:29:12.536Z",
       "stage": "PIPELINE",
       "level": "info",
-      "message": "[性能报警] STAGE-5 耗时4371ms，偏离历史基线263527.6ms 98%"
+      "message": "[性能报警] STAGE-5 耗时4158ms，偏离历史基线185780.6ms 98%"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.959Z",
+      "timestamp": "2026-06-15T09:29:12.537Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "🎬 导演预检通过 | 旁白-画面对齐 OK"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.959Z",
+      "timestamp": "2026-06-15T09:29:12.537Z",
       "stage": "STAGE-5.5",
       "level": "info",
       "message": "FPV镜头智能决策(导演创作权)"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.976Z",
+      "timestamp": "2026-06-15T09:29:12.539Z",
       "stage": "STAGE-5.5",
       "level": "info",
       "message": "✅ FPV智能评估完成"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.976Z",
+      "timestamp": "2026-06-15T09:29:12.539Z",
       "stage": "STAGE-5.5",
       "level": "info",
       "message": "   剧本FPV适配度: 46/100"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.976Z",
+      "timestamp": "2026-06-15T09:29:12.539Z",
       "stage": "STAGE-5.5",
       "level": "info",
       "message": "   导演决策: 无强烈FPV适配镜头，S04相对最佳(60分)，可选FPV增强"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.976Z",
+      "timestamp": "2026-06-15T09:29:12.539Z",
       "stage": "STAGE-5.5",
       "level": "info",
       "message": "   🔴 FPV推荐: S04 | 得分: 60 | 理由: 导演决策:无强烈FPV适配镜头，S04相对最佳(60分)，可选FPV增强"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.977Z",
+      "timestamp": "2026-06-15T09:29:12.539Z",
       "stage": "STAGE-6",
       "level": "info",
       "message": "镜头时长分配(ShotDurationAllocatorV2 + DurationCalculator双保险)"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.977Z",
+      "timestamp": "2026-06-15T09:29:12.539Z",
       "stage": "STAGE-6",
       "level": "info",
       "message": "📏 时长放宽: 62s → 65s (+5%)"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.977Z",
+      "timestamp": "2026-06-15T09:29:12.540Z",
       "stage": "STAGE-6",
       "level": "info",
       "message": "📤 ShotDurationAllocatorV2输入: 6句dialogue | 总预算65s"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.981Z",
+      "timestamp": "2026-06-15T09:29:12.542Z",
       "stage": "STAGE-6",
       "level": "info",
       "message": "✅ ShotDurationAllocatorV2已调用 | 优化级别: L0 | 总时长预算: 65s | 返回6镜"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.981Z",
+      "timestamp": "2026-06-15T09:29:12.542Z",
       "stage": "STAGE-6",
       "level": "info",
       "message": "  🎯 V2调整(内容适配): S01 | PRD:8s → V2:14s (≤15s硬约束)"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.981Z",
+      "timestamp": "2026-06-15T09:29:12.542Z",
       "stage": "STAGE-6",
       "level": "info",
       "message": "  🎯 V2调整(内容适配): S02 | PRD:10s → V2:13s (≤15s硬约束)"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.981Z",
+      "timestamp": "2026-06-15T09:29:12.542Z",
       "stage": "STAGE-6",
       "level": "info",
       "message": "  🎯 V2调整(内容适配): S03 | PRD:12s → V2:14s (≤15s硬约束)"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.981Z",
+      "timestamp": "2026-06-15T09:29:12.542Z",
       "stage": "STAGE-6",
       "level": "info",
       "message": "  ⚠️ V2与PRD差异大: S04 | PRD:15s vs V2:10s | 强制使用PRD:15s"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.981Z",
+      "timestamp": "2026-06-15T09:29:12.542Z",
       "stage": "STAGE-6",
       "level": "info",
       "message": "  🎯 V2分配(尊重PRD): S05 | PRD:8s ≈ V2:8s | 使用PRD:8s"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.981Z",
+      "timestamp": "2026-06-15T09:29:12.542Z",
       "stage": "STAGE-6",
       "level": "info",
       "message": "  🎯 V2调整(内容适配): S06 | PRD:5s → V2:6s (≤15s硬约束)"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.981Z",
+      "timestamp": "2026-06-15T09:29:12.542Z",
       "stage": "STAGE-6",
       "level": "info",
       "message": "✅ 时长分配 | 镜头数: 6 | V2分配: 6/6 | 超长: 0/6 | 优化级别: L0"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.982Z",
+      "timestamp": "2026-06-15T09:29:12.543Z",
       "stage": "STAGE-7",
       "level": "info",
       "message": "故事板生成(结构化生成器 + mouthAction字段 + 场景映射)"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.982Z",
+      "timestamp": "2026-06-15T09:29:12.543Z",
       "stage": "STAGE-7",
       "level": "info",
       "message": "  🔍 角色自动推断: S01 → chen-nurse"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.983Z",
+      "timestamp": "2026-06-15T09:29:12.544Z",
       "stage": "STAGE-7",
       "level": "info",
       "message": "✅ 故事板 | 镜头数: 6 | 总时长: 58s | mouthAction: 6/6"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.983Z",
+      "timestamp": "2026-06-15T09:29:12.544Z",
       "stage": "STAGE-7.2",
       "level": "info",
       "message": "🎯 主角主动性自动注入(v6.2-patch51)"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.983Z",
+      "timestamp": "2026-06-15T09:29:12.544Z",
       "stage": "STAGE-7.2",
       "level": "info",
       "message": "⏭️ generic模式,跳过Nirath专属主动性注入"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.984Z",
+      "timestamp": "2026-06-15T09:29:12.544Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "[性能报警] STAGE-7.2 耗时仅0ms，低于本地基线1ms，疑似空转或短路"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.984Z",
+      "timestamp": "2026-06-15T09:29:12.544Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "⚠️ [性能警告] STAGE-7.2 耗时仅0ms,疑似空转或未真实执行"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.984Z",
+      "timestamp": "2026-06-15T09:29:12.544Z",
       "stage": "STAGE-7.4",
       "level": "info",
       "message": "📏 时长-字数一致性校准(v6.2-patch52, v6.5.34: dialogue模式)"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.984Z",
+      "timestamp": "2026-06-15T09:29:12.545Z",
       "stage": "STAGE-7.4",
       "level": "info",
       "message": "✅ 时长-dialogue全部匹配,无需调整"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.985Z",
-      "stage": "PIPELINE",
-      "level": "info",
-      "message": "[性能报警] STAGE-7.4 耗时仅0ms，低于本地基线1ms，疑似空转或短路"
-    },
-    {
-      "timestamp": "2026-06-15T09:17:04.985Z",
-      "stage": "PIPELINE",
-      "level": "info",
-      "message": "⚠️ [性能警告] STAGE-7.4 耗时仅0ms,疑似空转或未真实执行"
-    },
-    {
-      "timestamp": "2026-06-15T09:17:04.985Z",
+      "timestamp": "2026-06-15T09:29:12.545Z",
       "stage": "STAGE-7.3",
       "level": "info",
       "message": "⏭️ 全局禁用narration(仅保留dialogue/台词),跳过narration精简"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.985Z",
+      "timestamp": "2026-06-15T09:29:12.545Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "[性能报警] STAGE-7.3 耗时仅0ms，低于本地基线1ms，疑似空转或短路"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.985Z",
+      "timestamp": "2026-06-15T09:29:12.545Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "⚠️ [性能警告] STAGE-7.3 耗时仅0ms,疑似空转或未真实执行"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.985Z",
+      "timestamp": "2026-06-15T09:29:12.545Z",
       "stage": "STAGE-7.5",
       "level": "info",
       "message": "⏭️ 通用模式且未启用片头,跳过片头生成"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.985Z",
+      "timestamp": "2026-06-15T09:29:12.545Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "[性能报警] STAGE-7.5 耗时仅0ms，低于本地基线50ms，疑似空转或短路"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.985Z",
+      "timestamp": "2026-06-15T09:29:12.545Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "⚠️ [性能警告] STAGE-7.5 耗时仅0ms,疑似空转或未真实执行"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.986Z",
+      "timestamp": "2026-06-15T09:29:12.546Z",
       "stage": "STAGE-8",
       "level": "info",
       "message": "故事板校验(开场动作 + mouthAction + narration-prompt对齐)"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.990Z",
+      "timestamp": "2026-06-15T09:29:12.549Z",
       "stage": "STAGE-8",
       "level": "info",
       "message": "  ✅ 开场动作检查通过: S01"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.990Z",
+      "timestamp": "2026-06-15T09:29:12.549Z",
       "stage": "STAGE-8",
       "level": "info",
       "message": "  ✅ mouthAction检查通过: 全部内容镜已设置"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.990Z",
+      "timestamp": "2026-06-15T09:29:12.549Z",
       "stage": "STAGE-8",
       "level": "info",
       "message": "  ✅ 角色完整性: 1/1 全部出场"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.990Z",
+      "timestamp": "2026-06-15T09:29:12.549Z",
       "stage": "STAGE-8",
       "level": "info",
       "message": "✅ 故事板校验 | 错误: 0 | 警告: 0 | 通过: 是"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.990Z",
+      "timestamp": "2026-06-15T09:29:12.550Z",
       "stage": "STAGE-8.5",
       "level": "info",
       "message": "五要素检查启动(山海经系列)"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.990Z",
+      "timestamp": "2026-06-15T09:29:12.550Z",
       "stage": "STAGE-8.5",
       "level": "info",
       "message": "⏭️ 通用模式,跳过五要素检查"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.990Z",
-      "stage": "PIPELINE",
-      "level": "info",
-      "message": "[性能报警] STAGE-8.5 耗时仅0ms，低于本地基线5ms，疑似空转或短路"
-    },
-    {
-      "timestamp": "2026-06-15T09:17:04.990Z",
-      "stage": "PIPELINE",
-      "level": "info",
-      "message": "⚠️ [性能警告] STAGE-8.5 耗时仅0ms,疑似空转或未真实执行"
-    },
-    {
-      "timestamp": "2026-06-15T09:17:04.991Z",
+      "timestamp": "2026-06-15T09:29:12.550Z",
       "stage": "STAGE-9",
       "level": "info",
       "message": "运镜系统(v1)"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.992Z",
+      "timestamp": "2026-06-15T09:29:12.551Z",
       "stage": "STAGE-9",
       "level": "info",
       "message": "  🎬 FPV运镜: S04 | 导演决策: 导演决策:无强烈FPV适配镜头，S04相对最佳(60分)，可选FPV增强"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.992Z",
+      "timestamp": "2026-06-15T09:29:12.551Z",
       "stage": "STAGE-9",
       "level": "info",
       "message": "✅ 运镜完成 | 镜头数: 6 | v3多段式: 0 | FPV: 1 | 传统: 5"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.992Z",
+      "timestamp": "2026-06-15T09:29:12.551Z",
       "stage": "STAGE-10",
       "level": "info",
       "message": "连续性引擎检查"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.992Z",
+      "timestamp": "2026-06-15T09:29:12.551Z",
       "stage": "STAGE-10",
       "level": "info",
       "message": "✅ 连续性检查 | 问题: 0"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.992Z",
+      "timestamp": "2026-06-15T09:29:12.551Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "[性能报警] STAGE-10 耗时仅0ms，低于本地基线1ms，疑似空转或短路"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.992Z",
+      "timestamp": "2026-06-15T09:29:12.551Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "⚠️ [性能警告] STAGE-10 耗时仅0ms,疑似空转或未真实执行"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.993Z",
+      "timestamp": "2026-06-15T09:29:12.552Z",
       "stage": "STAGE-10.5",
       "level": "info",
       "message": "渲染前置输入检查 - 确认Stage 11输入完整性"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.993Z",
+      "timestamp": "2026-06-15T09:29:12.552Z",
       "stage": "STAGE-10.5",
       "level": "info",
       "message": "  ✅ S01 输入就绪"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.993Z",
+      "timestamp": "2026-06-15T09:29:12.552Z",
       "stage": "STAGE-10.5",
       "level": "info",
       "message": "  ❌ S02 输入不完整: 镜头类型explanation需要角色,但未分配"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.993Z",
+      "timestamp": "2026-06-15T09:29:12.552Z",
       "stage": "STAGE-10.5",
       "level": "info",
       "message": "  ❌ S03 输入不完整: 镜头类型demonstration需要角色,但未分配"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.993Z",
+      "timestamp": "2026-06-15T09:29:12.552Z",
       "stage": "STAGE-10.5",
       "level": "info",
       "message": "  ❌ S04 输入不完整: 镜头类型explanation需要角色,但未分配"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.993Z",
+      "timestamp": "2026-06-15T09:29:12.552Z",
       "stage": "STAGE-10.5",
       "level": "info",
       "message": "  ❌ S05 输入不完整: 镜头类型closing需要角色,但未分配"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.993Z",
+      "timestamp": "2026-06-15T09:29:12.552Z",
       "stage": "STAGE-10.5",
       "level": "info",
       "message": "  ❌ S06 输入不完整: 镜头类型ending需要角色,但未分配"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.993Z",
+      "timestamp": "2026-06-15T09:29:12.552Z",
       "stage": "STAGE-10.5",
       "level": "info",
       "message": "✅ 前置输入检查 | 就绪: 1/6 | 部分输入缺失,需修复"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.994Z",
+      "timestamp": "2026-06-15T09:29:12.553Z",
       "stage": "STAGE-10.5",
       "level": "info",
       "message": "✅ 定妆照绑定验证通过"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.994Z",
+      "timestamp": "2026-06-15T09:29:12.553Z",
       "stage": "STAGE-10.5",
       "level": "info",
       "message": "⚠️ 前置输入检查发现5个镜头输入不完整,记录问题但继续执行(预生产模式)"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.997Z",
+      "timestamp": "2026-06-15T09:29:12.557Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "渲染核心(通用)"
     },
     {
-      "timestamp": "2026-06-15T09:17:04.999Z",
+      "timestamp": "2026-06-15T09:29:12.559Z",
       "stage": "STAGE-6",
       "level": "info",
       "message": "🎬 导演风格匹配: 开场-自我介绍 → generic | 主风格: 通用导演 + 辅风格: 通用风格"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.003Z",
+      "timestamp": "2026-06-15T09:29:12.561Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "v6.2-patch60 Prompt构建 | Tier利用率:78% | 质量:B(69分) | 长度:1173"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.004Z",
+      "timestamp": "2026-06-15T09:29:12.562Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  ✅ 通用渲染: S01 | ratio:16:9 | mouthAction:有 | 1400字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.005Z",
+      "timestamp": "2026-06-15T09:29:12.564Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  🔍 DEBUG pre-smartTrim: S01 | 含运镜=true | len=2739"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.006Z",
+      "timestamp": "2026-06-15T09:29:12.565Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  ⚠️ 增强后超限(2739字符),智能裁剪至988字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.008Z",
+      "timestamp": "2026-06-15T09:29:12.566Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  🎨 布景增强跳过: S01 | 检测到Nirath关键词,generic模式拒绝注入"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.010Z",
+      "timestamp": "2026-06-15T09:29:12.568Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  📈 社交模式评分补偿: S01 | 59.5 → 74.5 (+15)"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.010Z",
+      "timestamp": "2026-06-15T09:29:12.568Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  🎬 镜头内增强: S01 | 4段运镜 | 质量评分:59.5分 [运镜15+光影8+情绪12+空间15+对齐9.5]"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.011Z",
+      "timestamp": "2026-06-15T09:29:12.569Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  📷 @image引用注入: S01 | 1个引用"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.014Z",
+      "timestamp": "2026-06-15T09:29:12.572Z",
       "stage": "STAGE-6",
       "level": "info",
       "message": "🎬 导演风格匹配: 什么是横纹肌溶解 → generic | 主风格: 通用导演 + 辅风格: 通用风格"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.015Z",
+      "timestamp": "2026-06-15T09:29:12.573Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "v6.2-patch60 Prompt构建 | Tier利用率:62% | 质量:B(66分) | 长度:933"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.015Z",
+      "timestamp": "2026-06-15T09:29:12.573Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  ✅ 通用渲染: S02 | ratio:16:9 | mouthAction:有 | 1139字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.015Z",
+      "timestamp": "2026-06-15T09:29:12.574Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  🔍 DEBUG pre-smartTrim: S02 | 含运镜=true | len=2466"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.016Z",
+      "timestamp": "2026-06-15T09:29:12.574Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  ⚠️ 增强后超限(2466字符),智能裁剪至988字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.016Z",
+      "timestamp": "2026-06-15T09:29:12.574Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  🎨 布景增强跳过: S02 | 检测到Nirath关键词,generic模式拒绝注入"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.017Z",
+      "timestamp": "2026-06-15T09:29:12.575Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  📈 社交模式评分补偿: S02 | 61 → 76 (+15)"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.017Z",
+      "timestamp": "2026-06-15T09:29:12.575Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  🎬 镜头内增强: S02 | 4段运镜 | 质量评分:61分 [运镜15+光影8+情绪14+空间15+对齐9]"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.018Z",
+      "timestamp": "2026-06-15T09:29:12.577Z",
       "stage": "STAGE-6",
       "level": "info",
       "message": "🎬 导演风格匹配: 症状表现 → generic | 主风格: 通用导演 + 辅风格: 通用风格"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.019Z",
+      "timestamp": "2026-06-15T09:29:12.577Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "v6.2-patch60 Prompt构建 | Tier利用率:65% | 质量:B(61分) | 长度:979"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.019Z",
+      "timestamp": "2026-06-15T09:29:12.578Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  ✅ 通用渲染: S03 | ratio:16:9 | mouthAction:有 | 1185字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.020Z",
+      "timestamp": "2026-06-15T09:29:12.578Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  🔍 DEBUG pre-smartTrim: S03 | 含运镜=true | len=2510"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.020Z",
+      "timestamp": "2026-06-15T09:29:12.578Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  ⚠️ 增强后超限(2510字符),智能裁剪至988字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.020Z",
+      "timestamp": "2026-06-15T09:29:12.579Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  🎨 布景增强跳过: S03 | 检测到Nirath关键词,generic模式拒绝注入"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.021Z",
+      "timestamp": "2026-06-15T09:29:12.579Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  📈 社交模式评分补偿: S03 | 61 → 76 (+15)"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.021Z",
+      "timestamp": "2026-06-15T09:29:12.579Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  🎬 镜头内增强: S03 | 4段运镜 | 质量评分:61分 [运镜15+光影8+情绪14+空间15+对齐9]"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.022Z",
+      "timestamp": "2026-06-15T09:29:12.580Z",
       "stage": "STAGE-6",
       "level": "info",
       "message": "🎬 导演风格匹配: 实验室检查 → generic | 主风格: 通用导演 + 辅风格: 通用风格"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.022Z",
+      "timestamp": "2026-06-15T09:29:12.581Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "v6.2-patch60 Prompt构建 | Tier利用率:62% | 质量:B(66分) | 长度:929"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.022Z",
+      "timestamp": "2026-06-15T09:29:12.581Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  ✅ 通用渲染: S04 | ratio:16:9 | mouthAction:有 | 1135字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.023Z",
+      "timestamp": "2026-06-15T09:29:12.581Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  🔍 DEBUG pre-smartTrim: S04 | 含运镜=true | len=2462"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.023Z",
+      "timestamp": "2026-06-15T09:29:12.581Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  ⚠️ 增强后超限(2462字符),智能裁剪至988字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.023Z",
+      "timestamp": "2026-06-15T09:29:12.581Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  🎨 布景增强跳过: S04 | 检测到Nirath关键词,generic模式拒绝注入"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.024Z",
+      "timestamp": "2026-06-15T09:29:12.582Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  📈 社交模式评分补偿: S04 | 61 → 76 (+15)"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.024Z",
+      "timestamp": "2026-06-15T09:29:12.582Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  🎬 镜头内增强: S04 | 4段运镜 | 质量评分:61分 [运镜15+光影8+情绪14+空间15+对齐9]"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.025Z",
+      "timestamp": "2026-06-15T09:29:12.583Z",
       "stage": "STAGE-6",
       "level": "info",
       "message": "🎬 导演风格匹配: 总结提醒 → generic | 主风格: 通用导演 + 辅风格: 通用风格"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.027Z",
+      "timestamp": "2026-06-15T09:29:12.586Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "v6.2-patch60 Prompt构建 | Tier利用率:62% | 质量:B(66分) | 长度:931"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.028Z",
+      "timestamp": "2026-06-15T09:29:12.587Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  🎭 情绪增强: S05 | 注入3项 | 情绪密度:0.25"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.028Z",
+      "timestamp": "2026-06-15T09:29:12.587Z",
       "stage": "STAGE-11",
       "level": "info",
-      "message": "  ✅ 通用渲染: S05 | ratio:16:9 | mouthAction:有 | 1207字符"
+      "message": "  ✅ 通用渲染: S05 | ratio:16:9 | mouthAction:有 | 1199字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.028Z",
+      "timestamp": "2026-06-15T09:29:12.587Z",
       "stage": "STAGE-11",
       "level": "info",
-      "message": "  🔍 DEBUG pre-smartTrim: S05 | 含运镜=true | len=2564"
+      "message": "  🔍 DEBUG pre-smartTrim: S05 | 含运镜=true | len=2556"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.029Z",
+      "timestamp": "2026-06-15T09:29:12.587Z",
       "stage": "STAGE-11",
       "level": "info",
-      "message": "  ⚠️ 增强后超限(2564字符),智能裁剪至988字符"
+      "message": "  ⚠️ 增强后超限(2556字符),智能裁剪至988字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.029Z",
+      "timestamp": "2026-06-15T09:29:12.587Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  🎨 布景增强跳过: S05 | 检测到Nirath关键词,generic模式拒绝注入"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.029Z",
+      "timestamp": "2026-06-15T09:29:12.588Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  📈 社交模式评分补偿: S05 | 55 → 70 (+15)"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.029Z",
+      "timestamp": "2026-06-15T09:29:12.588Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  🎬 镜头内增强: S05 | 4段运镜 | 质量评分:55分 [运镜15+光影2+情绪14+空间15+对齐9]"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.030Z",
+      "timestamp": "2026-06-15T09:29:12.589Z",
       "stage": "STAGE-6",
       "level": "info",
       "message": "🎬 导演风格匹配: 片尾 → generic | 主风格: 通用导演 + 辅风格: 通用风格"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.030Z",
+      "timestamp": "2026-06-15T09:29:12.589Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "v6.2-patch60 Prompt构建 | Tier利用率:62% | 质量:B(66分) | 长度:925"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.031Z",
+      "timestamp": "2026-06-15T09:29:12.589Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  🎭 情绪增强: S06 | 注入3项 | 情绪密度:0.25"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.031Z",
+      "timestamp": "2026-06-15T09:29:12.589Z",
       "stage": "STAGE-11",
       "level": "info",
-      "message": "  ✅ 通用渲染: S06 | ratio:16:9 | mouthAction:有 | 1195字符"
+      "message": "  ✅ 通用渲染: S06 | ratio:16:9 | mouthAction:有 | 1194字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.031Z",
+      "timestamp": "2026-06-15T09:29:12.590Z",
       "stage": "STAGE-11",
       "level": "info",
-      "message": "  🔍 DEBUG pre-smartTrim: S06 | 含运镜=true | len=2534"
+      "message": "  🔍 DEBUG pre-smartTrim: S06 | 含运镜=true | len=2533"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.031Z",
+      "timestamp": "2026-06-15T09:29:12.590Z",
       "stage": "STAGE-11",
       "level": "info",
-      "message": "  ⚠️ 增强后超限(2534字符),智能裁剪至988字符"
+      "message": "  ⚠️ 增强后超限(2533字符),智能裁剪至988字符"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.032Z",
+      "timestamp": "2026-06-15T09:29:12.590Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  🎨 布景增强跳过: S06 | 检测到Nirath关键词,generic模式拒绝注入"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.032Z",
+      "timestamp": "2026-06-15T09:29:12.591Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  📈 社交模式评分补偿: S06 | 51.5 → 66.5 (+15)"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.032Z",
+      "timestamp": "2026-06-15T09:29:12.591Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  🎬 镜头内增强: S06 | 4段运镜 | 质量评分:51.5分 [运镜15+光影2+情绪11.5+空间15+对齐8]"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.033Z",
+      "timestamp": "2026-06-15T09:29:12.592Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "  🎬 S01 最终渲染Prompt: 988字符 | characters=陈卓: human, 现实人类特征, 自然光照反射"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.033Z",
+      "timestamp": "2026-06-15T09:29:12.592Z",
       "stage": "STAGE-11",
       "level": "info",
-      "message": "  🎬 S02 最终渲染Prompt: 988字符 | characters=none"
+      "message": "  🎬 S02 最终渲染Prompt: 988字符 | characters=chen-nurse"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.033Z",
+      "timestamp": "2026-06-15T09:29:12.592Z",
       "stage": "STAGE-11",
       "level": "info",
-      "message": "  🎬 S03 最终渲染Prompt: 969字符 | characters=none"
+      "message": "  🎬 S03 最终渲染Prompt: 969字符 | characters=chen-nurse"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.033Z",
+      "timestamp": "2026-06-15T09:29:12.592Z",
       "stage": "STAGE-11",
       "level": "info",
-      "message": "  🎬 S04 最终渲染Prompt: 988字符 | characters=none"
+      "message": "  🎬 S04 最终渲染Prompt: 988字符 | characters=chen-nurse"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.033Z",
+      "timestamp": "2026-06-15T09:29:12.592Z",
       "stage": "STAGE-11",
       "level": "info",
-      "message": "  🎬 S05 最终渲染Prompt: 942字符 | characters=none"
+      "message": "  🎬 S05 最终渲染Prompt: 942字符 | characters=chen-nurse"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.033Z",
+      "timestamp": "2026-06-15T09:29:12.592Z",
       "stage": "STAGE-11",
       "level": "info",
-      "message": "  🎬 S06 最终渲染Prompt: 988字符 | characters=none"
+      "message": "  🎬 S06 最终渲染Prompt: 988字符 | characters=chen-nurse"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.034Z",
+      "timestamp": "2026-06-15T09:29:12.592Z",
       "stage": "STAGE-11",
       "level": "info",
       "message": "✅ 渲染完成 | 镜头数: 6 | 理想利用率: 6/6"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.034Z",
+      "timestamp": "2026-06-15T09:29:12.592Z",
       "stage": "PIPELINE",
       "level": "info",
-      "message": "[性能报警] STAGE-11 耗时40ms，偏离历史基线13363ms 100%"
+      "message": "[性能报警] STAGE-11 耗时39ms，偏离历史基线9366.1ms 100%"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.034Z",
+      "timestamp": "2026-06-15T09:29:12.593Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "🧹 已执行主进程内存释放"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.034Z",
+      "timestamp": "2026-06-15T09:29:12.593Z",
       "stage": "STAGE-11.5",
       "level": "info",
       "message": "Prompt Quality Gate 启动 | shots=6 | mode=generic"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.035Z",
+      "timestamp": "2026-06-15T09:29:12.593Z",
       "stage": "STAGE-11.5",
       "level": "info",
-      "message": "❌ S01 质量门异常: this._repairShotPromptByQualityGate is not a function"
+      "message": "❌ S01 质量门异常: this._collectForbiddenKeywordsForMode is not a function"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.035Z",
+      "timestamp": "2026-06-15T09:29:12.594Z",
       "stage": "STAGE-11.5",
       "level": "info",
-      "message": "❌ S02 质量门异常: this._repairShotPromptByQualityGate is not a function"
+      "message": "❌ S02 质量门异常: this._collectForbiddenKeywordsForMode is not a function"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.035Z",
+      "timestamp": "2026-06-15T09:29:12.594Z",
       "stage": "STAGE-11.5",
       "level": "info",
-      "message": "❌ S03 质量门异常: this._repairShotPromptByQualityGate is not a function"
+      "message": "❌ S03 质量门异常: this._collectForbiddenKeywordsForMode is not a function"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.035Z",
+      "timestamp": "2026-06-15T09:29:12.594Z",
       "stage": "STAGE-11.5",
       "level": "info",
-      "message": "❌ S04 质量门异常: this._repairShotPromptByQualityGate is not a function"
+      "message": "❌ S04 质量门异常: this._collectForbiddenKeywordsForMode is not a function"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.035Z",
+      "timestamp": "2026-06-15T09:29:12.594Z",
       "stage": "STAGE-11.5",
       "level": "info",
-      "message": "❌ S05 质量门异常: this._repairShotPromptByQualityGate is not a function"
+      "message": "❌ S05 质量门异常: this._collectForbiddenKeywordsForMode is not a function"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.036Z",
+      "timestamp": "2026-06-15T09:29:12.594Z",
       "stage": "STAGE-11.5",
       "level": "info",
-      "message": "❌ S06 质量门异常: this._repairShotPromptByQualityGate is not a function"
+      "message": "❌ S06 质量门异常: this._collectForbiddenKeywordsForMode is not a function"
     },
     {
-      "timestamp": "2026-06-15T09:17:05.036Z",
+      "timestamp": "2026-06-15T09:29:12.595Z",
+      "stage": "STAGE-11.5",
+      "level": "info",
+      "message": "Prompt Quality Gate 完成 | total=6 | passed=0 | warned=6 | fixes=0"
+    },
+    {
+      "timestamp": "2026-06-15T09:29:12.595Z",
       "stage": "PIPELINE",
       "level": "info",
-      "message": "⚠️ STAGE-11.5 第1次失败,60秒后重试... | 错误: this._summarizePromptQualityGate is not a function"
+      "message": "[性能报警] STAGE-11.5 耗时2ms，偏离历史基线52808.9ms 100%"
     },
     {
-      "timestamp": "2026-06-15T09:18:05.092Z",
+      "timestamp": "2026-06-15T09:29:12.595Z",
       "stage": "STAGE-11.5",
       "level": "info",
-      "message": "Prompt Quality Gate 启动 | shots=6 | mode=generic"
+      "message": "⚠️ Prompt质量闸门发现0个镜头质量未达标,记录问题供审阅"
     },
     {
-      "timestamp": "2026-06-15T09:18:05.093Z",
-      "stage": "STAGE-11.5",
-      "level": "info",
-      "message": "❌ S01 质量门异常: this._repairShotPromptByQualityGate is not a function"
-    },
-    {
-      "timestamp": "2026-06-15T09:18:05.093Z",
-      "stage": "STAGE-11.5",
-      "level": "info",
-      "message": "❌ S02 质量门异常: this._repairShotPromptByQualityGate is not a function"
-    },
-    {
-      "timestamp": "2026-06-15T09:18:05.093Z",
-      "stage": "STAGE-11.5",
-      "level": "info",
-      "message": "❌ S03 质量门异常: this._repairShotPromptByQualityGate is not a function"
-    },
-    {
-      "timestamp": "2026-06-15T09:18:05.093Z",
-      "stage": "STAGE-11.5",
-      "level": "info",
-      "message": "❌ S04 质量门异常: this._repairShotPromptByQualityGate is not a function"
-    },
-    {
-      "timestamp": "2026-06-15T09:18:05.093Z",
-      "stage": "STAGE-11.5",
-      "level": "info",
-      "message": "❌ S05 质量门异常: this._repairShotPromptByQualityGate is not a function"
-    },
-    {
-      "timestamp": "2026-06-15T09:18:05.093Z",
-      "stage": "STAGE-11.5",
-      "level": "info",
-      "message": "❌ S06 质量门异常: this._repairShotPromptByQualityGate is not a function"
-    },
-    {
-      "timestamp": "2026-06-15T09:18:05.094Z",
-      "stage": "PIPELINE",
-      "level": "info",
-      "message": "⚠️ STAGE-11.5 第2次失败,60秒后重试... | 错误: this._summarizePromptQualityGate is not a function"
-    },
-    {
-      "timestamp": "2026-06-15T09:19:05.121Z",
-      "stage": "STAGE-11.5",
-      "level": "info",
-      "message": "Prompt Quality Gate 启动 | shots=6 | mode=generic"
-    },
-    {
-      "timestamp": "2026-06-15T09:19:05.121Z",
-      "stage": "STAGE-11.5",
-      "level": "info",
-      "message": "❌ S01 质量门异常: this._repairShotPromptByQualityGate is not a function"
-    },
-    {
-      "timestamp": "2026-06-15T09:19:05.121Z",
-      "stage": "STAGE-11.5",
-      "level": "info",
-      "message": "❌ S02 质量门异常: this._repairShotPromptByQualityGate is not a function"
-    },
-    {
-      "timestamp": "2026-06-15T09:19:05.121Z",
-      "stage": "STAGE-11.5",
-      "level": "info",
-      "message": "❌ S03 质量门异常: this._repairShotPromptByQualityGate is not a function"
-    },
-    {
-      "timestamp": "2026-06-15T09:19:05.121Z",
-      "stage": "STAGE-11.5",
-      "level": "info",
-      "message": "❌ S04 质量门异常: this._repairShotPromptByQualityGate is not a function"
-    },
-    {
-      "timestamp": "2026-06-15T09:19:05.121Z",
-      "stage": "STAGE-11.5",
-      "level": "info",
-      "message": "❌ S05 质量门异常: this._repairShotPromptByQualityGate is not a function"
-    },
-    {
-      "timestamp": "2026-06-15T09:19:05.121Z",
-      "stage": "STAGE-11.5",
-      "level": "info",
-      "message": "❌ S06 质量门异常: this._repairShotPromptByQualityGate is not a function"
-    },
-    {
-      "timestamp": "2026-06-15T09:19:05.122Z",
-      "stage": "PIPELINE",
-      "level": "info",
-      "message": "❌ STAGE-11.5 已重试3次,放弃"
-    },
-    {
-      "timestamp": "2026-06-15T09:19:05.123Z",
+      "timestamp": "2026-06-15T09:29:12.596Z",
       "stage": "PIPELINE",
       "level": "error",
-      "message": "❌ 链路中断: this._summarizePromptQualityGate is not a function"
+      "message": "❌ 链路中断: checkStandardCompliance is not defined"
     },
     {
-      "timestamp": "2026-06-15T09:19:05.123Z",
+      "timestamp": "2026-06-15T09:29:12.596Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "🔍 QualityGate 异常路径质量评估..."
     },
     {
-      "timestamp": "2026-06-15T09:19:05.124Z",
+      "timestamp": "2026-06-15T09:29:12.598Z",
       "stage": "PIPELINE",
       "level": "info",
       "message": "📊 QualityGate 异常路径评估: 44分 | 状态:BLOCK"
     },
     {
-      "timestamp": "2026-06-15T09:19:05.125Z",
+      "timestamp": "2026-06-15T09:29:12.599Z",
       "stage": "PIPELINE",
       "level": "info",
-      "message": "✅ 总耗时124632ms,耗时正常(≥3秒),可能包含外部API调用"
+      "message": "✅ 总耗时4253ms,耗时正常(≥3秒),可能包含外部API调用"
     },
     {
-      "timestamp": "2026-06-15T09:19:05.126Z",
+      "timestamp": "2026-06-15T09:29:12.600Z",
       "stage": "PIPELINE",
       "level": "info",
-      "message": "\n============================================================\n📊 Stage性能基线报告 (v6.2-patch68)\n============================================================\n  ✅ STAGE-0: 6ms | 本地基线: 50ms | 历史基线: 60.5ms\n  ⚠️ 疑似空转 STAGE-1: 0ms | 本地基线: 1ms | 历史基线: 50.3ms\n  ⚠️ 疑似空转 STAGE-2: 0ms | 本地基线: 1ms | 历史基线: 805.1ms\n  ✅ STAGE-3: 13ms | 本地基线: 1ms | 历史基线: 13.8ms\n  ✅ STAGE-4: 6ms | 本地基线: 5ms | 历史基线: 2478ms\n  ✅ STAGE-5: 4371ms | 本地基线: 10ms | 历史基线: 185780.6ms\n  ✅ STAGE-5.5: 17ms | 本地基线: 1ms | 历史基线: 6.6ms\n  ✅ STAGE-6: 4ms | 本地基线: 5ms | 历史基线: 101.9ms\n  ✅ STAGE-7: 2ms | 本地基线: 10ms | 历史基线: 328.3ms\n  ⚠️ 疑似空转 STAGE-7.2: 0ms | 本地基线: 1ms | 历史基线: 0.1ms\n  ⚠️ 疑似空转 STAGE-7.4: 0ms | 本地基线: 1ms | 历史基线: 0.6ms\n  ⚠️ 疑似空转 STAGE-7.3: 0ms | 本地基线: 1ms | 历史基线: 0.1ms\n  ⚠️ 疑似空转 STAGE-7.5: 0ms | 本地基线: 50ms | 历史基线: 0.3ms\n  ✅ STAGE-8: 5ms | 本地基线: 5ms | 历史基线: 4.1ms\n  ⚠️ 疑似空转 STAGE-8.5: 0ms | 本地基线: 5ms | 历史基线: 0.4ms\n  ✅ STAGE-9: 2ms | 本地基线: 10ms | 历史基线: 254.7ms\n  ⚠️ 疑似空转 STAGE-10: 0ms | 本地基线: 1ms | 历史基线: 0.2ms\n  ✅ STAGE-10.5: 2ms | 本地基线: 1ms | 历史基线: 1.2ms\n  ✅ STAGE-11: 40ms | 本地基线: 20ms | 历史基线: 9366.1ms\n  ✅ STAGE-11.5: 120088ms | 本地基线: 1ms | 历史基线: 52808.9ms\n============================================================"
+      "message": "\n============================================================\n📊 Stage性能基线报告 (v6.2-patch68)\n============================================================\n  ✅ STAGE-0: 5ms | 本地基线: 50ms | 历史基线: 43.8ms\n  ✅ STAGE-1: 1ms | 本地基线: 1ms | 历史基线: 35.5ms\n  ⚠️ 疑似空转 STAGE-2: 0ms | 本地基线: 1ms | 历史基线: 563.6ms\n  ✅ STAGE-3: 14ms | 本地基线: 1ms | 历史基线: 13.9ms\n  ✅ STAGE-4: 7ms | 本地基线: 5ms | 历史基线: 1736.7ms\n  ✅ STAGE-5: 4158ms | 本地基线: 10ms | 历史基线: 131293.8ms\n  ✅ STAGE-5.5: 2ms | 本地基线: 1ms | 历史基线: 5.2ms\n  ✅ STAGE-6: 3ms | 本地基线: 5ms | 历史基线: 72.2ms\n  ✅ STAGE-7: 2ms | 本地基线: 10ms | 历史基线: 230.4ms\n  ⚠️ 疑似空转 STAGE-7.2: 0ms | 本地基线: 1ms | 历史基线: 0.1ms\n  ✅ STAGE-7.4: 1ms | 本地基线: 1ms | 历史基线: 0.7ms\n  ⚠️ 疑似空转 STAGE-7.3: 0ms | 本地基线: 1ms | 历史基线: 0.1ms\n  ⚠️ 疑似空转 STAGE-7.5: 0ms | 本地基线: 50ms | 历史基线: 0.2ms\n  ✅ STAGE-8: 4ms | 本地基线: 5ms | 历史基线: 4.1ms\n  ✅ STAGE-8.5: 1ms | 本地基线: 5ms | 历史基线: 0.6ms\n  ✅ STAGE-9: 1ms | 本地基线: 10ms | 历史基线: 178.6ms\n  ⚠️ 疑似空转 STAGE-10: 0ms | 本地基线: 1ms | 历史基线: 0.1ms\n  ✅ STAGE-10.5: 1ms | 本地基线: 1ms | 历史基线: 1.1ms\n  ✅ STAGE-11: 39ms | 本地基线: 20ms | 历史基线: 6568ms\n  ✅ STAGE-11.5: 2ms | 本地基线: 1ms | 历史基线: 36966.8ms\n============================================================"
     },
     {
-      "timestamp": "2026-06-15T09:19:05.127Z",
+      "timestamp": "2026-06-15T09:29:12.601Z",
       "stage": "PromptBridge",
       "level": "info",
       "message": "✅ Final output solidified for 6 shots | avg=0%"
     }
   ],
   "qualityReport": {
-    "generatedAt": "2026-06-15T09:19:05.124Z",
+    "generatedAt": "2026-06-15T09:29:12.597Z",
     "context": {
       "projectName": "health-edu-ep01-rhabdomyolysis",
       "mode": "generic",
-      "stageCount": 19,
+      "stageCount": 20,
       "errorPath": true
     },
     "totalScore": 44,
@@ -3363,7 +3665,7 @@
       {
         "type": "pipeline-error",
         "severity": "error",
-        "message": "PIPELINE: this._summarizePromptQualityGate is not a function"
+        "message": "PIPELINE: checkStandardCompliance is not defined"
       }
     ],
     "blockers": [
@@ -3384,38 +3686,38 @@
   },
   "integrityReport": {
     "trusted": true,
-    "executionId": "exec-1781515020495-0a8125e6",
+    "executionId": "exec-1781515748348-5826a3f7",
     "stageCount": 20,
     "expectedStageCount": 17,
-    "totalDuration": 124628,
+    "totalDuration": 4250,
     "isFreshExecution": true,
     "allStagesExecuted": true,
     "issues": [],
-    "auditFile": "output/execution-audit-exec-1781515020495-0a8125e6.json"
+    "auditFile": "output/execution-audit-exec-1781515748348-5826a3f7.json"
   },
   "performance": {
-    "totalDuration": 124632,
+    "totalDuration": 4253,
     "stageTimings": {
-      "STAGE-0": 6,
-      "STAGE-1": 0,
+      "STAGE-0": 5,
+      "STAGE-1": 1,
       "STAGE-2": 0,
-      "STAGE-3": 13,
-      "STAGE-4": 6,
-      "STAGE-5": 4371,
-      "STAGE-5.5": 17,
-      "STAGE-6": 4,
+      "STAGE-3": 14,
+      "STAGE-4": 7,
+      "STAGE-5": 4158,
+      "STAGE-5.5": 2,
+      "STAGE-6": 3,
       "STAGE-7": 2,
       "STAGE-7.2": 0,
-      "STAGE-7.4": 0,
+      "STAGE-7.4": 1,
       "STAGE-7.3": 0,
       "STAGE-7.5": 0,
-      "STAGE-8": 5,
-      "STAGE-8.5": 0,
-      "STAGE-9": 2,
+      "STAGE-8": 4,
+      "STAGE-8.5": 1,
+      "STAGE-9": 1,
       "STAGE-10": 0,
-      "STAGE-10.5": 2,
-      "STAGE-11": 40,
-      "STAGE-11.5": 120088
+      "STAGE-10.5": 1,
+      "STAGE-11": 39,
+      "STAGE-11.5": 2
     },
     "executionMode": "local-only",
     "hasExternalAPI": true,
@@ -3423,16 +3725,13 @@
     "baselineSummary": {
       "alerts": [],
       "summary": {
-        "totalDuration": 124556,
+        "totalDuration": 4241,
         "stagesRecorded": 20,
         "suspiciousStages": [
-          "STAGE-1",
           "STAGE-2",
           "STAGE-7.2",
-          "STAGE-7.4",
           "STAGE-7.3",
           "STAGE-7.5",
-          "STAGE-8.5",
           "STAGE-10"
         ],
         "baselineUpdated": true

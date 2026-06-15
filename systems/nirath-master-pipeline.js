@@ -1931,7 +1931,7 @@ class NirathMasterPipeline {
 
       const result = await llm.reasonStructured(prompt, schema, {
         maxTokens: 3072,
-        temperature: 0.1
+        temperature: 1  // v6.5.64-P2: kimi-k2p6 只支持 temperature=1
       });
 
       if (result.success && Array.isArray(result.data?.scenes)) {
