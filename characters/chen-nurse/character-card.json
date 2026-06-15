@@ -6,7 +6,7 @@
     "age": 30,
     "gender": "female",
     "species": "human",
-    "role": "nurse",
+    "role": "presenter",
     "origin": "Earth"
   },
   "visualIdentity": {
@@ -18,26 +18,32 @@
     "hair": "black",
     "eyes": "brown",
     "facialFeatures": "asian",
-    "distinguishingMarks": ""
+    "distinguishingMarks": "",
+    "outfit": "standard Chinese police uniform with formal police cap, hair neatly tied back in professional bun",
+    "appearance": {
+      "clothing": {
+        "promptFragment": "standard Chinese police uniform with formal police cap, hair neatly tied back in professional bun",
+        "consistency": "strict"
+      }
+    }
   },
   "personality": {
     "core": "warm",
-    "traits": [
-      "kind",
-      "brave"
-    ],
+    "traits": ["kind", "brave"],
     "mbti": "INFJ"
   },
   "visualAnchors": {
     "required": [
-      ""
+      "standard Chinese police uniform",
+      "formal police cap"
     ],
     "preferred": [],
     "forbidden": [
       "western face",
       "caucasian",
       "blonde hair",
-      "blue eyes"
+      "blue eyes",
+      "white nurse uniform"
     ]
   },
   "voiceIdentity": {
@@ -48,35 +54,11 @@
     "emotion": "neutral",
     "language": "zh-CN"
   },
-  "createdAt": "2026-06-14T02:51:27.075Z",
-  "updatedAt": "2026-06-14T02:51:27.075Z",
-  "version": "2.0",
-  "generatedAssets": {
-    "portraits": [
-      "image://bestiary/chen-nurse-front.png",
-      "image://bestiary/chen-nurse-threeQuarter.png",
-      "image://bestiary/chen-nurse-closeup.png",
-      "image://bestiary/chen-nurse-side.png",
-      "image://bestiary/chen-nurse-back.png",
-      "image://bestiary/chen-nurse-action.png",
-      "image://bestiary/chen-nurse-detail.png"
-    ],
-    "referenceImages": []
-  },
-  "appearances": [],
   "v2Metadata": {
-    "analyzedDimensions": [],
-    "lastComplianceCheck": null,
-    "promptTemplates": {},
-    "minimalAnchor": "陈卓: Nirath异兽, Nirath原生特征, 双恒星光照反射",
+    "minimalAnchor": "陈卓: 人类, 30岁女性, presenter, standard Chinese police uniform with formal police cap, hair neatly tied back in professional bun",
     "portraitPaths": [
       "image://bestiary/chen-nurse-front.png",
-      "image://bestiary/chen-nurse-threeQuarter.png",
-      "image://bestiary/chen-nurse-closeup.png",
-      "image://bestiary/chen-nurse-side.png",
-      "image://bestiary/chen-nurse-back.png",
-      "image://bestiary/chen-nurse-action.png",
-      "image://bestiary/chen-nurse-detail.png"
+      "image://bestiary/chen-nurse-threeQuarter.png"
     ]
   }
 }

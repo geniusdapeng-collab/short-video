@@ -174,6 +174,23 @@ async function run() {
   try {
     const result = await pipeline.execute(input);
     
+    // ====== v6.6.5-fix: 需求确认闸机 ======
+    if (result?.status === 'REQUIREMENT_CONFIRMATION_REQUIRED') {
+      const outputPath = path.join(OUTPUT, 'requirement-confirmation.json');
+      fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
+
+      console.log('');
+      console.log('⏸️ 检测到需求确认闸机，主链路已停止，等待用户确认。');
+      console.log('📋 请查看需求清单后回复"确认"再继续。');
+      console.log('📁 确认信息已保存:', outputPath);
+
+      if (result.requirementList?.path) {
+        console.log('📄 需求清单文件:', result.requirementList.path);
+      }
+
+      return;
+    }
+    
     // 保存结果
     const outputPath = path.join(OUTPUT, 'preproduction-result.json');
     fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));

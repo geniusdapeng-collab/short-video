@@ -169,24 +169,32 @@ class LLMEngine {
     const startedAt = Date.now();
     this.stats.totalCalls++;
 
+    const forceJson = options.forceJson === true || options.responseFormat?.type === 'json_object';
+
     const body = {
       model: options.model || this.model,
       messages: [
         {
           role: 'system',
-          content: options.systemPrompt || '你是一个严格输出 JSON 的助手。除合法 JSON 外不要输出任何额外文字。'
+          content: options.systemPrompt || (
+            forceJson
+              ? '你是一个严格输出 JSON 的助手。除合法 JSON 外不要输出任何额外文字。'
+              : '你是一个可靠的助手。'
+          )
         },
         {
           role: 'user',
           content: prompt
         }
       ],
-      temperature: 1,  // kimi-k2p6 固定 temperature=1
-      top_p: 0.95,     // kimi-k2p6 固定 top_p=0.95
+      temperature: options.temperature ?? (forceJson ? 0.1 : 1),
+      top_p: options.topP ?? 0.95,
       max_tokens: options.maxTokens ?? this.maxTokens
     };
 
-    if (options.responseFormat) {
+    if (forceJson) {
+      body.response_format = { type: 'json_object' };
+    } else if (options.responseFormat) {
       body.response_format = options.responseFormat;
     }
 
@@ -218,8 +226,8 @@ class LLMEngine {
       }
 
       const message = result.choices?.[0]?.message || {};
-      const content = message.content || '';
-      const reasoningContent = message.reasoning_content || '';
+      const content = typeof message.content === 'string' ? message.content : '';
+      const reasoningContent = typeof message.reasoning_content === 'string' ? message.reasoning_content : '';
       const usage = result.usage || {};
       const tokenCount = usage.total_tokens || 0;
 
@@ -228,31 +236,28 @@ class LLMEngine {
 
       console.log(`[LLMEngine] ✅ API完成 | Tokens: ${tokenCount} | content=${content.length} | reasoning=${reasoningContent.length}`);
 
-      // 统一使用 normalizeLLMOutput 处理输出
       const normalized = normalizeLLMOutput({
         content,
         reasoning_content: reasoningContent
       });
 
-      let finalContent = normalized.text;
+      let finalContent = normalized.text || '';
 
-      if (!normalized.ok || !finalContent || finalContent.trim().length < 50) {
-        if (reasoningContent && reasoningContent.length > 100) {
-          const extracted = this._extractFromReasoning(reasoningContent);
-          if (extracted && extracted.length > 200) {
-            finalContent = extracted;
-            console.log(`[LLMEngine] ✅ 从reasoning提取内容 | 长度: ${extracted.length}`);
-          } else {
-            const reasonFile = this._dumpDebugFile('empty_content_reasoning', reasoningContent);
-            throw new Error(
-              `LLM返回content为空，且无法从reasoning提取有效内容` +
-              `${reasonFile ? ` | reasoning_dump=${reasonFile}` : ''}`
-            );
-          }
-        } else {
+      // v6.6.5-fix: JSON模式下只接受 content，禁止 reasoning_content 兜底
+      if (forceJson) {
+        if (!content || !content.trim()) {
           const reasonFile = this._dumpDebugFile('empty_content_reasoning', reasoningContent);
           throw new Error(
-            `LLM返回content为空，疑似tokens被reasoning耗尽` +
+            `LLM返回content为空（JSON模式下禁止使用reasoning_content兜底）` +
+            `${reasonFile ? ` | reasoning_dump=${reasonFile}` : ''}`
+          );
+        }
+        finalContent = content.trim();
+      } else {
+        if (!normalized.ok || !finalContent || !finalContent.trim()) {
+          const reasonFile = this._dumpDebugFile('empty_content_reasoning', reasoningContent);
+          throw new Error(
+            `LLM返回content为空，且当前请求未获得有效正文` +
             `${reasonFile ? ` | reasoning_dump=${reasonFile}` : ''}`
           );
         }
@@ -262,7 +267,7 @@ class LLMEngine {
         success: true,
         content: finalContent,
         reasoning_content: reasoningContent,
-        source: normalized.source,
+        source: forceJson ? 'content-only-json-mode' : normalized.source,
         tokenCount,
         raw: result
       };
@@ -300,6 +305,7 @@ class LLMEngine {
     for (let attempt = 1; attempt <= this.maxRetries; attempt++) {
       const result = await this.reason(structuredPrompt, {
         ...options,
+        forceJson: true,
         responseFormat: { type: 'json_object' },
         temperature: options.temperature ?? 0.1,
         maxTokens: options.maxTokens ?? this.maxTokens
@@ -312,6 +318,11 @@ class LLMEngine {
       }
 
       try {
+        if (!result.content || !result.content.trim()) {
+          const dump = this._dumpDebugFile('json_extract_fail_content', result.content || '');
+          throw new Error(`content为空，无法解析JSON${dump ? ` | dump=${dump}` : ''}`);
+        }
+
         const extracted = this._extractJsonObject(result.content);
         if (!extracted) {
           const dump = this._dumpDebugFile('json_extract_fail_content', result.content);

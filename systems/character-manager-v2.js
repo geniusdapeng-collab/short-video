@@ -98,26 +98,98 @@ class CharacterManagerV2 {
     await fs.writeFile(cardPath, JSON.stringify(characterCard, null, 2));
   }
   
+  // v6.6.5-fix: 标准化角色数据，统一提取 outfit 等字段
+  _normalizeCharacterData(characterId, characterData = {}) {
+    const baseIdentity = characterData.baseIdentity || {};
+    const visual = characterData.visual || {};
+    const visualIdentity = characterData.visualIdentity || {};
+
+    const mergedVisualIdentity = {
+      age: visualIdentity.age ?? visual.age ?? characterData.age ?? baseIdentity.age ?? null,
+      gender: visualIdentity.gender ?? visual.gender ?? characterData.gender ?? baseIdentity.gender ?? 'unknown',
+      build: visualIdentity.build ?? visual.build ?? characterData.build ?? '',
+      height: visualIdentity.height ?? visual.height ?? characterData.height ?? '',
+      skinTone: visualIdentity.skinTone ?? visual.skinTone ?? characterData.skinTone ?? '',
+      hair: visualIdentity.hair ?? visual.hair ?? characterData.hair ?? '',
+      eyes: visualIdentity.eyes ?? visual.eyes ?? characterData.eyes ?? '',
+      facialFeatures: visualIdentity.facialFeatures ?? visual.facialFeatures ?? characterData.facialFeatures ?? '',
+      distinguishingMarks: visualIdentity.distinguishingMarks ?? visual.distinguishingMarks ?? characterData.distinguishingMarks ?? '',
+      outfit: visualIdentity.outfit ?? visual.outfit ?? characterData.outfit ?? '',
+      appearance: {
+        ...(visualIdentity.appearance || {})
+      }
+    };
+
+    if (mergedVisualIdentity.outfit && !mergedVisualIdentity.appearance.clothing) {
+      mergedVisualIdentity.appearance.clothing = {
+        promptFragment: mergedVisualIdentity.outfit,
+        consistency: 'strict'
+      };
+    }
+
+    return {
+      ...characterData,
+      id: characterId,
+      name: characterData.name || baseIdentity.name || characterId,
+      baseIdentity: {
+        name: baseIdentity.name || characterData.name || characterId,
+        age: baseIdentity.age ?? characterData.age ?? visual.age ?? visualIdentity.age ?? null,
+        gender: baseIdentity.gender || characterData.gender || visual.gender || visualIdentity.gender || 'unknown',
+        species: baseIdentity.species || characterData.species || characterData.race || 'human',
+        role: baseIdentity.role || characterData.role || characterData.occupation || '',
+        origin: baseIdentity.origin || characterData.origin || 'Earth'
+      },
+      visualIdentity: mergedVisualIdentity
+    };
+  }
+
+  mergeRuntimeCharacterData(characterCard = {}, runtimeData = {}) {
+    const normalizedRuntime = this._normalizeCharacterData(characterCard.id || runtimeData.id || 'unknown', runtimeData);
+
+    const merged = {
+      ...characterCard,
+      ...normalizedRuntime,
+      baseIdentity: {
+        ...(characterCard.baseIdentity || {}),
+        ...(normalizedRuntime.baseIdentity || {})
+      },
+      visualIdentity: {
+        ...(characterCard.visualIdentity || {}),
+        ...(normalizedRuntime.visualIdentity || {}),
+        appearance: {
+          ...((characterCard.visualIdentity || {}).appearance || {}),
+          ...((normalizedRuntime.visualIdentity || {}).appearance || {})
+        }
+      }
+    };
+
+    merged.v2Metadata = {
+      ...(characterCard.v2Metadata || {}),
+      minimalAnchor: this._buildMinimalAnchor(merged),
+      portraitPaths: this._buildPortraitPaths(merged.id, merged)
+    };
+
+    return merged;
+  }
+
   createCharacter(characterId, characterData) {
     const characterDir = this.getCharacterDir(characterId);
     if (!fss.existsSync(characterDir)) {
       fss.mkdirSync(characterDir, { recursive: true });
     }
     
-    // v6.5.62-P1: 生成极简锚点（character字段）
-    const minimalAnchor = this._buildMinimalAnchor(characterData);
-    
-    // v6.5.62-P1: 生成定妆照路径（characterRef字段）
-    const portraitPaths = this._buildPortraitPaths(characterId, characterData);
+    const normalizedData = this._normalizeCharacterData(characterId, characterData);
+    const minimalAnchor = this._buildMinimalAnchor(normalizedData);
+    const portraitPaths = this._buildPortraitPaths(characterId, normalizedData);
     
     const characterCard = {
-      ...characterData,
-      id: characterId, // 强制使用传入的ID，覆盖characterData中的id
+      ...normalizedData,
+      id: characterId,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      version: '2.0',
+      version: '2.1',
       generatedAssets: {
-        portraits: portraitPaths, // v6.5.62: 注入定妆照路径
+        portraits: portraitPaths,
         referenceImages: []
       },
       appearances: [],
@@ -125,8 +197,8 @@ class CharacterManagerV2 {
         analyzedDimensions: [],
         lastComplianceCheck: null,
         promptTemplates: {},
-        minimalAnchor: minimalAnchor, // v6.5.62: 注入极简锚点
-        portraitPaths: portraitPaths // v6.5.62: 注入定妆照路径
+        minimalAnchor: minimalAnchor,
+        portraitPaths: portraitPaths
       }
     };
     
@@ -763,30 +835,84 @@ class CharacterManagerV2 {
    * 格式：角色名: 种族, 3-5核心视觉关键词
    */
   _buildMinimalAnchor(characterData) {
-    const charName = characterData.name || characterData.id || '未知角色';
-    const race = characterData.race || characterData.species || 'Nirath异兽';
-    
-    // 提取3-5个核心视觉关键词
+    const charName =
+      characterData.name ||
+      characterData.baseIdentity?.name ||
+      characterData.id ||
+      '未知角色';
+
+    const speciesRaw =
+      characterData.baseIdentity?.species ||
+      characterData.species ||
+      characterData.race ||
+      'human';
+
+    const speciesNormalized = String(speciesRaw).toLowerCase();
+    const speciesMap = {
+      human: '人类',
+      人类: '人类',
+      earthling: '人类'
+    };
+    const race = speciesMap[speciesNormalized] || speciesRaw || '人类';
+
+    const age =
+      characterData.baseIdentity?.age ??
+      characterData.age ??
+      characterData.visualIdentity?.age ??
+      null;
+
+    const gender =
+      characterData.baseIdentity?.gender ||
+      characterData.gender ||
+      characterData.visualIdentity?.gender ||
+      '';
+
+    const genderMap = {
+      male: '男性',
+      female: '女性',
+      boy: '男孩',
+      girl: '女孩'
+    };
+
+    const outfit =
+      characterData.visualIdentity?.outfit ||
+      characterData.visual?.outfit ||
+      characterData.outfit ||
+      characterData.visualIdentity?.appearance?.clothing?.promptFragment ||
+      '';
+
+    const role =
+      characterData.baseIdentity?.role ||
+      characterData.role ||
+      '';
+
     const keywords = [];
+
+    const ageGender = `${age !== null ? `${age}岁` : ''}${genderMap[gender] || gender || ''}`.trim();
+    if (ageGender) keywords.push(ageGender);
+    if (role) keywords.push(role);
+    if (outfit) keywords.push(outfit);
+
     if (characterData.signatureFeatures) {
       keywords.push(...characterData.signatureFeatures.slice(0, 3));
     }
     if (characterData.coreVisualTraits) {
       keywords.push(...characterData.coreVisualTraits.slice(0, 2));
     }
-    if (characterData.appearance) {
-      const appearanceKeywords = characterData.appearance.split(/[,，]/)
+    if (characterData.appearance && typeof characterData.appearance === 'string') {
+      const appearanceKeywords = characterData.appearance
+        .split(/[,，]/)
         .map(s => s.trim())
-        .filter(s => s.length > 0);
+        .filter(Boolean);
       keywords.push(...appearanceKeywords.slice(0, 2));
     }
-    
-    // 去重并限制3-5个
-    const uniqueKeywords = [...new Set(keywords)].slice(0, 5);
-    if (uniqueKeywords.length < 3) {
-      uniqueKeywords.push('Nirath原生特征', '双恒星光照反射');
+
+    const uniqueKeywords = [...new Set(keywords)].filter(Boolean).slice(0, 5);
+
+    if (uniqueKeywords.length === 0) {
+      uniqueKeywords.push('基础形象稳定', '现实风格', '身份清晰');
     }
-    
+
     return `${charName}: ${race}, ${uniqueKeywords.join(', ')}`;
   }
   

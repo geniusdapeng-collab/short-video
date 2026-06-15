@@ -19,9 +19,7 @@ const {
   applyStandardizedPromptToShot
 } = require('./prompt-standardizer');
 
-const {
-  checkStandardCompliance
-} = require('./prompt-standard-v3');
+const PROMPT_LENGTH = require('../config/prompt-length');
 
 // ============================================================
 // 一、基础工具
@@ -141,7 +139,7 @@ function buildPromptObject(shot, options = {}) {
   const originalPrompt = getPrimaryPromptText(shot);
 
   const promptObj = standardizePromptObject(originalPrompt, {
-    maxLength: options.maxLength || 1500
+    maxLength: options.maxLength || PROMPT_LENGTH.HARD_MAX
   });
 
   return {
@@ -156,7 +154,7 @@ function applyPromptObjectToShot(shot, options = {}) {
   if (!shot || typeof shot !== 'object') return shot;
 
   return applyStandardizedPromptToShot(shot, {
-    maxLength: options.maxLength || 1500
+    maxLength: options.maxLength || PROMPT_LENGTH.HARD_MAX
   });
 }
 
@@ -168,7 +166,7 @@ function normalizeShotsPrompts(shots = [], options = {}) {
   const {
     promptforgeResultDir = '',
     promptforgeMarkdownDir = '',
-    maxLength = 1500
+    maxLength = PROMPT_LENGTH.HARD_MAX
   } = options;
 
   return shots.map((shot) => {
@@ -196,7 +194,7 @@ function mergePromptForgeResultsIntoShots(shots = [], options = {}) {
   const {
     promptforgeResultDir = '',
     promptforgeMarkdownDir = '',
-    maxLength = 1500
+    maxLength = PROMPT_LENGTH.HARD_MAX
   } = options;
 
   return shots.map((shot) => {

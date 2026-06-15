@@ -1,10 +1,10 @@
-# 卓越系统 v6.5 全量代码（仅卓越核心，不含超短讯/超现实）
+# 卓越系统 v6.5 全量代码（仅卓越核心，不含超短裙/超现实）
 
 > 打包时间: 2026-06-11T02:28:50.372Z
 > 文件总数: 556
 > 总字符数: 5.01 MB
 > 打包范围: 卓越主系统 + 引擎层 + 核心层 + 脚本 + 应用层 + 工具 + 文档 + 配置 + 模板 + 数据 + 角色档案 + 代理系统 + 共享内核 + 领域层 + 分析 + 故事项目 + 生产项目 + 生产产物
-> 排除系统: 超短讯系统(short-video-system), 超现实系统(hyperreal/hyperreality-system), Seedance子系统, 山海经子系统
+> 排除系统: 超短裙系统(short-video-system), 超现实系统(hyperreal/hyperreality-system), Seedance子系统, 山海经子系统
 > 包含文件类型: .js, .json, .md, .ts, .py, .html, .css, .yaml, .yml, .sh, .txt
 > 排除: .git, node_modules, 媒体文件(PNG/JPG/MP4), 二进制文件
 

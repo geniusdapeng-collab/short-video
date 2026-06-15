@@ -7,22 +7,22 @@
     "last_chars": 18022
   },
   "diary": {
-    "count": 53,
-    "last_ts": "2026-06-14T03:56:05.464770",
-    "last_day": 16,
-    "last_sessions": 19,
-    "last_messages": 3824,
-    "last_filename": "day16-2026-06-09-shanhaijing_ghost_in_the_system.md",
-    "last_latency_s": 10.1,
+    "count": 54,
+    "last_ts": "2026-06-15T03:32:30.376848",
+    "last_day": 22,
+    "last_sessions": 4,
+    "last_messages": 93,
+    "last_filename": "day22-2026-06-15-almost_sold_real_victory_as_fake.md",
+    "last_latency_s": 24.4,
     "last_skip": "no_sessions_today"
   },
   "compact": {
-    "count": 53,
-    "last_ts": "2026-06-14T03:56:18.307009",
+    "count": 54,
+    "last_ts": "2026-06-15T03:34:00.623197",
     "last_invoke": 30,
     "last_sessions": 146,
-    "last_messages": 3757,
-    "last_latency_s": 82.3,
+    "last_messages": 3701,
+    "last_latency_s": 65.5,
     "last_model": "k2p6",
     "last_skip": "stm_hash_unchanged",
     "last_error": "The read operation timed out"
