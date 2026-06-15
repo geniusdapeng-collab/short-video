@@ -19,25 +19,11 @@
     "eyes": "brown",
     "facialFeatures": "asian",
     "distinguishingMarks": "",
-    "outfit": "standard Chinese police uniform with formal police cap, hair neatly tied back in professional bun",
-    "appearance": {
-      "clothing": {
-        "promptFragment": "standard Chinese police uniform with formal police cap, hair neatly tied back in professional bun",
-        "consistency": "strict"
-      }
-    }
+    "outfit": "",
+    "appearance": {}
   },
   "personality": {
-    "core": {
-      "core": "warm",
-      "traits": [
-        "kind",
-        "professional",
-        "patient",
-        "trustworthy",
-        "knowledgeable"
-      ]
-    },
+    "core": "warm",
     "traits": [
       "kind",
       "brave"
@@ -64,8 +50,8 @@
     "emotion": "neutral",
     "language": "zh-CN"
   },
-  "createdAt": "2026-06-15T09:29:08.373Z",
-  "updatedAt": "2026-06-15T09:29:08.375Z",
+  "createdAt": "2026-06-15T14:18:26.482Z",
+  "updatedAt": "2026-06-15T14:18:26.483Z",
   "version": "2.1",
   "generatedAssets": {
     "portraits": [

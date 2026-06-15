@@ -161,7 +161,7 @@ Prompt: ${item.prompt?.slice(0, 300) || '空'}
       // v6.5.64-P3: 扩展类型白名单，支持 generic 模式
       const validTypes = ['building', 'discovery', 'confrontation', 'climax', 'closing', 'opening',
         'hook', 'pain-point', 'product-reveal', 'solution', 'feature-demo', 'emotional', 'transition',
-        'intro', 'explanation', 'demonstration', 'ending', 'interaction'];
+        'intro', 'explanation', 'demonstration', 'ending', 'interaction', 'content'];
       if (!validTypes.includes(result.type)) {
         check.passed = false;
         check.details.push(`${shotId}: 类型字段异常: ${result.type}`);
@@ -169,7 +169,7 @@ Prompt: ${item.prompt?.slice(0, 300) || '空'}
       }
 
       // 片头专属检查
-      if (isOpening) {
+      if (isOpening && this.mode !== 'generic') {
         for (const field of standardFields.opening.required) {
           if (!(field in result) || result[field] === undefined || result[field] === null) {
             check.passed = false;
@@ -756,7 +756,8 @@ Prompt: ${item.prompt?.slice(0, 300) || '空'}
     }
 
     // v6.5.58-fix: 片头标题字段合规检查
-    if (renderResults && Array.isArray(renderResults)) {
+    // v6.5.64-P3: generic 模式跳过片头检查
+    if (renderResults && Array.isArray(renderResults) && this.mode !== 'generic') {
       const openingShot = renderResults.find(r => r.shotId === 'S00' || r.id === 'S00' || r.isOpening);
       if (openingShot) {
         // 检查 title 对象存在
@@ -867,6 +868,16 @@ Prompt: ${item.prompt?.slice(0, 300) || '空'}
   // ========== Stage 13: PreRender ==========
   _checkStage13_PreRender(preRender) {
     const check = { stage: 'STAGE-13', name: '前置验证就绪状态', passed: true, details: [] };
+
+    // v6.5.64-P3: generic 模式放宽定妆照要求
+    if (this.mode === 'generic') {
+      if (!preRender?.ready) {
+        check.details.push('preRender.ready !== true (generic模式不强制阻塞)');
+        this.warnings.push('STAGE-13: 前置验证未就绪，generic模式跳过阻塞');
+      }
+      this.checks.push(check);
+      return;
+    }
 
     if (!preRender?.ready) {
       check.passed = false;
