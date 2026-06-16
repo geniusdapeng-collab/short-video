@@ -226,33 +226,24 @@ class LLMTimelineGenerator {
         throw new Error(result?.error || 'LLM调用失败');
       }
       
-      // v6.6.5-fix: 多层提取策略
-      // 第1层：result.content（normalizeLLMOutput已处理，但可能提取错误内容）
-      // 第2层：直接从API原始响应获取reasoning_content（绕过normalizeLLMOutput）
+      // v6.6.5-fix: 优先使用原始reasoning_content（模型通常在此输出完整JSON）
+      // 次选content（normalizeLLMOutput处理后的结果）
       let text = '';
       let rawReasoning = '';
       let source = '';
       
-      if (result.content?.trim()) {
+      const apiReasoning = result.raw?.choices?.[0]?.message?.reasoning_content || '';
+      if (apiReasoning?.trim()) {
+        // 优先使用原始reasoning（模型通常在reasoning中输出完整JSON）
+        text = apiReasoning.trim();
+        rawReasoning = text;
+        source = 'raw.reasoning';
+      } else if (result.content?.trim()) {
         text = result.content.trim();
         source = 'content';
-      }
-      
-      // 优先获取原始reasoning_content（normalizeLLMOutput可能提取错误）
-      const apiReasoning = result.raw?.choices?.[0]?.message?.reasoning_content || '';
-      if (apiReasoning) {
-        rawReasoning = apiReasoning.trim();
-      }
-      
-      // 如果content为空或很短（normalizeLLMOutput可能提取了错误内容），使用原始reasoning
-      if (!text || text.length < 200) {
-        if (rawReasoning) {
-          text = rawReasoning;
-          source = 'raw.reasoning';
-        } else if (result.reasoning_content?.trim()) {
-          text = result.reasoning_content.trim();
-          source = 'reasoning_content';
-        }
+      } else if (result.reasoning_content?.trim()) {
+        text = result.reasoning_content.trim();
+        source = 'reasoning_content';
       }
       
       if (!text) {
