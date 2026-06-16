@@ -303,48 +303,36 @@ class LLMTimelineGenerator {
       }
     }
     
-    // 策略2: 精确花括号匹配（找到包含"segments"的有效JSON对象）
-    let startIdx = 0;
-    while (true) {
-      const braceIdx = text.indexOf('{', startIdx);
-      if (braceIdx === -1) break;
-      
-      // 使用栈匹配找到对应的}
+    // 策略2: 从后往前找JSON对象（JSON通常在文本最后）
+    const lastBrace = text.lastIndexOf('}');
+    if (lastBrace > 0) {
       let braceCount = 0;
-      let endIdx = -1;
-      for (let i = braceIdx; i < text.length; i++) {
-        // 跳过字符串内容中的花括号
+      for (let i = lastBrace; i >= 0; i--) {
+        // 跳过字符串内容
         if (text[i] === '"') {
-          i++;
-          while (i < text.length && text[i] !== '"') {
-            if (text[i] === '\\') i++;
-            i++;
+          i--;
+          while (i >= 0 && text[i] !== '"') {
+            if (text[i] === '\\') i--;
+            i--;
           }
           continue;
         }
         
-        if (text[i] === '{') braceCount++;
-        else if (text[i] === '}') {
+        if (text[i] === '}') braceCount++;
+        else if (text[i] === '{') {
           braceCount--;
           if (braceCount === 0) {
-            endIdx = i;
-            break;
+            const candidate = text.substring(i, lastBrace + 1);
+            try {
+              const parsed = JSON.parse(candidate);
+              if (parsed.segments && Array.isArray(parsed.segments)) {
+                return parsed;
+              }
+            } catch (e) {}
+            // 继续找下一个可能的对象
           }
         }
       }
-      
-      if (endIdx > braceIdx) {
-        const candidate = text.substring(braceIdx, endIdx + 1);
-        try {
-          const parsed = JSON.parse(candidate);
-          // 验证是否有segments字段（v4时间轴的必要字段）
-          if (parsed.segments && Array.isArray(parsed.segments)) {
-            return parsed;
-          }
-        } catch (e) {}
-      }
-      
-      startIdx = braceIdx + 1;
     }
     
     return null;
