@@ -128,73 +128,42 @@ class LLMTimelineGenerator {
   }
   
   /**
-   * 生成个性化时间轴Prompt
+   * 生成个性化时间轴Prompt（精简版）
    */
   _buildPrompt(sceneAnalysis, shotInfo, previousShotEnd = null) {
     const { sceneTypeName, segmentCount, constraints, movementStyle, duration } = sceneAnalysis;
     const { sceneName, sceneDescription, emotionPhase, characters, dialogue } = shotInfo;
     
-    let prompt = `你是一位专业的纪录片/电影摄影师，擅长为每个镜头设计独特的内部时间轴。
+    let prompt = `为以下镜头设计${segmentCount}段式运镜时间轴，直接输出JSON：
 
-【镜头信息】
-- 场景名称: ${sceneName}
-- 场景描述: ${sceneDescription || sceneName}
-- 场景类型: ${sceneTypeName}
-- 时长: ${duration}秒
-- 情绪阶段: ${emotionPhase || 'neutral'}
-- 人物: ${characters.map(c => c.name || c).join(', ') || '无'}
+场景：${sceneName}（${sceneDescription || sceneName}）
+类型：${sceneTypeName}
+时长：${duration}秒
+情绪：${emotionPhase || 'neutral'}
+人物：${characters.map(c => c.name || c).join(', ') || '无'}
 `;
 
     if (dialogue) {
-      prompt += `- 台词内容: "${dialogue.substring(0, 100)}..."\n`;
+      prompt += `台词："${dialogue.substring(0, 80)}..."\n`;
     }
     
     prompt += `
-【约束条件】
-- 段数: ${segmentCount}段
-- 可用景别: ${constraints.preferred.join(', ')}
-- 禁用景别: ${constraints.forbidden.length > 0 ? constraints.forbidden.join(', ') : '无'}
-- 运镜风格: ${movementStyle === 'stable' ? '稳定为主，避免快速运镜' : movementStyle === 'dynamic' ? '动态运镜，允许快速切换' : '探索式运镜，渐进推进'}
+约束：${segmentCount}段，景别可用[${constraints.preferred.join(', ')}]，禁用[${constraints.forbidden.join(', ') || '无'}]
 `;
 
     if (previousShotEnd) {
-      prompt += `
-【连续性要求】
-- 上一个镜头结束时的景别: ${previousShotEnd.shotSizeDesc}
-- 上一个镜头结束时的运镜: ${previousShotEnd.movement}
-- 要求: 本镜头开始时避免视觉跳跃，建议从"${previousShotEnd.shotSizeDesc}"或相邻景别开始
-`;
+      prompt += `连续性：上一个镜头结束为${previousShotEnd.shotSizeDesc}，本镜头开始避免视觉跳跃\n`;
     }
     
     prompt += `
-【输出要求】
-请设计${segmentCount}段式时间轴，每段包含：
-1. 时间范围（秒，格式: 0-3.5）
-2. 景别（从可用景别中选择）
-3. 运镜动作（具体、独特的动作描述，避免模板化）
-4. 速度（极慢/缓慢/中等/快速/很快）
-5. 设计理由（为什么这样设计）
+要求：
+1. 每段时间范围格式如"0-3.5"
+2. 运镜动作要具体独特（含具体数字：厘米、度、秒）
+3. 根据台词重点调整景别和运镜
+4. 讲解类以稳定中景/近景为主
 
-重要原则：
-- 根据台词内容的高潮/重点调整景别和运镜
-- 讲解类内容以稳定中景/近景为主，不需要频繁切换
-- 情感类内容可多用特写传递情绪
-- 每个镜头的设计都要独特，不能套用固定模板
-
-请以JSON格式输出，示例：
-{
-  "strategy": "稳定讲解式",
-  "reasoning": "因为这是一个室内讲解场景，需要稳定展示人物...",
-  "segments": [
-    {
-      "timeRange": "0-5",
-      "shotSize": "medium",
-      "movement": "stable_hold",
-      "speed": "缓慢",
-      "reason": "中景稳定展示人物，建立信任感"
-    }
-  ]
-}`;
+必须输出JSON格式：
+{"strategy":"策略名","reasoning":"设计理由","segments":[{"timeRange":"0-5","shotSize":"medium","movement":"具体运镜","speed":"极慢","reason":"理由"}]}`;
 
     return prompt;
   }
