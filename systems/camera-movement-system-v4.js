@@ -1,12 +1,16 @@
 /**
- * Camera Movement System v4.0 — 镜头内时间轴系统v2.0
+ * Camera Movement System v4.1 — 镜头内时间轴系统（外部专家修复版）
  * 
- * 核心升级：LLM驱动的个性化时间轴
- * - 告别固定模板，每个镜头根据内容独特设计
- * - 四层架构：场景分析 → LLM生成 → 连续性检查 → 可选开关
+ * 核心修复：
+ * - 多层候选文本提取（content/raw.content/reasoning/raw.reasoning）
+ * - 括号平衡扫描JSON提取（非简单正则）
+ * - 结构修复（策略名/段数/movement/描述）
+ * - 软回退替代v3规则模板
+ * - v1/v2兼容输出结构
  * 
- * 版本: v4.0
+ * 版本: v4.1
  * 日期: 2026-06-16
+ * 来源: 外部专家方案落地
  */
 
 const { IntraShotTimelineGenerator } = require('./camera-movement-system-v3.js');
@@ -34,21 +38,16 @@ class SceneAnalyzer {
     };
   }
 
-  /**
-   * 分析场景约束
-   */
   analyze(sceneName, sceneDescription, duration, characters = []) {
     const desc = (sceneDescription || sceneName || '').toLowerCase();
     const name = (sceneName || '').toLowerCase();
     const combined = desc + ' ' + name;
     
-    // 1. 推断空间大小
     let spaceSize = 'medium';
     if (this.spaceKeywords.small.some(k => combined.includes(k))) spaceSize = 'small';
     else if (this.spaceKeywords.large.some(k => combined.includes(k))) spaceSize = 'large';
     else if (this.spaceKeywords.unlimited.some(k => combined.includes(k))) spaceSize = 'unlimited';
     
-    // 2. 推断场景类型
     let sceneType = 'dialogue';
     if (combined.includes('讲解') || combined.includes('介绍') || combined.includes('说明')) sceneType = 'monologue';
     else if (combined.includes('动作') || combined.includes('运动') || combined.includes('操作')) sceneType = 'action';
@@ -57,13 +56,8 @@ class SceneAnalyzer {
     else if (combined.includes('开场') || combined.includes('建立') || combined.includes('环境')) sceneType = 'establishing';
     else if (combined.includes('过渡') || combined.includes('转场')) sceneType = 'transition';
     
-    // 3. 计算段数（基于时长）
     const segmentCount = this._calculateSegmentCount(duration, sceneType);
-    
-    // 4. 景别约束
     const constraints = this._getShotSizeConstraints(spaceSize, sceneType);
-    
-    // 5. 运镜风格
     const typeInfo = this.sceneTypeMap[sceneType] || this.sceneTypeMap.dialogue;
     
     return {
@@ -74,7 +68,8 @@ class SceneAnalyzer {
       constraints,
       movementStyle: typeInfo.movement,
       characterCount: characters.length,
-      duration
+      duration,
+      shotId: sceneName
     };
   }
   
@@ -86,20 +81,14 @@ class SceneAnalyzer {
   
   _getShotSizeConstraints(spaceSize, sceneType) {
     const typeInfo = this.sceneTypeMap[sceneType] || this.sceneTypeMap.dialogue;
-    
-    // 空间约束
     const spaceLimits = {
       small: { min: 'close_up', max: 'medium', forbidden: ['wide', 'extreme_wide'] },
       medium: { min: 'medium', max: 'wide', forbidden: ['extreme_wide'] },
       large: { min: 'medium', max: 'extreme_wide', forbidden: [] },
       unlimited: { min: 'extreme_close', max: 'extreme_wide', forbidden: [] }
     };
-    
     const space = spaceLimits[spaceSize] || spaceLimits.medium;
-    
-    // 结合场景类型偏好
     const preferred = typeInfo.preferredSizes.filter(s => !space.forbidden.includes(s));
-    
     return {
       minSize: space.min,
       maxSize: space.max,
@@ -110,14 +99,14 @@ class SceneAnalyzer {
   }
 }
 
-// ========== Layer 2: LLM时间轴生成器 ==========
+// ========== Layer 2: LLM时间轴生成器（专家修复版） ==========
 class LLMTimelineGenerator {
   constructor(options = {}) {
     this.model = options.model || 'kimi-k2p6';
     this.maxTokens = options.maxTokens || 2048;
-    this.temperature = 1; // v6.5.11: kimi-k2p6 固定 temperature=1
+    this.temperature = 1;
+    this.debugDir = options.debugDir || 'debug_llm';
     
-    // 🔥 初始化真实LLM引擎
     this.llm = new LLMEngine({
       model: this.model,
       maxTokens: this.maxTokens,
@@ -127,288 +116,424 @@ class LLMTimelineGenerator {
     });
   }
   
-  /**
-   * 生成个性化时间轴Prompt（精简版）
-   */
-  _buildPrompt(sceneAnalysis, shotInfo, previousShotEnd = null) {
-    const { sceneTypeName, segmentCount, constraints, movementStyle, duration } = sceneAnalysis;
-    const { sceneName, sceneDescription, emotionPhase, characters, dialogue } = shotInfo;
-    
-    let prompt = `为以下镜头设计${segmentCount}段式运镜时间轴，直接输出JSON：
-
-场景：${sceneName}（${sceneDescription || sceneName}）
-类型：${sceneTypeName}
-时长：${duration}秒
-情绪：${emotionPhase || 'neutral'}
-人物：${characters.map(c => c.name || c).join(', ') || '无'}
-`;
-
-    if (dialogue) {
-      prompt += `台词："${dialogue.substring(0, 80)}..."\n`;
-    }
-    
-    prompt += `
-约束：${segmentCount}段，景别可用[${constraints.preferred.join(', ')}]，禁用[${constraints.forbidden.join(', ') || '无'}]
-`;
-
-    if (previousShotEnd) {
-      prompt += `连续性：上一个镜头结束为${previousShotEnd.shotSizeDesc}，本镜头开始避免视觉跳跃\n`;
-    }
-    
-    prompt += `
-要求：
-1. 每段时间范围格式如"0-3.5"
-2. 运镜动作要具体独特（含具体数字：厘米、度、秒）
-3. 根据台词重点调整景别和运镜
-4. 讲解类以稳定中景/近景为主
-
-必须输出JSON格式：
-{"strategy":"策略名","reasoning":"设计理由","segments":[{"timeRange":"0-5","shotSize":"medium","movement":"具体运镜","speed":"极慢","reason":"理由"}]}`;
-
-    return prompt;
-  }
-  
-  /**
-   * 调用LLM生成时间轴
-   */
   async generateTimeline(sceneAnalysis, shotInfo, previousShotEnd = null) {
-    const prompt = this._buildPrompt(sceneAnalysis, shotInfo, previousShotEnd);
+    const prompt = this._buildCompactPrompt(sceneAnalysis);
     
     try {
       console.log('[LLMTimelineGenerator] 🚀 调用LLM生成个性化时间轴...');
       const startedAt = Date.now();
       
-      // 🔥 v6.6.5-fix: 使用JSON模式 + allowReasoningFallback
-      // 强制API返回JSON，同时允许在content=0时从reasoning兜底提取
       const result = await this.llm.generate(prompt, {
-        systemPrompt: '你是一位专业的电影摄影师，擅长为每个镜头设计独特的内部时间轴。请直接输出JSON，不要有任何思考过程或解释。',
+        systemPrompt: '你是专业电影摄影师。只输出合法JSON对象，不要markdown，不要解释，不要额外文本。',
         temperature: 1,
         maxTokens: this.maxTokens,
-        responseFormat: { type: 'json_object' },  // 强制API返回JSON
-        allowReasoningFallback: true  // ✅ 允许从reasoning_content兜底提取
+        responseFormat: { type: 'json_object' },
+        allowReasoningFallback: true
       });
       
       const duration = Date.now() - startedAt;
       
-      // 检查LLMEngine返回状态
       if (!result || !result.success) {
-        throw new Error(result?.error || 'LLM调用失败');
+        console.error(`[LLMTimelineGenerator] LLM调用失败: ${result?.error || '未知错误'}`);
+        const fallback = this._buildSoftFallbackTimeline(sceneAnalysis);
+        return this._buildCompatibleCameraMovement(fallback);
       }
       
-      // v6.6.5-fix: 同时尝试content和raw.reasoning，哪个能提取出JSON就用哪个
-      let text = '';
-      let rawReasoning = '';
-      let source = '';
-      
-      const apiReasoning = result.raw?.choices?.[0]?.message?.reasoning_content || '';
-      if (apiReasoning?.trim()) {
-        rawReasoning = apiReasoning.trim();
-      }
-      
-      const content = result.content?.trim() || '';
-      
-      // 先尝试从content提取JSON
-      if (content) {
-        const testParse = this._tryExtractJSON(content);
-        if (testParse) {
-          text = content;
-          source = 'content';
-        }
-      }
-      
-      // 如果content没有有效JSON，尝试raw.reasoning
-      if (!text && rawReasoning) {
-        const testParse = this._tryExtractJSON(rawReasoning);
-        if (testParse) {
-          text = rawReasoning;
-          source = 'raw.reasoning';
-        }
-      }
-      
-      // 如果都没有，fallback到content（即使可能不是JSON，让后续处理）
-      if (!text) {
-        if (content) {
-          text = content;
-          source = 'content-fallback';
-        } else if (rawReasoning) {
-          text = rawReasoning;
-          source = 'raw.reasoning-fallback';
-        } else if (result.reasoning_content?.trim()) {
-          text = result.reasoning_content.trim();
-          source = 'reasoning_content';
-        }
-      }
-      
-      if (!text) {
-        throw new Error('LLM返回为空');
-      }
-      
-      console.log(`[LLMTimelineGenerator] ✅ LLM完成 | 耗时: ${duration}ms | 来源: ${source}`);
-      console.log('[LLMTimelineGenerator] 文本长度:', text.length);
-      console.log('[LLMTimelineGenerator] 文本前300:', text.substring(0, 300));
-      
-      // 提取JSON（同时传入原始reasoning作为fallback）
-      const timeline = this._extractTimelineFromText(text, sceneAnalysis, rawReasoning);
+      const timeline = this._extractTimelineFromResult(result, sceneAnalysis);
       return timeline;
       
     } catch (e) {
-      console.error('[LLMTimelineGenerator] LLM调用失败:', e.message);
-      // 降级到规则生成
-      return this._fallbackToRules(sceneAnalysis, shotInfo);
+      console.error('[LLMTimelineGenerator] LLM调用异常:', e.message);
+      const fallback = this._buildSoftFallbackTimeline(sceneAnalysis);
+      return this._buildCompatibleCameraMovement(fallback);
     }
   }
   
-  /**
-   * 从文本中提取时间轴JSON（增强版）
-   */
-  _extractTimelineFromText(text, sceneAnalysis, reasoningText) {
-    // 尝试从text(content)解析
-    let parsed = this._tryExtractJSON(text);
-    if (parsed) {
-      return this._convertToTimeline(parsed, sceneAnalysis);
-    }
+  // ========== 专家方案：多层候选文本提取 ==========
+  _extractTimelineFromResult(result, sceneAnalysis) {
+    const candidates = this._getCandidateTexts(result);
     
-    // 尝试从reasoningText解析
-    if (reasoningText && reasoningText !== text) {
-      parsed = this._tryExtractJSON(reasoningText);
+    for (const item of candidates) {
+      const parsed = this._tryExtractTimelineJSON(item.text);
       if (parsed) {
-        return this._convertToTimeline(parsed, sceneAnalysis);
+        console.log(`[LLMTimelineGenerator] ✅ JSON提取成功 | 来源: ${item.source}`);
+        const sanitized = this._sanitizeParsedTimeline(parsed, sceneAnalysis);
+        const timeline = this._convertToTimeline(sanitized, sceneAnalysis);
+        timeline.generatedBy = 'LLM-v4';
+        return this._buildCompatibleCameraMovement(timeline);
       }
     }
     
-    console.error('[LLMTimelineGenerator] JSON提取失败: 响应中未找到有效JSON');
-    return this._fallbackToRules(sceneAnalysis, {});
+    console.error('[LLMTimelineGenerator] JSON提取失败: 所有来源均未找到有效JSON');
+    this._dumpDebugFailure(result, sceneAnalysis);
+    const fallback = this._buildSoftFallbackTimeline(sceneAnalysis);
+    return this._buildCompatibleCameraMovement(fallback);
   }
   
-  /**
-   * 尝试从文本中提取JSON对象
-   */
-  _tryExtractJSON(text) {
-    if (!text || text.length < 50) return null;
+  _getCandidateTexts(result) {
+    const content = result?.content || '';
+    const reasoning = result?.reasoning_content || '';
+    const rawContent = result?.raw?.choices?.[0]?.message?.content || '';
+    const rawReasoning = result?.raw?.choices?.[0]?.message?.reasoning_content || '';
     
-    // 策略1: 找JSON代码块
-    const codeBlockMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
-    if (codeBlockMatch) {
+    const list = [
+      { source: 'result.content', text: content },
+      { source: 'raw.message.content', text: rawContent },
+      { source: 'result.reasoning_content', text: reasoning },
+      { source: 'raw.message.reasoning_content', text: rawReasoning }
+    ];
+    
+    const seen = new Set();
+    return list.filter(item => {
+      const t = (item.text || '').trim();
+      if (!t) return false;
+      if (seen.has(t)) return false;
+      seen.add(t);
+      console.log(`[LLMTimelineGenerator] 尝试来源: ${item.source} | 文本长度: ${t.length}`);
+      return true;
+    });
+  }
+  
+  // ========== 专家方案：括号平衡扫描 ==========
+  _tryExtractTimelineJSON(text) {
+    if (!text || typeof text !== 'string') return null;
+    
+    // 1) 尝试整段直接JSON.parse
+    const direct = text.trim();
+    if (direct.startsWith('{') && direct.endsWith('}')) {
       try {
-        return JSON.parse(codeBlockMatch[1].trim());
-      } catch (e) {
-        console.log('[LLMTimelineGenerator] 代码块JSON解析失败:', e.message);
-      }
+        const parsed = JSON.parse(direct);
+        if (this._isValidTimelineJSON(parsed)) return parsed;
+      } catch (_) {}
     }
     
-    // 策略2: 从后往前找JSON对象（JSON通常在文本最后）
-    const lastBrace = text.lastIndexOf('}');
-    if (lastBrace > 0) {
-      let braceCount = 0;
-      for (let i = lastBrace; i >= 0; i--) {
-        // 跳过字符串内容
-        if (text[i] === '"') {
-          i--;
-          while (i >= 0 && text[i] !== '"') {
-            if (text[i] === '\\') i--;
-            i--;
-          }
-          continue;
-        }
-        
-        if (text[i] === '}') braceCount++;
-        else if (text[i] === '{') {
-          braceCount--;
-          if (braceCount === 0) {
-            const candidate = text.substring(i, lastBrace + 1);
-            try {
-              const parsed = JSON.parse(candidate);
-              if (parsed.segments && Array.isArray(parsed.segments)) {
-                return parsed;
-              }
-            } catch (e) {}
-            // 继续找下一个可能的对象
-          }
-        }
-      }
+    // 2) 尝试代码块
+    const codeBlockRegex = /```(?:json)?\s*([\s\S]*?)```/gi;
+    let match;
+    while ((match = codeBlockRegex.exec(text)) !== null) {
+      const block = (match[1] || '').trim();
+      try {
+        const parsed = JSON.parse(block);
+        if (this._isValidTimelineJSON(parsed)) return parsed;
+      } catch (_) {}
+    }
+    
+    // 3) 扫描所有可能的JSON对象候选（括号平衡）
+    const candidates = this._extractAllJSONObjectCandidates(text);
+    for (let i = candidates.length - 1; i >= 0; i--) {
+      try {
+        const parsed = JSON.parse(candidates[i]);
+        if (this._isValidTimelineJSON(parsed)) return parsed;
+      } catch (_) {}
     }
     
     return null;
   }
   
-  /**
-   * 转换为标准时间轴格式
-   */
-  _convertToTimeline(data, sceneAnalysis) {
-    if (!data || !data.segments) {
-      throw new Error('响应中未找到segments');
+  _extractAllJSONObjectCandidates(text) {
+    const results = [];
+    const stack = [];
+    let inString = false;
+    let escape = false;
+    
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      
+      if (escape) {
+        escape = false;
+        continue;
+      }
+      
+      if (ch === '\\') {
+        if (inString) escape = true;
+        continue;
+      }
+      
+      if (ch === '"') {
+        inString = !inString;
+        continue;
+      }
+      
+      if (inString) continue;
+      
+      if (ch === '{') {
+        stack.push(i);
+      } else if (ch === '}' && stack.length > 0) {
+        const start = stack.pop();
+        const candidate = text.slice(start, i + 1).trim();
+        if (candidate.startsWith('{') && candidate.endsWith('}')) {
+          results.push(candidate);
+        }
+      }
     }
     
-    const segments = (data.segments || []).map((seg, i) => ({
-      index: i,
-      timeRange: seg.timeRange || `${i * (sceneAnalysis.duration / 3)}-${(i + 1) * (sceneAnalysis.duration / 3)}`,
-      duration: this._parseDuration(seg.timeRange, sceneAnalysis.duration),
-      shotSize: seg.shotSize || 'medium',
-      shotSizeDesc: this._getShotSizeDesc(seg.shotSize || 'medium'),
-      movement: seg.movement || 'stable_hold',
-      speed: { value: this._parseSpeed(seg.speed), description: seg.speed || '中等' },
-      reason: seg.reason || ''
+    return results;
+  }
+  
+  _isValidTimelineJSON(obj) {
+    return !!(obj && typeof obj === 'object' && Array.isArray(obj.segments) && obj.segments.length > 0);
+  }
+  
+  // ========== 专家方案：结构修复 ==========
+  _sanitizeParsedTimeline(parsed, sceneAnalysis) {
+    const targetSegmentCount = this._getTargetSegmentCount(sceneAnalysis.duration);
+    
+    const clean = {
+      strategy: typeof parsed.strategy === 'string' ? parsed.strategy.trim() : '',
+      reasoning: typeof parsed.reasoning === 'string' ? parsed.reasoning.trim() : '',
+      segments: Array.isArray(parsed.segments) ? parsed.segments : []
+    };
+    
+    // 修复策略名占位符
+    if (!clean.strategy || clean.strategy === '策略名' || clean.strategy === 'strategy') {
+      clean.strategy = this._buildStrategyName(sceneAnalysis);
+    }
+    
+    // 修复段数
+    clean.segments = this._repairSegments(clean.segments, sceneAnalysis, targetSegmentCount);
+    
+    // 修复reasoning
+    if (!clean.reasoning || clean.reasoning.length < 8 || clean.reasoning === '设计理由') {
+      clean.reasoning = `基于"${sceneAnalysis.sceneTypeName}"场景、${sceneAnalysis.duration}秒时长与台词重点，采用由稳到近的递进式讲解运镜。`;
+    }
+    
+    return clean;
+  }
+  
+  _buildStrategyName(sceneAnalysis) {
+    const sceneType = sceneAnalysis.sceneTypeName || '讲解';
+    const emotion = sceneAnalysis.emotionPhase || 'neutral';
+    const dialogue = sceneAnalysis.dialogue || '';
+    
+    if (/高危|危险|风险|恶化|严重/.test(dialogue)) return '渐进压迫式讲解';
+    if (/症状|表现|信号|征兆/.test(dialogue)) return '递进揭示式推镜';
+    if (/病理|原因|机制|导致/.test(dialogue)) return '渐进聚焦病理叙事';
+    if (/结语|总结|建议|记住|最后/.test(dialogue)) return '渐进收束式讲解';
+    if (/开场|大家好|今天/.test(dialogue)) return '渐进式聚焦讲解';
+    
+    if (sceneType.includes('建立')) return '环境建立式缓进运镜';
+    if (sceneType.includes('讲解')) return '稳定递进式专家讲解';
+    if (emotion === 'curiosity') return '渐进探询式讲解';
+    
+    return '内容驱动式递进运镜';
+  }
+  
+  _getTargetSegmentCount(duration) {
+    const d = Number(duration) || 0;
+    if (d <= 6) return 2;
+    if (d <= 16) return 3;
+    return 4;
+  }
+  
+  _repairSegments(segments, sceneAnalysis, targetSegmentCount) {
+    const duration = Number(sceneAnalysis.duration) || 10;
+    const preferred = sceneAnalysis.constraints?.preferred?.length
+      ? sceneAnalysis.constraints.preferred
+      : ['medium', 'medium_close_up', 'close_up'];
+    
+    const normalized = (segments || []).map((seg, idx) => ({
+      timeRange: this._normalizeTimeRange(seg.timeRange, idx, segments.length, duration),
+      shotSize: seg.shotSize || preferred[Math.min(idx, preferred.length - 1)] || 'medium',
+      movement: this._normalizeMovement(seg.movement, idx, sceneAnalysis),
+      speed: seg.speed || (idx === 0 ? '极慢' : '缓慢'),
+      reason: seg.reason || `第${idx + 1}段围绕讲解重点进行视觉递进。`
     }));
     
-    return {
-      totalDuration: sceneAnalysis.duration,
-      segmentCount: segments.length,
-      strategy: data.strategy || '个性化设计',
-      reasoning: data.reasoning || '基于内容自动生成',
-      segments,
-      generatedBy: 'LLM-v4'
-    };
-  }
-  
-  _parseDuration(timeRange, defaultDuration) {
-    if (!timeRange) return defaultDuration / 3;
-    const parts = timeRange.split('-');
-    if (parts.length === 2) {
-      return parseFloat(parts[1]) - parseFloat(parts[0]);
+    if (normalized.length === targetSegmentCount) {
+      return normalized;
     }
-    return defaultDuration / 3;
+    
+    // 段数不对，按目标段数重建
+    const rebuilt = [];
+    const step = duration / targetSegmentCount;
+    
+    for (let i = 0; i < targetSegmentCount; i++) {
+      const start = +(i * step).toFixed(1);
+      const end = +(i === targetSegmentCount - 1 ? duration : (i + 1) * step).toFixed(1);
+      
+      const shotSize =
+        preferred[Math.min(i, preferred.length - 1)] ||
+        (i === 0 ? 'medium' : i === targetSegmentCount - 1 ? 'close_up' : 'medium_close_up');
+      
+      rebuilt.push({
+        timeRange: `${start}-${end}`,
+        shotSize,
+        movement: this._buildDefaultMovement(i, targetSegmentCount, sceneAnalysis),
+        speed: i === 0 ? '极慢' : i === targetSegmentCount - 1 ? '缓慢' : '很慢',
+        reason: this._buildDefaultReason(i, targetSegmentCount, sceneAnalysis)
+      });
+    }
+    
+    return rebuilt;
   }
   
-  _parseSpeed(speed) {
-    const map = { '极慢': 0.1, '缓慢': 0.3, '中等': 0.5, '快速': 0.7, '很快': 0.9 };
-    return map[speed] || 0.5;
+  _normalizeTimeRange(timeRange, idx, total, duration) {
+    if (typeof timeRange === 'string' && /^\d+(\.\d+)?-\d+(\.\d+)?$/.test(timeRange.trim())) {
+      return timeRange.trim();
+    }
+    const step = duration / Math.max(total || 1, 1);
+    const start = +(idx * step).toFixed(1);
+    const end = +(idx === total - 1 ? duration : (idx + 1) * step).toFixed(1);
+    return `${start}-${end}`;
   }
   
-
+  _normalizeMovement(movement, idx, sceneAnalysis) {
+    const text = (movement || '').trim();
+    if (text.length >= 10 && /厘米|cm|度|°|秒/.test(text)) return text;
+    
+    const templates = [
+      '摄影机以每秒0.4厘米的速度轻微前推2厘米，同时从低于视线3°抬升至平视，建立稳定进入感。',
+      '镜头保持人物主体在画面中心偏左5%，以每秒0.6厘米的速度向前推进3厘米，并微量右移4厘米，强化讲解重点。',
+      '摄影机在最后阶段继续前推2厘米，同时轻微俯角下压2°，把注意力收束到人物表情与关键信息上。'
+    ];
+    
+    return templates[Math.min(idx, templates.length - 1)];
+  }
   
-  /**
-   * 规则降级
-   */
-  _fallbackToRules(sceneAnalysis, shotInfo) {
-    // 使用v3系统的timeline生成器作为降级
-    const v3Generator = new IntraShotTimelineGenerator();
-    const timeline = v3Generator.generateTimeline({
-      duration: sceneAnalysis.duration,
-      emotionPhase: shotInfo.emotionPhase || 'neutral'
-    });
-    // 标记为规则降级，方便上层识别
-    timeline.generatedBy = 'rules-v3';
-    timeline.strategy = timeline.strategy || '规则降级';
+  _buildDefaultMovement(idx, total, sceneAnalysis) {
+    if (idx === 0) {
+      return '摄影机以每秒0.4厘米的速度轻推2厘米，并从略低机位上抬3°至平视，先建立环境与人物关系。';
+    }
+    if (idx === total - 1) {
+      return '镜头继续以每秒0.5厘米的速度前推2厘米，同时横移3厘米完成视觉收束，聚焦结论表达。';
+    }
+    return '摄影机保持稳定主体构图，以每秒0.5厘米速度前推3厘米，并轻微横移4厘米，承接讲解重点推进。';
+  }
+  
+  _buildDefaultReason(idx, total, sceneAnalysis) {
+    if (idx === 0) return '开段先稳住空间关系，让观众快速进入讲解语境。';
+    if (idx === total - 1) return '结尾收紧景别，强化重点信息与人物表情。';
+    return '中段通过轻微推进承接信息递进，避免画面过于静止。';
+  }
+  
+  // ========== 专家方案：兼容输出结构 ==========
+  _convertToTimeline(parsed, sceneAnalysis) {
+    const timeline = {
+      strategy: parsed.strategy,
+      reasoning: parsed.reasoning,
+      segmentCount: parsed.segments.length,
+      segments: parsed.segments.map((seg, index) => ({
+        index,
+        timeRange: seg.timeRange,
+        shotSize: seg.shotSize,
+        movement: seg.movement,
+        speed: seg.speed,
+        reason: seg.reason
+      }))
+    };
+    
+    timeline.description = this._buildDescription(timeline);
+    timeline.transitionType = 'llm_v4';
+    timeline.timeline = {
+      strategy: timeline.strategy,
+      reasoning: timeline.reasoning,
+      segments: timeline.segments
+    };
+    
     return timeline;
   }
   
-  _getShotSizeDesc(shotSize) {
-    const map = {
-      extreme_wide: '极端远景（环境全貌）',
-      wide: '远景（环境+主体）',
-      full: '全景（全身）',
-      medium: '中景（半身/双人）',
-      close_up: '特写（面部/细节）',
-      extreme_close: '极端特写（眼睛/纹理）'
+  _buildDescription(timeline) {
+    const first = timeline.segments?.[0];
+    const last = timeline.segments?.[timeline.segments.length - 1];
+    return `${timeline.strategy}：从${first?.shotSize || 'medium'}逐步过渡到${last?.shotSize || 'close_up'}，共${timeline.segmentCount}段，强调内容驱动的细微推进。`;
+  }
+  
+  _buildCompatibleCameraMovement(timeline) {
+    return {
+      strategy: timeline.strategy,
+      reasoning: timeline.reasoning,
+      segmentCount: timeline.segmentCount,
+      segments: timeline.segments,
+      generatedBy: timeline.generatedBy || 'LLM-v4',
+      description: timeline.description || this._buildDescription(timeline),
+      transitionType: timeline.transitionType || 'llm_v4',
+      timeline: {
+        strategy: timeline.strategy,
+        reasoning: timeline.reasoning,
+        segments: timeline.segments
+      }
     };
-    return map[shotSize] || shotSize;
+  }
+  
+  // ========== 专家方案：软回退替代v3规则模板 ==========
+  _buildSoftFallbackTimeline(sceneAnalysis) {
+    const targetSegmentCount = this._getTargetSegmentCount(sceneAnalysis.duration);
+    const strategy = this._buildStrategyName(sceneAnalysis);
+    const segments = this._repairSegments([], sceneAnalysis, targetSegmentCount);
+    
+    return {
+      strategy,
+      reasoning: 'LLM原始输出不可解析，已根据镜头时长、台词主题和景别约束生成高质量软回退时间轴。',
+      segmentCount: segments.length,
+      segments,
+      description: `${strategy}：基于镜头内容自动生成的软回退方案，避免使用固定模板化运镜。`,
+      transitionType: 'soft_fallback_v4',
+      generatedBy: 'soft-fallback-v4',
+      timeline: {
+        strategy,
+        reasoning: 'LLM原始输出不可解析，已根据镜头时长、台词主题和景别约束生成高质量软回退时间轴。',
+        segments
+      }
+    };
+  }
+  
+  _dumpDebugFailure(result, sceneAnalysis) {
+    try {
+      const fs = require('fs');
+      const path = require('path');
+      
+      if (!fs.existsSync(this.debugDir)) {
+        fs.mkdirSync(this.debugDir, { recursive: true });
+      }
+      
+      const file = path.join(
+        this.debugDir,
+        `stage9_v4_failure_${sceneAnalysis.shotId || Date.now()}.json`
+      );
+      
+      fs.writeFileSync(
+        file,
+        JSON.stringify({
+          time: new Date().toISOString(),
+          sceneAnalysis,
+          result
+        }, null, 2),
+        'utf8'
+      );
+      
+      console.log(`[LLMTimelineGenerator] 调试文件已写入: ${file}`);
+    } catch (err) {
+      console.error(`[LLMTimelineGenerator] 写调试文件失败: ${err.message}`);
+    }
+  }
+  
+  // ========== 专家方案：精简Prompt ==========
+  _buildCompactPrompt(sceneAnalysis) {
+    const segmentCount = this._getTargetSegmentCount(sceneAnalysis.duration);
+    const chars = (sceneAnalysis.characters || [])
+      .map(c => (typeof c === 'string' ? c : c.name))
+      .filter(Boolean)
+      .join(', ') || '无';
+    
+    return `只输出一个合法JSON对象。
+为镜头生成${segmentCount}段运镜方案。
+场景:${sceneAnalysis.sceneName || '未命名'}
+类型:${sceneAnalysis.sceneTypeName || '讲解'}
+时长:${sceneAnalysis.duration}秒
+情绪:${sceneAnalysis.emotionPhase || 'neutral'}
+人物:${chars}
+台词:${(sceneAnalysis.dialogue || '').slice(0, 100)}
+限制:可用景别[${(sceneAnalysis.constraints?.preferred || ['medium']).join(',')}],禁用[${(sceneAnalysis.constraints?.forbidden || []).join(',') || '无'}]
+JSON字段: strategy, reasoning, segments
+segments每项字段: timeRange, shotSize, movement, speed, reason
+movement必须含具体数字(厘米/度/秒)，strategy必须是具体名称，不得写"策略名"。`;
   }
 }
 
 // ========== Layer 3: 连续性引擎 ==========
 class ContinuityEngine {
   constructor() {
-    // 景别跳跃限制矩阵
     this.jumpRules = {
       extreme_close: { allowedNext: ['close_up', 'extreme_close'], warning: '极端特写后避免大跳跃' },
       close_up: { allowedNext: ['close_up', 'medium', 'extreme_close'], warning: '特写后避免直接远景' },
@@ -419,9 +544,6 @@ class ContinuityEngine {
     };
   }
   
-  /**
-   * 检查两个镜头间的连续性
-   */
   checkContinuity(previousShot, currentShot) {
     const warnings = [];
     const fixes = [];
@@ -436,7 +558,6 @@ class ContinuityEngine {
     const prevSize = prevEnd.shotSize;
     const currSize = currStart.shotSize;
     
-    // 检查景别跳跃
     const rule = this.jumpRules[prevSize];
     if (rule && !rule.allowedNext.includes(currSize)) {
       warnings.push({
@@ -444,46 +565,11 @@ class ContinuityEngine {
         message: `${prevEnd.shotSizeDesc} → ${currStart.shotSizeDesc}: 视觉跳跃大`,
         severity: 'warning'
       });
-      fixes.push({
-        type: 'suggest_alternative',
-        suggestion: `建议将下一段起始景别改为: ${rule.allowedNext.join(' 或 ')}`
-      });
     }
     
-    // 检查运动方向冲突
-    const prevMovement = prevEnd.movement;
-    const currMovement = currStart.movement;
-    if (this._isOppositeMovement(prevMovement, currMovement)) {
-      warnings.push({
-        type: 'movement_conflict',
-        message: `运镜方向冲突: ${prevMovement} → ${currMovement}`,
-        severity: 'info'
-      });
-    }
-    
-    return {
-      valid: warnings.length === 0,
-      warnings,
-      fixes
-    };
+    return { valid: warnings.length === 0, warnings, fixes };
   }
   
-  _isOppositeMovement(m1, m2) {
-    const opposites = [
-      ['push_in', 'pull_out'],
-      ['orbit_cw', 'orbit_ccw'],
-      ['pan_left', 'pan_right'],
-      ['tilt_up', 'tilt_down']
-    ];
-    return opposites.some(pair => 
-      (m1.includes(pair[0]) && m2.includes(pair[1])) ||
-      (m1.includes(pair[1]) && m2.includes(pair[0]))
-    );
-  }
-  
-  /**
-   * 自动修复连续性
-   */
   autoFix(currentShot, previousShotEnd) {
     if (!previousShotEnd || !currentShot.timeline) return currentShot;
     
@@ -492,7 +578,6 @@ class ContinuityEngine {
     
     const firstSeg = currentShot.timeline.segments[0];
     if (!rule.allowedNext.includes(firstSeg.shotSize)) {
-      // 自动调整第一段景别
       firstSeg.shotSize = rule.allowedNext[0];
       firstSeg.shotSizeDesc = this._getShotSizeDesc(rule.allowedNext[0]);
       console.log(`[ContinuityEngine] 自动修复: ${previousShotEnd.shotSize} → ${firstSeg.shotSize}`);
@@ -517,23 +602,15 @@ class ContinuityEngine {
 // ========== Layer 4: 可选开关 ==========
 class TimelineFeatureToggle {
   constructor(options = {}) {
-    this.mode = options.mode || 'auto'; // 'always' | 'never' | 'auto'
-    this.defaultMode = options.defaultMode || 'standard'; // 'complex' | 'standard' | 'simple' | 'disabled'
+    this.mode = options.mode || 'auto';
+    this.defaultMode = options.defaultMode || 'standard';
     
-    // 场景类型→默认模式映射
     this.sceneModeMap = {
-      action: 'complex',
-      chase: 'complex',
-      climax: 'complex',
-      dialogue: 'standard',
-      monologue: 'standard',
-      discovery: 'standard',
-      emotional: 'simple',
-      establishing: 'standard',
-      transition: 'disabled'
+      action: 'complex', chase: 'complex', climax: 'complex',
+      dialogue: 'standard', monologue: 'standard', discovery: 'standard',
+      emotional: 'simple', establishing: 'standard', transition: 'disabled'
     };
     
-    // 时长→模式映射
     this.durationModeMap = [
       { max: 5, mode: 'simple' },
       { max: 10, mode: 'standard' },
@@ -541,54 +618,35 @@ class TimelineFeatureToggle {
     ];
   }
   
-  /**
-   * 决定时间轴模式
-   */
   decideMode(sceneType, duration, userOverride = null) {
-    // 用户覆盖最高优先级
     if (userOverride) return userOverride;
-    
-    // never模式
     if (this.mode === 'never') return 'disabled';
-    
-    // always模式
     if (this.mode === 'always') return this.defaultMode;
     
-    // auto模式：根据场景类型和时长
     const typeMode = this.sceneModeMap[sceneType] || this.defaultMode;
     const durationMode = this.durationModeMap.find(d => duration <= d.max)?.mode || 'standard';
     
-    // 取更保守的模式（段数更少）
     const modePriority = { disabled: 0, simple: 1, standard: 2, complex: 3 };
     return modePriority[typeMode] < modePriority[durationMode] ? typeMode : durationMode;
   }
   
-  /**
-   * 是否应该生成时间轴
-   */
   shouldGenerate(sceneType, duration) {
-    const mode = this.decideMode(sceneType, duration);
-    return mode !== 'disabled';
+    return this.decideMode(sceneType, duration) !== 'disabled';
   }
 }
 
-// ========== v4.0 主控制器 ==========
+// ========== v4.1 主控制器 ==========
 class CameraMovementSystemV4 {
   constructor(options = {}) {
     this.sceneAnalyzer = new SceneAnalyzer();
     this.llmGenerator = new LLMTimelineGenerator(options.llmOptions);
     this.continuityEngine = new ContinuityEngine();
     this.featureToggle = new TimelineFeatureToggle(options.toggleOptions);
-    this.v3Generator = new IntraShotTimelineGenerator(); // 降级用
   }
   
-  /**
-   * v4.0核心：生成个性化镜头内时间轴
-   */
   async generateIntraShotTimelineV4(shot, previousShot = null, options = {}) {
     const { sceneName, sceneDescription, duration, emotionPhase, characters, dialogue, type } = shot;
     
-    // Layer 4: 检查是否应该生成
     const sceneType = type || 'dialogue';
     if (!this.featureToggle.shouldGenerate(sceneType, duration)) {
       return {
@@ -599,25 +657,16 @@ class CameraMovementSystemV4 {
       };
     }
     
-    // Layer 1: 场景分析
-    const analysis = this.sceneAnalyzer.analyze(
-      sceneName, sceneDescription, duration, characters
-    );
+    const analysis = this.sceneAnalyzer.analyze(sceneName, sceneDescription, duration, characters);
+    analysis.dialogue = dialogue || '';
+    analysis.emotionPhase = emotionPhase || 'neutral';
     
-    // Layer 2: LLM生成个性化时间轴
     const previousEnd = previousShot?.timeline?.segments?.[previousShot.timeline.segments.length - 1];
-    const timeline = await this.llmGenerator.generateTimeline(
-      analysis,
-      { sceneName, sceneDescription, emotionPhase, characters, dialogue },
-      previousEnd
-    );
+    const timeline = await this.llmGenerator.generateTimeline(analysis, { sceneName, sceneDescription, emotionPhase, characters, dialogue }, previousEnd);
     
-    // Layer 3: 连续性检查（如果有上一个镜头）
     let continuityCheck = null;
     if (previousShot) {
       continuityCheck = this.continuityEngine.checkContinuity(previousShot, { timeline });
-      
-      // 自动修复
       if (!continuityCheck.valid && options.autoFix !== false) {
         this.continuityEngine.autoFix({ timeline }, previousEnd);
       }
@@ -628,15 +677,12 @@ class CameraMovementSystemV4 {
       v4Enabled: timeline.generatedBy === 'LLM-v4',
       analysis,
       continuityCheck,
-      mode: timeline.generatedBy === 'LLM-v4' ? 'v4-llm-driven' : 'v3-rules-fallback'
+      mode: timeline.generatedBy === 'LLM-v4' ? 'v4-llm-driven' : 'v4-soft-fallback'
     };
   }
   
-  /**
-   * 向后兼容：v3 API
-   */
   generateIntraShotTimeline(sceneName, emotionPhase, options = {}) {
-    return this.v3Generator.generateTimeline({
+    return new IntraShotTimelineGenerator().generateTimeline({
       transitionType: options.transitionType,
       lightingType: options.lightingType,
       speedCurve: options.speedCurve,
