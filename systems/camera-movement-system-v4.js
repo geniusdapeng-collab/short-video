@@ -227,21 +227,32 @@ class LLMTimelineGenerator {
       }
       
       // v6.6.5-fix: 多层提取策略
-      // 第1层：result.content（normalizeLLMOutput已处理）
-      // 第2层：result.reasoning_content（原始reasoning）
-      // 第3层：result.raw.choices[0].message.reasoning_content（API原始响应）
+      // 第1层：result.content（normalizeLLMOutput已处理，但可能提取错误内容）
+      // 第2层：直接从API原始响应获取reasoning_content（绕过normalizeLLMOutput）
       let text = '';
+      let rawReasoning = '';
       let source = '';
       
       if (result.content?.trim()) {
         text = result.content.trim();
         source = 'content';
-      } else if (result.reasoning_content?.trim()) {
-        text = result.reasoning_content.trim();
-        source = 'reasoning_content';
-      } else if (result.raw?.choices?.[0]?.message?.reasoning_content) {
-        text = result.raw.choices[0].message.reasoning_content.trim();
-        source = 'raw.reasoning';
+      }
+      
+      // 优先获取原始reasoning_content（normalizeLLMOutput可能提取错误）
+      const apiReasoning = result.raw?.choices?.[0]?.message?.reasoning_content || '';
+      if (apiReasoning) {
+        rawReasoning = apiReasoning.trim();
+      }
+      
+      // 如果content为空或很短（normalizeLLMOutput可能提取了错误内容），使用原始reasoning
+      if (!text || text.length < 200) {
+        if (rawReasoning) {
+          text = rawReasoning;
+          source = 'raw.reasoning';
+        } else if (result.reasoning_content?.trim()) {
+          text = result.reasoning_content.trim();
+          source = 'reasoning_content';
+        }
       }
       
       if (!text) {
@@ -252,8 +263,8 @@ class LLMTimelineGenerator {
       console.log('[LLMTimelineGenerator] 文本长度:', text.length);
       console.log('[LLMTimelineGenerator] 文本前300:', text.substring(0, 300));
       
-      // 提取JSON（同时处理content和reasoning_content）
-      const timeline = this._extractTimelineFromText(text, sceneAnalysis, result?.reasoning_content);
+      // 提取JSON（同时传入原始reasoning作为fallback）
+      const timeline = this._extractTimelineFromText(text, sceneAnalysis, rawReasoning);
       return timeline;
       
     } catch (e) {
@@ -399,10 +410,14 @@ class LLMTimelineGenerator {
   _fallbackToRules(sceneAnalysis, shotInfo) {
     // 使用v3系统的timeline生成器作为降级
     const v3Generator = new IntraShotTimelineGenerator();
-    return v3Generator.generateTimeline({
+    const timeline = v3Generator.generateTimeline({
       duration: sceneAnalysis.duration,
       emotionPhase: shotInfo.emotionPhase || 'neutral'
     });
+    // 标记为规则降级，方便上层识别
+    timeline.generatedBy = 'rules-v3';
+    timeline.strategy = timeline.strategy || '规则降级';
+    return timeline;
   }
   
   _getShotSizeDesc(shotSize) {
@@ -638,10 +653,10 @@ class CameraMovementSystemV4 {
     
     return {
       timeline,
-      v4Enabled: true,
+      v4Enabled: timeline.generatedBy === 'LLM-v4',
       analysis,
       continuityCheck,
-      mode: 'v4-llm-driven'
+      mode: timeline.generatedBy === 'LLM-v4' ? 'v4-llm-driven' : 'v3-rules-fallback'
     };
   }
   
