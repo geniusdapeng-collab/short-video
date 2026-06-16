@@ -209,26 +209,48 @@ class LLMTimelineGenerator {
       console.log('[LLMTimelineGenerator] 🚀 调用LLM生成个性化时间轴...');
       const startedAt = Date.now();
       
-      // 🔥 v6.6.5-fix: 使用response_format强制JSON输出，避免模型在reasoning中放思考过程
+      // 🔥 v6.6.5-fix: 使用JSON模式 + allowReasoningFallback
+      // 强制API返回JSON，同时允许在content=0时从reasoning兜底提取
       const result = await this.llm.generate(prompt, {
         systemPrompt: '你是一位专业的电影摄影师，擅长为每个镜头设计独特的内部时间轴。请直接输出JSON，不要有任何思考过程或解释。',
         temperature: 1,
         maxTokens: this.maxTokens,
-        responseFormat: { type: 'json_object' }  // 强制API返回JSON
+        responseFormat: { type: 'json_object' },  // 强制API返回JSON
+        allowReasoningFallback: true  // ✅ 允许从reasoning_content兜底提取
       });
       
       const duration = Date.now() - startedAt;
       
-      // v6.6.5-fix: 优先使用content，如果为空则使用reasoning_content兜底
-      const text = result?.content || result?.reasoning_content || '';
+      // 检查LLMEngine返回状态
+      if (!result || !result.success) {
+        throw new Error(result?.error || 'LLM调用失败');
+      }
+      
+      // v6.6.5-fix: 多层提取策略
+      // 第1层：result.content（normalizeLLMOutput已处理）
+      // 第2层：result.reasoning_content（原始reasoning）
+      // 第3层：result.raw.choices[0].message.reasoning_content（API原始响应）
+      let text = '';
+      let source = '';
+      
+      if (result.content?.trim()) {
+        text = result.content.trim();
+        source = 'content';
+      } else if (result.reasoning_content?.trim()) {
+        text = result.reasoning_content.trim();
+        source = 'reasoning_content';
+      } else if (result.raw?.choices?.[0]?.message?.reasoning_content) {
+        text = result.raw.choices[0].message.reasoning_content.trim();
+        source = 'raw.reasoning';
+      }
       
       if (!text) {
         throw new Error('LLM返回为空');
       }
       
-      console.log(`[LLMTimelineGenerator] ✅ LLM完成 | 耗时: ${duration}ms`);
-      console.log('[LLMTimelineGenerator] content长度:', text.length);
-      console.log('[LLMTimelineGenerator] content前300:', text.substring(0, 300));
+      console.log(`[LLMTimelineGenerator] ✅ LLM完成 | 耗时: ${duration}ms | 来源: ${source}`);
+      console.log('[LLMTimelineGenerator] 文本长度:', text.length);
+      console.log('[LLMTimelineGenerator] 文本前300:', text.substring(0, 300));
       
       // 提取JSON（同时处理content和reasoning_content）
       const timeline = this._extractTimelineFromText(text, sceneAnalysis, result?.reasoning_content);

@@ -244,7 +244,8 @@ class LLMEngine {
       let finalContent = normalized.text || '';
 
       // v6.6.5-fix: JSON模式下只接受 content，禁止 reasoning_content 兜底
-      if (forceJson) {
+      // v4.0-exception: 当调用方明确允许时（options.allowReasoningFallback=true），启用reasoning兜底
+      if (forceJson && !options.allowReasoningFallback) {
         if (!content || !content.trim()) {
           const reasonFile = this._dumpDebugFile('empty_content_reasoning', reasoningContent);
           throw new Error(
