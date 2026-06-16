@@ -913,12 +913,12 @@ class OrientPrimordialCoreV24 {
       }
     }
 
-    // v6.5.6-fix: 台词注入视觉Prompt（供Seedance对口型参考）
-    // 台词文本注入到prompt中，帮助Seedance理解角色口型需求
+    // v6.5.64-fix: 台词作为独立字段完整注入（禁止截断，供Seedance对口型渲染）
+    // ⚠️ 系统级规则：台词必须作为独立字段与画面一同提交，确保口型精准
     if (narration && narration.length > 0) {
-      const dialogueText = narration.substring(0, 120); // 限制长度，避免占用过多prompt空间
-      prompt += ` 【台词】${dialogueText}`;
-      console.log(`[Core-v24.3] 🎙️ 台词注入视觉Prompt: ${dialogueText.length}字符 | 供Seedance对口型`);
+      const dialogueText = narration; // 完整台词，禁止截断
+      prompt += ` \n【台词】"${dialogueText}"`;
+      console.log(`[Core-v24.3] 🎙️ 台词完整注入视觉Prompt: ${dialogueText.length}字符 | 供Seedance对口型渲染`);
     }
 
     // ========== Step 6.4: 环境质感注入（全局背景质感约束）==========
