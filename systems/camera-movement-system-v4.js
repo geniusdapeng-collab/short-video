@@ -209,30 +209,29 @@ class LLMTimelineGenerator {
       console.log('[LLMTimelineGenerator] 🚀 调用LLM生成个性化时间轴...');
       const startedAt = Date.now();
       
-      // 使用generate方法获取文本响应，然后手动解析JSON
+      // 🔥 v6.6.5-fix: 使用response_format强制JSON输出，避免模型在reasoning中放思考过程
       const result = await this.llm.generate(prompt, {
+        systemPrompt: '你是一位专业的电影摄影师，擅长为每个镜头设计独特的内部时间轴。请直接输出JSON，不要有任何思考过程或解释。',
+        temperature: 1,
         maxTokens: this.maxTokens,
-        temperature: 1, // kimi-k2p6 固定 temperature=1
-        forceJson: true, // 强制JSON输出
-        systemPrompt: '你是一位专业的电影摄影师。请根据场景内容设计镜头内部时间轴。只输出JSON，不要有任何解释或思考过程。'
+        responseFormat: { type: 'json_object' }  // 强制API返回JSON
       });
       
       const duration = Date.now() - startedAt;
       
-      if (!result.success) {
-        throw new Error(`LLM调用失败: ${result.error || '未知错误'}`);
+      // v6.6.5-fix: 优先使用content，如果为空则使用reasoning_content兜底
+      const text = result?.content || result?.reasoning_content || '';
+      
+      if (!text) {
+        throw new Error('LLM返回为空');
       }
       
       console.log(`[LLMTimelineGenerator] ✅ LLM完成 | 耗时: ${duration}ms`);
-      console.log('[LLMTimelineGenerator] 结果:', JSON.stringify({
-        success: result.success,
-        contentLen: result.content?.length,
-        reasoningLen: result.reasoning_content?.length
-      }));
-      console.log('[LLMTimelineGenerator] content:', result.content?.substring(0, 500));
+      console.log('[LLMTimelineGenerator] content长度:', text.length);
+      console.log('[LLMTimelineGenerator] content前300:', text.substring(0, 300));
       
-      // 从content中提取JSON
-      const timeline = this._extractTimelineFromText(result.content || result.text || '', sceneAnalysis);
+      // 提取JSON（同时处理content和reasoning_content）
+      const timeline = this._extractTimelineFromText(text, sceneAnalysis, result?.reasoning_content);
       return timeline;
       
     } catch (e) {
@@ -245,20 +244,51 @@ class LLMTimelineGenerator {
   /**
    * 从文本中提取时间轴JSON
    */
-  _extractTimelineFromText(text, sceneAnalysis) {
+  _extractTimelineFromText(text, sceneAnalysis, reasoningText) {
     try {
-      // 1. 找JSON代码块
-      const codeBlockMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+      // 1. 优先从text(content)找JSON代码块
+      let codeBlockMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
       if (codeBlockMatch) {
         const parsed = JSON.parse(codeBlockMatch[1].trim());
         return this._convertToTimeline(parsed, sceneAnalysis);
       }
       
-      // 2. 找纯JSON（从第一个{到最后一个}）
-      const jsonMatch = text.match(/\{[\s\S]*\}/);
+      // 2. 从text找纯JSON（从第一个{到最后一个}）
+      let jsonMatch = text.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
-        const parsed = JSON.parse(jsonMatch[0]);
-        return this._convertToTimeline(parsed, sceneAnalysis);
+        try {
+          const parsed = JSON.parse(jsonMatch[0]);
+          return this._convertToTimeline(parsed, sceneAnalysis);
+        } catch (_) {}
+      }
+      
+      // 3. 如果从text没找到，尝试从reasoningText提取（模型可能把JSON放在思考过程里）
+      if (reasoningText) {
+        // 找reasoningText中最后的JSON代码块
+        const reasoningBlocks = reasoningText.match(/```(?:json)?\s*([\s\S]*?)```/g);
+        if (reasoningBlocks) {
+          const lastBlock = reasoningBlocks[reasoningBlocks.length - 1];
+          const match = lastBlock.match(/```(?:json)?\s*([\s\S]*?)```/);
+          if (match) {
+            try {
+              const parsed = JSON.parse(match[1].trim());
+              return this._convertToTimeline(parsed, sceneAnalysis);
+            } catch (_) {}
+          }
+        }
+        
+        // 找reasoningText中最后的{...}
+        const lastBrace = reasoningText.lastIndexOf('}');
+        if (lastBrace > 0) {
+          const firstBrace = reasoningText.lastIndexOf('{', lastBrace);
+          if (firstBrace >= 0) {
+            const candidate = reasoningText.substring(firstBrace, lastBrace + 1);
+            try {
+              const parsed = JSON.parse(candidate);
+              return this._convertToTimeline(parsed, sceneAnalysis);
+            } catch (_) {}
+          }
+        }
       }
       
       throw new Error('响应中未找到JSON');
