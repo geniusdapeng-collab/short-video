@@ -1,2 +1,0 @@
-最后检查 emotionPhase 选项：curiosity / tension / climax / resolution。opening用curiosity很合适。
-  mouthAction: speaking_normal
