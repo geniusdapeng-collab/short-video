@@ -195,24 +195,48 @@ class LLMTimelineGenerator {
         throw new Error(result?.error || 'LLM调用失败');
       }
       
-      // v6.6.5-fix: 优先使用原始reasoning_content（模型通常在此输出完整JSON）
-      // 次选content（normalizeLLMOutput处理后的结果）
+      // v6.6.5-fix: 同时尝试content和raw.reasoning，哪个能提取出JSON就用哪个
       let text = '';
       let rawReasoning = '';
       let source = '';
       
       const apiReasoning = result.raw?.choices?.[0]?.message?.reasoning_content || '';
       if (apiReasoning?.trim()) {
-        // 优先使用原始reasoning（模型通常在reasoning中输出完整JSON）
-        text = apiReasoning.trim();
-        rawReasoning = text;
-        source = 'raw.reasoning';
-      } else if (result.content?.trim()) {
-        text = result.content.trim();
-        source = 'content';
-      } else if (result.reasoning_content?.trim()) {
-        text = result.reasoning_content.trim();
-        source = 'reasoning_content';
+        rawReasoning = apiReasoning.trim();
+      }
+      
+      const content = result.content?.trim() || '';
+      
+      // 先尝试从content提取JSON
+      if (content) {
+        const testParse = this._tryExtractJSON(content);
+        if (testParse) {
+          text = content;
+          source = 'content';
+        }
+      }
+      
+      // 如果content没有有效JSON，尝试raw.reasoning
+      if (!text && rawReasoning) {
+        const testParse = this._tryExtractJSON(rawReasoning);
+        if (testParse) {
+          text = rawReasoning;
+          source = 'raw.reasoning';
+        }
+      }
+      
+      // 如果都没有，fallback到content（即使可能不是JSON，让后续处理）
+      if (!text) {
+        if (content) {
+          text = content;
+          source = 'content-fallback';
+        } else if (rawReasoning) {
+          text = rawReasoning;
+          source = 'raw.reasoning-fallback';
+        } else if (result.reasoning_content?.trim()) {
+          text = result.reasoning_content.trim();
+          source = 'reasoning_content';
+        }
       }
       
       if (!text) {
