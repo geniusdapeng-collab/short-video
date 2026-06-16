@@ -1159,7 +1159,8 @@ function extractHookFromSummary(summary) {
   return shortSummary.substring(0, 50) + '...';
 }
 
-// ===== v6.5.64-fix: Generic片头生成器（非Nirath视频专用）=====
+// ===== v6.5.64-fix2: Generic片头生成器（非Nirath视频专用）=====
+// 优化：主标题/副标题提炼 + 好莱坞/皮克斯风格出场动效
 function generateGenericOpening(config) {
   const {
     episodeTitle = '未命名视频',
@@ -1176,10 +1177,26 @@ function generateGenericOpening(config) {
   const presenter = characters[presenterId] || { name: '主讲人' };
   const presenterName = presenter.name || presenterId;
 
+  // v6.5.64-fix2: 智能提炼主标题和副标题
+  const { mainTitle, subTitle } = extractTitles(episodeTitle);
+
   // 三幕结构：钩子→展开→定格
   const act1End = duration * 0.25;
   const act2End = duration * 0.75;
   const act3End = duration;
+
+  // v6.5.64-fix2: 好莱坞/皮克斯风格出场动效
+  const hollywoodOpeningFX = `
+【出场动效-好莱坞级】
+标题以3D金属质感字母从画面深处缓缓推近，每个字母带有微妙的光泽反射和边缘光晕。
+字体设计：现代无衬线粗体，字母表面有细腻磨砂金属质感，边缘有0.5px的暖金色描边。
+动画时序：
+- 0.3秒内，主标题首字母从虚焦到实焦，伴随轻微镜头景深变化（bokeh光斑散开）
+- 随后字母依次从左到右以0.08秒间隔逐个清晰化，像钢琴键般有节奏感
+- 副标题在主标题完全展现后0.5秒，以淡入+轻微上滑（translateY: 15px→0）的方式优雅出现
+- 整体动画带有电影级运动模糊（motion blur），符合24fps电影质感
+- 背景有极微弱的镜头呼吸感（subtle breathing），模拟手持摄影机的人文温度
+参考风格：皮克斯电影开场（Pixar lamp跳上字母的灵动）+ 漫威电影标题（金属质感+纵深推进）`;
 
   const act1 = {
     phase: '钩子',
@@ -1198,11 +1215,11 @@ function generateGenericOpening(config) {
   const act3 = {
     phase: '定格',
     timeRange: `${act2End.toFixed(1)}-${act3End.toFixed(1)}s`,
-    content: `【${act2End.toFixed(1)}-${act3End.toFixed(1)}s 定格】画面定格，主讲人微笑自然，双手自然交叠或轻做手势。主标题【${episodeTitle}】浮现。整体呈现权威、可信、温暖的医学科普开场质感。`,
-    cameraPlan: [{ time: `${act2End.toFixed(1)}-${act3End.toFixed(1)}s`, movement: 'hold on title card' }]
+    content: `【${act2End.toFixed(1)}-${act3End.toFixed(1)}s 定格】画面定格，主讲人微笑自然，双手自然交叠或轻做手势。主标题【${mainTitle}】${subTitle ? `副标题【${subTitle}】` : ''}浮现。整体呈现权威、可信、温暖的医学科普开场质感。`,
+    cameraPlan: [{ time: `${act2End.toFixed(1)}-${act3End.toFixed(1)}s`, movement: 'hold on title card with cinematic depth' }]
   };
 
-  const fullPrompt = `16:9宽屏电影级镜头。【约束】16:9 cinematic, no text, no subtitle, no caption, no watermark, 24fps cinematic | 【基础】hyperrealistic, ultra-detailed, high dynamic range, film grain, 35mm texture, cinematic film | 【空间】明亮整洁的健康科普演播室/医疗教育环境，柔和自然光，干净真实 | 【主体】${presenterName}，身穿专业医护工作服，亲切温和，专业可信，面向镜头，自然微笑 | 【动态】${act1.content} ${act2.content} ${act3.content} | 【风格】color palette: natural earth tones + daylight highlights + medical white accents, professional documentary aesthetic | 【质控】blurry, low resolution, cartoon, anime, 3D render, CGI, plastic look, overexposed, crushed blacks, distorted face, extra fingers, waxy skin | 【明亮约束】自然光或柔和室内照明，画面真实干净，禁止暗黑/灰暗 | 【角色约束】画面中仅出现${presenterName}，禁止重复角色`;
+  const fullPrompt = `16:9宽屏电影级镜头。【约束】16:9 cinematic, no text, no subtitle, no caption, no watermark, 24fps cinematic | 【基础】hyperrealistic, ultra-detailed, high dynamic range, film grain, 35mm texture, cinematic film | 【空间】明亮整洁的健康科普演播室/医疗教育环境，柔和自然光，干净真实 | 【主体】${presenterName}，身穿专业医护工作服，亲切温和，专业可信，面向镜头，自然微笑 | 【动态】${act1.content} ${act2.content} ${act3.content} | 【出场动效】${hollywoodOpeningFX} | 【风格】color palette: natural earth tones + daylight highlights + medical white accents, professional documentary aesthetic | 【质控】blurry, low resolution, cartoon, anime, 3D render, CGI, plastic look, overexposed, crushed blacks, distorted face, extra fingers, waxy skin | 【明亮约束】自然光或柔和室内照明，画面真实干净，禁止暗黑/灰暗 | 【角色约束】画面中仅出现${presenterName}，禁止重复角色`;
 
   return {
     duration,
@@ -1213,9 +1230,77 @@ function generateGenericOpening(config) {
     portraits,
     portraitPaths: [],
     cameraPlan: [act1.cameraPlan, act2.cameraPlan, act3.cameraPlan],
+    title: { main: mainTitle, sub: subTitle }, // v6.5.64-fix2: 返回提炼后的标题
     complianceCheck: { allChecksPass: true },
     truncationApplied: false
   };
+}
+
+// ===== v6.5.64-fix2: 智能标题提炼器 =====
+function extractTitles(episodeTitle) {
+  if (!episodeTitle || episodeTitle.trim().length === 0) {
+    return { mainTitle: '未命名视频', subTitle: '' };
+  }
+
+  // 清理标题
+  let cleanTitle = episodeTitle.trim();
+  
+  // 去除常见前缀（如项目名）
+  cleanTitle = cleanTitle.replace(/^health-edu-ep\d+-/i, '');
+  cleanTitle = cleanTitle.replace(/^ep\d+-/i, '');
+  cleanTitle = cleanTitle.replace(/^v\d+\./i, '');
+  
+  // 定义核心关键词映射（健康科普领域）
+  const keywordMap = {
+    '横纹肌溶解': { main: '横纹肌溶解', sub: '症状与检查' },
+    '高血压': { main: '高血压', sub: '预防与控制' },
+    '糖尿病': { main: '糖尿病', sub: '认识与管理' },
+    '心梗': { main: '心肌梗死', sub: '急救与预防' }
+  };
+  
+  // 尝试关键词匹配
+  for (const [keyword, titles] of Object.entries(keywordMap)) {
+    if (cleanTitle.includes(keyword)) {
+      return { mainTitle: titles.main, subTitle: titles.sub };
+    }
+  }
+  
+  // 尝试用常见分隔符拆分主标题和副标题
+  const separators = ['——', '--', ' - ', '：', ':', ' | ', '·'];
+  
+  for (const sep of separators) {
+    const idx = cleanTitle.indexOf(sep);
+    if (idx > 0 && idx < cleanTitle.length - 1) {
+      let main = cleanTitle.substring(0, idx).trim();
+      let sub = cleanTitle.substring(idx + sep.length).trim();
+      
+      // 主标题不超过8字，副标题不超过12字
+      if (main.length > 8) main = main.substring(0, 8);
+      if (sub.length > 12) sub = sub.substring(0, 12);
+      
+      return { mainTitle: main, subTitle: sub };
+    }
+  }
+  
+  // 无分隔符：智能提取前6-8字作为主标题
+  if (cleanTitle.length > 10) {
+    // 找前8字内最后一个完整词语
+    let splitIdx = Math.min(8, cleanTitle.length);
+    const punctuation = ['，', ',', ' ', '、', '的', '与', '及'];
+    for (let i = 8; i >= 4; i--) {
+      if (i < cleanTitle.length && punctuation.includes(cleanTitle[i])) {
+        splitIdx = i;
+        break;
+      }
+    }
+    return {
+      mainTitle: cleanTitle.substring(0, splitIdx).trim(),
+      subTitle: cleanTitle.substring(splitIdx + 1).substring(0, 12).trim()
+    };
+  }
+  
+  // 短标题：全部作为主标题
+  return { mainTitle: cleanTitle, subTitle: '' };
 }
 
 module.exports = {
