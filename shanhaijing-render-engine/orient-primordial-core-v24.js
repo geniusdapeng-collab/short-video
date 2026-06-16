@@ -921,6 +921,16 @@ class OrientPrimordialCoreV24 {
       console.log(`[Core-v24.3] 🎙️ 台词完整注入视觉Prompt: ${dialogueText.length}字符 | 供Seedance对口型渲染`);
     }
 
+    // v6.5.64-fix2: 人物出场卡片注入（与画面一同渲染）
+    // 仅在角色首次出场时注入，替代硬编码自我介绍
+    if (shotParams.characterIntroCard?.enabled) {
+      const card = shotParams.characterIntroCard;
+      const cardContent = card.content;
+      const cardPrompt = `【人物卡片-纪录片风格】画面下方三分之一处（lower-third）浮现半透明毛玻璃质感信息卡片，圆角矩形，左侧圆形头像缩略图，右侧文字排版：第一行「${cardContent.name}」18pt粗体白色，第二行「${cardContent.title}${cardContent.subtitle ? ' | ' + cardContent.subtitle : ''}」14pt常规浅灰色。动画：从下方滑入（translateY:30px→0），持续0.5秒带轻微弹性缓动，停留2秒后淡出。整体风格专业干净不抢戏。`;
+      prompt += ` \n${cardPrompt}`;
+      console.log(`[Core-v24.3] 👤 人物卡片注入: ${cardContent.name} | ${cardContent.title} | 首次出场`);
+    }
+
     // ========== Step 6.4: 环境质感注入（全局背景质感约束）==========
     // ✅ v6.2-patchXX: 背景环境质感独立字段，与人物CG超写实区分
     // 人物/异兽：超写实CG | 背景环境：实景拍摄、35mm胶片、物理真实
