@@ -264,60 +264,88 @@ class LLMTimelineGenerator {
   }
   
   /**
-   * 从文本中提取时间轴JSON
+   * 从文本中提取时间轴JSON（增强版）
    */
   _extractTimelineFromText(text, sceneAnalysis, reasoningText) {
-    try {
-      // 1. 优先从text(content)找JSON代码块
-      let codeBlockMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
-      if (codeBlockMatch) {
-        const parsed = JSON.parse(codeBlockMatch[1].trim());
+    // 尝试从text(content)解析
+    let parsed = this._tryExtractJSON(text);
+    if (parsed) {
+      return this._convertToTimeline(parsed, sceneAnalysis);
+    }
+    
+    // 尝试从reasoningText解析
+    if (reasoningText && reasoningText !== text) {
+      parsed = this._tryExtractJSON(reasoningText);
+      if (parsed) {
         return this._convertToTimeline(parsed, sceneAnalysis);
       }
-      
-      // 2. 从text找纯JSON（从第一个{到最后一个}）
-      let jsonMatch = text.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        try {
-          const parsed = JSON.parse(jsonMatch[0]);
-          return this._convertToTimeline(parsed, sceneAnalysis);
-        } catch (_) {}
+    }
+    
+    console.error('[LLMTimelineGenerator] JSON提取失败: 响应中未找到有效JSON');
+    return this._fallbackToRules(sceneAnalysis, {});
+  }
+  
+  /**
+   * 尝试从文本中提取JSON对象
+   */
+  _tryExtractJSON(text) {
+    if (!text || text.length < 50) return null;
+    
+    // 策略1: 找JSON代码块
+    const codeBlockMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+    if (codeBlockMatch) {
+      try {
+        return JSON.parse(codeBlockMatch[1].trim());
+      } catch (e) {
+        console.log('[LLMTimelineGenerator] 代码块JSON解析失败:', e.message);
       }
+    }
+    
+    // 策略2: 精确花括号匹配（找到包含"segments"的有效JSON对象）
+    let startIdx = 0;
+    while (true) {
+      const braceIdx = text.indexOf('{', startIdx);
+      if (braceIdx === -1) break;
       
-      // 3. 如果从text没找到，尝试从reasoningText提取（模型可能把JSON放在思考过程里）
-      if (reasoningText) {
-        // 找reasoningText中最后的JSON代码块
-        const reasoningBlocks = reasoningText.match(/```(?:json)?\s*([\s\S]*?)```/g);
-        if (reasoningBlocks) {
-          const lastBlock = reasoningBlocks[reasoningBlocks.length - 1];
-          const match = lastBlock.match(/```(?:json)?\s*([\s\S]*?)```/);
-          if (match) {
-            try {
-              const parsed = JSON.parse(match[1].trim());
-              return this._convertToTimeline(parsed, sceneAnalysis);
-            } catch (_) {}
+      // 使用栈匹配找到对应的}
+      let braceCount = 0;
+      let endIdx = -1;
+      for (let i = braceIdx; i < text.length; i++) {
+        // 跳过字符串内容中的花括号
+        if (text[i] === '"') {
+          i++;
+          while (i < text.length && text[i] !== '"') {
+            if (text[i] === '\\') i++;
+            i++;
           }
+          continue;
         }
         
-        // 找reasoningText中最后的{...}
-        const lastBrace = reasoningText.lastIndexOf('}');
-        if (lastBrace > 0) {
-          const firstBrace = reasoningText.lastIndexOf('{', lastBrace);
-          if (firstBrace >= 0) {
-            const candidate = reasoningText.substring(firstBrace, lastBrace + 1);
-            try {
-              const parsed = JSON.parse(candidate);
-              return this._convertToTimeline(parsed, sceneAnalysis);
-            } catch (_) {}
+        if (text[i] === '{') braceCount++;
+        else if (text[i] === '}') {
+          braceCount--;
+          if (braceCount === 0) {
+            endIdx = i;
+            break;
           }
         }
       }
       
-      throw new Error('响应中未找到JSON');
-    } catch (e) {
-      console.error('[LLMTimelineGenerator] JSON提取失败:', e.message);
-      return this._fallbackToRules(sceneAnalysis, {});
+      if (endIdx > braceIdx) {
+        const candidate = text.substring(braceIdx, endIdx + 1);
+        try {
+          const parsed = JSON.parse(candidate);
+          // 验证是否有segments字段（v4时间轴的必要字段）
+          if (parsed.segments && Array.isArray(parsed.segments)) {
+            return parsed;
+          }
+        } catch (e) {}
+      }
+      
+      startIdx = braceIdx + 1;
     }
+    
+    return null;
   }
   
   /**
