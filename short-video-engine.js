@@ -165,6 +165,23 @@ function expandPrompt(basePrompt, sport, angle, intensity) {
   // 10. 截断到上限
   expanded = truncateToLength(expanded, PROMPT_MAX_CHARS);
   
+  // 🛡️ 【v0.7.3-fix】PromptGuardian 自动修复（来自超现实系统 v2.1.2）
+  try {
+    const { PromptGuardian } = require('./scripts/prompt-guardian');
+    const guardian = new PromptGuardian();
+    const fixResult = guardian.autoFix(expanded, []);
+    if (fixResult.changed) {
+      console.log(`  🛡️ PromptGuardian[超短裙]: 自动修复 ${fixResult.fixes.length} 处`);
+      for (const fix of fixResult.fixes) {
+        console.log(`     ${fix.type}: ${fix.action}`);
+      }
+    }
+    expanded = fixResult.prompt;
+  } catch (e) {
+    // 如果PromptGuardian加载失败，不影响主流程
+    console.warn(`  ⚠️ PromptGuardian加载失败: ${e.message}`);
+  }
+  
   return expanded;
 }
 
@@ -413,6 +430,22 @@ function expandPromptWithProduct(basePrompt, sport, angle, intensity, productInf
     const productHeroBlock = generateProductHeroPrompt(expanded, productInfo, 'consume', sport);
     // 3. 重新截断确保不超过1500
     expanded = truncateToLength(productHeroBlock, PROMPT_MAX_CHARS);
+  }
+  
+  // 🛡️ 【v0.7.3-fix】PromptGuardian 自动修复
+  try {
+    const { PromptGuardian } = require('./scripts/prompt-guardian');
+    const guardian = new PromptGuardian();
+    const fixResult = guardian.autoFix(expanded, []);
+    if (fixResult.changed) {
+      console.log(`  🛡️ PromptGuardian[商品模式]: 自动修复 ${fixResult.fixes.length} 处`);
+      for (const fix of fixResult.fixes) {
+        console.log(`     ${fix.type}: ${fix.action}`);
+      }
+    }
+    expanded = fixResult.prompt;
+  } catch (e) {
+    console.warn(`  ⚠️ PromptGuardian加载失败: ${e.message}`);
   }
   
   return expanded;

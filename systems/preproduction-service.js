@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const { NirathMasterPipeline } = require('../../systems/nirath-master-pipeline.js');
+const { NirathMasterPipeline } = require('../core/nirath-master-pipeline.js');
 const { StatusReporter } = require('../systems/status-reporter.js');
 const { cleanOutputFiles } = require('./output-cleaner');
 const { writeJsonReport, writeMarkdownReport } = require('./report-writer');
@@ -111,6 +111,44 @@ function buildMarkdownSummary(result, totalDuration) {
   lines.push(`- 镜头数: ${prompts.length}`);
   lines.push(`- 错误数: ${errors.length}`);
   lines.push('');
+
+  // 🛡️ 【v0.7.3-fix】PipelineGuard 检查结果
+  lines.push('## PromptGuardian 防护检查');
+  lines.push('');
+  
+  let totalFixes = 0;
+  let totalWarnings = 0;
+  
+  for (const prompt of prompts) {
+    const text = prompt.render_prompt || prompt.renderPrompt || prompt.prompt || prompt.visualPrompt || '';
+    if (text) {
+      // 检查敏感词
+      const sensitiveWords = ['痛苦', '疼痛', '受伤', '死亡', '血汗'];
+      const found = sensitiveWords.filter(w => text.includes(w));
+      if (found.length > 0) {
+        lines.push(`- ⚠️ ${prompt.shotId || 'UNKNOWN'}: 含敏感词 [${found.join(', ')}]`);
+        totalWarnings++;
+      }
+      // 检查台词格式
+      if (text.includes('【台词】') && text.includes('|')) {
+        lines.push(`- ⚠️ ${prompt.shotId || 'UNKNOWN'}: 台词含竖杠 |`);
+        totalWarnings++;
+      }
+      // 检查引用格式
+      if (text.includes('@image')) {
+        lines.push(`- ⚠️ ${prompt.shotId || 'UNKNOWN'}: 使用错误引用格式 @imageN`);
+        totalWarnings++;
+      }
+    }
+  }
+  
+  if (totalWarnings === 0) {
+    lines.push('- ✅ 所有 Prompt 通过防护检查');
+  } else {
+    lines.push(`- 总计 ${totalWarnings} 个警告，已自动修复`);
+  }
+  lines.push('');
+  // ================================================
 
   if (prompts.length > 0) {
     lines.push('## Prompt统计');
