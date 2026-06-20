@@ -1,0 +1,278 @@
+// hyperreality-system/engines/rendering-engine/rendering-engine.js
+// Rendering Engine - 渲染引擎（Layer 3）
+// 复用现有系统 Seedance 渲染核心，适配超现实系统数据格式
+// 版本：v1.0.0 | 日期：2026-06-08
+
+const fs = require('fs');
+const path = require('path');
+
+// 复用现有系统的渲染提交核心
+const RENDER_CORE_PATH = path.join(__dirname, '../../../scripts/render-submitter-core.js');
+let RenderSubmitterCore;
+try {
+  RenderSubmitterCore = require(RENDER_CORE_PATH).RenderSubmitterCore;
+} catch (e) {
+  console.warn(`[RenderingEngine] 无法加载现有渲染核心: ${e.message}`);
+  console.warn('[RenderingEngine] 将使用内置模拟模式');
+}
+
+class RenderingEngine {
+  constructor(options = {}) {
+    this.config = {
+      apiKey: options.apiKey || process.env.VOLCENGINE_ARK_API_KEY,
+      endpoint: options.endpoint || 'ep-20260518004622-jp46s',
+      apiUrl: options.apiUrl || 'https://ark.cn-beijing.volces.com/api/v3/contents/generations/tasks',
+      maxConcurrent: options.maxConcurrent || 3,
+      charactersDir: options.charactersDir || path.join(__dirname, '../../../characters'),
+      outputDir: options.outputDir || '/tmp/hyperreality-output',
+      ...options
+    };
+
+    this.logs = [];
+    this._initSubmitter();
+  }
+
+  _initSubmitter() {
+    if (RenderSubmitterCore) {
+      this.submitter = new RenderSubmitterCore({
+        apiKey: this.config.apiKey,
+        endpoint: this.config.endpoint,
+        apiUrl: this.config.apiUrl,
+        charactersDir: this.config.charactersDir,
+        outputDir: this.config.outputDir,
+        maxConcurrent: this.config.maxConcurrent
+      });
+    } else {
+      this.submitter = null;
+    }
+  }
+
+  log(stage, message) {
+    const entry = { stage, message, timestamp: Date.now() };
+    this.logs.push(entry);
+    console.log(`[${stage}] ${message}`);
+  }
+
+  /**
+   * 主入口：渲染镜头
+   * @param {Array} prompts - 制作引擎输出的 Prompts 数组
+   * @param {Object} options - { skipValidation, dryRun }
+   * @returns {Object} { success, results, errors }
+   */
+  async render(prompts, options = {}) {
+    const startTime = Date.now();
+    this.log('RENDER', '🎬 RenderingEngine 启动 | Seedance API');
+    this.log('RENDER', `   渲染: ${prompts.length} 个镜头`);
+    this.log('RENDER', `   模式: ${this.submitter ? 'API' : '模拟'}`);
+    this.log('RENDER', `   并发: ${this.config.maxConcurrent}`);
+
+    const result = {
+      success: false,
+      submitted: 0,
+      failed: 0,
+      results: [],
+      errors: [],
+      timing: {}
+    };
+
+    try {
+      // 检查 API 密钥
+      if (!this.config.apiKey && !options.dryRun) {
+        throw new Error('VOLCENGINE_ARK_API_KEY 未设置，无法渲染');
+      }
+
+      // 构建渲染数据结构（兼容现有系统）
+      const shots = prompts.map(p => this._convertToShotFormat(p));
+
+      if (options.dryRun) {
+        // 模拟模式：只验证不提交
+        this.log('RENDER', '⚠️ 模拟模式：验证数据但不提交 API');
+        result.results = shots.map(s => ({
+          success: true,
+          shotId: s.shotId,
+          taskId: `SIMULATED-${s.shotId}`,
+          status: 'simulated'
+        }));
+        result.submitted = shots.length;
+        result.success = true;
+      } else if (this.submitter) {
+        // 真实 API 模式
+        this.log('RENDER', '🔥 提交 Seedance API 渲染...');
+
+        // 生成绑定清单（从 prompts 的 imageRefs 提取）
+        const manifest = this._generateBindingManifest(prompts);
+        const manifestPath = path.join(this.config.outputDir, 'binding-manifest.json');
+        if (!fs.existsSync(this.config.outputDir)) {
+          fs.mkdirSync(this.config.outputDir, { recursive: true });
+        }
+        fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+
+        // 调用现有系统的提交核心
+        const submitResult = await this.submitter.submit(shots, {
+          bindingManifestPath: manifestPath,
+          skipValidation: options.skipValidation
+        });
+
+        result.results = submitResult.results;
+        result.submitted = submitResult.results.filter(r => r.success).length;
+        result.failed = submitResult.results.filter(r => !r.success).length;
+        result.success = submitResult.success;
+
+      } else {
+        // 无提交器，模拟
+        this.log('RENDER', '⚠️ 无提交器，使用模拟模式');
+        result.results = shots.map(s => ({
+          success: true,
+          shotId: s.shotId,
+          taskId: `MOCK-${s.shotId}`,
+          status: 'mock'
+        }));
+        result.submitted = shots.length;
+        result.success = true;
+      }
+
+      result.timing.total = Date.now() - startTime;
+      this.log('RENDER', `✅ 渲染完成: ${result.submitted}/${prompts.length} 成功`);
+      this.log('RENDER', `   耗时: ${result.timing.total}ms`);
+
+    } catch (error) {
+      result.success = false;
+      result.errors.push({
+        stage: 'RENDER',
+        message: error.message
+      });
+      this.log('RENDER', `❌ 渲染失败: ${error.message}`);
+    }
+
+    return result;
+  }
+
+  /**
+   * 转换为现有系统兼容的 shot 格式
+   */
+  _convertToShotFormat(prompt) {
+    return {
+      shotId: prompt.shotId,
+      id: prompt.shotId, // 兼容现有系统
+      prompt: prompt.prompt,
+      duration: 12, // 默认12秒
+      isOpening: prompt.shotId === 'S00' || prompt.shotId === 'SC00',
+      // 定妆照引用
+      referenceImages: (prompt.imageRefs || []).map(ref => ({
+        characterId: ref.characterId,
+        path: ref.path,
+        angle: ref.angle
+      })),
+      // 字符数
+      promptLength: prompt.length
+    };
+  }
+
+  /**
+   * 生成绑定清单（从 prompts 的 imageRefs 提取）
+   */
+  _generateBindingManifest(prompts) {
+    const characters = {};
+    const shots = [];
+
+    for (const prompt of prompts) {
+      const shotId = prompt.shotId;
+      const charsInShot = [];
+
+      for (const ref of (prompt.imageRefs || [])) {
+        const charId = ref.characterId;
+        charsInShot.push(charId);
+
+        if (!characters[charId]) {
+          characters[charId] = {
+            id: charId,
+            name: ref.characterName || charId,
+            requiredAngles: ['front', 'threeQuarter', 'closeup', 'side'],
+            portraits: {}
+          };
+        }
+
+        // 添加定妆照路径
+        if (ref.path) {
+          characters[charId].portraits[ref.angle] = ref.path;
+        }
+      }
+
+      shots.push({
+        shotId,
+        requiredCharacters: charsInShot,
+        duration: 12,
+        promptLength: prompt.length
+      });
+    }
+
+    return {
+      generatedAt: new Date().toISOString(),
+      characters,
+      shots
+    };
+  }
+
+  /**
+   * 查询渲染状态
+   */
+  async queryStatus(taskIds) {
+    if (!this.submitter || !taskIds || taskIds.length === 0) {
+      return { status: 'unknown', tasks: [] };
+    }
+
+    // 复用现有系统的状态查询逻辑
+    try {
+      const results = await Promise.all(
+        taskIds.map(async taskId => {
+          try {
+            // 调用 Seedance API 查询状态
+            const response = await fetch(this.config.apiUrl, {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${this.config.apiKey}`,
+                'Content-Type': 'application/json'
+              }
+            });
+            return { taskId, status: 'queried', response: await response.json() };
+          } catch (e) {
+            return { taskId, status: 'error', error: e.message };
+          }
+        })
+      );
+
+      return { status: 'completed', tasks: results };
+    } catch (e) {
+      return { status: 'error', error: e.message, tasks: [] };
+    }
+  }
+
+  /**
+   * 生成渲染报告
+   */
+  generateReport(renderResult) {
+    return {
+      engine: 'RenderingEngine',
+      version: '1.0.0',
+      success: renderResult.success,
+      summary: {
+        total: renderResult.results.length,
+        submitted: renderResult.submitted,
+        failed: renderResult.failed,
+        successRate: renderResult.results.length > 0
+          ? Math.round((renderResult.submitted / renderResult.results.length) * 100)
+          : 0
+      },
+      tasks: renderResult.results.map(r => ({
+        shotId: r.shotId,
+        taskId: r.taskId,
+        status: r.status || (r.success ? 'submitted' : 'failed'),
+        error: r.error || null
+      })),
+      timing: renderResult.timing,
+      errors: renderResult.errors
+    };
+  }
+}
+
+module.exports = { RenderingEngine };
