@@ -18,6 +18,8 @@
 
 const fs = require('fs');
 const path = require('path');
+const { PromptGuardian } = require('./prompt-guardian');
+const { RenderPipelineGuard } = require('./render-pipeline-guard');
 
 const REQUIRED_ANGLES = ['front', 'threeQuarter', 'closeup', 'side'];
 
@@ -256,15 +258,53 @@ class RenderSubmitterCore {
     return { valid: errors.length === 0, errors };
   }
 
+  _detectMimeType(filePath) {
+    const header = fs.readFileSync(filePath).slice(0, 12);
+    // JPEG: FF D8 FF
+    if (header[0] === 0xFF && header[1] === 0xD8) return 'image/jpeg';
+    // PNG: 89 50 4E 47
+    if (header[0] === 0x89 && header[1] === 0x50 && header[2] === 0x4E) return 'image/png';
+    // WebP: 52 49 46 46 ... 57 45 42 50
+    if (header[0] === 0x52 && header[1] === 0x49 && header[2] === 0x46 && header[3] === 0x46) {
+      if (header[8] === 0x57 && header[9] === 0x45 && header[10] === 0x42 && header[11] === 0x50) return 'image/webp';
+    }
+    // Fallback to extension
+    return filePath.toLowerCase().endsWith('.png') ? 'image/png' : 'image/jpeg';
+  }
+
   /**
    * 构建API Payload（强制绑定reference_image）
+   * 
+   * 【关键经验 - 2026-06-20】
+   * 1. image_url 必须指定 role: "reference_image"
+   * 2. 必须传 generate_audio: true（确保台词音频渲染）
+   * 3. prompt中必须明确描述角色服装（如"穿警服的"），否则场景描述会覆盖服装
+   * 4. 台词用纯文本，不要加竖杠 | 等特殊符号
    */
   buildPayload(shot, manifest) {
-    const prompt = shot.prompt || shot.visualPrompt || '';
+    let prompt = shot.prompt || shot.visualPrompt || '';
     const duration = shot.isOpening ? 9 : (shot.duration || 12);
     
-    const content = [{ type: 'text', text: prompt }];
+    // 🛡️ 自动修复Prompt（PromptGuardian）
+    const guardian = new PromptGuardian();
     const shotChars = this.extractCharactersFromShot(shot);
+    const charInfos = shotChars.map(charId => {
+      const charManifest = manifest.characters[charId];
+      return {
+        id: charId,
+        name: charManifest?.name || charId,
+        role: charManifest?.role || '',
+        description: charManifest?.description || ''
+      };
+    });
+    
+    const fixResult = guardian.autoFix(prompt, charInfos);
+    if (fixResult.changed) {
+      console.log(`  🛡️ PromptGuardian: 自动修复 ${fixResult.fixes.length} 处`);
+      prompt = fixResult.prompt;
+    }
+    
+    const content = [{ type: 'text', text: prompt }];
     let refCount = 0;
 
     for (const charId of shotChars) {
@@ -275,10 +315,14 @@ class RenderSubmitterCore {
 
       console.log(`  📎 绑定角色: ${charId}`);
 
-      for (const angle of REQUIRED_ANGLES) {
+      // 传全部4个角度，确保角色一致性
+      const angles = ['front', 'threeQuarter', 'closeup', 'side'];
+      
+      for (const angle of angles) {
         const filePath = charManifest.portraits[angle];
         if (!filePath) {
-          throw new Error(`PAYLOAD_BUILD_FAILED: 角色 ${charId} 缺少 ${angle} 角度`);
+          console.warn(`    ⚠️ 角色 ${charId} 缺少 ${angle} 角度，跳过`);
+          continue;
         }
 
         const fullPath = filePath.startsWith('/') 
@@ -286,19 +330,21 @@ class RenderSubmitterCore {
           : path.join(this.charactersDir, filePath);
         
         if (!fs.existsSync(fullPath)) {
-          throw new Error(`PAYLOAD_BUILD_FAILED: 文件不存在 ${fullPath}`);
+          console.warn(`    ⚠️ 文件不存在 ${fullPath}，跳过`);
+          continue;
         }
 
         const base64 = fs.readFileSync(fullPath).toString('base64');
         if (!base64 || base64.length < 100) {
-          throw new Error(`PAYLOAD_BUILD_FAILED: 文件读取失败或损坏 ${fullPath}`);
+          console.warn(`    ⚠️ 文件读取失败或损坏 ${fullPath}，跳过`);
+          continue;
         }
 
-        const mimeType = fullPath.endsWith('.png') ? 'image/png' : 'image/jpeg';
+        const mimeType = this._detectMimeType(fullPath);
         content.push({
           type: 'image_url',
           image_url: { url: `data:${mimeType};base64,${base64}` },
-          role: 'reference_image'
+          role: 'reference_image'  // ✅ 必须指定角色
         });
         refCount++;
       }
@@ -306,14 +352,35 @@ class RenderSubmitterCore {
 
     console.log(`🎬 ${shot.shotId || shot.id} | Prompt:${prompt.length}字符 | 绑定${refCount}张参考图(${shotChars.join('+')})`);
 
-    return {
+    const payload = {
       model: this.endpoint,
       content,
-      metadata: { max_new_tokens: 8192 },
       ratio: '16:9',
-      resolution: '1080p',
-      duration
+      duration,
+      generate_audio: true  // ✅ 必须生成台词音频
     };
+
+    // 🔒 强制检查（PipelineGuard）
+    const pipelineGuard = new RenderPipelineGuard();
+    const guardResult = pipelineGuard.check(payload);
+    
+    if (!guardResult.pass) {
+      console.error(`⛔ PipelineGuard 检查失败，阻止提交！`);
+      for (const error of guardResult.errors) {
+        console.error(`   ❌ [${error.rule}] ${error.message}`);
+        console.error(`      修复: ${error.fix}`);
+      }
+      throw new Error(`PIPELINE_GUARD_FAILED: ${guardResult.errors.map(e => e.message).join('; ')}`);
+    }
+    
+    if (guardResult.warnings.length > 0) {
+      console.log(`⚠️ PipelineGuard 警告:`);
+      for (const warning of guardResult.warnings) {
+        console.log(`   [${warning.rule}] ${warning.message} | 建议: ${warning.fix}`);
+      }
+    }
+
+    return payload;
   }
 
   /**

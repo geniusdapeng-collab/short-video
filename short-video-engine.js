@@ -1078,6 +1078,10 @@ class ShortVideoEngine {
 
 module.exports = {
   ShortVideoEngine,
+  expandPrompt,
+  checkPromptLength,
+  expandPromptWithProduct,
+  ProductPlacementEngine,
   VERSION,
   XtremeShotLibrary,
   XTREME_SHOTS,
