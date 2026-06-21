@@ -1692,9 +1692,21 @@ class ProductionEngine {
       partMeta.push({ id: 'L4_characterRef', priority: 'P0' });
     }
 
-    if (shot.dialogue && shot.dialogue !== '') {
-      parts.push(`【台词】${shot.dialogue}`);
+    if (shot.dialogueText && shot.dialogueText !== '') {
+      // v6.6.9.5-fix2: 台词字段只包含纯台词内容，不包含结构化标签
+      // 使用 shot.dialogueText（纯文本）而非 shot.dialogue（含 SPEAKER/TYPE/EMOTION/LIP_SYNC 标签）
+      const pureDialogue = shot.dialogueText.replace(/;/g, '；'); // 将分号分隔改为中文分号，更自然
+      parts.push(`【台词】${pureDialogue}`);
       partMeta.push({ id: 'L4_dialogue', priority: 'P0' });
+    } else if (shot.dialogue && shot.dialogue !== '') {
+      // 兜底：如果 dialogueText 不存在，从 dialogue 提取纯文本
+      // 尝试匹配格式：SPEAKER; TYPE; EMOTION; TEXT; LIP_SYNC
+      const match = shot.dialogue.match(/^(?:[^;|]*[;|]){3}\s*([^;|]+)/);
+      const pureDialogue = match ? match[1].trim() : shot.dialogue;
+      if (pureDialogue) {
+        parts.push(`【台词】${pureDialogue}`);
+        partMeta.push({ id: 'L4_dialogue', priority: 'P0' });
+      }
     }
     
     // === L5: 动态层（P1-P2）===
