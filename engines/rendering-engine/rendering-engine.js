@@ -177,7 +177,7 @@ class RenderingEngine {
     if (!characterRef || characterRef === 'NONE') return [];
     
     const refs = [];
-    const parts = characterRef.split(' | ');
+    const parts = characterRef.split('; ');
     
     for (const part of parts) {
       const match = part.match(/(.+?):\s*(.+)/);

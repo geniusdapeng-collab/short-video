@@ -166,7 +166,7 @@ class ProductionEngine {
       if (Array.isArray(shot.timeline)) {
         normalized.timelineString = shot.timeline.map(seg => 
           `${seg.timeRange || ''}: ${seg.cameraMovement || ''} (${seg.purpose || ''})`
-        ).join(' | ');
+        ).join('; ');
         // 保留原始数组供内部使用，但添加字符串版本
       } else if (shot.timeline?.string && typeof shot.timeline.string === 'string') {
         normalized.timelineString = shot.timeline.string;
@@ -221,7 +221,7 @@ class ProductionEngine {
           if (shot.backgroundSound.ambient) parts.push(`AMBIENT: ${shot.backgroundSound.ambient}`);
           if (shot.backgroundSound.spatial) parts.push(`SPATIAL: ${shot.backgroundSound.spatial}`);
           if (shot.backgroundSound.intensity) parts.push(`INTENSITY: ${JSON.stringify(shot.backgroundSound.intensity)}`);
-          normalized.backgroundSoundString = parts.join(' | ');
+          normalized.backgroundSoundString = parts.join('; ');
         }
       }
       
@@ -441,7 +441,13 @@ class ProductionEngine {
     const map = new Map((updatedShots || []).map(s => [s.shotId, s]));
     return baseShots.map(shot => {
       const u = map.get(shot.shotId);
-      if (!u) return shot;
+      if (!u) {
+        // v6.6.9.5-fix1: 竖杠过滤兜底 - 未更新的 shot 也过滤
+        if (shot.prompt && typeof shot.prompt === 'string') {
+          shot.prompt = shot.prompt.replace(/\|/g, '; ');
+        }
+        return shot;
+      }
       const merged = { ...shot };
       for (const f of fields) {
         if (u[f] !== undefined && u[f] !== null && u[f] !== '') merged[f] = u[f];
@@ -613,7 +619,10 @@ class ProductionEngine {
         const type = line.type || '独白';
         const emotion = line.emotion || '平静';
         const text = line.text || '';
-        return `${speaker}|${type}|${emotion}|${text}|LIP_SYNC:YES`;
+        // 构建对话（v6.37-P0-fix: 统一格式 SPEAKER; TYPE; EMOTION; TEXT; LIP_SYNC:YES）
+        // 使用分号替代竖杠，避免Seedance渲染时把竖杠当特殊语法字符解析
+        const safeText = text.replace(/; /g, ', ').replace(/;/g, ',');
+        return `${speaker}; ${type}; ${emotion}; ${safeText}; LIP_SYNC:YES`;
       });
       
       // v6.37-P0: 构建五维空间描述（scene字段）
@@ -647,18 +656,18 @@ class ProductionEngine {
         mood: mood,
         
         // v6.37-P0: 角色（极简锚点）
-        character: characterAnchors.join(' | '),
+        character: characterAnchors.join('; '),
         characterRef: this._buildCharacterRef(scene, characters),
         
         // v6.37-P0: 动作
         action: action,
         
         // v6.37-P0: 对话（统一格式）
-        dialogue: dialogueLines.join(' || '),
+        dialogue: dialogueLines.join(' / '),
         
         // 保留原始数据（供内部使用）
         characters: scene.characters || [],
-        characterDescs: characterAnchors.join(' | '),
+        characterDescs: characterAnchors.join('; '),
         dialogueText: (scene.dialogue?.lines || []).map(l => l.text).join('；'),
         
         // 情感
@@ -938,7 +947,7 @@ class ProductionEngine {
       return null;
     }).filter(Boolean);
 
-    return refs.join(' | ') || 'NONE';
+    return refs.join('; ') || 'NONE';
   }
 
   /**
@@ -1303,7 +1312,7 @@ class ProductionEngine {
         } else if (Array.isArray(shot.timeline)) {
           timelineStr = shot.timeline.map(seg => 
             `${seg.timeRange || ''}: ${seg.cameraMovement || ''}`
-          ).join(' | ');
+          ).join('; ');
         }
       }
       
@@ -1377,6 +1386,18 @@ class ProductionEngine {
       prompts.push(standardOutput);
     }
     
+    // v6.6.9.5-fix1: 最终全局竖杠过滤 - 所有 shot.prompt 统一清理
+    // 防止任何残留的竖杠进入 Seedance 渲染导致乱码
+    for (const shot of engineeredShots) {
+      if (shot.prompt && typeof shot.prompt === 'string') {
+        const before = shot.prompt;
+        shot.prompt = shot.prompt.replace(/\|/g, '; ');
+        if (shot.prompt !== before) {
+          this.logger.info(`🛡️ 最终过滤: ${shot.id || shot.shotId} 清除竖杠字符`);
+        }
+      }
+    }
+
     return { shots: engineeredShots, prompts };
   }
   
@@ -1437,7 +1458,7 @@ class ProductionEngine {
     
     // 字符串格式（用于Prompt融合）
     const intensityStr = Object.entries(soundObj.intensity).map(([k, v]) => `${k} ${v}`).join(', ');
-    const soundStr = `AMBIENT: ${soundObj.ambient} | SPATIAL: ${soundObj.spatial} | INTENSITY: ${intensityStr}`;
+    const soundStr = `AMBIENT: ${soundObj.ambient}; SPATIAL: ${soundObj.spatial}; INTENSITY: ${intensityStr}`;
     
     return {
       object: soundObj,
@@ -1490,8 +1511,8 @@ class ProductionEngine {
     };
     
     const titleStr = showTitle 
-      ? `MAIN_TITLE: "${titleObj.mainTitle}" | SUBTITLE: "${titleObj.subtitle}" | PRODUCER: "${titleObj.producer}" | TITLE_ANIM: ${titleObj.titleAnim}`
-      : `EPISODE: ${titleObj.episodeInfo} | TITLE_ANIM: none`;
+      ? `MAIN_TITLE: "${titleObj.mainTitle}"; SUBTITLE: "${titleObj.subtitle}"; PRODUCER: "${titleObj.producer}"; TITLE_ANIM: ${titleObj.titleAnim}`
+      : `EPISODE: ${titleObj.episodeInfo}; TITLE_ANIM: none`;
     
     return {
       object: titleObj,
@@ -2092,7 +2113,7 @@ class ProductionEngine {
         producer: `by ${config.producer || 'Genius'}`,
         titleAnim: 'light-vein carving growth 3.0-5.0s'
       },
-      titleOverlayString: `MAIN_TITLE: "${config.title || '未命名'}" | SUBTITLE: "${worldSetting.name || '系列作品'}" | PRODUCER: "by ${config.producer || 'Genius'}" | TITLE_ANIM: light-vein carving growth 3.0-5.0s`,
+      titleOverlayString: `MAIN_TITLE: "${config.title || '未命名'}"; SUBTITLE: "${worldSetting.name || '系列作品'}"; PRODUCER: "by ${config.producer || 'Genius'}"; TITLE_ANIM: light-vein carving growth 3.0-5.0s`,
       // B7-fix: 复用 _buildBackgroundSound 保证格式一致
       backgroundSound: openingBgSound.object,
       backgroundSoundString: openingBgSound.string,
@@ -2174,7 +2195,7 @@ class ProductionEngine {
     if (!characterRef || characterRef === 'NONE') return [];
     
     const chars = [];
-    const parts = characterRef.split(' | ');
+    const parts = characterRef.split('; ');
     
     for (const part of parts) {
       const match = part.match(/(.+?):\s*/);
