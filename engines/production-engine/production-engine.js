@@ -13,6 +13,9 @@ const { PromptFusionAgent } = require('./agents/prompt-fusion-agent');
 const { OpeningDesignAgent } = require('./agents/opening-design-agent');
 const { ContinuityReviewAgent } = require('./agents/continuity-review-agent');
 
+// v6.6.10-fix: 全局负面提示词注入器
+const { globalNegativePromptInjector } = require('../../systems/global-negative-prompts.js');
+
 // v2.0.0-LLM-Agent: Agent配置
 const DEFAULT_AGENT_CONFIG = {
   enableLLMAgents: true,
@@ -1776,14 +1779,20 @@ class ProductionEngine {
     }
     
     // === L9: 质控层（P0）===
-    const negativeConstraints = [
-      '【负面约束】no watermark, no logo, no text overlay, no subtitle, no caption',
-      '【负面约束】blurry, low resolution, pixelated, compression artifacts',
-      '【负面约束】cartoon, anime, illustration, 3D render look, CGI appearance, plastic look',
-      '【负面约束】distorted perspective, impossible geometry, floating objects',
-      '【负面约束】flat lighting, overexposed, crushed blacks, double shadows',
-      '【负面约束】unnatural physics, fake water, static water, cardboard texture, plastic foliage'
-    ];
+    // v6.6.10-fix: 使用全局负面提示词模块，区分片头/内容镜
+    const isOpeningShot = shot.type === 'opening' || shot.id === 'S00' || shot.scene === '片头';
+    const negativeConstraints = [];
+    
+    if (isOpeningShot) {
+      // 片头镜头：允许主标题/副标题
+      negativeConstraints.push(globalNegativePromptInjector.generateForOpeningShot({ maxLength: 250 }));
+    } else {
+      // 内容镜头：全面禁止文字
+      negativeConstraints.push(globalNegativePromptInjector.generateForContentShot({ maxLength: 350 }));
+    }
+    
+    // 保留原有硬编码作为补充兜底
+    negativeConstraints.push('【负面约束】no watermark, no logo, no blurry, no low resolution');
     
     if (shot.characters?.length > 0 || shot.character) {
       negativeConstraints.push('【负面约束】distorted face, deformed face, extra fingers, plastic skin, waxy skin, unnatural pose');

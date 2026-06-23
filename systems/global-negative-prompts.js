@@ -78,14 +78,15 @@ class GlobalNegativePromptInjector {
         ]
       },
 
-      // L1.4: 画面文字
+      // L1.4: 画面文字 — v6.6.10-fix2: 全面禁止文字（精简版，覆盖不变）
       textAndUI: {
         priority: 'L1',
-        description: '画面文字禁忌',
+        description: '画面文字全面禁止（除片头主标题/副标题外）',
         constraints: [
-          '禁止小字清晰可辨、印刷工整、字迹清晰',
-          '禁止详细文字说明、大量文字、文字密集',
-          '禁止画面中出现具体可读的文字内容（标题除外）'
+          // 核心铁律（1条覆盖全部场景）
+          '禁止画面内出现任何文字（片头主副标题除外），含墙面/物品/文件/屏幕/服饰上的中英文、字母、数字、标点、商标、标签、招牌、路牌等一切可读内容',
+          // 兜底强化
+          '禁止一切印刷体、手写体、电子屏文字、发光字、字幕、水印'
         ]
       }
     };
@@ -321,6 +322,164 @@ class GlobalNegativePromptInjector {
       const fullVersion = this.generate(options);
       return prompt + '\n' + fullVersion;
     }
+  }
+
+
+  /**
+   * v6.5.33-methodology: 生成紧凑负面提示词（6层方法论体系）
+   * 基于《AI视频生成提示词工程方法论》8.1负面提示词分层体系
+   * @param {Object} options
+   * @param {string} options.sceneType - 场景类型(nature_epic/character_narrative/product/urban/scifi/documentary/abstract)
+   * @param {boolean} options.hasCharacter - 是否包含人物
+   * @param {boolean} options.isRealistic - 是否写实风格
+   * @param {number} options.maxLength - 最大长度（默认180字符）
+   * @returns {string} 紧凑负面提示词
+   */
+  generateCompact(options = {}) {
+    const { 
+      sceneType = 'nature_epic', 
+      hasCharacter = true, 
+      isRealistic = true,
+      maxLength = 180 
+    } = options;
+
+    // 6层负面提示词体系（方法论8.1）
+    const layers = {
+      // L1: 基础质量层（通用必加）
+      baseQuality: [
+        'no blurry', 'no low resolution', 'no pixelated', 'no compression artifacts',
+        'no noise', 'no flickering', 'no jitter', 'no stutter', 'no choppy motion'
+      ],
+      // L2: 风格排除层（写实类必加）
+      styleExclusion: isRealistic ? [
+        'no cartoon', 'no anime', 'no illustration', 'no 3D render look', 'no CGI appearance',
+        'no plastic look', 'no artificial', 'no synthetic', 'no digital art', 'no painting'
+      ] : [],
+      // L3: 结构排除层 — v6.6.10-fix2: 强化文字禁止（精简版）
+      structureExclusion: [
+        'no distorted perspective', 'no impossible geometry', 'no floating objects',
+        'no inconsistent scale', 'no duplicate elements', 'no watermark', 'no logo',
+        // 文字全面禁止（1条覆盖全部）
+        'no text anywhere, no letters words numbers labels logos signs trademarks, no readable content on walls objects documents screens clothing packaging'
+      ],
+      // L4: 光影排除层
+      lightingExclusion: [
+        'no flat lighting', 'no overexposed', 'no crushed blacks', 'no double shadows',
+        'no wrong light direction', 'no neon colors'
+      ],
+      // L5: 人物专项（含人物时必加）
+      characterExclusion: hasCharacter ? [
+        'no distorted face', 'no deformed face', 'no asymmetrical eyes', 'no extra fingers',
+        'no missing fingers', 'no fused fingers', 'no deformed hands', 'no plastic skin',
+        'no waxy skin', 'no unnatural pose', 'no impossible anatomy'
+      ] : [],
+      // L6: 物理排除层（写实自然场景）
+      physicsExclusion: (sceneType === 'nature_epic' || sceneType === 'documentary') ? [
+        'no fake water', 'no static water', 'no cardboard rocks', 'no plastic foliage',
+        'no fake clouds', 'no painted background', 'no missing shadows'
+      ] : []
+    };
+
+    // 根据场景类型调整权重
+    const sceneWeights = {
+      nature_epic: { baseQuality: 1, styleExclusion: 1, structureExclusion: 1, lightingExclusion: 1, characterExclusion: 0.5, physicsExclusion: 1 },
+      character_narrative: { baseQuality: 1, styleExclusion: 1, structureExclusion: 0.8, lightingExclusion: 1, characterExclusion: 1, physicsExclusion: 0.3 },
+      product: { baseQuality: 1, styleExclusion: 1, structureExclusion: 0.8, lightingExclusion: 0.8, characterExclusion: 0, physicsExclusion: 0.3 },
+      urban: { baseQuality: 1, styleExclusion: 1, structureExclusion: 1, lightingExclusion: 0.8, characterExclusion: 0.5, physicsExclusion: 0.5 },
+      scifi: { baseQuality: 1, styleExclusion: 0.8, structureExclusion: 1, lightingExclusion: 0.8, characterExclusion: 0.5, physicsExclusion: 0.5 },
+      documentary: { baseQuality: 1, styleExclusion: 1, structureExclusion: 0.8, lightingExclusion: 0.8, characterExclusion: 1, physicsExclusion: 1 },
+      abstract: { baseQuality: 1, styleExclusion: 0.5, structureExclusion: 0.5, lightingExclusion: 0.5, characterExclusion: 0, physicsExclusion: 0.3 }
+    };
+
+    const weights = sceneWeights[sceneType] || sceneWeights.nature_epic;
+
+    // 按权重组装
+    let compact = [];
+    Object.keys(layers).forEach(layer => {
+      if (weights[layer] > 0 && layers[layer].length > 0) {
+        // 根据权重决定取多少条
+        const count = Math.max(2, Math.ceil(layers[layer].length * weights[layer]));
+        compact.push(...layers[layer].slice(0, count));
+      }
+    });
+
+    // 去重
+    compact = [...new Set(compact)];
+
+    let result = compact.join(', ');
+
+    // 长度控制：如果超出，从后往前裁剪低优先级层
+    if (result.length > maxLength) {
+      // 保留核心层（L1+L3）
+      const core = [...layers.baseQuality, ...layers.structureExclusion];
+      result = core.join(', ');
+    }
+
+    if (result.length > maxLength) {
+      // 极端情况：只保留最核心的（含强化文字禁止）
+      result = 'no blurry, no cartoon, no deformed hands, no extra fingers, no watermark, no text, no letters, no words, no labels, no readable text';
+    }
+
+    return `【负面约束】${result}`;
+  }
+
+  /**
+   * v6.6.10-fix: 片头镜头专用负面提示词
+   * 允许主标题和副标题，禁止其他一切文字
+   * @param {Object} options
+   * @param {number} options.maxLength - 最大长度
+   * @returns {string}
+   */
+  generateForOpeningShot(options = {}) {
+    const { maxLength = 300 } = options;
+
+    // 片头镜头：允许主标题/副标题，其他位置全面禁止文字（精简版）
+    const constraints = [
+      '画面中仅允许主标题和副标题，其他位置禁止任何文字',
+      '禁止墙面/桌面/手持物/物品/屏幕/服饰上出现中英文、字母、数字、商标、标签、招牌等一切可读内容',
+      'no text except main title and subtitle, no letters words numbers labels logos signs trademarks anywhere else'
+    ];
+
+    let result = '【负面约束】' + constraints.join('；');
+
+    if (result.length > maxLength) {
+      result = '【负面约束】仅允许主副标题；其他位置禁止一切文字（含中英文数字商标标签招牌等）；no text except title';
+    }
+
+    return result;
+  }
+
+  /**
+   * v6.6.10-fix: 内容镜头专用负面提示词（全面禁止文字）
+   * 适用于所有非片头镜头
+   * @param {Object} options
+   * @param {number} options.maxLength - 最大长度
+   * @returns {string}
+   */
+  generateForContentShot(options = {}) {
+    const { maxLength = 350 } = options;
+
+    // 内容镜头：全面禁止文字（精简版，2条覆盖全部）
+    const constraints = [
+      '禁止画面内出现任何文字，含墙面/物品/文件/屏幕/服饰上的中英文、字母、数字、标点、商标、标签、招牌、路牌等一切可读内容',
+      '禁止一切印刷体、手写体、电子屏文字、发光字、字幕、水印',
+      'no text anywhere, no letters words numbers labels logos signs trademarks, no readable content on walls objects documents screens clothing packaging'
+    ];
+
+    // 叠加核心角色/材质/光照约束（精简版）
+    const coreConstraints = [
+      '禁止红眼蓝瞳金瞳绿眼紫眼荧光眼',
+      '禁止水晶/强烈金属光泽/卡通动漫风格',
+      '禁止纯黑死黑/暗黑压抑/哥特阴郁/灰暗沉闷'
+    ];
+
+    let result = '【负面约束】' + [...constraints, ...coreConstraints].join('；');
+
+    if (result.length > maxLength) {
+      result = '【负面约束】禁止画面内一切文字（含中英文数字商标标签等）；no text anywhere；禁止红眼/水晶/金属光泽/卡通/暗黑';
+    }
+
+    return result;
   }
 
   /**
