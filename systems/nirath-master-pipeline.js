@@ -45,7 +45,11 @@ const { preRenderValidation, validateCharacterReferences } = require('./pre-rend
 const OpeningSystem = require('./opening-system-v3.js');
 const { CharacterManagerV2 } = require('./character-manager-v2.js');
 const { CharacterPromptBuilder } = require('./character-prompt-builder.js');
-const { CharacterComplianceChecker } = require('./character-compliance-checker.js');
+// 【v6.6.9.4-patch】超现实系统能力迁移: Field Quality Pipeline (双层检查+修复)
+// 注意: 适配超短裙系统字段结构,对缺失字段使用宽容模式
+const { FieldQualityPipeline } = require('../../engines/field-quality');
+// 【v6.6.9.4-patch】超短裙系统字段适配器
+const { ShortVideoFieldAdapter } = require('../../engines/field-quality/short-video-field-adapter');
 const { CharacterEraGuide } = require('./character-era-guide.js');
 
 // v6.3-patch10-fix: 引入真实字符计数模块
@@ -618,6 +622,63 @@ class NirathMasterPipeline {
 
       // Stage 12: 合规检查
       result.stages.compliance = await runStage('STAGE-12', () => this.stageCompliance(result.stages.render, result.stages.storyboard));
+
+      // ===== v6.6.9.4-patch: Field Quality Pipeline 注入 (超现实系统能力迁移) =====
+      // 双层检查: 规则层(80%确定性问题) + LLM语义层(跨字段一致性)
+      // 位置: Stage-12之后, PromptForge Director之前
+      try {
+        // 【v6.6.9.4-patch】超短裙系统字段适配: shots字段 ↔ 25字段双向映射
+        const fieldAdapter = new ShortVideoFieldAdapter();
+        const needsAdaptation = fieldAdapter.needsAdaptation(result.stages.render);
+        
+        // 适配前: 超短裙字段 → 25字段
+        const adaptedShots = needsAdaptation 
+          ? fieldAdapter.to25FieldFormat(result.stages.render) 
+          : result.stages.render;
+        
+        const fieldQualityPipeline = new FieldQualityPipeline({
+          llmModel: this.llmModel || process.env.STORMAXE_LLM_MODEL || 'kimi-k2p6',
+          maxRounds: 2,
+        });
+
+        // 从blueprint构建PRD供修复环节使用
+        if (result.stages.blueprint) {
+          fieldQualityPipeline.setPRDFromBlueprint(result.stages.blueprint);
+        }
+
+        this.log('PIPELINE', `🔍 Field Quality Pipeline 启动 | ${needsAdaptation ? '字段适配模式' : '原生模式'} | 双层检查(规则+LLM) | 最多2轮迭代`);
+        const fqResult = await fieldQualityPipeline.runAll(adaptedShots);
+
+        // 适配后: 25字段修复 → 超短裙字段
+        const finalShots = needsAdaptation 
+          ? fieldAdapter.from25FieldFormat(fqResult.finalShots, result.stages.render) 
+          : fqResult.finalShots;
+
+        // 记录检查结果
+        result.stages.fieldQuality = {
+          passed: finalShots.length > 0,
+          rounds: fqResult.reports?.length || 0,
+          issuesFound: fqResult.reports?.reduce((sum, r) => sum + (r.issues?.length || 0), 0) || 0,
+          shots: finalShots,
+          reports: fqResult.reports,
+          logs: fqResult.logs,
+        };
+
+        // 如果修复后有结果,更新render
+        if (Array.isArray(finalShots) && finalShots.length > 0) {
+          result.stages.render = finalShots;
+          this.log('PIPELINE', `✅ Field Quality Pipeline 完成 | ${needsAdaptation ? '字段适配回写' : '原生模式'} | 迭代${fqResult.reports?.length || 0}轮 | 最终shots=${finalShots.length}`);
+        } else {
+          this.log('PIPELINE', '⚠️ Field Quality Pipeline 未返回有效shots,保持原render');
+        }
+      } catch (fqError) {
+        this.log('PIPELINE', `⚠️ Field Quality Pipeline 异常: ${fqError.message} | 跳过,不影响主链路`);
+        result.errors.push({
+          stage: 'FIELD-QUALITY-PIPELINE',
+          message: fqError.message,
+          severity: 'warning',
+        });
+      }
 
       // ===== v6.3-patch7-fix: PromptForge Director 合并逻辑完整修复 =====
       this.log('PIPELINE', '🎬 PromptForge 导演编排启动 | 子进程隔离 | 70分 → 90分');
