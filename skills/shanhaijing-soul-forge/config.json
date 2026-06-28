@@ -1,0 +1,62 @@
+{
+  "id": "shanhaijing-soul-forge",
+  "name": "灵魂熔炉",
+  "version": "1.0.0",
+  "description": "三层灵魂模型（本能/人性/灵性）",
+  "category": "stormaxe",
+  "source": "stormaxe",
+  "phase": "pre_production",
+  "enabled": true,
+  "dependencies": [],
+  "author": "StormaxeAIVideoSystem",
+  "tags": [
+    "stormaxe",
+    "shanhaijing",
+    "soul",
+    "forge"
+  ],
+  "io": {
+    "input": [
+      {
+        "name": "beastId",
+        "type": "any",
+        "required": false,
+        "description": "Input field: beastId"
+      },
+      {
+        "name": "characterId",
+        "type": "any",
+        "required": false,
+        "description": "Input field: characterId"
+      },
+      {
+        "name": "soulType",
+        "type": "any",
+        "required": false,
+        "description": "Input field: soulType"
+      }
+    ],
+    "output": [
+      {
+        "name": "soul",
+        "type": "any",
+        "description": "Output field: soul"
+      },
+      {
+        "name": "instinctLayer",
+        "type": "any",
+        "description": "Output field: instinctLayer"
+      },
+      {
+        "name": "humanityLayer",
+        "type": "any",
+        "description": "Output field: humanityLayer"
+      },
+      {
+        "name": "spiritualityLayer",
+        "type": "any",
+        "description": "Output field: spiritualityLayer"
+      }
+    ]
+  }
+}

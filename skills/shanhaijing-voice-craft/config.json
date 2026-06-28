@@ -1,0 +1,63 @@
+{
+  "id": "shanhaijing-voice-craft",
+  "name": "声纹工坊",
+  "version": "1.0.0",
+  "description": "声纹提取与注入（潜台词/失控/沉默）",
+  "category": "stormaxe",
+  "source": "stormaxe",
+  "phase": "post_production",
+  "enabled": true,
+  "dependencies": [],
+  "author": "StormaxeAIVideoSystem",
+  "tags": [
+    "stormaxe",
+    "shanhaijing",
+    "voice",
+    "craft"
+  ],
+  "io": {
+    "input": [
+      {
+        "name": "characterId",
+        "type": "any",
+        "required": false,
+        "description": "Input field: characterId"
+      },
+      {
+        "name": "dialogue",
+        "type": "any",
+        "required": false,
+        "description": "Input field: dialogue"
+      },
+      {
+        "name": "emotion",
+        "type": "any",
+        "required": false,
+        "description": "Input field: emotion"
+      },
+      {
+        "name": "sceneContext",
+        "type": "any",
+        "required": false,
+        "description": "Input field: sceneContext"
+      }
+    ],
+    "output": [
+      {
+        "name": "voiceProfile",
+        "type": "any",
+        "description": "Output field: voiceProfile"
+      },
+      {
+        "name": "dialogueEnhanced",
+        "type": "any",
+        "description": "Output field: dialogueEnhanced"
+      },
+      {
+        "name": "subtextAnalysis",
+        "type": "any",
+        "description": "Output field: subtextAnalysis"
+      }
+    ]
+  }
+}

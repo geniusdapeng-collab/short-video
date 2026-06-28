@@ -1,0 +1,74 @@
+{
+  "id": "shanhaijing-storyforge-pro",
+  "name": "山海经故事引擎 Pro",
+  "version": "1.0.0",
+  "description": "故事创作引擎（原创/IP重构/系列三种模式）",
+  "category": "stormaxe",
+  "source": "stormaxe",
+  "phase": "pre_production",
+  "enabled": true,
+  "dependencies": [],
+  "author": "StormaxeAIVideoSystem",
+  "tags": [
+    "stormaxe",
+    "shanhaijing",
+    "storyforge",
+    "pro"
+  ],
+  "io": {
+    "input": [
+      {
+        "name": "storyType",
+        "type": "any",
+        "required": false,
+        "description": "Input field: storyType"
+      },
+      {
+        "name": "theme",
+        "type": "any",
+        "required": false,
+        "description": "Input field: theme"
+      },
+      {
+        "name": "beastId",
+        "type": "any",
+        "required": false,
+        "description": "Input field: beastId"
+      },
+      {
+        "name": "episodeTitle",
+        "type": "any",
+        "required": false,
+        "description": "Input field: episodeTitle"
+      },
+      {
+        "name": "templateId",
+        "type": "any",
+        "required": false,
+        "description": "Input field: templateId"
+      }
+    ],
+    "output": [
+      {
+        "name": "script",
+        "type": "any",
+        "description": "Output field: script"
+      },
+      {
+        "name": "scenes",
+        "type": "any",
+        "description": "Output field: scenes"
+      },
+      {
+        "name": "characters",
+        "type": "any",
+        "description": "Output field: characters"
+      },
+      {
+        "name": "storyPackage",
+        "type": "any",
+        "description": "Output field: storyPackage"
+      }
+    ]
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "id": "shanhaijing-director",
+  "name": "山海导演",
+  "version": "1.0.0",
+  "description": "多 Agent 协同导演（构图/光影/角色）",
+  "category": "stormaxe",
+  "source": "stormaxe",
+  "phase": "production",
+  "enabled": true,
+  "dependencies": [],
+  "author": "StormaxeAIVideoSystem",
+  "tags": [
+    "stormaxe",
+    "shanhaijing",
+    "director"
+  ],
+  "io": {
+    "input": [
+      {
+        "name": "sceneDescription",
+        "type": "any",
+        "required": false,
+        "description": "Input field: sceneDescription"
+      },
+      {
+        "name": "beastProfile",
+        "type": "any",
+        "required": false,
+        "description": "Input field: beastProfile"
+      },
+      {
+        "name": "visualStyle",
+        "type": "any",
+        "required": false,
+        "description": "Input field: visualStyle"
+      },
+      {
+        "name": "shotType",
+        "type": "any",
+        "required": false,
+        "description": "Input field: shotType"
+      },
+      {
+        "name": "cameraMovement",
+        "type": "any",
+        "required": false,
+        "description": "Input field: cameraMovement"
+      }
+    ],
+    "output": [
+      {
+        "name": "directorNotes",
+        "type": "any",
+        "description": "Output field: directorNotes"
+      },
+      {
+        "name": "shotPlan",
+        "type": "any",
+        "description": "Output field: shotPlan"
+      },
+      {
+        "name": "composition",
+        "type": "any",
+        "description": "Output field: composition"
+      },
+      {
+        "name": "lightingSetup",
+        "type": "any",
+        "description": "Output field: lightingSetup"
+      }
+    ]
+  }
+}

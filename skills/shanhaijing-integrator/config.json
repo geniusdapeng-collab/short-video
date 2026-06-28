@@ -1,0 +1,83 @@
+{
+  "id": "shanhaijing-integrator",
+  "name": "中央融合器",
+  "version": "1.0.0",
+  "description": "六大标准化接口统一融合层",
+  "category": "stormaxe",
+  "source": "stormaxe",
+  "phase": "production",
+  "enabled": true,
+  "dependencies": [],
+  "author": "StormaxeAIVideoSystem",
+  "tags": [
+    "stormaxe",
+    "shanhaijing",
+    "integrator"
+  ],
+  "io": {
+    "input": [
+      {
+        "name": "interface",
+        "type": "any",
+        "required": false,
+        "description": "Input field: interface"
+      },
+      {
+        "name": "episodeTitle",
+        "type": "any",
+        "required": false,
+        "description": "Input field: episodeTitle"
+      },
+      {
+        "name": "beastId",
+        "type": "any",
+        "required": false,
+        "description": "Input field: beastId"
+      },
+      {
+        "name": "locationName",
+        "type": "any",
+        "required": false,
+        "description": "Input field: locationName"
+      },
+      {
+        "name": "templateId",
+        "type": "any",
+        "required": false,
+        "description": "Input field: templateId"
+      }
+    ],
+    "output": [
+      {
+        "name": "directorScenePackage",
+        "type": "any",
+        "description": "Output field: directorScenePackage"
+      },
+      {
+        "name": "storyWeaverPackage",
+        "type": "any",
+        "description": "Output field: storyWeaverPackage"
+      },
+      {
+        "name": "shotGuidePackage",
+        "type": "any",
+        "description": "Output field: shotGuidePackage"
+      },
+      {
+        "name": "renderParameterPackage",
+        "type": "any",
+        "description": "Output field: renderParameterPackage"
+      },
+      {
+        "name": "qualityEvaluationPackage",
+        "type": "any",
+        "description": "Output field: qualityEvaluationPackage"
+      },
+      {
+        "name": "episodeFusionPackage",
+        "type": "any",
+        "description": "Output field: episodeFusionPackage"
+      }
+    ]
+  }
+}

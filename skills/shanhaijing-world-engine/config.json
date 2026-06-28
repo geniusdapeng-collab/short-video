@@ -1,0 +1,68 @@
+{
+  "id": "shanhaijing-world-engine",
+  "name": "世界引擎",
+  "version": "1.0.0",
+  "description": "山海经世界构建（地理/五行/天象）",
+  "category": "stormaxe",
+  "source": "stormaxe",
+  "phase": "pre_production",
+  "enabled": true,
+  "dependencies": [],
+  "author": "StormaxeAIVideoSystem",
+  "tags": [
+    "stormaxe",
+    "shanhaijing",
+    "world",
+    "engine"
+  ],
+  "io": {
+    "input": [
+      {
+        "name": "locationName",
+        "type": "any",
+        "required": false,
+        "description": "Input field: locationName"
+      },
+      {
+        "name": "element",
+        "type": "any",
+        "required": false,
+        "description": "Input field: element"
+      },
+      {
+        "name": "sceneType",
+        "type": "any",
+        "required": false,
+        "description": "Input field: sceneType"
+      },
+      {
+        "name": "worldContext",
+        "type": "any",
+        "required": false,
+        "description": "Input field: worldContext"
+      }
+    ],
+    "output": [
+      {
+        "name": "scene",
+        "type": "any",
+        "description": "Output field: scene"
+      },
+      {
+        "name": "locationProfile",
+        "type": "any",
+        "description": "Output field: locationProfile"
+      },
+      {
+        "name": "worldData",
+        "type": "any",
+        "description": "Output field: worldData"
+      },
+      {
+        "name": "elementColors",
+        "type": "any",
+        "description": "Output field: elementColors"
+      }
+    ]
+  }
+}

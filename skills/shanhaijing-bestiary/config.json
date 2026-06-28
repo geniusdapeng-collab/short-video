@@ -1,0 +1,67 @@
+{
+  "id": "shanhaijing-bestiary",
+  "name": "异兽图鉴",
+  "version": "1.0.0",
+  "description": "异兽视觉风格自动映射",
+  "category": "stormaxe",
+  "source": "stormaxe",
+  "phase": "pre_production",
+  "enabled": true,
+  "dependencies": [],
+  "author": "StormaxeAIVideoSystem",
+  "tags": [
+    "stormaxe",
+    "shanhaijing",
+    "bestiary"
+  ],
+  "io": {
+    "input": [
+      {
+        "name": "beastId",
+        "type": "any",
+        "required": false,
+        "description": "Input field: beastId"
+      },
+      {
+        "name": "query",
+        "type": "any",
+        "required": false,
+        "description": "Input field: query"
+      },
+      {
+        "name": "category",
+        "type": "any",
+        "required": false,
+        "description": "Input field: category"
+      },
+      {
+        "name": "tier",
+        "type": "any",
+        "required": false,
+        "description": "Input field: tier"
+      }
+    ],
+    "output": [
+      {
+        "name": "beast",
+        "type": "any",
+        "description": "Output field: beast"
+      },
+      {
+        "name": "beastProfile",
+        "type": "any",
+        "description": "Output field: beastProfile"
+      },
+      {
+        "name": "visualStyle",
+        "type": "any",
+        "description": "Output field: visualStyle"
+      },
+      {
+        "name": "abilities",
+        "type": "any",
+        "description": "Output field: abilities"
+      }
+    ]
+  }
+}

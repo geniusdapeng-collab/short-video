@@ -1,0 +1,63 @@
+{
+  "id": "shanhaijing-persona-vault",
+  "name": "角色灵魂铸造器",
+  "version": "1.0.0",
+  "description": "角色灵魂铸造（Want/Need/Lie/Wound 四维度）",
+  "category": "stormaxe",
+  "source": "stormaxe",
+  "phase": "pre_production",
+  "enabled": true,
+  "dependencies": [],
+  "author": "StormaxeAIVideoSystem",
+  "tags": [
+    "stormaxe",
+    "shanhaijing",
+    "persona",
+    "vault"
+  ],
+  "io": {
+    "input": [
+      {
+        "name": "characterName",
+        "type": "any",
+        "required": false,
+        "description": "Input field: characterName"
+      },
+      {
+        "name": "roleType",
+        "type": "any",
+        "required": false,
+        "description": "Input field: roleType"
+      },
+      {
+        "name": "beastId",
+        "type": "any",
+        "required": false,
+        "description": "Input field: beastId"
+      },
+      {
+        "name": "characterArc",
+        "type": "any",
+        "required": false,
+        "description": "Input field: characterArc"
+      }
+    ],
+    "output": [
+      {
+        "name": "persona",
+        "type": "any",
+        "description": "Output field: persona"
+      },
+      {
+        "name": "characterProfile",
+        "type": "any",
+        "description": "Output field: characterProfile"
+      },
+      {
+        "name": "soulProfile",
+        "type": "any",
+        "description": "Output field: soulProfile"
+      }
+    ]
+  }
+}

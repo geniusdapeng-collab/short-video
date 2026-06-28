@@ -1,0 +1,63 @@
+{
+  "id": "shanhaijing-narrative-consistency",
+  "name": "叙事一致性引擎",
+  "version": "1.0.0",
+  "description": "64 集设定漂移防止与修复",
+  "category": "stormaxe",
+  "source": "stormaxe",
+  "phase": "post_production",
+  "enabled": true,
+  "dependencies": [],
+  "author": "StormaxeAIVideoSystem",
+  "tags": [
+    "stormaxe",
+    "shanhaijing",
+    "narrative",
+    "consistency"
+  ],
+  "io": {
+    "input": [
+      {
+        "name": "seriesId",
+        "type": "any",
+        "required": false,
+        "description": "Input field: seriesId"
+      },
+      {
+        "name": "episodeId",
+        "type": "any",
+        "required": false,
+        "description": "Input field: episodeId"
+      },
+      {
+        "name": "content",
+        "type": "any",
+        "required": false,
+        "description": "Input field: content"
+      },
+      {
+        "name": "checkScope",
+        "type": "any",
+        "required": false,
+        "description": "Input field: checkScope"
+      }
+    ],
+    "output": [
+      {
+        "name": "consistencyReport",
+        "type": "any",
+        "description": "Output field: consistencyReport"
+      },
+      {
+        "name": "violations",
+        "type": "any",
+        "description": "Output field: violations"
+      },
+      {
+        "name": "suggestions",
+        "type": "any",
+        "description": "Output field: suggestions"
+      }
+    ]
+  }
+}
