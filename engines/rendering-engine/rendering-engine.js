@@ -192,7 +192,7 @@ class RenderingEngine {
           const charDir = dirMatch ? dirMatch[1] : charName;
           
           refs.push({
-            characterId: charName,      // 显示名（如"陈卓"）
+            characterId: charName,      // 显示名（如"角色A"）
             characterDir: charDir,      // 实际目录名（如"chen-zhuo"）
             path: path,
             angle: angleMatch ? angleMatch[1] : 'unknown'
@@ -235,7 +235,7 @@ class RenderingEngine {
           };
 
           // v1.2.7-fix-A2: 自动扫描 portraits 目录，补全4角度
-          // 使用 characterDir（实际目录名，如 chen-zhuo）而非 characterId（显示名，如陈卓）
+          // 使用 characterDir（实际目录名，如 protagonist-a）而非 characterId（显示名，如角色A）
           const charDirPath = path.join(this.config.charactersDir, ref.characterDir || charId);
           const portraitsDir = path.join(charDirPath, 'portraits');
           

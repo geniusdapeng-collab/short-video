@@ -1,48 +1,139 @@
-# 运行时产出
-output/execution-audit-*.json
-output/promptforge-director-input.json
-output/*.json
-output/prompts/*.md
-audit-logs/
+# 超短裙 AI 短视频系统 Open Source .gitignore
 
-# 备份文件（大文件）
-output/seedance-video-platform-v6.0-patch33-FULL.md
+# ============================================
+# 1. 敏感信息与个人数据
+# ============================================
+.env
+.env.*
+!.env.example
+.gitconfig
+USER.md
+IDENTITY.md
+SOUL.md
+MEMORY.md
+MEMORY_APPEND.md
+MEMORY_*.md
+memory-ltm-archive.md
+memory-stm-archive.md
+AGENTS.md
+memory/
+memory_*/
+memorized_diary/
+memorized_diary/
+memory-*.md
+backup/
 
-# 视频文件（大文件，不推Git）
-*.mp4
-*.avi
-*.mov
-*.mkv
-*.wmv
+# ============================================
+# 2. API 密钥与凭证
+# ============================================
+*.key
+*.pem
+*.p12
+*.pfx
+secrets/
+credentials/
+credentials.json
+secrets.json
 
-# 压缩文件（大文件）
-*.zip
-*.tar.gz
-*.tar.bz2
-*.7z
-*.rar
-
-# 历史产物目录
-.trash/
+# ============================================
+# 3. 运行时产出与输出
+# ============================================
+output/
+productions/
+production/
+productions-*/
 videos/
-productions/*/final/
-productions/*/temp/
-productions/*/drafts/
+checkpoints/
+debug_llm/
+logs/
+*.log
+running-status.json
+episodes.json
+dist/
+build/
 
-# 大图片/媒体
-memorized_media/
-*.psd
-*.tif
-*.tiff
-*.raw
-
-# 临时文件
+# ============================================
+# 4. 备份与调试目录
+# ============================================
+analysis/
+.trash/
 *.tmp
 *.temp
 *~
 .DS_Store
 Thumbs.db
 
-# 日志
-*.log
-logs/
+# ============================================
+# 5. 测试执行脚本（含硬编码内容）
+# ============================================
+test-*.js
+!tests/*.js
+run-*.js
+run-*.sh
+submit-*.sh
+submit-*.js
+generate-*.js
+export-*.js
+export-*.sh
+pack-*.js
+pack-*.sh
+tmp-*.js
+diagnostic-report-*.md
+system-issue-analysis-*.md
+oom-analysis-report-*.md
+nirath-*.md
+
+# ============================================
+# 6. 诊断与报告文件
+# ============================================
+health-scan-report.md
+*-diagnosis-*.md
+*-diagnostic-*.md
+*-analysis-*.md
+*-report-*.md
+*-fix-*.md
+IMPLEMENTATION_REPORT.md
+
+# ============================================
+# 7. 旧版本发布说明（仅保留最新）
+# ============================================
+RELEASE-v1.*
+RELEASE-v2.*
+RELEASE-v3.*
+RELEASE-v4.*
+RELEASE-v5.*
+RELEASE-v6.*
+RELEASE-v7.*
+RELEASE-v8.*
+RELEASE_v*
+v6.*-release*.md
+v6.*-patch*.md
+v0.*-release*.md
+
+# ============================================
+# 8. Node.js
+# ============================================
+node_modules/
+package-lock.json
+
+# ============================================
+# 9. IDE
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ============================================
+# 10. 角色数据（由引擎生成）
+# ============================================
+characters/*/portraits/
+characters/*/portraits-v*/
+characters/*/reference-photos/
+characters/*/character-card.json
+characters/*/generation-meta.json
+
+# ============================================
+# 11. 语音数据
+# ============================================
+voice-craft-data/
