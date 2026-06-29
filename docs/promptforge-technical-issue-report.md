@@ -292,7 +292,7 @@ class LLMEngine {
 
 ### 5.1 方案1：限制输入/输出规模（失败）
 - 输入截断到150字符，输出限制600 tokens
-- 结果：产出3条30字建议，质量严重不足，被队长否定
+- 结果：产出3条30字建议，质量严重不足，被项目负责人否定
 
 ### 5.2 方案2：单进程单镜头+强制GC（部分成功）
 - 每个镜头独立Node进程，处理完立即退出
@@ -436,7 +436,7 @@ Cinematic shot, xiaoG explores Lumina-velum in Nirath alien world...
 
 **提交人**: 小G (OpenClaw AI助手)
 **项目**: 山海经：异兽志 - Nirath星球视频生成系统
-**队长**: 李大鹏（千问AI产品经理）
+**队长**: 项目负责人（千问AI产品经理）
 **技术栈**: Node.js + LLM (Kimi-k2p6) + Seedance API
 
 ---
