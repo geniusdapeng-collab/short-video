@@ -135,7 +135,7 @@ const BEAST_REGISTRY = {
       face: '无面目 — 浑敦无面目，没有任何五官，光滑能量曲面，身体正中央悬浮金色太阳核心，山海经"无面目"严格还原',
       legs: '六足 — 六条光带从能量体底部自然下垂，呈三排排列（每排2条），绝非腿部足肢，山海经"六足"=Nirath能量流',
       wings: '四翼 — 四片半透明能量翼膜呈十字交叉排列，翼脉如金色叶脉发光，绝非羽毛，山海经"四翼"=Nirath散热鳍片',
-      special: '情绪共鸣者，身体温度恒定如旧世界供暖系统，能包裹住小G给予温暖，山海经"是识歌舞"=Nirath情绪共振频率',
+      special: '情绪共鸣者，身体温度恒定如旧世界供暖系统，能包裹住AgentX给予温暖，山海经"是识歌舞"=Nirath情绪共振频率',
       colors: '暖黄色为主（如黄囊），情绪波动时赤如丹火转橙红，金色太阳光芒四射，山海经"赤如丹火"=Nirath过热警报色'
     },
     visualSignature: {
@@ -180,19 +180,19 @@ const BEAST_REGISTRY = {
       head: '山羊头 — 头部如山羊，两角弯曲如旧世界天线，角上刻有数据流光纹路',
       mane: '狮鬃 — 颈部环绕浓密雪白鬃毛，如光纤束般发光，每一根都承载记忆片段',
       eyes: '双瞳重明 — 能看穿物质表象直达本质，瞳孔中偶尔闪过数据流光，如两个微型全息投影屏',
-      special: '能说人话教小G万物有灵与记录的方法，人类文明记忆雾凝聚体，通万物之情',
+      special: '能说人话教AgentX万物有灵与记录的方法，人类文明记忆雾凝聚体，通万物之情',
       colors: '通体雪白，鬃毛边缘散发银蓝光晕，双瞳中数据流光呈淡金色'
     },
     visualSignature: {
-      description: 'Nirath原创异兽白泽老师，融合《山海经》通万物之情能说人话智慧特征与人类文明记忆雾凝聚体，鹿身优雅雪白如月光，山羊头双角弯曲如天线带数据纹路，狮鬃雪白如光纤束发光，双瞳重明瞳孔闪过数据流光如全息屏，教导小G万物有灵，通体雪白银蓝光晕',
+      description: 'Nirath原创异兽白泽老师，融合《山海经》通万物之情能说人话智慧特征与人类文明记忆雾凝聚体，鹿身优雅雪白如月光，山羊头双角弯曲如天线带数据纹路，狮鬃雪白如光纤束发光，双瞳重明瞳孔闪过数据流光如全息屏，教导AgentX万物有灵，通体雪白银蓝光晕',
       keyFeatures: ['鹿身', '山羊头', '狮鬃', '双瞳重明', '数据流光', '记忆雾'],
       colorPalette: ['雪白', '银蓝', '淡金', '月光白'],
       negativePrompt: 'normal deer, normal goat, normal lion, cartoon creature, Earth animal, western unicorn, western creature, anime, cute pet'
     },
-    promptTemplate: 'Nirath原创异兽白泽老师，融合《山海经》通万物之情能说人话智慧特征与人类文明记忆雾凝聚体，鹿身优雅雪白如月光，山羊头双角弯曲如天线带数据纹路，狮鬃雪白如光纤束发光，双瞳重明瞳孔闪过数据流光如全息屏，教导小G万物有灵，通体雪白银蓝光晕，超写实CG渲染，{scene}',
+    promptTemplate: 'Nirath原创异兽白泽老师，融合《山海经》通万物之情能说人话智慧特征与人类文明记忆雾凝聚体，鹿身优雅雪白如月光，山羊头双角弯曲如天线带数据纹路，狮鬃雪白如光纤束发光，双瞳重明瞳孔闪过数据流光如全息屏，教导AgentX万物有灵，通体雪白银蓝光晕，超写实CG渲染，{scene}',
     negativePrompt: 'normal deer, normal goat, normal lion, cartoon creature, Earth animal, western unicorn, western creature, anime, cute pet',
     lore: {
-      summary: '人类文明记忆雾凝聚体，教导小G万物有灵与记录的方法。',
+      summary: '人类文明记忆雾凝聚体，教导AgentX万物有灵与记录的方法。',
       abilities: ['通万物之情', '记忆读取', '数据流光通讯', '知识传授'],
       temperament: 'benevolent',
       associatedElements: ['光', '记忆', '智慧'],
