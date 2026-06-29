@@ -8,8 +8,8 @@
   "models": {
     "seedance-2-0": {
       "modelId": "doubao-seedance-2-0-260128",
-      "presetEndpointId": "ep-m-20260518003302-245xb",
-      "customEndpointId": "ep-20260518004622-jp46s",
+      "presetEndpointId": "003cPRESET_ENDPOINT_1003e",
+      "customEndpointId": "003cENDPOINT_STD003e",
       "endpointName": "openclaw2",
       "type": "video",
       "quality": "high",
@@ -17,8 +17,8 @@
     },
     "seedance-2-0-fast": {
       "modelId": "doubao-seedance-2-0-fast-260128",
-      "presetEndpointId": "ep-m-20260518003252-p4chz",
-      "customEndpointId": "ep-20260518003432-n8v8f",
+      "presetEndpointId": "003cPRESET_ENDPOINT_2003e",
+      "customEndpointId": "003cENDPOINT_FAST003e",
       "endpointName": "openclaw",
       "type": "video",
       "quality": "high",
@@ -26,8 +26,8 @@
     },
     "seedream-5-0": {
       "modelId": "doubao-seedream-5-0-260128",
-      "presetEndpointId": "ep-m-20260518003223-58l4t",
-      "customEndpointId": "ep-20260518004750-lz76f",
+      "presetEndpointId": "003cPRESET_ENDPOINT_3003e",
+      "customEndpointId": "003cENDPOINT_IMG003e",
       "endpointName": "openclaw3",
       "type": "image",
       "quality": "high"

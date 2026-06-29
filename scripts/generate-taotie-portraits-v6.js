@@ -7,7 +7,7 @@
 const https = require('https');
 const fs = require('fs');
 
-const ENDPOINT = 'ep-20260518004750-lz76f'; // Seedream 5.0接入点
+const ENDPOINT = '003cENDPOINT_IMG003e'; // Seedream 5.0接入点
 // 自动读取API Key（从环境变量或配置文件）
 let API_KEY = process.env.VOLCENGINE_ARK_API_KEY;
 if (!API_KEY) {

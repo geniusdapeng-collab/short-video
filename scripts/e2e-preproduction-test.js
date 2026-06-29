@@ -124,7 +124,7 @@ try {
   const xiaoGFront = path.join(__dirname, '..', 'characters', 'xiaoG', 'portraits', 'xiaoG-cg-v3-front.png');
   const xiaoGThreeQuarter = path.join(__dirname, '..', 'characters', 'xiaoG', 'portraits', 'xiaoG-cg-v3-threeQuarter.png');
   
-  logTest('小G正面定妆照', fs.existsSync(xiaoGFront) ? 'PASS' : 'FAIL');
+  logTest('AgentX正面定妆照', fs.existsSync(xiaoGFront) ? 'PASS' : 'FAIL');
   logTest('小G侧面定妆照', fs.existsSync(xiaoGThreeQuarter) ? 'PASS' : 'FAIL');
   
   const jiuweiFront = path.join(__dirname, '..', 'characters', 'beasts', 'jiu-wei-hu', 'portraits', 'jiu-wei-hu-front.jpeg');

@@ -20,7 +20,7 @@ class RenderingEngine {
   constructor(options = {}) {
     this.config = {
       apiKey: options.apiKey || process.env.VOLCENGINE_ARK_API_KEY,
-      endpoint: options.endpoint || 'ep-20260518004622-jp46s',
+      endpoint: options.endpoint || '003cENDPOINT_STD003e',
       apiUrl: options.apiUrl || 'https://ark.cn-beijing.volces.com/api/v3/contents/generations/tasks',
       maxConcurrent: options.maxConcurrent || 3,
       charactersDir: options.charactersDir || path.join(__dirname, '../../../characters'),

@@ -87,7 +87,7 @@ const INTEGRATION_LIBRARY = {
     category: '角色场景',
     applicableScenes: ['角色特写', '探险', '发现', '人物'],
     applicableBeasts: [],
-    descriptionTemplate: `【全息投影板】小G从背包中取出一块Nirath原生晶体板，轻触激活。晶体板表面浮现淡{glowColor}色磁场光芒，形成能量纹路图案，纹路如能量流动般脉动，暗示信息存在但不形成具体文字。副标题区域以较小能量纹路出现于晶体板底部边缘。晶体板材质带有星云纹理，激活时散发古老磁场气息与微弱能量波动。`,
+    descriptionTemplate: `【全息投影板】AgentX从背包中取出一块Nirath原生晶体板，轻触激活。晶体板表面浮现淡{glowColor}色磁场光芒，形成能量纹路图案，纹路如能量流动般脉动，暗示信息存在但不形成具体文字。副标题区域以较小能量纹路出现于晶体板底部边缘。晶体板材质带有星云纹理，激活时散发古老磁场气息与微弱能量波动。`,
     visualElements: ['晶体板', '能量纹路', '脉动光芒', '星云纹理'],
     epicLevel: 7,
     uniqueness: 7
