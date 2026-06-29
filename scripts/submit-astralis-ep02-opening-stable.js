@@ -109,7 +109,7 @@ const seed = Math.floor(Math.random() * 1000000);
 console.log(`Seed: ${seed}`);
 
 const ENDPOINT = '003cENDPOINT_STD003e';
-const API_KEY = 'ark-0e6994f7-bf34-4f3a-9e78-0fc02aa5fc92-42751';
+const API_KEY = '003cYOUR_ARK_API_KEY003e';
 
 // 读取定妆照
 const protagonistPortrait = fs.readFileSync(check.portraits.protagonist);

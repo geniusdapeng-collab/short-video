@@ -2,7 +2,7 @@ const https = require('https');
 const fs = require('fs');
 const { execSync } = require('child_process');
 
-const API_KEY = 'ark-0e6994f7-bf34-4f3a-9e78-0fc02aa5fc92-42751';
+const API_KEY = '003cYOUR_ARK_API_KEY003e';
 const OUTPUT_DIR = '/root/.openclaw/workspace/taotie-ep01-production';
 const FINAL_OUTPUT = '/root/.openclaw/workspace/taotie-ep01-final.mp4';
 

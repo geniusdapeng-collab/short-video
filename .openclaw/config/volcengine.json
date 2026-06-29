@@ -1,5 +1,5 @@
 {
-  "apiKey": "ark-0e6994f7-bf34-4f3a-9e78-0fc02aa5fc92-42751",
+  "apiKey": "003cYOUR_ARK_API_KEY003e",
   "baseUrl": "ark.cn-beijing.volces.com",
   "endpoints": {
     "video": "/api/v3/contents/generations/tasks",

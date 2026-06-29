@@ -17,7 +17,7 @@ const https = require('https');
 const { PortraitGuard } = require('../systems/portrait-guard.js');
 
 // API配置
-const API_KEY = 'ark-0e6994f7-bf34-4f3a-9e78-0fc02aa5fc92-42751';
+const API_KEY = '003cYOUR_ARK_API_KEY003e';
 const API_URL = 'https://ark.cn-beijing.volces.com/api/v3/contents/generations/tasks';
 const ENDPOINT = '003cENDPOINT_STD003e'; // openclaw2 自定义接入点
 const MAX_CONCURRENT = 3;

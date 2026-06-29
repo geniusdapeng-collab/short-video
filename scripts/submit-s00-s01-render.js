@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Seedance API 配置
-const API_KEY = 'ark-0e6994f7-bf34-4f3a-9e78-0fc02aa5fc92-42751';
+const API_KEY = '003cYOUR_ARK_API_KEY003e';
 const ENDPOINT = '003cENDPOINT_STD003e';
 const API_URL = 'https://ark.cn-beijing.volces.com/api/v3/contents/generations/tasks';
 
