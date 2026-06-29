@@ -12,7 +12,7 @@ console.log('');
 // 测试配置
 const TEST_CONFIG = {
   episodeTitle: '九尾狐·迷局',
-  episodeAuthor: '大鹏出品',
+  episodeAuthor: 'Core Studio',
   beastId: 'jiu-wei-hu',
   testMode: true
 };
