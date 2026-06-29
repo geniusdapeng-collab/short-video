@@ -23,7 +23,7 @@
 | "渲染" / "提交Seedance" | read TOOLS.md API配置 | 需要时 |
 | "角色" / "定妆照" | read characters/相关档案 | 需要时 |
 | "复盘" / "查记录" | read memory/日期文件 | 需要时 |
-| "用户画像" / "大鹏习惯" | read USER.md完整版 | 需要时 |
+| "用户画像" / "创作者习惯" | read USER.md完整版 | 需要时 |
 
 ## 运行时防膨胀规则
 
