@@ -15,42 +15,42 @@ async function main() {
     ratio: '16:9',
     resolution: '1080p',
     characters: [
-      { id: 'xiaoG', name: '小G', role: 'protagonist' },
+      { id: 'xiaoG', name: 'AgentX', role: 'protagonist' },
       { id: 'taotie', name: '饕餮', role: 'creature' }
     ],
     scenes: [
       {
         id: 'S01',
         name: '火山苏醒',
-        description: '小G在Nirath火山熔岩地带探索，地面突然震动，火山岩裂开。',
+        description: 'AgentX在Nirath火山熔岩地带探索，地面突然震动，火山岩裂开。',
         duration: 12,
         characters: ['xiaoG', 'taotie']
       },
       {
         id: 'S02',
         name: '巨口现世',
-        description: '饕餮从火山岩中完全苏醒，巨口占面部三分之二，永远饥饿，硫磺黄色的腋下双眼锁定小G。',
+        description: '饕餮从火山岩中完全苏醒，巨口占面部三分之二，永远饥饿，硫磺黄色的腋下双眼锁定AgentX。',
         duration: 15,
         characters: ['xiaoG', 'taotie']
       },
       {
         id: 'S03',
         name: '饥饿真相',
-        description: '小G发现饕餮不是想吃他，而是被火山岩中的远古封印困住，永远饥饿是诅咒。',
+        description: 'AgentX发现饕餮不是想吃他，而是被火山岩中的远古封印困住，永远饥饿是诅咒。',
         duration: 18,
         characters: ['xiaoG', 'taotie']
       },
       {
         id: 'S04',
         name: '解封之跃',
-        description: '小G利用智慧解开封印，饕餮的火山岩装甲裂开，露出真正的力量。',
+        description: 'AgentX利用智慧解开封印，饕餮的火山岩装甲裂开，露出真正的力量。',
         duration: 15,
         characters: ['xiaoG', 'taotie']
       },
       {
         id: 'S05',
         name: '盟友之约',
-        description: '饕餮不再饥饿，成为小G的盟友。火山岩装甲重组，硫磺黄眼变成温暖的金色。',
+        description: '饕餮不再饥饿，成为AgentX的盟友。火山岩装甲重组，硫磺黄眼变成温暖的金色。',
         duration: 15,
         characters: ['xiaoG', 'taotie']
       }

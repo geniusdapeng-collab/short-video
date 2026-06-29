@@ -1,6 +1,6 @@
 /**
  * 烛龙首秀预生产演示 - 简化版
- * 神兽档案库首次实战：小G×烛龙《初遇》
+ * 神兽档案库首次实战：AgentX×烛龙《初遇》
  */
 
 const fs = require('fs');
@@ -56,17 +56,17 @@ function cleanup() {
 
 // 故事定义
 const STORY = {
-  title: '《初遇》——小G与烛龙',
+  title: '《初遇》——AgentX与烛龙',
   duration: 60,
   shots: [
-    { id: 'S01', type: 'opening', narration: '小G独自走在永夜裂谷的黑暗中，四周一片寂静', beastMentioned: [], humanCharacters: ['小G'], habitat: '永夜裂谷', time: '永夜', mood: '神秘', duration: 8 },
-    { id: 'S02', type: 'building', narration: '远处，两团赤红的光芒缓缓亮起，越来越大', beastMentioned: ['烛龙'], humanCharacters: ['小G'], habitat: '永夜裂谷', time: '永夜', mood: '神秘→震撼', duration: 8 },
+    { id: 'S01', type: 'opening', narration: 'AgentX独自走在永夜裂谷的黑暗中，四周一片寂静', beastMentioned: [], humanCharacters: ['AgentX'], habitat: '永夜裂谷', time: '永夜', mood: '神秘', duration: 8 },
+    { id: 'S02', type: 'building', narration: '远处，两团赤红的光芒缓缓亮起，越来越大', beastMentioned: ['烛龙'], humanCharacters: ['AgentX'], habitat: '永夜裂谷', time: '永夜', mood: '神秘→震撼', duration: 8 },
     { id: 'S03', type: 'reveal', narration: '那是烛龙的竖直双目，缓缓睁开，照亮了整个裂谷', beastMentioned: ['烛龙'], humanCharacters: [], habitat: '永夜裂谷', time: '永夜', mood: '震撼', duration: 10 },
-    { id: 'S04', type: 'reaction', narration: '小G震惊地仰头，看见千里赤红龙身横亘于裂谷之上', beastMentioned: ['烛龙'], humanCharacters: ['小G'], habitat: '永夜裂谷', time: '永夜', mood: '敬畏', duration: 8 },
-    { id: 'S05', type: 'interaction', narration: '烛龙缓缓俯身，人面头部靠近小G，目光温柔而深邃', beastMentioned: ['烛龙'], humanCharacters: ['小G'], habitat: '永夜裂谷', time: '永夜', mood: '敬畏→温暖', duration: 10 },
-    { id: 'S06', type: 'climax', narration: '烛龙眼中流出一滴金色泪珠，化为万千光点涌入小G额头', beastMentioned: ['烛龙'], humanCharacters: ['小G'], habitat: '永夜裂谷', time: '永夜', mood: '温暖→神圣', duration: 10 },
-    { id: 'S07', type: 'resolution', narration: '小G在光芒中微笑，他听懂了烛龙千万年的孤独与守护', beastMentioned: [], humanCharacters: ['小G'], habitat: '永夜裂谷', time: '永夜', mood: '温暖', duration: 6 },
-    { id: 'S08', type: 'ending', narration: '烛龙缓缓闭上双目，世界重归黑暗，但小G心中已有光芒', beastMentioned: ['烛龙'], humanCharacters: ['小G'], habitat: '永夜裂谷', time: '永夜', mood: '宁静', duration: 10 }
+    { id: 'S04', type: 'reaction', narration: 'AgentX震惊地仰头，看见千里赤红龙身横亘于裂谷之上', beastMentioned: ['烛龙'], humanCharacters: ['AgentX'], habitat: '永夜裂谷', time: '永夜', mood: '敬畏', duration: 8 },
+    { id: 'S05', type: 'interaction', narration: '烛龙缓缓俯身，人面头部靠近AgentX，目光温柔而深邃', beastMentioned: ['烛龙'], humanCharacters: ['AgentX'], habitat: '永夜裂谷', time: '永夜', mood: '敬畏→温暖', duration: 10 },
+    { id: 'S06', type: 'climax', narration: '烛龙眼中流出一滴金色泪珠，化为万千光点涌入AgentX额头', beastMentioned: ['烛龙'], humanCharacters: ['AgentX'], habitat: '永夜裂谷', time: '永夜', mood: '温暖→神圣', duration: 10 },
+    { id: 'S07', type: 'resolution', narration: 'AgentX在光芒中微笑，他听懂了烛龙千万年的孤独与守护', beastMentioned: [], humanCharacters: ['AgentX'], habitat: '永夜裂谷', time: '永夜', mood: '温暖', duration: 6 },
+    { id: 'S08', type: 'ending', narration: '烛龙缓缓闭上双目，世界重归黑暗，但AgentX心中已有光芒', beastMentioned: ['烛龙'], humanCharacters: ['AgentX'], habitat: '永夜裂谷', time: '永夜', mood: '宁静', duration: 10 }
   ]
 };
 
@@ -142,7 +142,7 @@ async function runPreProduction() {
 function generatePreProductionReport(shotResults, beast) {
   const now = new Date().toISOString().split('T')[0];
   
-  let md = `# 【预生产报告】《初遇》——小G与烛龙\n\n`;
+  let md = `# 【预生产报告】《初遇》——AgentX与烛龙\n\n`;
   md += `> **项目**: 烛龙首秀\n`;
   md += `> **日期**: ${now}\n`;
   md += `> **总时长**: 60秒\n`;

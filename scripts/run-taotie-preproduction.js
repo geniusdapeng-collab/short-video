@@ -229,7 +229,7 @@ const input = {
   },
   characters: {
     xiaoG: {
-      id: 'xiaoG', name: '小G', role: 'protagonist',
+      id: 'xiaoG', name: 'AgentX', role: 'protagonist',
       appearance: '8岁男孩，蓝色条纹睡衣，赤脚，Nirath旧世界唯一幸存者',
       age: 8, gender: 'male'
     },
@@ -246,11 +246,11 @@ const input = {
     atmosphere: '火山灰弥漫，空气中充满硫磺气息，地面有熔岩裂缝'
   },
   scenes: [
-    { id: 'S01', scene: '钩吾废墟入口', narration: '小G站在钩吾废墟边缘，眼前是一片被远古战争摧毁的城市遗迹。暗红色的熔岩光从地裂缝中透出，空气中弥漫着硫磺的气息。远处，一座巨大的阴影在灰烬中缓缓移动。', type: 'opening', characters: ['xiaoG'], duration: 12 },
-    { id: 'S02', scene: '废墟深处', narration: '小G小心翼翼地穿过断裂的石柱群。突然，地面震动起来——暗红色的光芒从裂缝中喷涌而出，照亮了一个庞大的身影。那是饕餮，羊身人面的巨兽正在吞噬一块巨大的金属残骸。', type: 'building', characters: ['xiaoG', 'tao-tie'], duration: 14 },
+    { id: 'S01', scene: '钩吾废墟入口', narration: 'AgentX站在钩吾废墟边缘，眼前是一片被远古战争摧毁的城市遗迹。暗红色的熔岩光从地裂缝中透出，空气中弥漫着硫磺的气息。远处，一座巨大的阴影在灰烬中缓缓移动。', type: 'opening', characters: ['xiaoG'], duration: 12 },
+    { id: 'S02', scene: '废墟深处', narration: 'AgentX小心翼翼地穿过断裂的石柱群。突然，地面震动起来——暗红色的光芒从裂缝中喷涌而出，照亮了一个庞大的身影。那是饕餮，羊身人面的巨兽正在吞噬一块巨大的金属残骸。', type: 'building', characters: ['xiaoG', 'tao-tie'], duration: 14 },
     { id: 'S03', scene: '饕餮现身', narration: '饕餮缓缓转过身来。它的面部是一张巨大的人脸，庄严而深沉。双眼生于腋下，两团硫磺黄色的眼球在腋窝里缓缓转动，透出温和却令人不安的光芒。那张占据面部三分之二的巨口永远张着，利齿如同白玉般交错排列。', type: 'reveal', characters: ['tao-tie'], duration: 16 },
-    { id: 'S04', scene: '对视与警惕', narration: '小G与饕餮对视。饕餮的前肢是人的手掌，五指修长，正轻轻刨动着地面的火山岩。它没有攻击，只是用那双腋下的眼睛静静注视着小G，仿佛在审视这个小小的闯入者。小G感到一种前所未有的压迫感——这不是恶意，而是纯粹的饥饿，无尽的饥饿。', type: 'climax', characters: ['xiaoG', 'tao-tie'], duration: 16 },
-    { id: 'S05', scene: '克制与觉悟', narration: '小G缓缓后退，理解了饕餮的本质——它不是邪恶，而是贪婪的极致化身。在这个物质过剩的时代，我们是否也在不知不觉中成为了现代版的饕餮？小G转身离开，废墟中传来饕餮婴儿般的啼哭声，既是诱惑，也是警示。', type: 'resolution', characters: ['xiaoG'], duration: 22 }
+    { id: 'S04', scene: '对视与警惕', narration: 'AgentX与饕餮对视。饕餮的前肢是人的手掌，五指修长，正轻轻刨动着地面的火山岩。它没有攻击，只是用那双腋下的眼睛静静注视着AgentX，仿佛在审视这个小小的闯入者。AgentX感到一种前所未有的压迫感——这不是恶意，而是纯粹的饥饿，无尽的饥饿。', type: 'climax', characters: ['xiaoG', 'tao-tie'], duration: 16 },
+    { id: 'S05', scene: '克制与觉悟', narration: 'AgentX缓缓后退，理解了饕餮的本质——它不是邪恶，而是贪婪的极致化身。在这个物质过剩的时代，我们是否也在不知不觉中成为了现代版的饕餮？AgentX转身离开，废墟中传来饕餮婴儿般的啼哭声，既是诱惑，也是警示。', type: 'resolution', characters: ['xiaoG'], duration: 22 }
   ],
   style: {
     visualStyle: 'Nirath原生风格：暗红色火山岩质感 + 熔岩橙能量光 + 灰烬黑阴影',

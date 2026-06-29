@@ -50,7 +50,7 @@ class MockPipeline {
         {
           id: 'S01',
           scene: '钩吾废墟入口',
-          narration: '小G站在废墟边缘，远处传来婴儿般的啼哭声...',
+          narration: 'AgentX站在废墟边缘，远处传来婴儿般的啼哭声...',
           characters: ['xiaoG', 'taotie'],
           emotionPhase: 'exposition',
           duration: 15,

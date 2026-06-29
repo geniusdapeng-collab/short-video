@@ -589,7 +589,7 @@ class PipelineIntegrityValidator {
       const characters = stages.characters || {};
       // 🔥 已知角色中文名映射（用于跨语言匹配）
       const knownAliases = {
-        'xiaoG': ['小G', '小g'],
+        'xiaoG': ['AgentX', 'AgentX'],
         'tao-tie': ['饕餮', 'taotie'],
         'zhu-long': ['烛龙'],
         'qing-qiu': ['青丘'],

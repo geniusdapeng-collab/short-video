@@ -109,7 +109,7 @@ const INTEGRATION_LIBRARY = {
     category: '异兽场景',
     applicableScenes: ['凝视', '对视', '瞳孔', '眼睛'],
     applicableBeasts: ['jiu-wei-hu', 'zhu-long'],
-    descriptionTemplate: `【瞳孔投影】{beastName}的巨大瞳孔中倒映出场景全貌，瞳孔表面如镜面般光滑。在瞳孔中央，有微型全息投影形成的抽象纹路图案，由瞳孔内部的生物发光细胞生成。副标题区域以更小光环浮现在瞳孔边缘的虹膜纹理中。小G的倒影出现在瞳孔中，与纹路重叠，产生"信息刻于眼中"的视觉效果。`,
+    descriptionTemplate: `【瞳孔投影】{beastName}的巨大瞳孔中倒映出场景全貌，瞳孔表面如镜面般光滑。在瞳孔中央，有微型全息投影形成的抽象纹路图案，由瞳孔内部的生物发光细胞生成。副标题区域以更小光环浮现在瞳孔边缘的虹膜纹理中。AgentX的倒影出现在瞳孔中，与纹路重叠，产生"信息刻于眼中"的视觉效果。`,
     visualElements: ['瞳孔镜面', '全息投影', '生物发光', '倒影重叠'],
     epicLevel: 10,
     uniqueness: 10

@@ -62,7 +62,7 @@ const input = {
       name: '案例展示',
       type: 'demonstration',
       duration: 10,
-      description: '李明教练作为模特展示肌肉检查动作，小G在旁聆听互动'
+      description: '李明教练作为模特展示肌肉检查动作，AgentX在旁聆听互动'
     },
     {
       id: 'S05',
@@ -85,7 +85,7 @@ const input = {
     },
     'xiaoG': {
       id: 'xiaoG',
-      name: '小G',
+      name: 'AgentX',
       role: 'audience',
       roleType: 'listener',
       description: '8岁男孩，现场听众，听得津津有味',

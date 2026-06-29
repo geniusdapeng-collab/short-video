@@ -45,9 +45,9 @@ try {
     const height = heightMatch ? parseFloat(heightMatch[1]) : null;
     logTest('身高数据存在', height ? 'PASS' : 'FAIL', `身高: ${height}m`);
     
-    // 检查小G身高
+    // 检查AgentX身高
     const xiaoGHeight = 1.2; // 已修正为1.2米
-    logTest('小G身高修正', 'PASS', `1.2米（8岁男孩）`);
+    logTest('AgentX身高修正', 'PASS', `1.2米（8岁男孩）`);
     
     // 计算比例
     const ratio = height ? (height / xiaoGHeight).toFixed(1) : 'N/A';
@@ -125,7 +125,7 @@ try {
   const xiaoGThreeQuarter = path.join(__dirname, '..', 'characters', 'xiaoG', 'portraits', 'xiaoG-cg-v3-threeQuarter.png');
   
   logTest('AgentX正面定妆照', fs.existsSync(xiaoGFront) ? 'PASS' : 'FAIL');
-  logTest('小G侧面定妆照', fs.existsSync(xiaoGThreeQuarter) ? 'PASS' : 'FAIL');
+  logTest('AgentX侧面定妆照', fs.existsSync(xiaoGThreeQuarter) ? 'PASS' : 'FAIL');
   
   const jiuweiFront = path.join(__dirname, '..', 'characters', 'beasts', 'jiu-wei-hu', 'portraits', 'jiu-wei-hu-front.jpeg');
   logTest('九尾狐正面定妆照', fs.existsSync(jiuweiFront) ? 'PASS' : 'FAIL');

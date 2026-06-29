@@ -283,7 +283,7 @@ if (require.main === module) {
   console.log(scene2);
   
   // 测试：互动场景
-  const scene3 = generator.generateInteractionScene('烛龙', '小G', '永夜裂谷', '相遇', {
+  const scene3 = generator.generateInteractionScene('烛龙', 'AgentX', '永夜裂谷', '相遇', {
     time: '永夜',
     mood: '神秘'
   });

@@ -72,7 +72,7 @@ class RenderPipelineGuard {
         name: '服装锁定检查',
         check: (payload) => {
           const text = payload.content?.find(c => c.type === 'text')?.text || '';
-          const hasCharacter = /角色A|小G|林警官|角色/.test(text);
+          const hasCharacter = /角色A|AgentX|林警官|角色/.test(text);
           if (!hasCharacter) return { pass: true }; // 无角色=豁免
           const hasCostumeLock = /穿[警护白][服大褂]|身穿/.test(text);
           return {

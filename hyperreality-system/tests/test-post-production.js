@@ -40,7 +40,7 @@ const mockScriptResult = {
           timing: { duration: 31, start_time: 0 },
           characters: ['xiaoG'],
           dialogue: {
-            lines: [{ speaker: 'xiaoG', text: '我是小G，这是 Nirath。', emotion: 'curious' }]
+            lines: [{ speaker: 'xiaoG', text: '我是AgentX，这是 Nirath。', emotion: 'curious' }]
           }
         },
         {
@@ -94,7 +94,7 @@ const mockScriptResult = {
         }
       ],
       characters: [
-        { id: 'xiaoG', name: '小G', role: 'protagonist', visuals: { color: '银灰' } },
+        { id: 'xiaoG', name: 'AgentX', role: 'protagonist', visuals: { color: '银灰' } },
         { id: 'taotie', name: '饕餮', role: 'featured_beast', tags: ['beast'] }
       ]
     }

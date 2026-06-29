@@ -41,7 +41,7 @@ class MockPipeline {
       // 检测被动描述（包含"被"、"受到"等词）
       if (narration.includes('被') || narration.includes('受到')) {
         shot._protagonistEnhanced = true;
-        shot._enhancedAction = `${input?.protagonistName || '小G'}主动应对`;
+        shot._enhancedAction = `${input?.protagonistName || 'AgentX'}主动应对`;
         injections++;
       }
     }
@@ -100,7 +100,7 @@ const TEST_STORYBOARD = {
       id: 'S01',
       sequence: 1,
       scene: '钩吾废墟入口',
-      narration: '小G站在废墟边缘，远处传来婴儿般的啼哭声。他感受到大地的震动，知道有什么巨大的东西正在靠近。',
+      narration: 'AgentX站在废墟边缘，远处传来婴儿般的啼哭声。他感受到大地的震动，知道有什么巨大的东西正在靠近。',
       type: 'establishing',
       duration: 15,
       characters: ['xiaoG', 'taotie']
@@ -109,7 +109,7 @@ const TEST_STORYBOARD = {
       id: 'S02',
       sequence: 2,
       scene: '深渊发现',
-      narration: '裂缝中，硫磺黄色的光芒缓缓升起。小G被这光芒吸引，受到一种不可名状的召唤。',
+      narration: '裂缝中，硫磺黄色的光芒缓缓升起。AgentX被这光芒吸引，受到一种不可名状的召唤。',
       type: 'discovery',
       duration: 12,
       characters: ['xiaoG', 'taotie']
@@ -118,7 +118,7 @@ const TEST_STORYBOARD = {
       id: 'S03',
       sequence: 3,
       scene: '晶脉对峙',
-      narration: '饕餮的巨口缓缓张开，利齿如白玉交错。小G没有被恐惧支配，而是伸出手掌。',
+      narration: '饕餮的巨口缓缓张开，利齿如白玉交错。AgentX没有被恐惧支配，而是伸出手掌。',
       type: 'confrontation',
       duration: 15,
       characters: ['xiaoG', 'taotie']
@@ -175,7 +175,7 @@ async function runTests() {
   
   const direct7_2 = await pipelineDirect.stageProtagonistInitiative(storyboardDirect, { 
     protagonistId: 'xiaoG', 
-    protagonistName: '小G' 
+    protagonistName: 'AgentX' 
   });
   const directDurations = storyboardDirect.shots.map(s => ({ duration: s.duration }));
   const direct7_3 = await pipelineDirect.stageNarrationTrim(storyboardDirect, directDurations);
@@ -201,7 +201,7 @@ async function runTests() {
   // 发布 storyboard.created 事件（模拟 Stage 7 完成后）
   bus2.publish('storyboard.created', {
     storyboard: storyboardEvent,
-    input: { protagonistId: 'xiaoG', protagonistName: '小G' }
+    input: { protagonistId: 'xiaoG', protagonistName: 'AgentX' }
   }, { stageId: 'STAGE-7' });
   
   // 等待事件链处理完成

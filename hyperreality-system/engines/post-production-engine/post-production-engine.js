@@ -184,7 +184,7 @@ class PostProductionEngine {
    * 
    * 示例：
    * ┌─────────────────┐
-   * │ 小G              │
+   * │ AgentX              │
    * │ Nirath 星球探险者 │
    * │ 人类 · 银灰装甲    │
    * └─────────────────┘
@@ -390,11 +390,11 @@ class PostProductionEngine {
     
     // 场景类型弹幕
     const typeComments = {
-      opening: ['🔥 开局！', '⚡ 燃起来了', '小G冲！', 'Nirath 我来了'],
+      opening: ['🔥 开局！', '⚡ 燃起来了', 'AgentX冲！', 'Nirath 我来了'],
       establishing: ['🌟 好美', '这是什么星球', '晶体森林！', '双月！'],
       conflict: ['💥 打起来！', '小心！', '饕餮来了！', '好紧张！'],
       emotional_climax: ['😭 泪目', '太感人了', '记忆即存在！', '燃！'],
-      resolution: ['✨ 圆满', '期待下一集', '小G成长了', 'Nirath 等我']
+      resolution: ['✨ 圆满', '期待下一集', 'AgentX成长了', 'Nirath 等我']
     };
     
     if (typeComments[sceneType]) {

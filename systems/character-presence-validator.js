@@ -15,7 +15,7 @@ class CharacterPresenceValidator {
   constructor(options = {}) {
     // 角色名映射表（ narration 中的名称 -> characters ID）
     this.characterNameMap = {
-      '小G': 'xiaoG',
+      'AgentX': 'xiaoG',
       '小纪': 'xiaoG',
       '主角': 'xiaoG',
       '少年': 'xiaoG',

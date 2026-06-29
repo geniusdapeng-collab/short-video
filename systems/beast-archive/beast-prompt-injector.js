@@ -403,7 +403,7 @@ if (require.main === module) {
   const injector = new BeastPromptInjector({ verbose: true });
   
   // 测试：提取神兽引用
-  const testScript = '小G在永夜裂谷遇见了烛龙，烛龙睁开竖直双目照亮黑暗。随后应龙从天而降展开巨翼。';
+  const testScript = 'AgentX在永夜裂谷遇见了烛龙，烛龙睁开竖直双目照亮黑暗。随后应龙从天而降展开巨翼。';
   const result = injector.inject(testScript, { mode: 'compact' });
   
   console.log('\n📊 测试结果:');

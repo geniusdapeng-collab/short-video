@@ -323,9 +323,9 @@ if (require.main === module) {
   console.log(`  角度: ${plan1.camera.angle}`);
   console.log(`  描述: ${plan1.description}`);
   
-  // 测试：小G与烛龙对视
-  const plan2 = advisor.adviseCoexist('烛龙', '小G', '对视');
-  console.log('\n👦🐉 小G与烛龙同框:');
+  // 测试：AgentX与烛龙对视
+  const plan2 = advisor.adviseCoexist('烛龙', 'AgentX', '对视');
+  console.log('\n👦🐉 AgentX与烛龙同框:');
   console.log(`  人类位置: ${plan2.human.positioning}`);
   console.log(`  构图: ${plan2.composition}`);
   console.log(`  交互: ${plan2.interaction.description}`);

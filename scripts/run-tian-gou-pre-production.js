@@ -15,14 +15,14 @@ async function main() {
     ratio: '16:9',
     resolution: '1080p',
     characters: [
-      { id: 'xiaoG', name: '小G', role: 'protagonist' },
+      { id: 'xiaoG', name: 'AgentX', role: 'protagonist' },
       { id: 'tian-gou', name: '天狗', role: 'creature' }
     ],
     scenes: [
       {
         id: 'S01',
         name: '双月迷途',
-        description: '小G在Nirath双月生态区迷路，银灰色植被在双月照耀下发出荧光。',
+        description: 'AgentX在Nirath双月生态区迷路，银灰色植被在双月照耀下发出荧光。',
         duration: 12
       },
       {
@@ -34,19 +34,19 @@ async function main() {
       {
         id: 'S03',
         name: '引力风暴',
-        description: '双月引力失衡，潮汐风暴席卷。天狗背部储能囊发光，帮助小G抵御引力。',
+        description: '双月引力失衡，潮汐风暴席卷。天狗背部储能囊发光，帮助AgentX抵御引力。',
         duration: 18
       },
       {
         id: 'S04',
         name: '守护者之跃',
-        description: '天狗用蓬松松鼠尾平衡身体，跃过小G头顶，形成保护屏障。',
+        description: '天狗用蓬松松鼠尾平衡身体，跃过AgentX头顶，形成保护屏障。',
         duration: 15
       },
       {
         id: 'S05',
         name: '双月齐照',
-        description: '风暴平息，双月齐照。小G与天狗并肩，尾尖发光器官与双月共鸣。',
+        description: '风暴平息，双月齐照。AgentX与天狗并肩，尾尖发光器官与双月共鸣。',
         duration: 15
       }
     ],

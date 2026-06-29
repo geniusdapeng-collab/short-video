@@ -36,7 +36,7 @@ async function runTest() {
 
   // 执行创作（跳过确认环节，便于测试）
   const result = await system.create(
-    '创作山海经异兽志第一集，主角饕餮，120秒，Nirath星球，小G探索',
+    '创作山海经异兽志第一集，主角饕餮，120秒，Nirath星球，AgentX探索',
     {
       title: '山海经：异兽志 EP01 饕餮',
       target_duration: 120,

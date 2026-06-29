@@ -147,7 +147,7 @@ const BEAST_REGISTRY = {
     promptTemplate: 'Nirath原创异兽帝江暖暖，融合《山海经》黄囊赤如丹火六足四翼浑敦无面目特征与2147年科技恒温系统美学，暖黄色发光能量体如呼吸暖云，无面目光滑能量曲面，六条光带底部下垂三排排列，四片透明能量翼膜十字交叉翼脉金色发光，身体中央金色太阳核心，情绪共鸣温度恒定，超写实CG渲染，{scene}',
     negativePrompt: 'monster with face, creature with eyes, beast with mouth, animal face, sheep, turtle, cartoon cloud, western creature, Earth creature, cute, fluffy',
     lore: {
-      summary: '情绪共鸣者，旧世界温暖的最后残留。能感知并回应小G的情绪。',
+      summary: '情绪共鸣者，旧世界温暖的最后残留。能感知并回应AgentX的情绪。',
       abilities: ['情绪共鸣', '温度恒定', '能量包裹', '情绪共振频率'],
       temperament: 'benevolent',
       associatedElements: ['火', '能量', '温暖'],
@@ -224,7 +224,7 @@ const BEAST_REGISTRY = {
       body: '狐身 — 优雅狐形身体，毛发如发光丝线般柔顺，绝非地球狐狸，山海经狐身+Nirath基因改造',
       head: '狐首 — 尖耳竖立，面部有发光的智慧纹路如电路板图腾，双瞳呈现数据流金色，山海经狐首+Nirath智慧标记',
       tails: '九尾 — 九条尾巴蓬松如发光植物藤蔓，三条已变银白色记载着古老记忆，每条尾巴都有独特光纹，山海经"九尾"=Nirath基因表达',
-      special: '最古老智慧种族长老，用尾巴为小G编织光环宣布他为山海之民，山海经"其音如婴儿"=Nirath频率共鸣的空灵声波',
+      special: '最古老智慧种族长老，用尾巴为AgentX编织光环宣布他为山海之民，山海经"其音如婴儿"=Nirath频率共鸣的空灵声波',
       colors: '银白与深红交织，尾巴如发光藤蔓，老年三条银白尾散发月白光晕'
     },
     visualSignature: {
@@ -236,7 +236,7 @@ const BEAST_REGISTRY = {
     promptTemplate: 'Nirath原创异兽九尾狐长老奶奶，融合《山海经》狐身九尾其音如婴儿特征与基因库样本植物融合生命，狐身优雅毛发如发光丝线，尖耳竖立面部发光智慧纹路如电路板图腾，九尾蓬松如发光藤蔓三条已变银白记载古老记忆，古老智慧种族长老，银白深红交织月白光晕，超写实CG渲染，{scene}',
     negativePrompt: 'normal fox, cartoon fox, Earth fox, western kitsune, anime fox, cute furry, pet animal',
     lore: {
-      summary: '最古老智慧种族长老，用尾巴为小G编织光环宣布他为山海之民。',
+      summary: '最古老智慧种族长老，用尾巴为AgentX编织光环宣布他为山海之民。',
       abilities: ['九尾编织光环', '基因记忆读取', '频率共鸣', '智慧传承'],
       temperament: 'benevolent',
       associatedElements: ['木', '基因', '记忆'],

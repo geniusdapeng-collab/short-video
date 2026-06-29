@@ -129,8 +129,8 @@ check('SC-002: Shot 验证（有效数据）', () => {
     id: 'S01',
     sequence: 1,
     scene: '钩吾废墟入口',
-    narration: '小G站在废墟边缘...',
-    characters: [{ id: 'xiaoG', name: '小G' }],
+    narration: 'AgentX站在废墟边缘...',
+    characters: [{ id: 'xiaoG', name: 'AgentX' }],
     emotionPhase: 'exposition',
     duration: 12
   }]);

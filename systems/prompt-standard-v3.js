@@ -3,7 +3,7 @@
  * 
  * 升级背景：v2.0 在实际运行中成为"摆设"，原因：
  * 1. 格式不匹配：系统使用【】区块格式，v2.0 定义的是 | 分隔格式
- * 2. 审核不切实际：要求英文关键词（boy/girl），但系统使用中文角色名（小G/饕餮）
+ * 2. 审核不切实际：要求英文关键词（boy/girl），但系统使用中文角色名（AgentX/饕餮）
  * 3. 集成不强制：Standard 引入后仅 smartTrim 被使用，validate/buildPrompt/assemble 全部闲置
  * 4. 检查不实用：无法检测空视觉、模板化环境、未消费运镜等真实问题
  * 
@@ -46,7 +46,7 @@ const FIELD_DEFINITIONS = {
     // v3.0: 映射到【视觉】中的角色描述和【角色约束】
     blockMapping: ['【视觉】', '【角色约束】'],
     baselineChars: '角色ID引用不可删',
-    checkRegex: /【视觉】.*(?:小G|xiaoG|饕餮|taotie| protagonist|主角)/i
+    checkRegex: /【视觉】.*(?:AgentX|xiaoG|饕餮|taotie| protagonist|主角)/i
   },
   ACTION: {
     priority: 'P1',
@@ -355,7 +355,7 @@ function checkCameraConsumed(prompt, fields, context) {
  * 检测主角和异兽是否出现在 Prompt 中
  */
 function checkCharacterPresent(prompt, fields, context) {
-  const protagonist = context.protagonist || '小G';
+  const protagonist = context.protagonist || 'AgentX';
   const beast = context.beast || '饕餮';
   const hasProtagonist = prompt.includes(protagonist) || prompt.includes('xiaoG');
   const hasBeast = prompt.includes(beast) || prompt.includes('taotie');
@@ -442,7 +442,7 @@ function checkCharacterReference(prompt, fields, context) {
   const hasMultiCharacterRef = prompt.match(/@Image\d+/g)?.length > 1;
   
   // 检测是否有角色引用需求（Prompt中有角色名）
-  const hasCharacterNeed = /(?:小G|xiaoG|饕餮|taotie|主角|角色)/i.test(prompt);
+  const hasCharacterNeed = /(?:AgentX|xiaoG|饕餮|taotie|主角|角色)/i.test(prompt);
   
   const issues = [];
   

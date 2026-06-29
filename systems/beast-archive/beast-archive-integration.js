@@ -348,12 +348,12 @@ if (require.main === module) {
     
     // 执行测试
     const result = await archive.process({
-      scriptText: '小G在永夜裂谷遇见了烛龙，烛龙睁开竖直双目照亮黑暗',
+      scriptText: 'AgentX在永夜裂谷遇见了烛龙，烛龙睁开竖直双目照亮黑暗',
       sceneType: '展示',
       habitat: '永夜裂谷',
       time: '永夜',
       mood: '庄严',
-      humanCharacters: ['小G'],
+      humanCharacters: ['AgentX'],
       mode: 'compact'
     });
     
