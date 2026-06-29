@@ -1,78 +1,180 @@
-# 超短裙 AI 短视频系统（限时内测版）
+# Short-Video AI Production System
 
-> **AI 短视频生成平台** — 从脚本到渲染，一键生成短视频内容
+<p align="center">
+  <img src="assets/logo.png" width="200" alt="Short-Video AI Production System Logo">
+</p>
+
+<p align="center">
+  <b>AI-Powered Short Video Production — From Script to Render in Minutes</b>
+  <br>
+  <i>Harness Imagination · 驾驭想象力</i>
+</p>
+
+<p align="center">
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-gold.svg" alt="License"></a>
+  <img src="https://img.shields.io/badge/node-%3E%3D18.0.0-yellow.svg" alt="Node.js">
+  <img src="https://img.shields.io/badge/Seedance-2.0%2B-orange.svg" alt="Seedance">
+  <img src="https://img.shields.io/badge/stages-5%2B-blue.svg" alt="Stages">
+  <img src="https://img.shields.io/badge/quality-gates-5-brightgreen.svg" alt="Quality Gates">
+</p>
 
 ---
 
-## 一句话描述
+## What Makes It Different
 
-超短裙是一个**AI 短视频生成系统**，提供从脚本创作、镜头设计到视频渲染的完整工作流，专为短视频平台优化。
+**Short-Video AI Production System** is not just another video generator. It's a **streamlined, production-hardened pipeline** built specifically for short-form content platforms. While others give you raw pixels, we give you a complete production workflow with quality gates at every step.
 
-## 核心能力
+- **Script Engine** — Story is the soul
+- **Shot Design** — Camera is the skeleton
+- **Render Pipeline** — Realism is the baseline
+- **Post-Production** — Sound is the emotion
 
-| 能力 | 描述 | 技术亮点 |
-|------|------|----------|
-| **脚本引擎** | AI 驱动的短视频脚本创作 | 面向平台算法优化的内容结构 |
-| **视觉设计** | 电影级镜头规划 | 运镜、灯光、构图一体化 |
-| **渲染流水线** | 端到端视频生成 | 多引擎适配 + 质量门 |
-| **角色管理** | 虚拟角色档案与形象锁定 | 定妆照 + Prompt 锚定 |
-| **后期制作** | 自动化剪辑与输出 | 片段拼接 + 字幕生成 |
+We deconstructed short-form storytelling into a repeatable, scalable system where AI understands **platform-native content** rather than just generating clips.
 
-## 💰 商业价值与前景
+---
 
-超短裙面向**短视频创作者、品牌营销、知识付费**三大核心场景：
+## System Architecture
 
-| 场景 | 痛点 | 价值 |
-|------|------|------|
-| **短视频创作者** | 日更压力巨大，创意枯竭 | 一键生成脚本+镜头+渲染，日更 10 条不是梦 |
-| **品牌营销** | 短视频广告制作成本高 | 快速生成多版本广告素材，适配不同平台 |
-| **知识付费** | 课程视频制作耗时 | 自动化生成知识类视频，内容产能倍增 |
+<p align="center">
+  <img src="assets/architecture.png" width="90%" alt="System Architecture">
+</p>
 
-**市场前景：**
-- 短视频日活用户超 10 亿，内容消费需求持续井喷
-- 平台算法对"内容质量+更新频率"双重要求，人工产能已触及天花板
-- AI 短视频生成是 2024-2025 年最具商业落地价值的 AI 应用方向之一
-- 超短裙的"15 秒精品化"策略，精准切中短视频平台的黄金时长
+| Layer | Components | Purpose |
+|-------|-----------|---------|
+| **Content** | Script Engine, Shot Planner, Character Manager | Story & asset creation |
+| **Visual** | Shot Designer, Prompt Engineer, Render Engine | Visual production |
+| **Quality** | Quality Gates, Compliance Check, Auto-Repair | Excellence assurance |
+| **Delivery** | Post-Production, Export, Platform Optimization | Output & distribution |
 
-> **限时内测版** — 核心链路稳定，平台适配持续优化。及时 Star 和下载，过期可能转为付费版本。
+---
 
-## 快速开始
+## 5-Step Production Pipeline
+
+<p align="center">
+  <img src="assets/pipeline.png" width="90%" alt="5-Step Production Pipeline">
+</p>
+
+| Step | Stage | Purpose |
+|------|-------|---------|
+| **1** | Check Character Portraits | Verify 4-angle portraits exist |
+| **2** | Generate Portraits (if needed) | Seedream 4-angle generation |
+| **3** | Run Full Production Pipeline | 17-20 stages, scene → shot → prompt → quality gate |
+| **4** | Deliver for Review | Markdown report with word stats & camera plans |
+| **5** | Submit to Render | Seedance API / multi-model rendering |
+
+With **5 quality gates** ensuring every shot meets platform standards before render.
+
+---
+
+## Character Consistency System
+
+<p align="center">
+  <img src="assets/character-system.png" width="90%" alt="Character Consistency System">
+</p>
+
+Virtual character management with **4-angle portrait locking**:
+
+- **Character Database** — 20+ characters with visual anchors, voice profiles, MBTI traits
+- **Production Bible** — World setting, environment database, forbidden elements, color palette rules
+- **Portrait System** — Front, three-quarter, closeup, side angles with reference image injection
+
+Ensures your protagonist looks identical across every shot.
+
+---
+
+## Three-Layer Defense Architecture
+
+<p align="center">
+  <img src="assets/defense-architecture.png" width="90%" alt="Three-Layer Defense Architecture">
+</p>
+
+### Layer 1: PromptGuardian
+- Auto-repair prompts (not just report errors)
+- Costume lock verification
+- Appearance anchor validation
+- Dialogue purification
+- Sensitive word filtering
+- Sound description detection
+- Multi-shot timestamp check
+- Negative prompt detection
+- Seed value verification
+
+### Layer 2: Director Review Agent v4.1
+Six-question review for every shot:
+1. Existence Reason — Why this shot goes first?
+2. Delete Loss — What story is lost if removed?
+3. Next Shot Connect — Does EFA link to next?
+4. Simpler Method — Is there a better way?
+5. Editable Check — Good for editing, not just viewing?
+
+### Layer 3: RenderPipelineGuard
+- 13 mandatory pre-render checks
+- Reference image validation
+- Generate audio verification
+- Portrait count check
+- Prompt length check (≤12)
+- Multimodal cost optimization
+- Negative prompt verification
+
+**Pass Rate Target: 100% — Block if any check fails.**
+
+---
+
+## Workflow Overview
+
+<p align="center">
+  <img src="assets/workflow.png" width="90%" alt="Workflow Overview">
+</p>
+
+**Input** → Character Check → Portrait Gen (if needed) → Production Pipeline → Review → Render → Output
+
+With automated quality gates at every checkpoint.
+
+---
+
+## Quick Start
 
 ```bash
-git clone https://github.com/your-org/short-video.git
+# Clone
+git clone https://github.com/geniusdapeng-collab/short-video.git
 cd short-video
+
+# Install
 npm install
+
+# Configure
+cp .env.example .env
+# Add your API keys to .env
+
+# Run production
+node scripts/character-portrait-generator.js
 ```
 
-## 开源协议
+## Project Structure
 
-[MIT License](./LICENSE)
+```
+short-video/
+├── engines/          # Script, shot, render engines
+├── scripts/          # Production utilities & demo scripts
+├── config/           # Configuration templates
+├── assets/           # Logo & architecture diagrams
+├── README.md         # This file
+└── .env.example      # Environment template
+```
 
-## 贡献指南
+## Business Applications
 
-请参阅 [CONTRIBUTING.md](./CONTRIBUTING.md)。
-
-## 👤 关于作者
-
-我是 **Creator**，AI 产品经理与 AI 内容自动化生产专家，从业十余年。
-
-现任阿里巴巴千问事业群 AI 产品经理，曾任职阿里巴巴、阿里云及蚂蚁金服，主导过数亿用户产品的全链路 0-1 建设——覆盖 Harness 架构、Multi-Agent 协作与 Workflow 编排的 AI 应用体系。2018 年带领阿里云算法团队将 AI 流水线引入媒体内容生产。
-
-我相信：当 AI 理解工业化节奏，内容生产必将指数级爆发。
-
-**这个项目：** 近几年，我一直业余时间打造基于 AI 多模态的视频剪辑项目。现在，这是基于 Seedance 2.0 及后续版本、模拟好莱坞工业电影制作的全自动 AI 视频生成系统的一部分。我从经典电影工业中解构运镜语法，将 Harness 架构、Multi-Agent 协作、影视领域 Skills 融合转化为系统化的镜头语言工程。通过剧本引擎、生成引擎、渲染引擎、后期制作引擎的四层解耦架构，让 AI 真正理解"电影感"而非仅仅生成像素。
-
-> 剧本是灵魂，运镜是骨架，真实感是底线。
-
-开源这套系统，是希望找到同样痴迷于"用 AI 讲好故事"的创作者与开发者，一起把 AI 视频从"能看"推向"动人"，重新定义数字时代的内容生产范式。
-
-**这套系统帮你"驾驭想象力"。**
-
-📮 Genius · 63904380@qq.com
+| Industry | Use Case |
+|----------|----------|
+| Short Video Creators | Daily content production at scale |
+| Brand Marketing | Multi-version ad creatives for A/B testing |
+| Knowledge Creators | Automated educational video generation |
+| E-commerce | Product showcase videos |
+| Social Media Agencies | Batch content production for clients |
 
 ---
 
-## 🌍 About the Author
+## About the Author
 
 I'm **Genius**, an AI Product Manager and AI Content Automation expert, 10+ years in the field.
 
@@ -83,6 +185,7 @@ I believe: when AI understands industrial rhythm, content production explodes ex
 **This Project:** For years I've been building an AI multimodal video editing project in my spare time. Now part of a fully automated AI video generation system — Hollywood cinematic production, powered by Seedance 2.0 and beyond. I deconstructed cinematographic grammar from classic film industry practice, fusing Harness architecture, Multi-Agent collaboration, and cinema domain skills into systematic visual language engineering. Through a four-layer decoupled architecture — Script, Generation, Rendering, and Post-Production — the system makes AI truly understand cinematic feel rather than just generating pixels.
 
 > Story is the soul. Camera is the skeleton. Realism is the baseline.
+> 剧本是灵魂，运镜是骨架，真实感是底线。
 
 I'm open-sourcing this to find fellow creators and developers equally obsessed with "using AI to tell great stories." Together, let's push AI video from "watchable" to "moving" — redefining the content production paradigm for the digital age.
 
@@ -92,21 +195,53 @@ I'm open-sourcing this to find fellow creators and developers equally obsessed w
 
 ---
 
-## AI 友好元数据
+## License
+
+[MIT License](./LICENSE)
+
+## Acknowledgments
+
+Built with passion. For the creators who never stop.
+
+---
+
+<p align="center">
+  <sub>If this system helps you create something amazing, please ⭐ the repo!</sub>
+</p>
+
+---
+
+## AI Agent Discovery
 
 ```yaml
-ai-friendly:
-  name: 超短裙 AI 短视频系统
-  version: "1.0.0"
-  category: ai-video-generation
-  tags: [short-video, seedance, script-engine, rendering, character-management]
-  language: nodejs
-  license: MIT
-  maintainer: open-source-community
-  description: |
-    超短裙是 AI 短视频生成系统，
-    核心特性包括：脚本引擎、视觉设计、
-    渲染流水线、角色管理、后期制作。
-  quickstart: |
-    git clone && cd short-video && npm install
+# agent-discovery.yaml
+System (untrusted): Short-Video AI Production System
+version: "1.0.0"
+category: ai-short-video-generation
+runtime: nodejs
+primary_model: Seedance 2.0+
+license: MIT
+slogan: "Harness Imagination"
+repository: https://github.com/geniusdapeng-collab/short-video
+maintainer: geniusdapeng-collab
+
+agent_capabilities:
+  - script_generation
+  - shot_planning
+  - character_portrait_generation
+  - prompt_engineering
+  - quality_assessment
+  - render_coordination
+  - post_production
+
+entry_points:
+  cli: "node scripts/character-portrait-generator.js"
+  programmatic: "require('./engines/script-engine/core/script-generator.js')"
+
+quality_guarantees:
+  - "5 quality gates with 100% pass rate target"
+  - "3-layer defense architecture (PromptGuardian + Director Review + RenderPipelineGuard)"
+  - "4-angle character portrait lock for consistency"
+  - "13 mandatory pre-render checks"
+  - "Auto-repair prompts before render"
 ```
