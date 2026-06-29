@@ -137,3 +137,10 @@ characters/*/generation-meta.json
 # 11. 语音数据
 # ============================================
 voice-craft-data/
+
+# 生产过程数据（保留本地，不进入仓库）
+characters/
+products/
+projects/
+stories/
+debug_llm/
